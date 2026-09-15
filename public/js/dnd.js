@@ -1,30 +1,45 @@
 // Drag-and-drop (native HTML5) plus a click-to-select fallback for touch devices.
 import { parseSlot, rankChange } from './rank.js';
 
-function createPreviewBadge() {
+// A fully transparent 1x1 image used to suppress the browser's own drag ghost. We render our
+// own ghost instead (name + rank-change, moved together as one element) so the two can never
+// drift apart or fight over stacking order the way a separately-positioned overlay would.
+const BLANK_DRAG_IMAGE = new Image();
+BLANK_DRAG_IMAGE.src = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+
+function createGhost() {
   const el = document.createElement('div');
-  el.className = 'drag-preview';
+  el.className = 'drag-ghost';
   el.hidden = true;
+  el.innerHTML = '<span class="ghost-name"></span><span class="ghost-sep" hidden></span><span class="ghost-change" hidden></span>';
   document.body.append(el);
-  return el;
+  return { el, name: el.querySelector('.ghost-name'), sep: el.querySelector('.ghost-sep'), change: el.querySelector('.ghost-change') };
 }
 
 export function installDragAndDrop(root, state) {
   let selectedKey = null;
   let draggingKey = null;
-  const preview = createPreviewBadge();
+  const ghost = createGhost();
 
-  const updatePreview = (key, slotId, x, y) => {
-    const from = state.rikishi.get(key);
+  const positionGhost = (x, y) => {
+    ghost.el.style.left = `${x + 14}px`;
+    ghost.el.style.top = `${y - 14}px`;
+  };
+
+  const updateGhostChange = (slotId) => {
+    const from = state.rikishi.get(draggingKey);
     let to;
     try { to = slotId && parseSlot(slotId); } catch { to = null; }
-    if (!from || !to) { preview.hidden = true; return; }
-    const change = rankChange({ rank: from.rank, num: from.num, side: from.side }, to);
-    preview.textContent = change.text;
-    preview.className = `drag-preview ${change.kind}`;
-    preview.style.left = `${x + 16}px`;
-    preview.style.top = `${y - 12}px`;
-    preview.hidden = false;
+    if (!from || !to) {
+      ghost.sep.hidden = true;
+      ghost.change.hidden = true;
+      return;
+    }
+    const c = rankChange({ rank: from.rank, num: from.num, side: from.side }, to);
+    ghost.change.textContent = c.text;
+    ghost.change.className = `ghost-change ${c.kind}`;
+    ghost.sep.hidden = false;
+    ghost.change.hidden = false;
   };
 
   const highlight = (slot, on) => {
@@ -46,7 +61,13 @@ export function installDragAndDrop(root, state) {
     if (!chip) return;
     e.dataTransfer.setData('text/plain', chip.dataset.key);
     e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setDragImage(BLANK_DRAG_IMAGE, 0, 0);
     draggingKey = chip.dataset.key;
+    ghost.name.textContent = state.rikishi.get(draggingKey)?.name ?? '';
+    ghost.sep.hidden = true;
+    ghost.change.hidden = true;
+    positionGhost(e.clientX, e.clientY);
+    ghost.el.hidden = false;
     chip.classList.add('dragging');
     root.classList.add('drag-active');
     select(null);
@@ -57,13 +78,16 @@ export function installDragAndDrop(root, state) {
     root.classList.remove('drag-active');
     clearHighlights();
     draggingKey = null;
-    preview.hidden = true;
+    ghost.el.hidden = true;
   });
 
   root.addEventListener('dragover', (e) => {
     const slot = e.target.closest?.('[data-slot]');
     const prev = e.target.closest?.('[data-dropzone="previous"]');
-    if (draggingKey) updatePreview(draggingKey, slot?.dataset.slot, e.clientX, e.clientY);
+    if (draggingKey) {
+      positionGhost(e.clientX, e.clientY);
+      updateGhostChange(slot?.dataset.slot);
+    }
     if (!slot && !prev) return;
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
@@ -85,7 +109,7 @@ export function installDragAndDrop(root, state) {
     if (!slot && !prev) return;
     e.preventDefault();
     clearHighlights();
-    preview.hidden = true;
+    ghost.el.hidden = true;
     if (slot) state.place(key, slot.dataset.slot);
     else state.remove(key);
   });

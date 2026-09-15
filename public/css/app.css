@@ -96,15 +96,19 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .change.down { color: var(--down); }
 .change.same { color: var(--same); }
 
-.drag-preview {
-  position: fixed; z-index: 1000; pointer-events: none;
-  padding: 2px 9px; border-radius: 10px; font-weight: 700; font-size: 13px;
-  background: var(--panel); border: 1px solid currentColor;
+.drag-ghost {
+  position: fixed; z-index: 1000; pointer-events: none; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 3px 10px; border-radius: 12px;
+  background: var(--chip); border: 1px solid var(--chip-border);
   box-shadow: 0 2px 6px rgba(0, 0, 0, .18);
 }
-.drag-preview.up { color: var(--up); }
-.drag-preview.down { color: var(--down); }
-.drag-preview.same { color: var(--same); }
+.ghost-name { font-weight: 600; font-size: 13px; }
+.ghost-sep { align-self: stretch; width: 1px; background: var(--chip-border); opacity: .6; }
+.ghost-change { font-weight: 700; font-size: 13px; }
+.ghost-change.up { color: var(--up); }
+.ghost-change.down { color: var(--down); }
+.ghost-change.same { color: var(--same); }
 
 button.add-row {
   margin-left: 4px; padding: 0 5px; font-size: 11px; line-height: 16px; border-radius: 8px; vertical-align: middle;
