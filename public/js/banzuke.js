@@ -14,9 +14,9 @@ const h = (tag, attrs = {}, ...children) => {
   return el;
 };
 
-function chip(r, { placed = false, dest = null, draggable = true } = {}) {
+function chip(r, { placed = false, dest = null, draggable = true, kind = null } = {}) {
   const el = h('div', {
-    class: `chip${placed ? ' placed' : ''}${r.retired ? ' retired' : ''}`,
+    class: `chip${placed ? ' placed' : ''}${r.retired ? ' retired' : ''}${kind ? ` kind-${kind}` : ''}`,
     draggable: draggable ? 'true' : null,
     dataKey: r.key,
     title: r.retired ? `${r.name} (retired)` : r.name,
@@ -98,15 +98,15 @@ function sideCells(state, rank, num, side) {
   const occupants = state.occupants(id);
   const cls = `slot${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[rank] === 'makuuchi' ? ' empty' : ''}`;
   const stack = (fn) => h('div', { class: 'stack' }, occupants.map((r) => h('div', { class: 'line' }, fn(r))));
-  const change = (r) => {
-    const c = rankChange({ rank: r.rank, num: r.num, side: r.side }, to);
-    return h('span', { class: `change ${c.kind}`, text: c.text });
-  };
+  const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to);
   return [
     h('td', { class: `${cls} cur-rank`, dataSlot: id }, stack((r) => h('span', { text: `${r.rank}${r.num}${r.side}` }))),
-    h('td', { class: `${cls} rikishi`, dataSlot: id }, stack((r) => chip(r))),
+    h('td', { class: `${cls} rikishi`, dataSlot: id }, stack((r) => chip(r, { kind: changeOf(r).kind }))),
     h('td', { class: `${cls} result`, dataSlot: id }, stack((r) => h('span', { text: r.record }))),
-    h('td', { class: `${cls} change-cell`, dataSlot: id }, stack(change)),
+    h('td', { class: `${cls} change-cell`, dataSlot: id }, stack((r) => {
+      const c = changeOf(r);
+      return h('span', { class: `change ${c.kind}`, text: c.text });
+    })),
   ];
 }
 

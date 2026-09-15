@@ -9,6 +9,8 @@
   --up: #1c7a3a;
   --down: #b3261e;
   --same: #6b6b6b;
+  --up-bg: #e1f3e6;
+  --down-bg: #fbe6e4;
   --over: #ffe9a8;
   --multi: #fff1c2;
   --empty: #f3f1ea;
@@ -81,6 +83,8 @@ td.rikishi .line { justify-content: flex-start; }
 .chip.placed .dest { color: var(--accent); font-size: 11px; }
 .chip.retired .name { text-decoration: line-through; }
 .chip.dragging { opacity: .4; }
+.chip.kind-up { background: var(--up-bg); }
+.chip.kind-down { background: var(--down-bg); }
 .chip.selected { background: var(--selected); border-color: #60a5fa; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; }
 .tag-retired { background: #eee; color: #666; }
