@@ -136,9 +136,9 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .rank-controls .row-btn {
   padding: 0 3.2px; font-size: 7.2px; line-height: 9.6px; border-radius: 4.8px;
 }
-.rank-controls .row-btn-gold { background: var(--gold); border-color: var(--gold-dark); }
-.rank-controls .row-btn-bronze { background: var(--bronze); border-color: var(--bronze-dark); }
-.rank-controls .row-btn-gold:hover { background: var(--gold-dark); }
-.rank-controls .row-btn-bronze:hover { background: var(--bronze-dark); }
+.rank-controls .row-btn-gold { background: var(--gold-bg); }
+.rank-controls .row-btn-bronze { background: var(--bronze-bg); }
+.rank-controls .row-btn-gold:hover { background: var(--gold); }
+.rank-controls .row-btn-bronze:hover { background: var(--bronze); }
 
 .foot { padding: 8px 20px 20px; color: var(--muted); font-size: 12px; }
