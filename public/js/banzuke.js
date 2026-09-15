@@ -93,15 +93,16 @@ export function renderGuess(table, state) {
     const rankCell = h('td', { class: 'rank' }, h('span', { text: `${rank}${num}` }));
     if (isLastOfType && DIVISION_OF[rank] === 'makuuchi' && rank !== 'M') {
       const count = state.rowCounts[rank];
+      const btnClass = `row-btn row-btn-${SANYAKU_TINT[rank]}`;
       const controls = h('div', { class: 'rank-controls' });
       if (count > MIN_SANYAKU_ROWS) {
         controls.append(h('button', {
-          class: 'row-btn', type: 'button', dataRemoveRow: rank, title: `Remove ${RANK_NAMES[rank]} ${num}`, text: '−',
+          class: btnClass, type: 'button', dataRemoveRow: rank, title: `Remove ${RANK_NAMES[rank]} ${num}`, text: '−',
         }));
       }
       if (count < MAX_SANYAKU_ROWS) {
         controls.append(h('button', {
-          class: 'row-btn', type: 'button', dataAddRow: rank, title: `Add ${RANK_NAMES[rank]} ${num + 1}`, text: '+',
+          class: btnClass, type: 'button', dataAddRow: rank, title: `Add ${RANK_NAMES[rank]} ${num + 1}`, text: '+',
         }));
       }
       if (controls.childNodes.length) rankCell.append(controls);
