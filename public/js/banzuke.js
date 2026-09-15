@@ -1,7 +1,7 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
 import {
   RANK_NAMES, DIVISION_OF, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
-  buildLadder, parseSlot, rankChange, slotId, isJoi,
+  buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
 } from './rank.js';
 
 const rankRowClass = (rank, num) => {
@@ -32,7 +32,7 @@ function chip(r, { placed = false, dest = null, draggable = true, kind = null } 
   }, h('span', { class: 'name', text: r.name }));
   if (r.note) el.append(h('span', { class: 'tag', text: r.note }));
   if (r.retired) el.append(h('span', { class: 'tag tag-retired', text: 'intai' }));
-  if (dest) el.append(h('span', { class: 'dest', text: `→ ${dest}` }));
+  if (dest) el.append(h('span', { class: 'dest', text: `→ ${slotName(dest)}` }));
   return el;
 }
 
@@ -91,9 +91,11 @@ export function renderGuess(table, state) {
   const tbody = h('tbody');
   let lastDivision = null;
   for (let i = 0; i < rows.length; i++) {
-    const { rank, num } = rows[i];
+    const { rank, num, candidates } = rows[i];
     if (DIVISION_OF[rank] !== lastDivision) { tbody.append(divisionRow(rank, 9)); lastDivision = DIVISION_OF[rank]; }
-    const isLastOfType = !rows[i + 1] || rows[i + 1].rank !== rank;
+    if (candidates) { tbody.append(candidatesRow(state, rank, ladder)); continue; }
+    const next = rows[i + 1];
+    const isLastOfType = !next || next.rank !== rank || next.candidates;
     const rankCell = h('td', { class: 'rank' }, h('span', { text: `${rank}${num}` }));
     if (isLastOfType && DIVISION_OF[rank] === 'makuuchi' && rank !== 'M') {
       const count = state.rowCounts[rank];
@@ -111,8 +113,8 @@ export function renderGuess(table, state) {
       }
       if (controls.childNodes.length) rankCell.append(controls);
     }
-    tbody.append(h('tr', { class: rankRowClass(rank, num) },
-      ...sideCells(state, rank, num, 'E', ladder), rankCell, ...sideCells(state, rank, num, 'W', ladder)));
+    const cells = (side) => sideCells(state, slotId(rank, num, side), { rank, num, side }, ladder);
+    tbody.append(h('tr', { class: rankRowClass(rank, num) }, ...cells('E'), rankCell, ...cells('W')));
   }
   table.replaceChildren(
     h('thead', {}, h('tr', {},
@@ -123,11 +125,10 @@ export function renderGuess(table, state) {
   );
 }
 
-function sideCells(state, rank, num, side, ladder) {
-  const id = slotId(rank, num, side);
-  const to = { rank, num, side };
+/** The four cells of one side (or of a candidates row): Cur Rank | East/West | Result | Change */
+function sideCells(state, id, to, ladder, extraClass = '') {
   const occupants = state.occupants(id);
-  const cls = `slot${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[rank] === 'makuuchi' ? ' empty' : ''}`;
+  const cls = `slot${extraClass}${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[to.rank] === 'makuuchi' ? ' empty' : ''}`;
   const stack = (fn) => h('div', { class: 'stack' }, occupants.map((r) => h('div', { class: 'line' }, fn(r))));
   const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to, ladder);
   return [
@@ -136,6 +137,21 @@ function sideCells(state, rank, num, side, ladder) {
     h('td', { class: `${cls} result`, dataSlot: id }, stack((r) => h('span', { text: r.record }))),
     h('td', { class: `${cls} change-cell`, dataSlot: id }, stack((r) => changeSpan(changeOf(r)))),
   ];
+}
+
+/**
+ * The temporary "↑" row below a rank type holding rikishi whose result would carry them up
+ * into it. The whole row is one drop target; the right half just explains what it is for.
+ */
+function candidatesRow(state, rank, ladder) {
+  const id = candidateSlotId(rank);
+  const to = { rank, candidates: true };
+  return h('tr', { class: 'candidates' },
+    ...sideCells(state, id, to, ladder, ' candidates'),
+    h('td', { class: 'rank', title: `Promotion candidates for ${RANK_NAMES[rank]}` }, h('span', { text: '↑' })),
+    h('td', { class: 'slot candidates note', colspan: 4, dataSlot: id },
+      h('span', { text: `Promotion candidates for ${RANK_NAMES[rank]} — drag each one into a slot above.` })),
+  );
 }
 
 export function renderSummary(el, state) {

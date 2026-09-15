@@ -48,6 +48,7 @@ async function showBasho(id) {
     const removeBtn = e.target.closest('button[data-remove-row]');
     if (removeBtn) state.removeRow(removeBtn.dataset.removeRow);
   });
+  $('#apply-ideal').onclick = () => state.applyIdealPromotions();
   $('#reset').onclick = () => {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();
   };

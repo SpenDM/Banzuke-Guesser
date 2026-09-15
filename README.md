@@ -18,6 +18,7 @@ sumo-api.com ┘                                                                
 
 - `public/` — the site. Plain HTML/CSS/ES modules, no build step.
   - `js/rank.js` — rank model and rank-change calculation.
+  - `js/promote.js` — "Apply Ideal Promotions": a first-pass placement of every unplaced rikishi by net score.
   - `js/state.js` — guess state (rikishi → slot), guess-table rows.
   - `js/banzuke.js` — renders the previous and guess banzuke tables.
   - `js/dnd.js` — HTML5 drag-and-drop plus a tap-to-select fallback for touch devices.
@@ -39,7 +40,7 @@ sumo-api.com ┘                                                                
 ```sh
 pip install -e ".[dev]"
 python -m pytest                      # scraper tests
-node tests/js/rank.test.mjs && node tests/js/state.test.mjs   # frontend tests
+for t in tests/js/*.test.mjs; do node "$t"; done   # frontend tests
 python -m http.server 8000 -d public  # then open http://localhost:8000
 ```
 
@@ -67,8 +68,19 @@ Note: GitHub disables scheduled workflows after 60 days without repository activ
 own commits after each tournament count as activity, so this should not trigger in practice.
 If it does, re-enable the workflow from the Actions tab.
 
+## Tools
+
+- **Apply Ideal Promotions** places every rikishi you have not placed yet (placed ones are left
+  alone) by their net score, one rank number per point with East/West as half steps, so a 9-6 at
+  M5E lands on M2E. Absences count as losses. Demotions chain into the next rank type down the
+  same way the Change column counts them. Anyone whose score would carry them up into a higher
+  rank type is put in a temporary "↑" candidates row just below that type, for you to sort into
+  the open slots; the row disappears once its last occupant is moved out. Sekiwake who would
+  mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only re-ordered within
+  their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
+- **Reset** clears every guess.
+
 ## Roadmap
 
-- Automatic pre-ranking (e.g. 8-7 → +1), leaving only conflicts to resolve by hand.
 - Links to each rikishi's profile / tournament history (`profile_url` is already in the data).
 - A model that produces its own prediction.
