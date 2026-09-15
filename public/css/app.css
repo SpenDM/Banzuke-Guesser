@@ -103,6 +103,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
   background: var(--chip); border: 1px solid var(--chip-border);
   box-shadow: 0 2px 6px rgba(0, 0, 0, .18);
 }
+.drag-ghost[hidden] { display: none; }
 .ghost-name { font-weight: 600; font-size: 13px; }
 .ghost-sep { align-self: stretch; width: 1px; background: var(--chip-border); opacity: .6; }
 .ghost-change { font-weight: 700; font-size: 13px; }
