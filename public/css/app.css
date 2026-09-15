@@ -130,7 +130,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
   display: flex; gap: 2px; z-index: 2;
 }
 .rank-controls .row-btn {
-  padding: 0 4px; font-size: 9px; line-height: 12px; border-radius: 6px;
+  padding: 0 3.2px; font-size: 7.2px; line-height: 9.6px; border-radius: 4.8px;
 }
 
 .foot { padding: 8px 20px 20px; color: var(--muted); font-size: 12px; }
