@@ -99,6 +99,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .change.up { color: var(--up); }
 .change.down { color: var(--down); }
 .change.same { color: var(--same); }
+.change .sub { color: var(--muted); font-weight: 400; }
 
 .drag-ghost {
   position: fixed; z-index: 1000; pointer-events: none; white-space: nowrap;
@@ -114,6 +115,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .ghost-change.up { color: var(--up); }
 .ghost-change.down { color: var(--down); }
 .ghost-change.same { color: var(--same); }
+.ghost-change-sub { color: var(--muted); font-weight: 400; }
 
 button.add-row {
   margin-left: 4px; padding: 0 5px; font-size: 11px; line-height: 16px; border-radius: 8px; vertical-align: middle;

@@ -1,5 +1,5 @@
 // Drag-and-drop (native HTML5) plus a click-to-select fallback for touch devices.
-import { parseSlot, rankChange } from './rank.js';
+import { buildLadder, parseSlot, rankChange } from './rank.js';
 
 // A fully transparent 1x1 image used to suppress the browser's own drag ghost. We render our
 // own ghost instead (name + rank-change, moved together as one element) so the two can never
@@ -11,15 +11,24 @@ function createGhost() {
   const el = document.createElement('div');
   el.className = 'drag-ghost';
   el.hidden = true;
-  el.innerHTML = '<span class="ghost-name"></span><span class="ghost-sep" hidden></span><span class="ghost-change" hidden></span>';
+  el.innerHTML = '<span class="ghost-name"></span><span class="ghost-sep" hidden></span>'
+    + '<span class="ghost-change" hidden><span class="ghost-change-main"></span><span class="ghost-change-sub"></span></span>';
   document.body.append(el);
-  return { el, name: el.querySelector('.ghost-name'), sep: el.querySelector('.ghost-sep'), change: el.querySelector('.ghost-change') };
+  return {
+    el,
+    name: el.querySelector('.ghost-name'),
+    sep: el.querySelector('.ghost-sep'),
+    change: el.querySelector('.ghost-change'),
+    changeMain: el.querySelector('.ghost-change-main'),
+    changeSub: el.querySelector('.ghost-change-sub'),
+  };
 }
 
 export function installDragAndDrop(root, state) {
   let selectedKey = null;
   let draggingKey = null;
   const ghost = createGhost();
+  const ladder = buildLadder(state.basho.rikishi);
 
   const positionGhost = (x, y) => {
     ghost.el.style.left = `${x + 14}px`;
@@ -35,8 +44,9 @@ export function installDragAndDrop(root, state) {
       ghost.change.hidden = true;
       return;
     }
-    const c = rankChange({ rank: from.rank, num: from.num, side: from.side }, to);
-    ghost.change.textContent = c.text;
+    const c = rankChange({ rank: from.rank, num: from.num, side: from.side }, to, ladder);
+    ghost.changeMain.textContent = c.main;
+    ghost.changeSub.textContent = c.sub ? ` ${c.sub}` : '';
     ghost.change.className = `ghost-change ${c.kind}`;
     ghost.sep.hidden = false;
     ghost.change.hidden = false;

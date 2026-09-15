@@ -39,19 +39,60 @@ export function compareSlots(a, b) {
   return positionWithinType(a.num, a.side) - positionWithinType(b.num, b.side);
 }
 
+function formatSigned(value) {
+  if (value === 0) return '0';
+  return `${value > 0 ? '+' : '-'}${Math.abs(value).toFixed(1)}`;
+}
+
+/**
+ * Builds, from a basho's actual rikishi list, what rankChange() needs to bridge between
+ * rank types: for each type, which rank-and-file numbers are actually occupied (by either
+ * side) and where that type starts on a single half-step ladder spanning every type.
+ * A numbered row nobody currently holds (e.g. a vacant Sekiwake 2) takes up no space on
+ * the ladder, so crossing it doesn't add to the rank-change count.
+ */
+export function buildLadder(rikishiList) {
+  const numsByRank = {};
+  for (const r of rikishiList) (numsByRank[r.rank] ??= new Set()).add(r.num);
+  const sorted = {};
+  for (const rank of RANK_ORDER) sorted[rank] = [...(numsByRank[rank] ?? [])].sort((a, b) => a - b);
+  const offset = {};
+  let running = 0;
+  for (const rank of RANK_ORDER) {
+    offset[rank] = running;
+    running += sorted[rank].length * 2;
+  }
+  return { sorted, offset };
+}
+
+function ladderPosition(ladder, rank, num, side) {
+  const nums = ladder.sorted[rank] ?? [];
+  const occupiedAtOrBefore = nums.filter((n) => n <= num).length;
+  return ladder.offset[rank] + occupiedAtOrBefore * 2 + (side === 'W' ? 1 : 0);
+}
+
 /**
  * Rank change from `from` to `to` (both {rank, num, side}).
  * Same rank type -> signed half-steps, e.g. "+0.5", "-4.5", "0".
- * Different type -> arrow + new type, e.g. "↑K", "↓J".
- * Returns { text, value, kind } where kind is 'up' | 'down' | 'same'.
+ * Different type -> the ORIGIN type with an arrow, e.g. "↓S" for a Sekiwake demoted to
+ * Komusubi, plus (when `ladder` is given) a fainter half-step count chained across the
+ * intervening types, counting only rows actually occupied in `ladder` (see buildLadder).
+ * Returns { text, value, kind, main, sub }: `kind` is 'up' | 'down' | 'same'; `main` is the
+ * primary colored text; `sub` is the fainter suffix, or null for a same-type move.
  */
-export function rankChange(from, to) {
+export function rankChange(from, to, ladder) {
   if (from.rank === to.rank) {
     const value = (positionWithinType(from.num, from.side) - positionWithinType(to.num, to.side)) / 2;
     const kind = value > 0 ? 'up' : value < 0 ? 'down' : 'same';
-    const text = value === 0 ? '0' : `${value > 0 ? '+' : '-'}${Math.abs(value).toFixed(1)}`;
-    return { text, value, kind };
+    const main = formatSigned(value);
+    return { text: main, value, kind, main, sub: null };
   }
   const up = RANK_ORDER.indexOf(to.rank) < RANK_ORDER.indexOf(from.rank);
-  return { text: `${up ? '↑' : '↓'}${to.rank}`, value: null, kind: up ? 'up' : 'down' };
+  const kind = up ? 'up' : 'down';
+  const main = `${up ? '↑' : '↓'}${from.rank}`;
+  if (!ladder) return { text: main, value: null, kind, main, sub: null };
+  const value = (ladderPosition(ladder, from.rank, from.num, from.side)
+    - ladderPosition(ladder, to.rank, to.num, to.side)) / 2;
+  const sub = formatSigned(value);
+  return { text: `${main} ${sub}`, value, kind, main, sub };
 }

@@ -1,5 +1,5 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
-import { RANK_NAMES, DIVISION_OF, parseSlot, rankChange, slotId } from './rank.js';
+import { RANK_NAMES, DIVISION_OF, buildLadder, parseSlot, rankChange, slotId } from './rank.js';
 
 const h = (tag, attrs = {}, ...children) => {
   const el = document.createElement(tag);
@@ -25,6 +25,13 @@ function chip(r, { placed = false, dest = null, draggable = true, kind = null } 
   if (r.retired) el.append(h('span', { class: 'tag tag-retired', text: 'intai' }));
   if (dest) el.append(h('span', { class: 'dest', text: `→ ${dest}` }));
   return el;
+}
+
+function changeSpan(c) {
+  const span = h('span', { class: `change ${c.kind}` });
+  span.append(c.main);
+  if (c.sub) span.append(' ', h('span', { class: 'sub', text: c.sub }));
+  return span;
 }
 
 function divisionRow(rank, colspan) {
@@ -71,6 +78,7 @@ export function renderPrevious(table, state) {
 /** Right: Cur Rank | East | Result | Change | Rank | Cur Rank | West | Result | Change */
 export function renderGuess(table, state) {
   const rows = state.rows();
+  const ladder = buildLadder(state.basho.rikishi);
   const tbody = h('tbody');
   let lastDivision = null;
   for (let i = 0; i < rows.length; i++) {
@@ -81,7 +89,7 @@ export function renderGuess(table, state) {
     if (isLastOfType && DIVISION_OF[rank] === 'makuuchi' && rank !== 'M') {
       rankCell.append(h('button', { class: 'add-row', type: 'button', dataAddRow: rank, title: `Add ${RANK_NAMES[rank]} ${num + 1}`, text: '+' }));
     }
-    tbody.append(h('tr', {}, ...sideCells(state, rank, num, 'E'), rankCell, ...sideCells(state, rank, num, 'W')));
+    tbody.append(h('tr', {}, ...sideCells(state, rank, num, 'E', ladder), rankCell, ...sideCells(state, rank, num, 'W', ladder)));
   }
   table.replaceChildren(
     h('thead', {}, h('tr', {},
@@ -92,21 +100,18 @@ export function renderGuess(table, state) {
   );
 }
 
-function sideCells(state, rank, num, side) {
+function sideCells(state, rank, num, side, ladder) {
   const id = slotId(rank, num, side);
   const to = { rank, num, side };
   const occupants = state.occupants(id);
   const cls = `slot${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[rank] === 'makuuchi' ? ' empty' : ''}`;
   const stack = (fn) => h('div', { class: 'stack' }, occupants.map((r) => h('div', { class: 'line' }, fn(r))));
-  const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to);
+  const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to, ladder);
   return [
     h('td', { class: `${cls} cur-rank`, dataSlot: id }, stack((r) => h('span', { text: `${r.rank}${r.num}${r.side}` }))),
     h('td', { class: `${cls} rikishi`, dataSlot: id }, stack((r) => chip(r, { kind: changeOf(r).kind }))),
     h('td', { class: `${cls} result`, dataSlot: id }, stack((r) => h('span', { text: r.record }))),
-    h('td', { class: `${cls} change-cell`, dataSlot: id }, stack((r) => {
-      const c = changeOf(r);
-      return h('span', { class: `change ${c.kind}`, text: c.text });
-    })),
+    h('td', { class: `${cls} change-cell`, dataSlot: id }, stack((r) => changeSpan(changeOf(r)))),
   ];
 }
 
