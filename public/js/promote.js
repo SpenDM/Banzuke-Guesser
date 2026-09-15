@@ -36,10 +36,10 @@ export function idealPlacements(basho, placed, rowCounts) {
   }
 
   // Everyone else moves by their net score, one rank number per point (E/W is a half step),
-  // chained across rank types the same way the rank-change column counts them.
-  const others = active.filter((r) => r.rank !== 'Y' && r.rank !== 'O')
-    .sort((a, b) => netScore(b) - netScore(a) || banzukeOrder(a, b));
-  for (const r of others) {
+  // chained across rank types the same way the rank-change column counts them. Walking them in
+  // banzuke order keeps a candidates row (or a shared slot) sorted by previous rank.
+  for (const r of active) {
+    if (r.rank === 'Y' || r.rank === 'O') continue;
     const slot = scoreSlot(ladder, r);
     if (slot) out.set(r.key, slot);
   }

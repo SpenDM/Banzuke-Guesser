@@ -11,6 +11,12 @@ const basho = {
   ],
 };
 
+test('sanyaku ranks start with as many rows as the previous banzuke had', () => {
+  const s = new GuessState(basho);
+  assert.deepEqual([s.rowCounts.Y, s.rowCounts.O, s.rowCounts.S, s.rowCounts.K], [1, 1, 2, 1]);
+  assert.deepEqual([s.rowCounts.M, s.rowCounts.J], [17, 14]);
+});
+
 test('toJSON/load round-trips guesses and extra rows', () => {
   const a = new GuessState(basho);
   a.place('onosato', 'Y1E');
@@ -18,12 +24,13 @@ test('toJSON/load round-trips guesses and extra rows', () => {
   const b = new GuessState(basho);
   assert.equal(b.load(JSON.parse(JSON.stringify(a.toJSON()))), true);
   assert.equal(b.slotOf('onosato'), 'Y1E');
-  assert.equal(b.rowCounts.Y, 3);
+  assert.equal(b.rowCounts.Y, 2);
 });
 
 test('addRow/removeRow respect the min/max bounds and clear guesses in a removed row', () => {
   const s = new GuessState(basho);
-  assert.equal(s.rowCounts.Y, 2);
+  assert.equal(s.rowCounts.Y, 1);
+  s.addRow('Y');
   s.addRow('Y');
   s.addRow('Y'); // already at the max (3); this should no-op
   assert.equal(s.rowCounts.Y, 3);

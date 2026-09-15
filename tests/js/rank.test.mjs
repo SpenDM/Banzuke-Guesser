@@ -65,7 +65,7 @@ test('slot ordering follows the banzuke', () => {
 });
 
 test('default guess rows', () => {
-  assert.equal(DEFAULT_GUESS_ROWS.length, 2 + 3 + 2 + 2 + 17 + 14);
-  assert.deepEqual(DEFAULT_GUESS_ROWS[0], { rank: 'Y', num: 1 });
+  assert.equal(DEFAULT_GUESS_ROWS.length, 17 + 14);
+  assert.deepEqual(DEFAULT_GUESS_ROWS[0], { rank: 'M', num: 1 });
   assert.deepEqual(DEFAULT_GUESS_ROWS.at(-1), { rank: 'J', num: 14 });
 });

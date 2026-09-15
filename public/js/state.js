@@ -10,9 +10,11 @@ export class GuessState extends EventTarget {
     this.basho = basho;
     this.rikishi = new Map(basho.rikishi.map((r) => [r.key, r]));
     this.guesses = new Map();               // key -> slotId
-    this.rowCounts = {};                    // rank -> number of numbered rows on the guess side
+    // rank -> number of numbered rows on the guess side. Sanyaku ranks start with exactly as
+    // many rows as the previous banzuke had; Maegashira/Juryo with the template, or more if the
+    // previous banzuke was longer.
+    this.rowCounts = { Y: MIN_SANYAKU_ROWS, O: MIN_SANYAKU_ROWS, S: MIN_SANYAKU_ROWS, K: MIN_SANYAKU_ROWS };
     for (const { rank, num } of DEFAULT_GUESS_ROWS) this.rowCounts[rank] = Math.max(this.rowCounts[rank] || 0, num);
-    // Make sure the previous banzuke's named-rank rows all exist (e.g. a third Ozeki).
     for (const r of basho.rikishi) this.rowCounts[r.rank] = Math.max(this.rowCounts[r.rank], r.num);
   }
 

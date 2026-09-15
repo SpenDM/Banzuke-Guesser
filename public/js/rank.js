@@ -16,9 +16,10 @@ export const isJoi = (rank, num) => rank === 'M' && num <= JOI_MAX_NUM;
 export const MIN_SANYAKU_ROWS = 1;
 export const MAX_SANYAKU_ROWS = 3;
 
-// Default row template for the guess banzuke. Named ranks get a spare row each.
+// Default row template for the guess banzuke's rank-and-file. Sanyaku ranks are not listed:
+// each starts with as many rows as the previous banzuke had (see GuessState).
 export const DEFAULT_GUESS_ROWS = [
-  ['Y', 2], ['O', 3], ['S', 2], ['K', 2], ['M', 17], ['J', 14],
+  ['M', 17], ['J', 14],
 ].flatMap(([rank, count]) => Array.from({ length: count }, (_, i) => ({ rank, num: i + 1 })));
 
 export function slotId(rank, num, side) {
