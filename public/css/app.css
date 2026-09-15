@@ -14,7 +14,6 @@
   --gold-bg: #faf1c8;
   --bronze-bg: #f1decb;
   --over: #ffe9a8;
-  --multi: #fff1c2;
   --empty: #f3f1ea;
   --chip: #fbfaf7;
   --chip-border: #cfc8bb;
@@ -98,7 +97,6 @@ td.rikishi .line { justify-content: flex-start; }
 .tag-retired { background: #eee; color: #666; }
 
 td.slot.empty { background: var(--empty); }
-td.slot.multi { background: var(--multi); }
 td.slot.over, tbody.over td { background: var(--over) !important; }
 .drag-active td.slot, .selecting td.slot { cursor: copy; }
 .selecting tbody[data-dropzone="previous"] { outline: 2px dashed #60a5fa; outline-offset: -2px; }
