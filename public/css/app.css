@@ -37,11 +37,12 @@ a { color: var(--accent); }
 .topbar p { color: var(--muted); }
 .controls { display: flex; gap: 12px; align-items: center; }
 .summary { color: var(--muted); }
-button, select {
+button, select, .button-link {
   font: inherit; padding: 6px 12px; border: 1px solid var(--chip-border); border-radius: 6px;
   background: var(--chip); cursor: pointer;
 }
-button:hover { background: #f0ede6; }
+button:hover, .button-link:hover { background: #f0ede6; }
+.button-link { display: inline-block; color: inherit; text-decoration: none; line-height: 1.4; }
 
 .panels {
   display: grid; grid-template-columns: minmax(360px, 1fr) minmax(560px, 1.6fr); gap: 16px;
