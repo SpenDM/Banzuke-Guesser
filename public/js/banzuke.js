@@ -1,5 +1,7 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
-import { RANK_NAMES, DIVISION_OF, buildLadder, parseSlot, rankChange, slotId } from './rank.js';
+import { RANK_NAMES, DIVISION_OF, SANYAKU_TINT, buildLadder, parseSlot, rankChange, slotId } from './rank.js';
+
+const rankRowClass = (rank) => (SANYAKU_TINT[rank] ? `sanyaku-${SANYAKU_TINT[rank]}` : null);
 
 const h = (tag, attrs = {}, ...children) => {
   const el = document.createElement(tag);
@@ -59,7 +61,7 @@ export function renderPrevious(table, state) {
       const dest = state.slotOf(r.key);
       return h('td', { class: 'rikishi' }, chip(r, { placed: !!dest, dest, draggable: !dest }));
     };
-    tbody.append(h('tr', {},
+    tbody.append(h('tr', { class: rankRowClass(rank) },
       h('td', { class: 'result', text: east ? east.record : '' }),
       cellFor(east),
       h('td', { class: 'rank', text: `${rank}${num}` }),
@@ -89,7 +91,8 @@ export function renderGuess(table, state) {
     if (isLastOfType && DIVISION_OF[rank] === 'makuuchi' && rank !== 'M') {
       rankCell.append(h('button', { class: 'add-row', type: 'button', dataAddRow: rank, title: `Add ${RANK_NAMES[rank]} ${num + 1}`, text: '+' }));
     }
-    tbody.append(h('tr', {}, ...sideCells(state, rank, num, 'E', ladder), rankCell, ...sideCells(state, rank, num, 'W', ladder)));
+    tbody.append(h('tr', { class: rankRowClass(rank) },
+      ...sideCells(state, rank, num, 'E', ladder), rankCell, ...sideCells(state, rank, num, 'W', ladder)));
   }
   table.replaceChildren(
     h('thead', {}, h('tr', {},

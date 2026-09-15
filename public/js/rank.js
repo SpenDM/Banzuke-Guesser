@@ -4,6 +4,9 @@ export const RANK_ORDER = ['Y', 'O', 'S', 'K', 'M', 'J'];
 export const RANK_NAMES = { Y: 'Yokozuna', O: 'Ozeki', S: 'Sekiwake', K: 'Komusubi', M: 'Maegashira', J: 'Juryo' };
 export const DIVISION_OF = { Y: 'makuuchi', O: 'makuuchi', S: 'makuuchi', K: 'makuuchi', M: 'makuuchi', J: 'juryo' };
 
+// Sanyaku rows alternate gold/bronze instead of the plain white used for Maegashira/Juryo.
+export const SANYAKU_TINT = { Y: 'gold', O: 'bronze', S: 'gold', K: 'bronze' };
+
 // Default row template for the guess banzuke. Named ranks get a spare row each.
 export const DEFAULT_GUESS_ROWS = [
   ['Y', 2], ['O', 3], ['S', 2], ['K', 2], ['M', 17], ['J', 14],

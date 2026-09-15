@@ -11,6 +11,8 @@
   --same: #6b6b6b;
   --up-bg: #e1f3e6;
   --down-bg: #fbe6e4;
+  --gold-bg: #faf1c8;
+  --bronze-bg: #f1decb;
   --over: #ffe9a8;
   --multi: #fff1c2;
   --empty: #f3f1ea;
@@ -65,6 +67,10 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
 .banzuke td.result, .banzuke td.cur-rank, .banzuke td.change-cell { text-align: center; white-space: nowrap; width: 1%; color: var(--muted); }
 .banzuke td.rikishi { min-width: 120px; }
 .banzuke tr.division td { background: #efece4; font-weight: 700; text-align: left; padding: 4px 8px; letter-spacing: .02em; }
+tr.sanyaku-gold td { background: var(--gold-bg); }
+tr.sanyaku-bronze td { background: var(--bronze-bg); }
+tr.sanyaku-gold td.rank { background: var(--gold-bg); }
+tr.sanyaku-bronze td.rank { background: var(--bronze-bg); }
 
 .line, .banzuke.previous td { height: var(--line-h); line-height: 22px; }
 .banzuke.previous td { padding-top: 2px; padding-bottom: 2px; }
