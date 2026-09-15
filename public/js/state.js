@@ -15,6 +15,19 @@ export class GuessState extends EventTarget {
 
   #emit() { this.dispatchEvent(new Event('change')); }
 
+  /** Restore a snapshot produced by toJSON(); ignores rikishi/slots that no longer exist. */
+  load(snapshot) {
+    if (!snapshot || snapshot.basho !== this.basho.id) return false;
+    for (const [rank, n] of Object.entries(snapshot.rowCounts || {})) {
+      if (rank in this.rowCounts && Number.isInteger(n)) this.rowCounts[rank] = Math.max(this.rowCounts[rank], n);
+    }
+    for (const [key, slot] of Object.entries(snapshot.guesses || {})) {
+      try { parseSlot(slot); } catch { continue; }
+      if (this.rikishi.has(key)) this.guesses.set(key, slot);
+    }
+    return true;
+  }
+
   place(key, slotId) {
     if (!this.rikishi.has(key)) return;
     parseSlot(slotId); // validates

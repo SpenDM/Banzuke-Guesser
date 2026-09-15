@@ -2,6 +2,7 @@ import { loadBasho, loadIndex } from './data.js';
 import { GuessState } from './state.js';
 import { renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
+import { loadGuesses, saveGuesses } from './storage.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -24,6 +25,7 @@ function renderHeader(basho) {
 async function showBasho(id) {
   const basho = await loadBasho(id);
   const state = new GuessState(basho);
+  state.load(loadGuesses(basho.id));
   const app = $('#app');
   const prevTable = $('#previous');
   const guessTable = $('#guess');
@@ -35,6 +37,7 @@ async function showBasho(id) {
     renderSummary(summary, state);
   };
   state.addEventListener('change', render);
+  state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));
   renderHeader(basho);
   render();
 

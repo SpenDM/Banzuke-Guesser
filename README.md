@@ -21,6 +21,7 @@ sumo-api.com ┘                                                                
   - `js/state.js` — guess state (rikishi → slot), guess-table rows.
   - `js/banzuke.js` — renders the previous and guess banzuke tables.
   - `js/dnd.js` — HTML5 drag-and-drop plus a tap-to-select fallback for touch devices.
+  - `js/storage.js` — saves the guess in `localStorage` (one entry per basho) so it survives a reload.
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json`.
 - `scraper/` — Python package that produces `public/data`.
   - `schedule.py` — parses the [tournament schedule](https://www.sumo.or.jp/EnTicket/year_schedule/).
@@ -38,7 +39,7 @@ sumo-api.com ┘                                                                
 ```sh
 pip install -e ".[dev]"
 python -m pytest                      # scraper tests
-node tests/js/rank.test.mjs           # rank-change tests
+node tests/js/rank.test.mjs && node tests/js/state.test.mjs   # frontend tests
 python -m http.server 8000 -d public  # then open http://localhost:8000
 ```
 
@@ -68,7 +69,6 @@ If it does, re-enable the workflow from the Actions tab.
 
 ## Roadmap
 
-- Save the guess in the browser so it survives a reload.
 - Automatic pre-ranking (e.g. 8-7 → +1), leaving only conflicts to resolve by hand.
 - Links to each rikishi's profile / tournament history (`profile_url` is already in the data).
 - A model that produces its own prediction.
