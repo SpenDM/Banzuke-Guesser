@@ -1,0 +1,50 @@
+name: Update banzuke data
+
+on:
+  schedule:
+    # 00:10 JST daily (15:10 UTC). The script is a no-op unless a tournament just finished.
+    - cron: "10 15 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Re-fetch the latest finished basho even if it already exists"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      - run: python -m pytest -q
+
+      - name: Fetch latest finished tournament
+        run: python -m scraper.cli update ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit and push if data changed
+        run: |
+          if git diff --quiet -- public/data; then
+            echo "Data unchanged; nothing to commit."
+            exit 0
+          fi
+          latest=$(python -c "import json;print(json.load(open('public/data/index.json'))['latest'])")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          git commit -m "Update banzuke data (latest: ${latest})"
+          git push

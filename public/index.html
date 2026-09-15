@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banzuke Guesser</title>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>Banzuke Guesser</h1>
+      <p id="subtitle">Loading…</p>
+    </div>
+    <div class="controls">
+      <select id="basho-select" hidden aria-label="Previous tournament"></select>
+      <span id="summary" class="summary"></span>
+      <button id="reset" type="button">Reset</button>
+    </div>
+  </header>
+
+  <main id="app" class="panels">
+    <section class="panel">
+      <h2><span id="basho-name">Previous</span> banzuke</h2>
+      <p class="hint">Drag a rikishi (or tap one, then tap a slot) into the guess banzuke. Drop back here or double-click a placed rikishi to undo.</p>
+      <div class="table-wrap"><table id="previous" class="banzuke previous"></table></div>
+    </section>
+    <section class="panel">
+      <h2><span id="guess-name">Next</span> banzuke (your guess)</h2>
+      <p class="hint">Several rikishi may share a slot while you work out conflicts; those slots are highlighted. Use “+” to add another Yokozuna/Ozeki/Sekiwake/Komusubi row.</p>
+      <div class="table-wrap"><table id="guess" class="banzuke guess"></table></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span id="source"></span> ·
+    Sources: <a href="https://www.sumo.or.jp/EnHonbashoBanzuke/index/">sumo.or.jp</a>, <a href="https://sumo-api.com/">sumo-api.com</a> ·
+    <a href="https://github.com/SpenDM/Banzuke-Guesser">GitHub</a>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
