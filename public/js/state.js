@@ -1,5 +1,5 @@
 // Guess state: which slot each rikishi has been dragged to, plus the guess-table row layout.
-import { DEFAULT_GUESS_ROWS, parseSlot } from './rank.js';
+import { DEFAULT_GUESS_ROWS, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, parseSlot, slotId } from './rank.js';
 
 export class GuessState extends EventTarget {
   constructor(basho) {
@@ -45,7 +45,20 @@ export class GuessState extends EventTarget {
   }
 
   addRow(rank) {
+    if (this.rowCounts[rank] >= MAX_SANYAKU_ROWS) return;
     this.rowCounts[rank] += 1;
+    this.#emit();
+  }
+
+  /** Drops the rank's highest-numbered row, unplacing anyone guessed into it. */
+  removeRow(rank) {
+    if (this.rowCounts[rank] <= MIN_SANYAKU_ROWS) return;
+    const num = this.rowCounts[rank];
+    for (const side of ['E', 'W']) {
+      const slot = slotId(rank, num, side);
+      for (const [key, s] of this.guesses) if (s === slot) this.guesses.delete(key);
+    }
+    this.rowCounts[rank] -= 1;
     this.#emit();
   }
 

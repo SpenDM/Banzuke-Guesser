@@ -14,11 +14,28 @@ const basho = {
 test('toJSON/load round-trips guesses and extra rows', () => {
   const a = new GuessState(basho);
   a.place('onosato', 'Y1E');
-  a.addRow('O');
+  a.addRow('Y');
   const b = new GuessState(basho);
   assert.equal(b.load(JSON.parse(JSON.stringify(a.toJSON()))), true);
   assert.equal(b.slotOf('onosato'), 'Y1E');
-  assert.equal(b.rowCounts.O, 4);
+  assert.equal(b.rowCounts.Y, 3);
+});
+
+test('addRow/removeRow respect the min/max bounds and clear guesses in a removed row', () => {
+  const s = new GuessState(basho);
+  assert.equal(s.rowCounts.Y, 2);
+  s.addRow('Y');
+  s.addRow('Y'); // already at the max (3); this should no-op
+  assert.equal(s.rowCounts.Y, 3);
+
+  s.place('onosato', 'Y3W');
+  s.removeRow('Y'); // drops Y3, which onosato was guessed into
+  assert.equal(s.rowCounts.Y, 2);
+  assert.equal(s.slotOf('onosato'), null);
+
+  s.removeRow('Y');
+  s.removeRow('Y'); // already at the min (1); this should no-op
+  assert.equal(s.rowCounts.Y, 1);
 });
 
 test('load ignores snapshots from another basho and unknown rikishi/slots', () => {

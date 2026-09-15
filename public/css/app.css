@@ -62,7 +62,7 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
   background: var(--head); color: #fff; font-weight: 600; font-size: 12px; padding: 6px 6px; text-align: center;
 }
 .banzuke td { border: 1px solid var(--line); padding: 2px 6px; vertical-align: top; }
-.banzuke td.rank { text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
+.banzuke td.rank { position: relative; text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
 .banzuke td.result, .banzuke td.cur-rank, .banzuke td.change-cell { text-align: center; white-space: nowrap; width: 1%; color: var(--muted); }
 .banzuke td.rikishi { min-width: 120px; }
 .banzuke tr.division td { background: #efece4; font-weight: 700; text-align: left; padding: 4px 8px; letter-spacing: .02em; }
@@ -123,8 +123,14 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .ghost-change.same { color: var(--same); }
 .ghost-change-sub { color: var(--muted); font-weight: 400; }
 
-button.add-row {
-  margin-left: 4px; padding: 0 5px; font-size: 11px; line-height: 16px; border-radius: 8px; vertical-align: middle;
+/* Sits on the border shared with the next row, out of normal flow, so it never affects row
+   height and every rank label stays vertically centered the same way. */
+.rank-controls {
+  position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);
+  display: flex; gap: 2px; z-index: 2;
+}
+.rank-controls .row-btn {
+  padding: 0 4px; font-size: 9px; line-height: 12px; border-radius: 6px;
 }
 
 .foot { padding: 8px 20px 20px; color: var(--muted); font-size: 12px; }

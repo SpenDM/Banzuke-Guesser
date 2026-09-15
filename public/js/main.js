@@ -43,8 +43,10 @@ async function showBasho(id) {
 
   installDragAndDrop(app, state);
   app.addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-add-row]');
-    if (btn) state.addRow(btn.dataset.addRow);
+    const addBtn = e.target.closest('button[data-add-row]');
+    if (addBtn) { state.addRow(addBtn.dataset.addRow); return; }
+    const removeBtn = e.target.closest('button[data-remove-row]');
+    if (removeBtn) state.removeRow(removeBtn.dataset.removeRow);
   });
   $('#reset').onclick = () => {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();

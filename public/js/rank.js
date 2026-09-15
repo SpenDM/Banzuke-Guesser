@@ -7,6 +7,10 @@ export const DIVISION_OF = { Y: 'makuuchi', O: 'makuuchi', S: 'makuuchi', K: 'ma
 // Sanyaku rows alternate gold/bronze instead of the plain white used for Maegashira/Juryo.
 export const SANYAKU_TINT = { Y: 'gold', O: 'bronze', S: 'gold', K: 'bronze' };
 
+// How far the +/- row controls can adjust a sanyaku rank's row count on the guess side.
+export const MIN_SANYAKU_ROWS = 1;
+export const MAX_SANYAKU_ROWS = 3;
+
 // Default row template for the guess banzuke. Named ranks get a spare row each.
 export const DEFAULT_GUESS_ROWS = [
   ['Y', 2], ['O', 3], ['S', 2], ['K', 2], ['M', 17], ['J', 14],

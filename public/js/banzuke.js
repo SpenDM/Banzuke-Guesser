@@ -1,5 +1,8 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
-import { RANK_NAMES, DIVISION_OF, SANYAKU_TINT, buildLadder, parseSlot, rankChange, slotId } from './rank.js';
+import {
+  RANK_NAMES, DIVISION_OF, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
+  buildLadder, parseSlot, rankChange, slotId,
+} from './rank.js';
 
 const rankRowClass = (rank) => (SANYAKU_TINT[rank] ? `sanyaku-${SANYAKU_TINT[rank]}` : null);
 
@@ -89,7 +92,19 @@ export function renderGuess(table, state) {
     const isLastOfType = !rows[i + 1] || rows[i + 1].rank !== rank;
     const rankCell = h('td', { class: 'rank' }, h('span', { text: `${rank}${num}` }));
     if (isLastOfType && DIVISION_OF[rank] === 'makuuchi' && rank !== 'M') {
-      rankCell.append(h('button', { class: 'add-row', type: 'button', dataAddRow: rank, title: `Add ${RANK_NAMES[rank]} ${num + 1}`, text: '+' }));
+      const count = state.rowCounts[rank];
+      const controls = h('div', { class: 'rank-controls' });
+      if (count > MIN_SANYAKU_ROWS) {
+        controls.append(h('button', {
+          class: 'row-btn', type: 'button', dataRemoveRow: rank, title: `Remove ${RANK_NAMES[rank]} ${num}`, text: '−',
+        }));
+      }
+      if (count < MAX_SANYAKU_ROWS) {
+        controls.append(h('button', {
+          class: 'row-btn', type: 'button', dataAddRow: rank, title: `Add ${RANK_NAMES[rank]} ${num + 1}`, text: '+',
+        }));
+      }
+      if (controls.childNodes.length) rankCell.append(controls);
     }
     tbody.append(h('tr', { class: rankRowClass(rank) },
       ...sideCells(state, rank, num, 'E', ladder), rankCell, ...sideCells(state, rank, num, 'W', ladder)));
