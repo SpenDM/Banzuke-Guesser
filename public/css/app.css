@@ -18,7 +18,7 @@
   --bronze: #cd7f32;
   --bronze-dark: #a5641f;
   --over: #ffe9a8;
-  --empty: #f3f1ea;
+  --joi-bg: #f3f1ea;
   --chip: #fbfaf7;
   --chip-border: #cfc8bb;
   --selected: #dbeafe;
@@ -76,6 +76,8 @@ tr.sanyaku-gold td.rank { background: var(--gold-bg); }
 tr.sanyaku-bronze td.rank { background: var(--bronze-bg); }
 tr.sanyaku-gold td.slot.empty { background: var(--gold-bg); }
 tr.sanyaku-bronze td.slot.empty { background: var(--bronze-bg); }
+tr.joi td { background: var(--joi-bg); }
+tr.joi td.rank { background: var(--joi-bg); }
 
 .line, .banzuke.previous td { height: var(--line-h); line-height: 22px; }
 .banzuke.previous td { padding-top: 2px; padding-bottom: 2px; }
@@ -100,7 +102,6 @@ td.rikishi .line { justify-content: flex-start; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; }
 .tag-retired { background: #eee; color: #666; }
 
-td.slot.empty { background: var(--empty); }
 td.slot.over, tbody.over td { background: var(--over) !important; }
 .drag-active td.slot, .selecting td.slot { cursor: copy; }
 .selecting tbody[data-dropzone="previous"] { outline: 2px dashed #60a5fa; outline-offset: -2px; }

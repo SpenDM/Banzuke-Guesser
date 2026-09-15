@@ -7,6 +7,11 @@ export const DIVISION_OF = { Y: 'makuuchi', O: 'makuuchi', S: 'makuuchi', K: 'ma
 // Sanyaku rows alternate gold/bronze instead of the plain white used for Maegashira/Juryo.
 export const SANYAKU_TINT = { Y: 'gold', O: 'bronze', S: 'gold', K: 'bronze' };
 
+// Maegashira 1-5 (the "joi" rows, closest to sanyaku) get a slightly darker shade than the
+// rest of the Maegashira/Juryo rows to set them apart.
+export const JOI_MAX_NUM = 5;
+export const isJoi = (rank, num) => rank === 'M' && num <= JOI_MAX_NUM;
+
 // How far the +/- row controls can adjust a sanyaku rank's row count on the guess side.
 export const MIN_SANYAKU_ROWS = 1;
 export const MAX_SANYAKU_ROWS = 3;
