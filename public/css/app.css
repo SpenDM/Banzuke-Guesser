@@ -71,6 +71,8 @@ tr.sanyaku-gold td { background: var(--gold-bg); }
 tr.sanyaku-bronze td { background: var(--bronze-bg); }
 tr.sanyaku-gold td.rank { background: var(--gold-bg); }
 tr.sanyaku-bronze td.rank { background: var(--bronze-bg); }
+tr.sanyaku-gold td.slot.empty { background: var(--gold-bg); }
+tr.sanyaku-bronze td.slot.empty { background: var(--bronze-bg); }
 
 .line, .banzuke.previous td { height: var(--line-h); line-height: 22px; }
 .banzuke.previous td { padding-top: 2px; padding-bottom: 2px; }
