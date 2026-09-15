@@ -96,6 +96,16 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .change.down { color: var(--down); }
 .change.same { color: var(--same); }
 
+.drag-preview {
+  position: fixed; z-index: 1000; pointer-events: none;
+  padding: 2px 9px; border-radius: 10px; font-weight: 700; font-size: 13px;
+  background: var(--panel); border: 1px solid currentColor;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .18);
+}
+.drag-preview.up { color: var(--up); }
+.drag-preview.down { color: var(--down); }
+.drag-preview.same { color: var(--same); }
+
 button.add-row {
   margin-left: 4px; padding: 0 5px; font-size: 11px; line-height: 16px; border-radius: 8px; vertical-align: middle;
 }

@@ -1,7 +1,32 @@
 // Drag-and-drop (native HTML5) plus a click-to-select fallback for touch devices.
+import { parseSlot, rankChange } from './rank.js';
+
+function createPreviewBadge() {
+  const el = document.createElement('div');
+  el.className = 'drag-preview';
+  el.hidden = true;
+  document.body.append(el);
+  return el;
+}
 
 export function installDragAndDrop(root, state) {
   let selectedKey = null;
+  let draggingKey = null;
+  const preview = createPreviewBadge();
+
+  const updatePreview = (key, slotId, x, y) => {
+    const from = state.rikishi.get(key);
+    let to;
+    try { to = slotId && parseSlot(slotId); } catch { to = null; }
+    if (!from || !to) { preview.hidden = true; return; }
+    const change = rankChange({ rank: from.rank, num: from.num, side: from.side }, to);
+    preview.textContent = change.text;
+    preview.className = `drag-preview ${change.kind}`;
+    preview.style.left = `${x + 16}px`;
+    preview.style.top = `${y - 12}px`;
+    preview.hidden = false;
+  };
+
   const highlight = (slot, on) => {
     for (const cell of root.querySelectorAll(`[data-slot="${slot}"]`)) cell.classList.toggle('over', on);
   };
@@ -21,6 +46,7 @@ export function installDragAndDrop(root, state) {
     if (!chip) return;
     e.dataTransfer.setData('text/plain', chip.dataset.key);
     e.dataTransfer.effectAllowed = 'move';
+    draggingKey = chip.dataset.key;
     chip.classList.add('dragging');
     root.classList.add('drag-active');
     select(null);
@@ -30,11 +56,14 @@ export function installDragAndDrop(root, state) {
     for (const c of root.querySelectorAll('.dragging')) c.classList.remove('dragging');
     root.classList.remove('drag-active');
     clearHighlights();
+    draggingKey = null;
+    preview.hidden = true;
   });
 
   root.addEventListener('dragover', (e) => {
     const slot = e.target.closest?.('[data-slot]');
     const prev = e.target.closest?.('[data-dropzone="previous"]');
+    if (draggingKey) updatePreview(draggingKey, slot?.dataset.slot, e.clientX, e.clientY);
     if (!slot && !prev) return;
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
@@ -56,6 +85,7 @@ export function installDragAndDrop(root, state) {
     if (!slot && !prev) return;
     e.preventDefault();
     clearHighlights();
+    preview.hidden = true;
     if (slot) state.place(key, slot.dataset.slot);
     else state.remove(key);
   });
