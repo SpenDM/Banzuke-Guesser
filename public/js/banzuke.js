@@ -172,7 +172,7 @@ function candidatesRow(state, rank, ladder) {
 
 export function renderSummary(el, state) {
   const c = state.counts();
-  el.textContent = `${c.placed} of ${c.total} placed · ${c.unplacedMakuuchi} Makuuchi rikishi still unplaced`;
+  el.textContent = `${c.filled}/${c.spots} Makuuchi spots filled`;
 }
 
 export { parseSlot };

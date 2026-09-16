@@ -60,16 +60,13 @@ button:hover, .button-link:hover { background: #f0ede6; }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
 
 /* Tool box: a narrow sticky column on wide screens, a full-width strip above the tables otherwise. */
-.tools { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 14px; }
+.tools { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 8px; }
 .tools h2 { margin-bottom: 0; }
-.tools .tool { display: flex; flex-direction: column; gap: 4px; }
 .tools button { width: 100%; }
-.tools .hint { margin: 0; }
 @media (max-width: 1200px) {
   .panels { grid-template-columns: minmax(360px, 1fr) minmax(560px, 1.6fr); }
-  .tools { position: static; grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
-  .tools .tool { flex: 1 1 240px; }
-  .tools button { width: auto; align-self: flex-start; }
+  .tools { position: static; grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .tools button { width: auto; }
 }
 @media (max-width: 1000px) { .panels { grid-template-columns: 1fr; } }
 .hint { color: var(--muted); font-size: 12px; margin-bottom: 8px; }

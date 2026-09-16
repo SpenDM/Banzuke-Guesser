@@ -1,6 +1,6 @@
 // Guess state: which slot each rikishi has been dragged to, plus the guess-table row layout.
 import {
-  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateRowSlots, parseSlot, slotId,
+  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateRowSlots, parseSlot, slotId,
 } from './rank.js';
 import { idealPlacements } from './promote.js';
 
@@ -97,11 +97,21 @@ export class GuessState extends EventTarget {
     return out;
   }
 
+  /**
+   * Progress: `spots` is the size of Makuuchi (the previous banzuke's headcount), `filled` how
+   * many numbered Makuuchi slots hold exactly one rikishi. Empty and shared slots don't count,
+   * nor do the candidates rows.
+   */
   counts() {
-    const total = this.basho.rikishi.length;
-    const placed = this.guesses.size;
-    const unplacedMakuuchi = this.basho.rikishi.filter((r) => r.division === 'makuuchi' && !this.guesses.has(r.key)).length;
-    return { total, placed, unplaced: total - placed, unplacedMakuuchi };
+    const spots = this.basho.rikishi.filter((r) => r.division === 'makuuchi').length;
+    const perSlot = new Map();
+    for (const slot of this.guesses.values()) perSlot.set(slot, (perSlot.get(slot) || 0) + 1);
+    let filled = 0;
+    for (const [slot, n] of perSlot) {
+      const s = parseSlot(slot);
+      if (n === 1 && !s.candidates && DIVISION_OF[s.rank] === 'makuuchi') filled++;
+    }
+    return { spots, filled };
   }
 
   toJSON() { return { basho: this.basho.id, guesses: Object.fromEntries(this.guesses), rowCounts: this.rowCounts }; }

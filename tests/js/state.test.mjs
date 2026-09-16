@@ -55,3 +55,16 @@ test('load ignores snapshots from another basho and unknown rikishi/slots', () =
   assert.equal(s.slotOf('onosato'), 'O1E');
   assert.equal(s.rowCounts.M, 17);
 });
+
+test('counts() tracks Makuuchi slots holding exactly one rikishi', () => {
+  const s = new GuessState(basho);
+  assert.deepEqual(s.counts(), { spots: 2, filled: 0 });
+  s.place('onosato', 'Y1E');
+  assert.equal(s.counts().filled, 1);
+  s.place('aonishiki', 'Y1E'); // doubled up: no longer counts
+  assert.equal(s.counts().filled, 0);
+  s.place('aonishiki', 'J1E');  // Juryo doesn't count
+  assert.equal(s.counts().filled, 1);
+  s.place('aonishiki', '^K');   // nor do candidates rows
+  assert.equal(s.counts().filled, 1);
+});

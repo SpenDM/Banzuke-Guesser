@@ -94,7 +94,6 @@ test('GuessState.applyIdealPromotions places everyone and shows a candidates row
   s.applyIdealPromotions();
   assert.equal(s.slotOf('m2e'), 'M1E');
   assert.equal(s.slotOf('m1e'), '^K');
-  assert.equal(s.counts().unplaced, 0);
   // candidates are listed in previous-banzuke order, not by score
   const t = new GuessState(makeBasho({ M1E: rec(8, 7), M2W: rec(11, 4), M1W: rec(9, 6) }));
   t.applyIdealPromotions();
