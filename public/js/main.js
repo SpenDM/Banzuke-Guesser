@@ -17,8 +17,8 @@ function renderHeader(basho) {
   const next = basho.next;
   $('#guess-name').textContent = next ? next.name : 'Next';
   $('#subtitle').textContent = next
-    ? `Guess the ${next.name} banzuke (announced ${formatDate(next.banzuke_date)}, day 1 ${formatDate(next.start_date)}) from the ${basho.name} results.`
-    : `Guess the next banzuke from the ${basho.name} results.`;
+    ? `Predict the ${next.name} Banzuke! Official announcement: ${formatDate(next.banzuke_date)}`
+    : `Predict the next Banzuke from the ${basho.name} results.`;
   $('#source').textContent = `Data: ${basho.source}, fetched ${basho.fetched_at.slice(0, 10)}`;
 }
 
