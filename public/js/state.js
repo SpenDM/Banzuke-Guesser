@@ -49,9 +49,13 @@ export class GuessState extends EventTarget {
     this.#emit();
   }
 
-  /** Places every unplaced rikishi by their net score (see promote.js); placed ones are untouched. */
+  /**
+   * Places every unplaced rikishi by their net score and indicators (see promote.js); placed ones
+   * are untouched. Adopts any sanyaku rows the placement had to add.
+   */
   applyIdealPromotions() {
-    const placements = idealPlacements(this.basho, this.guesses, this.rowCounts);
+    const { placements, rowCounts } = idealPlacements(this.basho, this.guesses, this.rowCounts);
+    this.rowCounts = rowCounts;
     for (const [key, slot] of placements) this.guesses.set(key, slot);
     if (placements.size) this.#emit();
   }

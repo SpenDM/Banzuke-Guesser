@@ -14,6 +14,29 @@ export function loadSchedule() {
   return getJson('data/schedule.json');
 }
 
-export function loadBasho(id) {
-  return getJson(`data/basho/${id}.json`);
+/**
+ * Hand-edited corrections for one basho, `data/overrides/YYYYMM.json`: { rikishiKey: { field: value } }.
+ * Used for facts the scraper cannot know (a retirement announced after the data was fetched, an
+ * announced Yokozuna run the heuristic missed). Missing or malformed -> no overrides.
+ */
+async function loadOverrides(id) {
+  try {
+    const o = await getJson(`data/overrides/${id}.json`);
+    return o && typeof o === 'object' ? o : {};
+  } catch {
+    return {};
+  }
+}
+
+export function applyOverrides(basho, overrides) {
+  for (const r of basho.rikishi) {
+    const patch = overrides[r.key];
+    if (patch && typeof patch === 'object') Object.assign(r, patch);
+  }
+  return basho;
+}
+
+export async function loadBasho(id) {
+  const [basho, overrides] = await Promise.all([getJson(`data/basho/${id}.json`), loadOverrides(id)]);
+  return applyOverrides(basho, overrides);
 }

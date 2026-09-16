@@ -20,10 +20,45 @@
   </header>
 
   <main id="app" class="panels">
-    <aside class="panel tools">
-      <h2>Tools</h2>
-      <button id="apply-ideal" type="button">Apply Ideal Promotions</button>
-      <button id="reset" type="button">Reset</button>
+    <aside class="sidebar">
+      <div class="panel tools">
+        <h2>Tools</h2>
+        <button id="apply-ideal" type="button">Apply Ideal Promotions</button>
+        <button id="reset" type="button">Reset</button>
+      </div>
+      <div class="panel legend">
+        <h2>Legend</h2>
+        <h3>Ranks</h3>
+        <dl>
+          <dt>Y</dt><dd>Yokozuna</dd>
+          <dt>O</dt><dd>Ozeki</dd>
+          <dt>S</dt><dd>Sekiwake</dd>
+          <dt>K</dt><dd>Komusubi</dd>
+          <dt>M</dt><dd>Maegashira</dd>
+          <dt>J</dt><dd>Juryo</dd>
+          <dt>E / W</dt><dd>East / West side</dd>
+        </dl>
+        <h3>Change</h3>
+        <dl>
+          <dt><span class="change up">+0.5</span></dt><dd>Half-steps up within a rank (E → W is one)</dd>
+          <dt><span class="change down">-4.5</span></dt><dd>Half-steps down within a rank</dd>
+          <dt><span class="change up">↑K</span></dt><dd>Moved up from Komusubi (faint number: steps)</dd>
+          <dt><span class="change down">↓J</span></dt><dd>Dropped from Juryo</dd>
+          <dt><span class="change up">↑</span> <span class="change down">↓</span></dt><dd>Candidates row: sort these into the open slots above / into Juryo</dd>
+        </dl>
+        <h3>Indicators</h3>
+        <dl>
+          <dt><span class="tag tag-yusho">★</span></dt><dd>Yusho (division champion)</dd>
+          <dt><span class="tag tag-kadoban">KB</span></dt><dd>Kadoban Ozeki: make-koshi last basho; fewer than 8 wins drops them to Sekiwake</dd>
+          <dt><span class="tag tag-tsunatori">→Y</span></dt><dd>Yokozuna candidate: yusho or jun-yusho as Ozeki last basho; promoted with the yusho</dd>
+          <dt><span class="tag tag-ozeki-run">→O <i>n</i></span></dt><dd>Ozeki run: <i>n</i> more wins reach 33 over three sanyaku basho</dd>
+          <dt><span class="tag tag-ozeki-return">↩O 10</span></dt><dd>Demoted Ozeki: 10 wins regain the rank</dd>
+          <dt><span class="tag tag-retired">intai</span></dt><dd>Retired (left off the guess banzuke)</dd>
+          <dt><span class="tag tag-met">→O 8</span></dt><dd>Green: this basho's result met the target</dd>
+          <dt><span class="tag tag-missed">→O 8</span></dt><dd>Red: it did not</dd>
+          <dt><span class="tag">新入幕</span></dt><dd>Official banzuke note (new to the rank / division)</dd>
+        </dl>
+      </div>
     </aside>
     <section class="panel">
       <h2><span id="basho-name">Previous</span> Results</h2>

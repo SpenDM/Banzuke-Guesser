@@ -3,6 +3,9 @@ import {
   RANK_NAMES, DIVISION_OF, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
   DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
 } from './rank.js';
+import {
+  KACHI_KOSHI, OZEKI_RETURN_WINS, OZEKI_TARGET, kadobanFailed, ozekiReturnMet, ozekiRunMet, ozekiRunNeeded, tsunatoriMet,
+} from './promote.js';
 
 const rankRowClass = (rank, num) => {
   if (SANYAKU_TINT[rank]) return `sanyaku-${SANYAKU_TINT[rank]}`;
@@ -31,9 +34,31 @@ function chip(r, { placed = false, dest = null, draggable = true, kind = null } 
     title: r.retired ? `${r.name} (retired)` : r.name,
   }, h('span', { class: 'name', text: r.name }));
   if (r.note) el.append(h('span', { class: 'tag', text: r.note }));
-  if (r.retired) el.append(h('span', { class: 'tag tag-retired', text: 'intai' }));
+  el.append(...badges(r));
   if (dest) el.append(h('span', { class: 'dest', text: `→ ${slotName(dest)}` }));
   return el;
+}
+
+/**
+ * Indicator badges (see the Legend box): what the rikishi carried into the basho and, now that
+ * the result is known, whether they made it (`tag-met`, green) or not (`tag-missed`, red).
+ * The same rules drive "Apply Ideal Promotions" (promote.js).
+ */
+function badges(r) {
+  const out = [];
+  const tag = (cls, text, title, met) => out.push(h('span', {
+    class: `tag ${cls}${met == null ? '' : met ? ' tag-met' : ' tag-missed'}`, text, title,
+  }));
+  if (r.yusho) tag('tag-yusho', '★', 'Yusho (division champion)');
+  if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban: make-koshi last basho; fewer than ${KACHI_KOSHI} wins loses the Ozeki rank`, !kadobanFailed(r));
+  if (r.tsunatori) tag('tag-tsunatori', '→Y', 'Yokozuna promotion candidate: yusho or jun-yusho as Ozeki last basho', tsunatoriMet(r));
+  if (r.ozeki_return) tag('tag-ozeki-return', `↩O ${OZEKI_RETURN_WINS}`, `Demoted Ozeki: ${OZEKI_RETURN_WINS} wins regain the rank`, ozekiReturnMet(r));
+  if (r.ozeki_run != null) {
+    const need = ozekiRunNeeded(r);
+    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${r.ozeki_run} wins over the previous two sanyaku basho, ${need} more needed for ${OZEKI_TARGET}`, ozekiRunMet(r));
+  }
+  if (r.retired) tag('tag-retired', 'intai', 'Retired');
+  return out;
 }
 
 function changeSpan(c) {

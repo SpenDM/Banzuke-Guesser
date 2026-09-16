@@ -2,6 +2,7 @@
 
     python -m scraper.cli update                       # nightly: fetch whatever just finished
     python -m scraper.cli bootstrap --basho 202607     # seed a specific basho (sumo-api.com by default)
+    python -m scraper.cli annotate --basho 202607      # recompute the indicators of an existing file
     python -m scraper.cli schedule                     # refresh schedule.json only
 """
 from __future__ import annotations
@@ -12,8 +13,8 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import official, sumoapi
-from .model import (Basho, NotAvailable, Tournament, basho_exists, next_tournament,
+from . import annotate, official, sumoapi
+from .model import (Basho, NotAvailable, Tournament, basho_exists, next_tournament, read_basho,
                     update_index, write_basho, write_schedule)
 from .schedule import fetch_schedule, latest_finished
 
@@ -42,6 +43,7 @@ def fetch_with_fallback(tournament: Tournament, source: str) -> Basho:
 
 def save(data_dir: Path, schedule: list[Tournament], basho: Basho) -> None:
     basho.next = next_tournament(schedule, basho.id)
+    annotate.apply(basho, data_dir)
     for w in basho.validation_warnings():
         log(f"warning: {w}")
     path = write_basho(data_dir, basho)
@@ -95,6 +97,17 @@ def cmd_bootstrap(args) -> int:
     return 0
 
 
+def cmd_annotate(args) -> int:
+    if not basho_exists(args.data_dir, args.basho):
+        log(f"no data for {args.basho}; run bootstrap first")
+        return 1
+    basho = read_basho(args.data_dir, args.basho)
+    annotate.apply(basho, args.data_dir)
+    path = write_basho(args.data_dir, basho)
+    log(f"wrote {path}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="scraper")
     p.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
@@ -111,6 +124,10 @@ def main(argv: list[str] | None = None) -> int:
     bs.add_argument("--basho", required=True, help="YYYYMM")
     bs.add_argument("--source", choices=["auto", "official", "sumoapi"], default="sumoapi")
     bs.set_defaults(func=cmd_bootstrap)
+
+    an = sub.add_parser("annotate")
+    an.add_argument("--basho", required=True, help="YYYYMM")
+    an.set_defaults(func=cmd_annotate)
 
     args = p.parse_args(argv)
     return args.func(args)

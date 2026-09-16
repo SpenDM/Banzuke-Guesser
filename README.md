@@ -18,18 +18,21 @@ sumo-api.com ┘                                                                
 
 - `public/` — the site. Plain HTML/CSS/ES modules, no build step.
   - `js/rank.js` — rank model and rank-change calculation.
-  - `js/promote.js` — "Apply Ideal Promotions": a first-pass placement of every unplaced rikishi by net score.
+  - `js/promote.js` — "Apply Ideal Promotions": a first-pass placement of every unplaced rikishi by net
+    score and by the rank-change indicators.
   - `js/state.js` — guess state (rikishi → slot), guess-table rows.
   - `js/banzuke.js` — renders the previous and guess banzuke tables.
   - `js/dnd.js` — HTML5 drag-and-drop plus a tap-to-select fallback for touch devices.
   - `js/storage.js` — saves the guess in `localStorage` (one entry per basho) so it survives a reload.
-  - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json`.
+  - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json`, plus optional
+    hand-edited `overrides/YYYYMM.json` (see *Indicators*).
 - `scraper/` — Python package that produces `public/data`.
   - `schedule.py` — parses the [tournament schedule](https://www.sumo.or.jp/EnTicket/year_schedule/).
   - `official.py` — banzuke + results from the [sumo.or.jp](https://www.sumo.or.jp/EnHonbashoBanzuke/index/)
     JSON endpoints (the site only exposes the *current* basho).
   - `sumoapi.py` — fallback/bootstrap from [sumo-api.com](https://sumo-api.com/), which has full history.
-  - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `schedule`.
+  - `annotate.py` — the rank-change indicators, computed from the previous two basho (see *Indicators*).
+  - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `annotate --basho YYYYMM`, `schedule`.
 - `.github/workflows/update-data.yml` — runs `scraper.cli update` every night at 00:10 JST.
   It refreshes the schedule, and if a tournament finished the day before and its data is
   not yet in the repo, fetches it (sumo.or.jp first, sumo-api.com if the official site has
@@ -50,6 +53,33 @@ Fetch data manually:
 python -m scraper.cli update                      # what the nightly job runs
 python -m scraper.cli bootstrap --basho 202607    # seed a specific basho from sumo-api.com
 python -m scraper.cli update --force --source official   # re-fetch from sumo.or.jp only
+python -m scraper.cli annotate --basho 202607     # recompute the indicators of an existing file
+```
+
+## Indicators
+
+Each rikishi in `basho/YYYYMM.json` carries flags that the banzuke committee weighs but the score
+system does not, shown as badges on the chip (the Legend box lists them):
+
+| field | badge | meaning |
+|---|---|---|
+| `yusho` | ★ | division champion (Makuuchi and Juryo) |
+| `kadoban` | KB | Ozeki with a make-koshi last basho; fewer than 8 wins drops them to Sekiwake |
+| `tsunatori` | →Y | Ozeki with the yusho or a jun-yusho as Ozeki last basho; the yusho promotes them |
+| `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins |
+| `ozeki_return` | ↩O 10 | Sekiwake who was Ozeki last basho; 10 wins regain the rank |
+| `retired` | intai | announced retirement |
+
+`scraper/annotate.py` computes them when a basho is saved, from the previous basho files in
+`public/data` or, when missing, from sumo-api.com (also the source of the yusho). It runs again
+with `annotate --basho YYYYMM`, e.g. if the nightly fetch ran before sumo-api.com recorded the yusho.
+
+Some of this is announced rather than derivable (a retirement after the data was fetched, a
+Yokozuna run the committee did or did not declare). Put corrections in
+`public/data/overrides/YYYYMM.json`, merged into the rikishi by the frontend at load time:
+
+```json
+{ "hoshoryu": { "retired": true }, "kirishima": { "tsunatori": false } }
 ```
 
 ## Deployment (Cloudflare Pages)
@@ -77,8 +107,12 @@ If it does, re-enable the workflow from the Actions tab.
   rank type is put in a temporary "↑" candidates row just below that type, for you to sort into
   the open slots; the row disappears once its last occupant is moved out. The right half of the
   Maegashira/Juryo candidates row (red) holds Makuuchi rikishi whose score would drop them into
-  Juryo. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only re-ordered within
-  their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
+  Juryo. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
+  re-ordered within their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
+  The indicators override the score at the top: a `↩O 10` Sekiwake with 10+ wins, then a `→O n`
+  Sekiwake with n+ wins, go to the next open Ozeki slot below the sitting Ozeki; a `→Y` Ozeki with the
+  yusho goes to the next open Yokozuna slot; a `KB` Ozeki with fewer than 8 wins goes to the first
+  Sekiwake slot the score placements left open. A rank without an open slot gets a row added (up to 3).
 - **Reset** clears every guess.
 
 ## Roadmap

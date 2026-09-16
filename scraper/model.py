@@ -61,6 +61,12 @@ class RikishiRow:
     retired: bool = False
     note: str | None = None
     profile_url: str | None = None
+    # Indicators computed by annotate.py from the previous basho (all off by default).
+    yusho: bool = False              # division champion
+    kadoban: bool = False            # Ozeki who had a make-koshi last basho
+    tsunatori: bool = False          # Ozeki with a yusho / jun-yusho last basho (Yokozuna run)
+    ozeki_run: int | None = None     # Sekiwake: wins over the previous two sanyaku basho, when >= 18
+    ozeki_return: bool = False       # Sekiwake who was Ozeki last basho (10 wins regain the rank)
 
     @property
     def division(self) -> str:
@@ -113,6 +119,15 @@ class Basho:
             "rikishi": rows,
         }
 
+    @classmethod
+    def from_dict(cls, d: dict) -> "Basho":
+        """Inverse of to_dict(): rebuild a Basho from a data/basho/*.json payload."""
+        fields = {f for f in RikishiRow.__dataclass_fields__}
+        rows = [RikishiRow(**{k: v for k, v in r.items() if k in fields}) for r in d["rikishi"]]
+        return cls(id=d["id"], name=d["name"], start_date=d["start_date"], end_date=d["end_date"],
+                   source=d["source"], rikishi=rows, next=d.get("next"),
+                   fetched_at=d.get("fetched_at") or cls.__dataclass_fields__["fetched_at"].default_factory())
+
     def validation_warnings(self) -> list[str]:
         """Soft checks: a finished basho should have 15 bouts accounted for per rikishi."""
         warnings = []
@@ -134,6 +149,12 @@ def make_key(shikona: str) -> str:
     s = unicodedata.normalize("NFKD", shikona).encode("ascii", "ignore").decode()
     s = re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
     return s
+
+
+def previous_id(basho_id: str) -> str:
+    """The basho before `basho_id` (tournaments are held in odd months)."""
+    year, month = int(basho_id[:4]), int(basho_id[4:6])
+    return f"{year - 1:04d}11" if month == 1 else f"{year:04d}{month - 2:02d}"
 
 
 def next_tournament(schedule: list[Tournament], basho_id: str) -> dict | None:
@@ -170,5 +191,13 @@ def update_index(data_dir: Path) -> Path:
     return path
 
 
+def basho_path(data_dir: Path, basho_id: str) -> Path:
+    return data_dir / "basho" / f"{basho_id}.json"
+
+
 def basho_exists(data_dir: Path, basho_id: str) -> bool:
-    return (data_dir / "basho" / f"{basho_id}.json").exists()
+    return basho_path(data_dir, basho_id).exists()
+
+
+def read_basho(data_dir: Path, basho_id: str) -> Basho:
+    return Basho.from_dict(json.loads(basho_path(data_dir, basho_id).read_text(encoding="utf-8")))

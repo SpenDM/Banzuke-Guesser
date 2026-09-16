@@ -1,6 +1,6 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
-import { idealPlacements, netScore } from '../../public/js/promote.js';
+import { idealPlacements, netScore, ozekiRunNeeded } from '../../public/js/promote.js';
 import { GuessState } from '../../public/js/state.js';
 
 // Y1, O1, S1-2, K1, M1-17, J1-14, every slot filled with a 7-8 nobody (net -1) unless overridden.
@@ -19,7 +19,7 @@ function makeBasho(overrides = {}) {
   return { id: '202607', rikishi };
 }
 const rec = (wins, losses, absences = 0) => ({ wins, losses, absences });
-const ideal = (basho, placed = new Map()) => idealPlacements(basho, placed, new GuessState(basho).rowCounts);
+const ideal = (basho, placed = new Map()) => idealPlacements(basho, placed, new GuessState(basho).rowCounts).placements;
 
 test('net score counts absences as losses', () => {
   assert.equal(netScore(rec(9, 6)), 3);
@@ -116,4 +116,66 @@ test('GuessState.applyIdealPromotions places everyone and shows a candidates row
   s.place('m1e', '^K');
   b.load(JSON.parse(JSON.stringify(s.toJSON())));
   assert.equal(b.slotOf('m1e'), '^K');
+});
+
+test('a kadoban Ozeki with a make-koshi drops to the first open Sekiwake slot; a kachi-koshi keeps the rank', () => {
+  const p = ideal(makeBasho({ O1E: { kadoban: true, ...rec(7, 8) }, O1W: { kadoban: true, ...rec(8, 7) }, S1E: rec(9, 6) }));
+  assert.equal(p.get('o1w'), 'O1E');
+  assert.equal(p.get('o1e'), 'S1W');  // S1E is taken by the 9-6 Sekiwake's score placement
+  // both Sekiwake slots of a one-row Sekiwake taken: a row is added
+  const basho = makeBasho({ O1E: { kadoban: true, ...rec(5, 10) }, S1E: rec(7, 8), S1W: rec(7, 8), S2E: rec(9, 6), S2W: rec(8, 7) });
+  const s = new GuessState(basho);
+  s.applyIdealPromotions();
+  assert.equal(s.rowCounts.S, 3);
+  assert.equal(s.slotOf('o1e'), 'S3E');
+});
+
+test('an Ozeki on a Yokozuna run is promoted only with the yusho, after the sitting Yokozuna', () => {
+  const won = ideal(makeBasho({ O1E: { tsunatori: true, yusho: true, ...rec(13, 2) }, Y1E: rec(10, 5), Y1W: rec(12, 3) }));
+  assert.equal(won.get('y1w'), 'Y1E');
+  assert.equal(won.get('y1e'), 'Y1W');
+  assert.equal(won.get('o1e'), 'Y2E');  // no Yokozuna slot was open: Y2 added
+  const lost = ideal(makeBasho({ O1E: { tsunatori: true, ...rec(13, 2) } }));
+  assert.equal(lost.get('o1e'), 'O1E');
+  const s = new GuessState(makeBasho({ O1E: { tsunatori: true, yusho: true, ...rec(13, 2) } }));
+  s.applyIdealPromotions();
+  assert.equal(s.rowCounts.Y, 2);
+  assert.equal(s.slotOf('o1e'), 'Y2E');
+  assert.equal(s.slotOf('o1w'), 'O1E');
+});
+
+test('Sekiwake completing an Ozeki run or regaining Ozeki move to the next open Ozeki slot, returnee first', () => {
+  assert.equal(ozekiRunNeeded({ ozeki_run: 21 }), 12);
+  assert.equal(ozekiRunNeeded({}), null);
+  const basho = makeBasho({
+    S1E: { ozeki_run: 21, ...rec(12, 3) },        // 33 reached
+    S1W: { ozeki_run: 20, ...rec(12, 3) },        // one short: stays on the score system, capped at S1E
+    S2W: { ozeki_return: true, ...rec(10, 5) },   // 10 wins regain Ozeki
+    S2E: { ozeki_return: true, ...rec(9, 6) },    // 9 do not
+    O1E: rec(8, 7), O1W: rec(9, 6),
+  });
+  const s = new GuessState(basho);
+  s.applyIdealPromotions();
+  assert.equal(s.rowCounts.O, 2);
+  assert.equal(s.slotOf('o1w'), 'O1E');
+  assert.equal(s.slotOf('o1e'), 'O1W');
+  assert.equal(s.slotOf('s2w'), 'O2E');
+  assert.equal(s.slotOf('s1e'), 'O2W');
+  assert.equal(s.slotOf('s1w'), 'S1E');
+  assert.equal(s.slotOf('s2e'), 'S1E');  // +3 from S2E is past the top of Sekiwake: capped
+  // slots the user already filled are skipped, and the row count is not grown needlessly
+  const t = new GuessState(makeBasho({ S1E: { ozeki_run: 21, ...rec(12, 3) } }));
+  t.addRow('O');
+  t.place('o1e', 'O1E');
+  t.applyIdealPromotions();
+  assert.equal(t.rowCounts.O, 2);
+  assert.equal(t.slotOf('o1w'), 'O1W');
+  assert.equal(t.slotOf('s1e'), 'O2E');
+});
+
+test('retired rikishi are skipped even when an indicator would move them', () => {
+  const p = ideal(makeBasho({ O1E: { retired: true, tsunatori: true, yusho: true, ...rec(13, 2) }, Y1E: { retired: true, ...rec(0, 0, 15) } }));
+  assert.equal(p.has('o1e'), false);
+  assert.equal(p.has('y1e'), false);
+  assert.equal(p.get('y1w'), 'Y1E');
 });
