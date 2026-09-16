@@ -4,8 +4,9 @@ import {
   DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
 } from './rank.js';
 import {
-  KACHI_KOSHI, KOMUSUBI_FORCE_WINS, OZEKI_RETURN_WINS, OZEKI_TARGET,
-  kadobanFailed, komusubiForceMet, ozekiReturnMet, ozekiRunMet, ozekiRunNeeded, tsunatoriMet,
+  KACHI_KOSHI, KOMUSUBI_FORCE_WINS, M1_FORCE_WINS, M2_FORCE_WINS, OZEKI_RETURN_WINS, OZEKI_TARGET,
+  kadobanFailed, komusubiForceMet, maegashiraForceMet, maegashiraForceWinsNeeded,
+  ozekiReturnMet, ozekiRunMet, ozekiRunNeeded, tsunatoriMet,
 } from './promote.js';
 
 const rankRowClass = (rank, num) => {
@@ -58,10 +59,14 @@ function badges(r) {
     const need = ozekiRunNeeded(r);
     tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} wins this basho reaches the target ${OZEKI_TARGET} wins over three basho at sanyaku typically required for promotion`, ozekiRunMet(r));
   }
-  // Unlike the indicators above (carried into the basho, shown met or missed), this one only
-  // ever appears once it is already true: a Komusubi either force-promotes or it doesn't.
+  // Unlike the indicators above (carried into the basho, shown met or missed), these two only
+  // ever appear once already true: a Komusubi/M1/M2 either force-promotes or it doesn't.
   if (komusubiForceMet(r)) {
     tag('tag-komusubi-force', `→S ${KOMUSUBI_FORCE_WINS}`, `New sekiwake slot forced by ${KOMUSUBI_FORCE_WINS}+ wins at komusubi even if no existing slot is available`, true);
+  }
+  if (maegashiraForceMet(r)) {
+    const need = maegashiraForceWinsNeeded(r);
+    tag('tag-maegashira-force', `→K ${need}`, `New komusubi slot forced by ${M1_FORCE_WINS}+ wins at M1 or ${M2_FORCE_WINS}+ wins at M2 even if no existing slot is available`, true);
   }
   if (r.retired) tag('tag-retired', 'Retired', 'Retired');
   return out;

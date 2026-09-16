@@ -70,9 +70,10 @@ system does not, shown as badges on the chip (the Legend box lists them):
 | `ozeki_return` | ↩O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
 | `retired` | Retired | announced retirement |
 
-One badge needs no flag, since it is decided by rank and this basho's result alone: a Komusubi
-with 11+ wins (`→S 11`) forces the JSA to open an extra Sekiwake slot regardless of vacancies.
-Unlike the flag-driven badges above, it only appears once met — there is no "still on a run" state
+Two badges need no flag, since they are decided by rank and this basho's result alone: a Komusubi
+with 11+ wins (`→S 11`) forces the JSA to open an extra Sekiwake slot regardless of vacancies, and
+an M1 with 8+ wins or an M2 with 10+ wins (`→K n`) forces one open for Komusubi the same way.
+Unlike the flag-driven badges above, they only appear once met — there is no "still on a run" state
 to show beforehand.
 
 `scraper/annotate.py` computes the flags above when a basho is saved, from the previous basho files in
@@ -119,7 +120,9 @@ If it does, re-enable the workflow from the Actions tab.
   yusho goes to the next open Yokozuna slot; a `KB` Ozeki with fewer than 8 wins goes to the first
   Sekiwake slot the score placements left open; a Komusubi with 11+ wins (`→S 11`) goes to the next
   open Sekiwake slot too, forcing one if none is open, rather than sitting in the candidates row like
-  a lesser Komusubi score. A rank without an open slot gets a row added (up to 3).
+  a lesser Komusubi score; an M1 with 8+ wins or an M2 with 10+ wins (`→K n`) does the same one rank
+  down, forcing a Komusubi slot instead of sitting in the Komusubi candidates row. A rank without an
+  open slot gets a row added (up to 3).
 - **Reset** clears every guess.
 
 ## Roadmap

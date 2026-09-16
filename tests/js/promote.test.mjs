@@ -37,13 +37,14 @@ test('moves within a rank type by one number per point, E/W being a half step', 
 });
 
 test('rising into a higher type goes to the candidates row for the type above; Sekiwake are capped at S1E', () => {
+  // M3/M4/M5, not M1/M2, so none of these trip the M1/M2 force-promotion rule (tested separately).
   const p = ideal(makeBasho({
-    M1E: rec(9, 6), M2W: rec(10, 5), J1E: rec(8, 7), J3W: rec(12, 3), K1E: rec(10, 5),
-    S1E: rec(12, 3), S2W: rec(9, 6), S2E: rec(8, 7), M1W: rec(15, 0),
+    M3E: rec(9, 6), M4W: rec(10, 5), J1E: rec(8, 7), J3W: rec(12, 3), K1E: rec(10, 5),
+    S1E: rec(12, 3), S2W: rec(9, 6), S2E: rec(8, 7), M5W: rec(15, 0),
   }));
-  assert.equal(p.get('m1e'), '^K');
-  assert.equal(p.get('m2w'), '^K');  // +5 from M2W reaches Ozeki on the ladder, but is still a Komusubi candidate
-  assert.equal(p.get('m1w'), '^K');
+  assert.equal(p.get('m3e'), '^K');
+  assert.equal(p.get('m4w'), '^K');  // +5 from M4W reaches Ozeki on the ladder, but is still a Komusubi candidate
+  assert.equal(p.get('m5w'), '^K');
   assert.equal(p.get('j1e'), '^M');
   assert.equal(p.get('j3w'), '^M');
   assert.equal(p.get('k1e'), '^S');
@@ -89,20 +90,21 @@ test('already-placed rikishi are untouched and their slots are skipped for Yokoz
 });
 
 test('GuessState.applyIdealPromotions places everyone and shows a candidates row only while occupied', () => {
-  const s = new GuessState(makeBasho({ M1E: rec(9, 6) }));
+  // M3+, not M1/M2, so these candidates don't trip the M1/M2 force-promotion rule (tested separately).
+  const s = new GuessState(makeBasho({ M3E: rec(9, 6) }));
   s.place('m2e', 'M1E');
   s.applyIdealPromotions();
   assert.equal(s.slotOf('m2e'), 'M1E');
-  assert.equal(s.slotOf('m1e'), '^K');
+  assert.equal(s.slotOf('m3e'), '^K');
   // candidates are listed in previous-banzuke order, not by score
-  const t = new GuessState(makeBasho({ M1E: rec(8, 7), M2W: rec(11, 4), M1W: rec(9, 6) }));
+  const t = new GuessState(makeBasho({ M3E: rec(9, 6), M4W: rec(12, 3), M3W: rec(10, 5) }));
   t.applyIdealPromotions();
-  assert.deepEqual(t.occupants('^K').map((r) => r.key), ['m1e', 'm1w', 'm2w']);
+  assert.deepEqual(t.occupants('^K').map((r) => r.key), ['m3e', 'm3w', 'm4w']);
   const rows = s.rows();
   const kRows = rows.filter((r) => r.rank === 'K');
   assert.deepEqual(kRows.at(-1), { rank: 'K', candidates: true });
   assert.equal(rows.some((r) => r.rank === 'S' && r.candidates), false);
-  s.place('m1e', 'K1E');
+  s.place('m3e', 'K1E');
   assert.equal(s.rows().some((r) => r.rank === 'K' && r.candidates), false);
   // the Maegashira row is shown for either half, and sits right before Juryo
   const d = new GuessState(makeBasho());
@@ -112,10 +114,10 @@ test('GuessState.applyIdealPromotions places everyone and shows a candidates row
   d.remove('m17w');
   assert.equal(d.rows().some((r) => r.candidates), false);
   // round-trips through the snapshot
-  const b = new GuessState(makeBasho({ M1E: rec(9, 6) }));
-  s.place('m1e', '^K');
+  const b = new GuessState(makeBasho({ M3E: rec(9, 6) }));
+  s.place('m3e', '^K');
   b.load(JSON.parse(JSON.stringify(s.toJSON())));
-  assert.equal(b.slotOf('m1e'), '^K');
+  assert.equal(b.slotOf('m3e'), '^K');
 });
 
 test('a kadoban Ozeki with a make-koshi drops to the first open Sekiwake slot; a kachi-koshi keeps the rank', () => {
@@ -184,6 +186,19 @@ test('a Komusubi with 11+ wins forces a new Sekiwake slot even when both existin
   assert.equal(s.rowCounts.S, 2);
   assert.equal(s.slotOf('o1e'), 'S1E');   // the demoted Ozeki fills the open slot first
   assert.equal(s.slotOf('k1w'), 'S1W');   // the force-promoted Komusubi takes the other
+});
+
+test('an M1 with 8+ wins or an M2 with 10+ wins forces a new Komusubi slot', () => {
+  const p = ideal(makeBasho({ M1E: rec(8, 7), K1E: rec(7, 7), K1W: rec(7, 7) }));
+  assert.equal(p.get('m1e'), 'K2E');  // both K slots already taken by the score placements: K2 is added
+  // 7 wins at M1 is not enough to force, but still enough to rise into the candidates row
+  const shortM1 = ideal(makeBasho({ M1E: rec(7, 6) }));
+  assert.equal(shortM1.get('m1e'), '^K');
+  // M2 needs 10, not 8
+  const m2met = ideal(makeBasho({ M2E: rec(10, 5) }));
+  assert.equal(m2met.get('m2e'), 'K2E');
+  const m2short = ideal(makeBasho({ M2E: rec(9, 6) }));
+  assert.equal(m2short.get('m2e'), '^K');
 });
 
 test('retired rikishi are skipped even when an indicator would move them', () => {

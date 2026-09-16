@@ -16,6 +16,9 @@ export const OZEKI_RETURN_WINS = 10; // a just-demoted Ozeki regains the rank wi
 // The modern de facto benchmark: a Komusubi with this many wins forces the JSA to open an
 // extra Sekiwake slot, promoted regardless of whether an existing slot is vacant.
 export const KOMUSUBI_FORCE_WINS = 11;
+// Same idea one rank down: an M1 or M2 with this many wins forces an extra Komusubi slot.
+export const M1_FORCE_WINS = 8;
+export const M2_FORCE_WINS = 10;
 
 // Indicator outcomes, shared by the placement below and the chip badges.
 /** Wins still needed this basho to reach the Ozeki target, or null when not on a run. */
@@ -25,6 +28,17 @@ export const ozekiReturnMet = (r) => !!r.ozeki_return && r.wins >= OZEKI_RETURN_
 export const tsunatoriMet = (r) => !!r.tsunatori && !!r.yusho;
 export const kadobanFailed = (r) => !!r.kadoban && r.wins < KACHI_KOSHI;
 export const komusubiForceMet = (r) => r.rank === 'K' && r.wins >= KOMUSUBI_FORCE_WINS;
+/** Wins needed for an M1/M2 to force a Komusubi slot, or null for any other rank/number. */
+export const maegashiraForceWinsNeeded = (r) => {
+  if (r.rank !== 'M') return null;
+  if (r.num === 1) return M1_FORCE_WINS;
+  if (r.num === 2) return M2_FORCE_WINS;
+  return null;
+};
+export const maegashiraForceMet = (r) => {
+  const need = maegashiraForceWinsNeeded(r);
+  return need != null && r.wins >= need;
+};
 
 // The highest slot the score system can reach. Ozeki/Yokozuna promotion is decided on other
 // criteria, so a Sekiwake whose score would carry them past the top of Sekiwake stops here.
@@ -58,7 +72,11 @@ export function idealPlacements(basho, placed, rowCounts) {
   // An 11+ win Komusubi forces a new Sekiwake slot regardless of vacancies, so it is placed
   // alongside a demoted Ozeki rather than left in the candidates row like a lesser Komusubi score.
   const forcedToS = active.filter((r) => komusubiForceMet(r));
-  const special = new Set([...promotedToY, ...demotedToS, ...promotedToO, ...forcedToS].map((r) => r.key));
+  // Same rule one rank down: an M1/M2 clearing their (lower) win bar forces a Komusubi slot.
+  const forcedToK = active.filter((r) => maegashiraForceMet(r));
+  const special = new Set(
+    [...promotedToY, ...demotedToS, ...promotedToO, ...forcedToS, ...forcedToK].map((r) => r.key),
+  );
 
   // Everyone else below Yokozuna/Ozeki moves by their net score, one rank number per point (E/W
   // is a half step), chained across rank types the same way the rank-change column counts them.
@@ -90,6 +108,7 @@ export function idealPlacements(basho, placed, rowCounts) {
   fillRank('Y', [...incumbents('Y'), ...promotedToY]);
   fillRank('O', [...incumbents('O'), ...promotedToO]);
   fillRank('S', [...demotedToS, ...forcedToS]);
+  fillRank('K', forcedToK);
   return { placements, rowCounts: rows };
 }
 
