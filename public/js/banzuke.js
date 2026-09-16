@@ -26,13 +26,6 @@ const h = (tag, attrs = {}, ...children) => {
   return el;
 };
 
-// A simple trophy glyph as an inline SVG (colored via CSS `color`/currentColor) rather than the
-// 🏆 emoji, whose fill is baked into the glyph and ignores CSS color.
-const TROPHY_SVG = '<svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor" aria-hidden="true">'
-  + '<path d="M6 3h12v2h2a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4h-.06A6 6 0 0 1 13 15.9V18h3v2H8v-2h3v-2.1A6 6 0 0 1 '
-  + '7.06 11H7a4 4 0 0 1-4-4V6a1 1 0 0 1 1-1h2V3zm-2 4v1a2 2 0 0 0 2 2 8.96 8.96 0 0 1-.6-3H4zm16 0h-1.4a8.96 '
-  + '8.96 0 0 1-.6 3 2 2 0 0 0 2-2V7z"/></svg>';
-
 function chip(r, { placed = false, dest = null, draggable = true, kind = null } = {}) {
   const el = h('div', {
     class: `chip${placed ? ' placed' : ''}${r.retired ? ' retired' : ''}${kind ? ` kind-${kind}` : ''}`,
@@ -56,17 +49,13 @@ function badges(r) {
   const tag = (cls, text, title, met) => out.push(h('span', {
     class: `tag ${cls}${met == null ? '' : met ? ' tag-met' : ' tag-missed'}`, text, title,
   }));
-  if (r.yusho) {
-    const el = h('span', { class: 'tag tag-yusho', title: 'Tournament winner' });
-    el.innerHTML = TROPHY_SVG;
-    out.push(el);
-  }
+  if (r.yusho) tag('tag-yusho', '🏆', 'Tournament winner');
   if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban Ozeki: a losing record this tournament results in demotion`, !kadobanFailed(r));
-  if (r.tsunatori) tag('tag-tsunatori', '→Y', 'Yokozuna run: tournament win or win-equivalent as Ozeki in the previous basho; another this tournament yields eligibility for promotion', tsunatoriMet(r));
+  if (r.tsunatori) tag('tag-tsunatori', '→Y', 'Yokozuna run: tournament win or win-equivalent as ozeki in the previous basho; another this tournament yields eligibility for promotion', tsunatoriMet(r));
   if (r.ozeki_return) tag('tag-ozeki-return', `↩O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, ozekiReturnMet(r));
   if (r.ozeki_run != null) {
     const need = ozekiRunNeeded(r);
-    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} more wins reach the ${OZEKI_TARGET} over three basho at sanyaku required for promotion`, ozekiRunMet(r));
+    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} wins this basho reaches the target ${OZEKI_TARGET} wins over three basho at sanyaku typically required for promotion`, ozekiRunMet(r));
   }
   if (r.retired) tag('tag-retired', 'Retired', 'Retired');
   return out;

@@ -137,7 +137,7 @@ td.rikishi .line { justify-content: flex-start; }
 .chip.selected { background: var(--selected); border-color: #60a5fa; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; white-space: nowrap; }
 /* Indicator badges (badges() in banzuke.js): neutral by default, then green/red once the result decides them. */
-.tag-yusho { background: none; color: #9aa0a8; padding: 0; display: inline-flex; align-items: center; }
+.tag-yusho { background: none; padding: 0; font-size: 13px; line-height: 14px; }
 .tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
 .tag-met { background: var(--up-bg); color: var(--up); }
 .tag-missed { background: var(--down-bg); color: var(--down); }
