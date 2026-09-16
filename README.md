@@ -25,13 +25,13 @@ sumo-api.com ┘                                                                
   - `js/dnd.js` — HTML5 drag-and-drop plus a tap-to-select fallback for touch devices.
   - `js/storage.js` — saves the guess in `localStorage` (one entry per basho) so it survives a reload.
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json`, plus optional
-    hand-edited `overrides/YYYYMM.json` (see *Indicators*).
+    hand-edited `overrides/YYYYMM.json` (see *Special Statuses*).
 - `scraper/` — Python package that produces `public/data`.
   - `schedule.py` — parses the [tournament schedule](https://www.sumo.or.jp/EnTicket/year_schedule/).
   - `official.py` — banzuke + results from the [sumo.or.jp](https://www.sumo.or.jp/EnHonbashoBanzuke/index/)
     JSON endpoints (the site only exposes the *current* basho).
   - `sumoapi.py` — fallback/bootstrap from [sumo-api.com](https://sumo-api.com/), which has full history.
-  - `annotate.py` — the rank-change indicators, computed from the previous two basho (see *Indicators*).
+  - `annotate.py` — the special-status flags, computed from the previous two basho (see *Special Statuses*).
   - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `annotate --basho YYYYMM`, `schedule`.
 - `.github/workflows/update-data.yml` — runs `scraper.cli update` every night at 00:10 JST.
   It refreshes the schedule, and if a tournament finished the day before and its data is
@@ -56,19 +56,19 @@ python -m scraper.cli update --force --source official   # re-fetch from sumo.or
 python -m scraper.cli annotate --basho 202607     # recompute the indicators of an existing file
 ```
 
-## Indicators
+## Special Statuses
 
 Each rikishi in `basho/YYYYMM.json` carries flags that the banzuke committee weighs but the score
 system does not, shown as badges on the chip (the Legend box lists them):
 
 | field | badge | meaning |
 |---|---|---|
-| `yusho` | ★ | division champion (Makuuchi and Juryo) |
-| `kadoban` | KB | Ozeki with a make-koshi last basho; fewer than 8 wins drops them to Sekiwake |
-| `tsunatori` | →Y | Ozeki with the yusho or a jun-yusho as Ozeki last basho; the yusho promotes them |
-| `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins |
-| `ozeki_return` | ↩O 10 | Sekiwake who was Ozeki last basho; 10 wins regain the rank |
-| `retired` | intai | announced retirement |
+| `yusho` | 🏆 | tournament winner (Makuuchi and Juryo) |
+| `kadoban` | KB | kadoban Ozeki: a losing record this tournament results in demotion |
+| `tsunatori` | →Y | Yokozuna run: tournament win or win-equivalent as Ozeki last basho; another this tournament yields eligibility for promotion |
+| `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins, the target for promotion |
+| `ozeki_return` | ↩O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
+| `retired` | Retired | announced retirement |
 
 `scraper/annotate.py` computes them when a basho is saved, from the previous basho files in
 `public/data` or, when missing, from sumo-api.com (also the source of the yusho). It runs again

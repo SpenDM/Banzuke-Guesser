@@ -49,15 +49,15 @@ function badges(r) {
   const tag = (cls, text, title, met) => out.push(h('span', {
     class: `tag ${cls}${met == null ? '' : met ? ' tag-met' : ' tag-missed'}`, text, title,
   }));
-  if (r.yusho) tag('tag-yusho', '★', 'Yusho (division champion)');
-  if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban: make-koshi last basho; fewer than ${KACHI_KOSHI} wins loses the Ozeki rank`, !kadobanFailed(r));
-  if (r.tsunatori) tag('tag-tsunatori', '→Y', 'Yokozuna promotion candidate: yusho or jun-yusho as Ozeki last basho', tsunatoriMet(r));
-  if (r.ozeki_return) tag('tag-ozeki-return', `↩O ${OZEKI_RETURN_WINS}`, `Demoted Ozeki: ${OZEKI_RETURN_WINS} wins regain the rank`, ozekiReturnMet(r));
+  if (r.yusho) tag('tag-yusho', '🏆', 'Tournament winner');
+  if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban Ozeki: a losing record this tournament results in demotion`, !kadobanFailed(r));
+  if (r.tsunatori) tag('tag-tsunatori', '→Y', 'Yokozuna run: tournament win or win-equivalent as Ozeki in the previous basho; another this tournament yields eligibility for promotion', tsunatoriMet(r));
+  if (r.ozeki_return) tag('tag-ozeki-return', `↩O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, ozekiReturnMet(r));
   if (r.ozeki_run != null) {
     const need = ozekiRunNeeded(r);
-    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${r.ozeki_run} wins over the previous two sanyaku basho, ${need} more needed for ${OZEKI_TARGET}`, ozekiRunMet(r));
+    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} more wins reach the ${OZEKI_TARGET} over three basho at sanyaku required for promotion`, ozekiRunMet(r));
   }
-  if (r.retired) tag('tag-retired', 'intai', 'Retired');
+  if (r.retired) tag('tag-retired', 'Retired', 'Retired');
   return out;
 }
 
