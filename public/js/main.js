@@ -15,7 +15,7 @@ function formatDate(iso) {
 function renderHeader(basho) {
   $('#basho-name').textContent = basho.name;
   const next = basho.next;
-  $('#guess-name').textContent = next ? next.name : 'next tournament';
+  $('#guess-name').textContent = next ? next.name : 'Next';
   $('#subtitle').textContent = next
     ? `Guess the ${next.name} banzuke (announced ${formatDate(next.banzuke_date)}, day 1 ${formatDate(next.start_date)}) from the ${basho.name} results.`
     : `Guess the next banzuke from the ${basho.name} results.`;
