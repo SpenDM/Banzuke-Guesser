@@ -18,7 +18,7 @@ sumo-api.com ┘                                                                
 
 - `public/` — the site. Plain HTML/CSS/ES modules, no build step.
   - `js/rank.js` — rank model and rank-change calculation.
-  - `js/promote.js` — "Apply Ideal Promotions": a first-pass placement of every unplaced rikishi by net
+  - `js/promote.js` — "Apply Ideal Rank Changes": a first-pass placement of every unplaced rikishi by net
     score and by the rank-change indicators.
   - `js/state.js` — guess state (rikishi → slot), guess-table rows.
   - `js/banzuke.js` — renders the previous and guess banzuke tables.
@@ -100,7 +100,7 @@ If it does, re-enable the workflow from the Actions tab.
 
 ## Tools
 
-- **Apply Ideal Promotions** places every rikishi you have not placed yet (placed ones are left
+- **Apply Ideal Rank Changes** places every rikishi you have not placed yet (placed ones are left
   alone) by their net score, one rank number per point with East/West as half steps, so a 9-6 at
   M5E lands on M2E. Absences count as losses. Demotions chain into the next rank type down the
   same way the Change column counts them. Anyone whose score would carry them up into a higher

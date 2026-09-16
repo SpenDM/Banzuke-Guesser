@@ -1,4 +1,4 @@
-// "Apply Ideal Promotions": a first-pass guess for every rikishi not yet placed, moving each
+// "Apply Ideal Rank Changes": a first-pass guess for every rikishi not yet placed, moving each
 // one by their net score and leaving conflicts (shared slots, promotion candidates) to the user.
 // Moves at the top of the banzuke that are decided outside the score system (Yokozuna/Ozeki
 // promotion, Ozeki demotion) use the indicators computed by the scraper (see rikishi flags).
