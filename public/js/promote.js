@@ -1,7 +1,8 @@
 // "Apply Ideal Promotions": a first-pass guess for every rikishi not yet placed, moving each
 // one by their net score and leaving conflicts (shared slots, promotion candidates) to the user.
 import {
-  CANDIDATE_RANKS, RANK_ORDER, buildLadder, candidateSlotId, ladderPosition, ladderSlot, positionWithinType, slotId,
+  CANDIDATE_RANKS, DEMOTION_SLOT, RANK_ORDER, buildLadder, candidateSlotId, ladderPosition, ladderSlot, positionWithinType,
+  slotId,
 } from './rank.js';
 
 // Absences count as losses, as they do for the real banzuke: 7-7-1 is a make-koshi (-1).
@@ -52,11 +53,14 @@ function scoreSlot(ladder, r) {
   const dest = ladderSlot(ladder, target);
   const fromIndex = RANK_ORDER.indexOf(r.rank);
 
-  // Same type, or demoted into a lower one: the slot the score points at.
-  if (dest && RANK_ORDER.indexOf(dest.rank) >= fromIndex) return slotId(dest.rank, dest.num, dest.side);
-  // Off the bottom of Juryo: the lowest Juryo slot.
-  if (!dest && target > from) {
-    const nums = ladder.sorted.J;
+  // Same type, or demoted into a lower one: the slot the score points at, except that a
+  // Makuuchi rikishi who would drop into Juryo becomes a demotion candidate instead.
+  const demoted = dest ? RANK_ORDER.indexOf(dest.rank) >= fromIndex : target > from;
+  if (demoted) {
+    const intoJuryo = !dest || dest.rank === 'J';
+    if (intoJuryo && r.rank !== 'J') return DEMOTION_SLOT;
+    if (dest) return slotId(dest.rank, dest.num, dest.side);
+    const nums = ladder.sorted.J; // off the bottom of Juryo: the lowest Juryo slot
     return nums.length ? slotId('J', nums.at(-1), 'W') : null;
   }
   // Would rise into a higher type. Komusubi/Maegashira/Juryo go to the candidates row between

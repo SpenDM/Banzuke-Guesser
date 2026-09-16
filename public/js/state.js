@@ -1,6 +1,6 @@
 // Guess state: which slot each rikishi has been dragged to, plus the guess-table row layout.
 import {
-  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateSlotId, parseSlot, slotId,
+  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateRowSlots, parseSlot, slotId,
 } from './rank.js';
 import { idealPlacements } from './promote.js';
 
@@ -84,7 +84,7 @@ export class GuessState extends EventTarget {
 
   /**
    * Guess-table rows in order: {rank, num} for numbered rows, plus {rank, candidates: true}
-   * right after a type's numbered rows whenever its promotion-candidates row has occupants
+   * right after a type's numbered rows whenever any slot of its candidates row has occupants
    * (so the row disappears as soon as the last candidate is moved out).
    */
   rows() {
@@ -92,7 +92,7 @@ export class GuessState extends EventTarget {
     const slots = new Set(this.guesses.values());
     for (const rank of ['Y', 'O', 'S', 'K', 'M', 'J']) {
       for (let num = 1; num <= this.rowCounts[rank]; num++) out.push({ rank, num });
-      if (CANDIDATE_RANKS.includes(rank) && slots.has(candidateSlotId(rank))) out.push({ rank, candidates: true });
+      if (CANDIDATE_RANKS.includes(rank) && candidateRowSlots(rank).some((s) => slots.has(s))) out.push({ rank, candidates: true });
     }
     return out;
   }

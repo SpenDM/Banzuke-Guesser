@@ -1,6 +1,6 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
-import { rankChange, parseSlot, compareSlots, buildLadder, DEFAULT_GUESS_ROWS } from '../../public/js/rank.js';
+import { rankChange, parseSlot, compareSlots, buildLadder, slotName, DEFAULT_GUESS_ROWS } from '../../public/js/rank.js';
 
 const s = (id) => parseSlot(id);
 
@@ -51,6 +51,19 @@ test('a vacant row does not count toward the crossing distance', () => {
   assert.equal(rankChange(s('S1E'), s('K1E'), populated).sub, '-2.0');
   // With Sekiwake 2 empty, that row no longer adds to the distance.
   assert.equal(rankChange(s('S1E'), s('K1E'), vacant).sub, '-1.0');
+});
+
+test('candidates slots parse, render and sort', () => {
+  assert.deepEqual(parseSlot('^K'), { rank: 'K', candidates: 'up' });
+  assert.deepEqual(parseSlot('vJ'), { rank: 'J', candidates: 'down' });
+  assert.equal(slotName('^K'), '↑K');
+  assert.equal(slotName('vJ'), '↓J');
+  assert.equal(rankChange(s('M2E'), parseSlot('^K')).text, '↑M');
+  assert.equal(rankChange(s('M16W'), parseSlot('vJ')).text, '↓M');
+  assert.equal(rankChange(s('M16W'), parseSlot('vJ')).kind, 'down');
+  const ids = ['J1E', 'vJ', '^M', 'M17W', '^K', 'K1E'];
+  assert.deepEqual(ids.map(parseSlot).sort(compareSlots).map((x) => x.candidates ? slotName(x.candidates === 'up' ? `^${x.rank}` : 'vJ') : `${x.rank}${x.num}${x.side}`),
+    ['K1E', '↑K', 'M17W', '↑M', '↓J', 'J1E']);
 });
 
 test('without a ladder, a cross-type move has no numeric suffix', () => {

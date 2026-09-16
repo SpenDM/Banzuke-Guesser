@@ -26,28 +26,37 @@ export function slotId(rank, num, side) {
   return `${rank}${num}${side}`;
 }
 
-// Promotion-candidates row: a temporary guess row shown right below rank type `rank`'s
-// numbered rows (between it and the type beneath) holding rikishi whose result would carry
-// them up into `rank`. It exists only while someone occupies it. Ozeki/Yokozuna promotion is
-// decided outside the score system, so there is no candidates row for those.
+// Candidates rows: a temporary guess row shown right below rank type `rank`'s numbered rows
+// (between it and the type beneath). Its left half ("^S", "^K", "^M") holds rikishi whose result
+// would carry them up into `rank`; the Maegashira/Juryo row's right half ("vJ") holds Makuuchi
+// rikishi whose result would drop them into Juryo. A row exists only while someone occupies it.
+// Ozeki/Yokozuna promotion is decided outside the score system, so there is no row for those.
 export const CANDIDATE_RANKS = ['S', 'K', 'M'];
 export const candidateSlotId = (rank) => `^${rank}`;
+export const DEMOTION_SLOT = 'vJ';
+/** Every slot id that lives in rank type `rank`'s candidates row. */
+export const candidateRowSlots = (rank) => (rank === 'M' ? [candidateSlotId('M'), DEMOTION_SLOT] : [candidateSlotId(rank)]);
 
 const SLOT_RE = /^([YOSKMJ])(\d+)([EW])$/;
 const CANDIDATE_RE = /^\^([SKM])$/;
-/** Parses a slot id into {rank, num, side}, or {rank, candidates: true} for a candidates row. */
+/**
+ * Parses a slot id into {rank, num, side}, or {rank, candidates: 'up' | 'down'} for a
+ * candidates slot (`rank` being the type it would move into).
+ */
 export function parseSlot(id) {
+  if (id === DEMOTION_SLOT) return { rank: 'J', candidates: 'down' };
   const c = CANDIDATE_RE.exec(id);
-  if (c) return { rank: c[1], candidates: true };
+  if (c) return { rank: c[1], candidates: 'up' };
   const m = SLOT_RE.exec(id);
   if (!m) throw new Error(`bad slot id: ${id}`);
   return { rank: m[1], num: Number(m[2]), side: m[3] };
 }
 
-/** Human-readable slot id: numbered slots as-is ("M2E"), a candidates row as "↑K". */
+/** Human-readable slot id: numbered slots as-is ("M2E"), a candidates slot as "↑K" / "↓J". */
 export function slotName(id) {
   const s = parseSlot(id);
-  return s.candidates ? `↑${s.rank}` : id;
+  if (!s.candidates) return id;
+  return `${s.candidates === 'up' ? '↑' : '↓'}${s.rank}`;
 }
 
 export function rowLabel(rank, num) {
@@ -63,8 +72,12 @@ export function positionWithinType(num, side) {
   return num * 2 + (side === 'W' ? 1 : 0);
 }
 
-// A candidates row sorts after every numbered row of its rank type.
-const slotPosition = (s) => (s.candidates ? Infinity : positionWithinType(s.num, s.side));
+// A promotion-candidates slot sorts after every numbered row of its rank type; the demotion
+// slot (candidates for Juryo) sits above Juryo's numbered rows.
+const slotPosition = (s) => {
+  if (s.candidates) return s.candidates === 'up' ? Infinity : -Infinity;
+  return positionWithinType(s.num, s.side);
+};
 
 export function compareSlots(a, b) {
   const ra = RANK_ORDER.indexOf(a.rank), rb = RANK_ORDER.indexOf(b.rank);
@@ -123,14 +136,15 @@ export function ladderSlot(ladder, pos) {
  * Different type -> the ORIGIN type with an arrow, e.g. "↓S" for a Sekiwake demoted to
  * Komusubi, plus (when `ladder` is given) a fainter half-step count chained across the
  * intervening types, counting only rows actually occupied in `ladder` (see buildLadder).
- * A candidates row (`to.candidates`) has no fixed position, so it just shows "↑M".
+ * A candidates slot (`to.candidates`) has no fixed position, so it just shows "↑M" or "↓M".
  * Returns { text, value, kind, main, sub }: `kind` is 'up' | 'down' | 'same'; `main` is the
  * primary colored text; `sub` is the fainter suffix, or null for a same-type move.
  */
 export function rankChange(from, to, ladder) {
   if (to.candidates) {
-    const main = `↑${from.rank}`;
-    return { text: main, value: null, kind: 'up', main, sub: null };
+    const kind = to.candidates;
+    const main = `${kind === 'up' ? '↑' : '↓'}${from.rank}`;
+    return { text: main, value: null, kind, main, sub: null };
   }
   if (from.rank === to.rank) {
     const value = (positionWithinType(from.num, from.side) - positionWithinType(to.num, to.side)) / 2;

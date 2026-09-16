@@ -75,8 +75,9 @@ If it does, re-enable the workflow from the Actions tab.
   M5E lands on M2E. Absences count as losses. Demotions chain into the next rank type down the
   same way the Change column counts them. Anyone whose score would carry them up into a higher
   rank type is put in a temporary "↑" candidates row just below that type, for you to sort into
-  the open slots; the row disappears once its last occupant is moved out. Sekiwake who would
-  mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only re-ordered within
+  the open slots; the row disappears once its last occupant is moved out. The right half of the
+  Maegashira/Juryo candidates row (red) holds Makuuchi rikishi whose score would drop them into
+  Juryo. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only re-ordered within
   their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
 - **Reset** clears every guess.
 

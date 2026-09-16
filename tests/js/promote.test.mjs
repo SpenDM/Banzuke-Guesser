@@ -53,12 +53,20 @@ test('rising into a higher type goes to the candidates row for the type above; S
 });
 
 test('demotions cross into the next type down the same way the Change column counts them', () => {
-  const p = ideal(makeBasho({ K1W: rec(5, 10), S1W: rec(6, 9), M17W: rec(6, 9), M16E: rec(0, 0, 15), J14W: rec(3, 12) }));
+  const p = ideal(makeBasho({ K1W: rec(5, 10), S1W: rec(6, 9), J2E: rec(5, 10), J14W: rec(3, 12) }));
   assert.equal(p.get('k1w'), 'M5W');   // -5 = 10 half steps: K1W -> M1E is the first
   assert.equal(p.get('s1w'), 'M1W');   // -3: S2E, S2W, K1E, K1W, M1E, M1W
-  assert.equal(p.get('m17w'), 'J3W');
+  assert.equal(p.get('j2e'), 'J7E');   // -5 = 10 half steps
   assert.equal(p.get('j14w'), 'J14W'); // off the bottom of Juryo: lowest Juryo slot
-  assert.equal(p.get('m16e'), 'J14E'); // full absence: -15 from M16E
+});
+
+test('Makuuchi rikishi who would drop into Juryo become demotion candidates instead', () => {
+  const p = ideal(makeBasho({ M17W: rec(6, 9), M16E: rec(0, 0, 15), M15E: rec(2, 13), M16W: rec(7, 8) }));
+  assert.equal(p.get('m17w'), 'vJ');
+  assert.equal(p.get('m16e'), 'vJ');   // full absence: way off the bottom
+  assert.equal(p.get('m15e'), 'vJ');
+  assert.equal(p.get('m17e'), 'vJ');   // -1 from M17E is J1E
+  assert.equal(p.get('m16w'), 'M17W'); // -1 from M16W stays in Maegashira
 });
 
 test('Yokozuna and Ozeki are re-ordered within their rank by wins, previous order breaking ties', () => {
@@ -96,7 +104,14 @@ test('GuessState.applyIdealPromotions places everyone and shows a candidates row
   assert.deepEqual(kRows.at(-1), { rank: 'K', candidates: true });
   assert.equal(rows.some((r) => r.rank === 'S' && r.candidates), false);
   s.place('m1e', 'K1E');
-  assert.equal(s.rows().some((r) => r.candidates), false);
+  assert.equal(s.rows().some((r) => r.rank === 'K' && r.candidates), false);
+  // the Maegashira row is shown for either half, and sits right before Juryo
+  const d = new GuessState(makeBasho());
+  d.place('m17w', 'vJ');
+  const mRows = d.rows();
+  assert.deepEqual(mRows[mRows.findIndex((r) => r.rank === 'J') - 1], { rank: 'M', candidates: true });
+  d.remove('m17w');
+  assert.equal(d.rows().some((r) => r.candidates), false);
   // round-trips through the snapshot
   const b = new GuessState(makeBasho({ M1E: rec(9, 6) }));
   s.place('m1e', '^K');

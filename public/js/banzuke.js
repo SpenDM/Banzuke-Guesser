@@ -1,7 +1,7 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
 import {
   RANK_NAMES, DIVISION_OF, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
-  buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
+  DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
 } from './rank.js';
 
 const rankRowClass = (rank, num) => {
@@ -125,33 +125,49 @@ export function renderGuess(table, state) {
   );
 }
 
-/** The four cells of one side (or of a candidates row): Cur Rank | East/West | Result | Change */
-function sideCells(state, id, to, ladder, extraClass = '') {
+/**
+ * The four cells of one side (or one half of a candidates row): Cur Rank | East/West | Result |
+ * Change. `placeholder` is muted text shown in the rikishi cell while the slot is empty.
+ */
+function sideCells(state, id, to, ladder, { extraClass = '', title = null, placeholder = null } = {}) {
   const occupants = state.occupants(id);
   const cls = `slot${extraClass}${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[to.rank] === 'makuuchi' ? ' empty' : ''}`;
   const stack = (fn) => h('div', { class: 'stack' }, occupants.map((r) => h('div', { class: 'line' }, fn(r))));
   const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to, ladder);
+  const rikishiStack = stack((r) => chip(r, { kind: changeOf(r).kind }));
+  if (!occupants.length && placeholder) rikishiStack.append(h('div', { class: 'line placeholder', text: placeholder }));
   return [
-    h('td', { class: `${cls} cur-rank`, dataSlot: id }, stack((r) => h('span', { text: `${r.rank}${r.num}${r.side}` }))),
-    h('td', { class: `${cls} rikishi`, dataSlot: id }, stack((r) => chip(r, { kind: changeOf(r).kind }))),
-    h('td', { class: `${cls} result`, dataSlot: id }, stack((r) => h('span', { text: r.record }))),
-    h('td', { class: `${cls} change-cell`, dataSlot: id }, stack((r) => changeSpan(changeOf(r)))),
+    h('td', { class: `${cls} cur-rank`, dataSlot: id, title }, stack((r) => h('span', { text: `${r.rank}${r.num}${r.side}` }))),
+    h('td', { class: `${cls} rikishi`, dataSlot: id, title }, rikishiStack),
+    h('td', { class: `${cls} result`, dataSlot: id, title }, stack((r) => h('span', { text: r.record }))),
+    h('td', { class: `${cls} change-cell`, dataSlot: id, title }, stack((r) => changeSpan(changeOf(r)))),
   ];
 }
 
 /**
- * The temporary "↑" row below a rank type holding rikishi whose result would carry them up
- * into it. The whole row is one drop target; the right half just explains what it is for.
+ * The temporary "↑" row below a rank type. Its left half (green) holds rikishi whose result
+ * would carry them up into that type. On the Sekiwake/Komusubi rows the right half just says
+ * what the row is; on the Maegashira row it is a second drop target (red) for Makuuchi rikishi
+ * whose result would drop them into Juryo.
  */
 function candidatesRow(state, rank, ladder) {
-  const id = candidateSlotId(rank);
-  const to = { rank, candidates: true };
-  return h('tr', { class: 'candidates' },
-    ...sideCells(state, id, to, ladder, ' candidates'),
-    h('td', { class: 'rank', title: `Promotion candidates for ${RANK_NAMES[rank]}` }, h('span', { text: '↑' })),
-    h('td', { class: 'slot candidates note', colspan: 4, dataSlot: id },
-      h('span', { text: `Promotion candidates for ${RANK_NAMES[rank]} — drag each one into a slot above.` })),
-  );
+  const upId = candidateSlotId(rank);
+  const upTitle = `Promotion candidates for ${RANK_NAMES[rank]}`;
+  const left = sideCells(state, upId, { rank, candidates: 'up' }, ladder, {
+    extraClass: ' candidates promotion', title: upTitle, placeholder: upTitle,
+  });
+  const rankCell = h('td', { class: 'rank' }, h('span', { class: 'up', title: upTitle, text: '↑' }));
+  let right;
+  if (rank === 'M') {
+    const downTitle = `Demotion candidates for ${RANK_NAMES.J}`;
+    rankCell.append(h('span', { class: 'down', title: downTitle, text: '↓' }));
+    right = sideCells(state, DEMOTION_SLOT, { rank: 'J', candidates: 'down' }, ladder, {
+      extraClass: ' candidates demotion', title: downTitle, placeholder: downTitle,
+    });
+  } else {
+    right = [h('td', { class: 'slot candidates promotion note', colspan: 4, dataSlot: upId }, h('span', { text: upTitle }))];
+  }
+  return h('tr', { class: 'candidates' }, ...left, rankCell, ...right);
 }
 
 export function renderSummary(el, state) {
