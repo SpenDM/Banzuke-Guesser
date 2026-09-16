@@ -13,6 +13,9 @@ export const netScore = (r) => r.wins - r.losses - (r.absences || 0);
 export const KACHI_KOSHI = 8;
 export const OZEKI_TARGET = 33;      // wins over three sanyaku basho for Ozeki promotion
 export const OZEKI_RETURN_WINS = 10; // a just-demoted Ozeki regains the rank with this many
+// The modern de facto benchmark: a Komusubi with this many wins forces the JSA to open an
+// extra Sekiwake slot, promoted regardless of whether an existing slot is vacant.
+export const KOMUSUBI_FORCE_WINS = 11;
 
 // Indicator outcomes, shared by the placement below and the chip badges.
 /** Wins still needed this basho to reach the Ozeki target, or null when not on a run. */
@@ -21,6 +24,7 @@ export const ozekiRunMet = (r) => r.ozeki_run != null && r.wins >= ozekiRunNeede
 export const ozekiReturnMet = (r) => !!r.ozeki_return && r.wins >= OZEKI_RETURN_WINS;
 export const tsunatoriMet = (r) => !!r.tsunatori && !!r.yusho;
 export const kadobanFailed = (r) => !!r.kadoban && r.wins < KACHI_KOSHI;
+export const komusubiForceMet = (r) => r.rank === 'K' && r.wins >= KOMUSUBI_FORCE_WINS;
 
 // The highest slot the score system can reach. Ozeki/Yokozuna promotion is decided on other
 // criteria, so a Sekiwake whose score would carry them past the top of Sekiwake stops here.
@@ -51,7 +55,10 @@ export function idealPlacements(basho, placed, rowCounts) {
     ...active.filter((r) => r.rank === 'S' && ozekiReturnMet(r)),
     ...active.filter((r) => r.rank === 'S' && !ozekiReturnMet(r) && ozekiRunMet(r)),
   ];
-  const special = new Set([...promotedToY, ...demotedToS, ...promotedToO].map((r) => r.key));
+  // An 11+ win Komusubi forces a new Sekiwake slot regardless of vacancies, so it is placed
+  // alongside a demoted Ozeki rather than left in the candidates row like a lesser Komusubi score.
+  const forcedToS = active.filter((r) => komusubiForceMet(r));
+  const special = new Set([...promotedToY, ...demotedToS, ...promotedToO, ...forcedToS].map((r) => r.key));
 
   // Everyone else below Yokozuna/Ozeki moves by their net score, one rank number per point (E/W
   // is a half step), chained across rank types the same way the rank-change column counts them.
@@ -82,7 +89,7 @@ export function idealPlacements(basho, placed, rowCounts) {
   };
   fillRank('Y', [...incumbents('Y'), ...promotedToY]);
   fillRank('O', [...incumbents('O'), ...promotedToO]);
-  fillRank('S', demotedToS);
+  fillRank('S', [...demotedToS, ...forcedToS]);
   return { placements, rowCounts: rows };
 }
 

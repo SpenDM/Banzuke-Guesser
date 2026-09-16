@@ -173,6 +173,19 @@ test('Sekiwake completing an Ozeki run or regaining Ozeki move to the next open 
   assert.equal(t.slotOf('s1e'), 'O2E');
 });
 
+test('a Komusubi with 11+ wins forces a new Sekiwake slot even when both existing slots are filled', () => {
+  const p = ideal(makeBasho({ K1E: rec(11, 4), S1E: rec(7, 7), S1W: rec(7, 7), S2E: rec(7, 7), S2W: rec(7, 7) }));
+  assert.equal(p.get('k1e'), 'S3E');  // both S rows already filled by the score placements: S3 is added
+  // 10 wins is not enough: stays on the score system as a candidate
+  const short = ideal(makeBasho({ K1E: rec(10, 5) }));
+  assert.equal(short.get('k1e'), '^S');
+  const s = new GuessState(makeBasho({ K1W: rec(12, 3), O1E: { kadoban: true, ...rec(5, 10) } }));
+  s.applyIdealPromotions();
+  assert.equal(s.rowCounts.S, 2);
+  assert.equal(s.slotOf('o1e'), 'S1E');   // the demoted Ozeki fills the open slot first
+  assert.equal(s.slotOf('k1w'), 'S1W');   // the force-promoted Komusubi takes the other
+});
+
 test('retired rikishi are skipped even when an indicator would move them', () => {
   const p = ideal(makeBasho({ O1E: { retired: true, tsunatori: true, yusho: true, ...rec(13, 2) }, Y1E: { retired: true, ...rec(0, 0, 15) } }));
   assert.equal(p.has('o1e'), false);

@@ -70,7 +70,12 @@ system does not, shown as badges on the chip (the Legend box lists them):
 | `ozeki_return` | ↩O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
 | `retired` | Retired | announced retirement |
 
-`scraper/annotate.py` computes them when a basho is saved, from the previous basho files in
+One badge needs no flag, since it is decided by rank and this basho's result alone: a Komusubi
+with 11+ wins (`→S 11`) forces the JSA to open an extra Sekiwake slot regardless of vacancies.
+Unlike the flag-driven badges above, it only appears once met — there is no "still on a run" state
+to show beforehand.
+
+`scraper/annotate.py` computes the flags above when a basho is saved, from the previous basho files in
 `public/data` or, when missing, from sumo-api.com (also the source of the yusho). It runs again
 with `annotate --basho YYYYMM`, e.g. if the nightly fetch ran before sumo-api.com recorded the yusho.
 
@@ -112,7 +117,9 @@ If it does, re-enable the workflow from the Actions tab.
   The indicators override the score at the top: a `↩O 10` Sekiwake with 10+ wins, then a `→O n`
   Sekiwake with n+ wins, go to the next open Ozeki slot below the sitting Ozeki; a `→Y` Ozeki with the
   yusho goes to the next open Yokozuna slot; a `KB` Ozeki with fewer than 8 wins goes to the first
-  Sekiwake slot the score placements left open. A rank without an open slot gets a row added (up to 3).
+  Sekiwake slot the score placements left open; a Komusubi with 11+ wins (`→S 11`) goes to the next
+  open Sekiwake slot too, forcing one if none is open, rather than sitting in the candidates row like
+  a lesser Komusubi score. A rank without an open slot gets a row added (up to 3).
 - **Reset** clears every guess.
 
 ## Roadmap
