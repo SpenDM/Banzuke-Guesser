@@ -61,7 +61,7 @@ function badges(r) {
   // Unlike the indicators above (carried into the basho, shown met or missed), this one only
   // ever appears once it is already true: a Komusubi either force-promotes or it doesn't.
   if (komusubiForceMet(r)) {
-    tag('tag-komusubi-force', `→S ${KOMUSUBI_FORCE_WINS}`, `Komusubi force-promotion: ${KOMUSUBI_FORCE_WINS}+ wins as Komusubi is the modern benchmark that forces the JSA to open an extra Sekiwake slot`, true);
+    tag('tag-komusubi-force', `→S ${KOMUSUBI_FORCE_WINS}`, `New sekiwake slot forced by ${KOMUSUBI_FORCE_WINS}+ wins at komusubi even if no existing slot is available`, true);
   }
   if (r.retired) tag('tag-retired', 'Retired', 'Retired');
   return out;
