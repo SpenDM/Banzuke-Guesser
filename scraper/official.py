@@ -79,6 +79,7 @@ def rows_from_payloads(banzuke: dict, hoshitori: dict) -> list[RikishiRow]:
             retired=res["retired"],
             note=(entry.get("rank_new") or None),
             profile_url=PROFILE_URL.format(rikishi_id=rid),
+            rikishi_id=rid,
         ))
     return rows
 

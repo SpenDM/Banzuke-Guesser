@@ -79,6 +79,9 @@ to show beforehand.
 `scraper/annotate.py` computes the flags above when a basho is saved, from the previous basho files in
 `public/data` or, when missing, from sumo-api.com (also the source of the yusho). It runs again
 with `annotate --basho YYYYMM`, e.g. if the nightly fetch ran before sumo-api.com recorded the yusho.
+A rikishi is followed across basho by `rikishi_id` (the sumo.or.jp id; sumo-api.com's `nskId`), so
+a shikona change between two tournaments — usual on Ozeki promotion — does not lose their history;
+`key` (from the shikona) only identifies them *within* one basho file.
 
 Some of this is announced rather than derivable (a retirement after the data was fetched, a
 Yokozuna run the committee did or did not declare). Put corrections in

@@ -12,7 +12,16 @@ def test_parse_rank():
         sumoapi.parse_rank("Makushita 1 East")
 
 
-def test_rows_from_payload(fixture_json):
+@pytest.fixture
+def nsk_ids(monkeypatch):
+    """Stand in for the sumo-api.com rikishi list: api id 19 (Hoshoryu) -> nskId 3842, others unknown."""
+    monkeypatch.setattr(sumoapi, "_nsk_ids", {19: 3842})
+    # Anyone not on the list would be looked up individually; pretend that finds nothing.
+    monkeypatch.setattr(sumoapi, "_get", lambda url: {})
+    return sumoapi._nsk_ids
+
+
+def test_rows_from_payload(fixture_json, nsk_ids):
     rows = sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makuuchi.json"))
     assert len(rows) == 42
     by_name = {r.name: r for r in rows}
@@ -22,9 +31,36 @@ def test_rows_from_payload(fixture_json):
     assert by_name["Onosato"].record == "9-6"
     assert by_name["Hoshoryu"].record == "7-7-1"
     assert by_name["Hoshoryu"].profile_url is None
+    # The stable id comes from the api id -> nskId map; unknown ones are left unset, not guessed.
+    assert by_name["Hoshoryu"].rikishi_id == 3842
+    assert by_name["Onosato"].rikishi_id is None
 
 
-def test_full_basho_validates_cleanly(fixture_json):
+def test_rows_from_payload_can_skip_id_lookups(fixture_json, monkeypatch):
+    def boom(url):
+        raise AssertionError(f"unexpected request to {url}")
+    monkeypatch.setattr(sumoapi, "_nsk_ids", None)
+    monkeypatch.setattr(sumoapi, "_get", boom)
+    rows = sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makuuchi.json"), with_ids=False)
+    assert len(rows) == 42 and all(r.rikishi_id is None for r in rows)
+
+
+def test_nsk_id_for_falls_back_to_the_rikishi_record(monkeypatch):
+    calls = []
+
+    def fake_get(url):
+        calls.append(url)
+        return {"records": [{"id": 19, "nskId": 3842}, {"id": 2, "nskId": None}]} if "rikishis?" in url \
+            else {"id": 7, "nskId": 3600}
+    monkeypatch.setattr(sumoapi, "_nsk_ids", None)
+    monkeypatch.setattr(sumoapi, "_get", fake_get)
+    assert sumoapi.nsk_id_for(19) == 3842
+    assert sumoapi.nsk_id_for(7) == 3600     # retired since: not on the active list
+    assert sumoapi.nsk_id_for(7) == 3600     # ... and cached after the first lookup
+    assert calls == [sumoapi.RIKISHIS_URL, sumoapi.RIKISHI_URL.format(api_id=7)]
+
+
+def test_full_basho_validates_cleanly(fixture_json, nsk_ids):
     rows = sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makuuchi.json"))
     rows += sumoapi.rows_from_payload(fixture_json("sumoapi_202607_juryo.json"))
     basho = Basho(id="202607", name="July 2026", start_date="2026-07-12",

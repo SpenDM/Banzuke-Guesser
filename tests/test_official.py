@@ -34,6 +34,7 @@ def test_rows_join_results_by_rikishi_id(makuuchi_rows, fixture_json):
             expected[int(rid)] = (days["won_number"], days["lost_number"], days["rest_number"])
     for r in makuuchi_rows:
         rid = int(r.profile_url.rstrip("/").rsplit("/", 1)[1])
+        assert r.rikishi_id == rid
         assert (r.wins, r.losses, r.absences) == expected[rid]
     # Somebody was absent in this snapshot, so the record string gets a third component.
     absent = [r for r in makuuchi_rows if r.absences]

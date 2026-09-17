@@ -61,6 +61,9 @@ class RikishiRow:
     retired: bool = False
     note: str | None = None
     profile_url: str | None = None
+    # sumo.or.jp rikishi id (sumo-api.com's `nskId`). Unlike `key` it survives a shikona change,
+    # so annotate.py uses it to find the same rikishi in earlier basho. None when unknown.
+    rikishi_id: int | None = None
     # Indicators computed by annotate.py from the previous basho (all off by default).
     yusho: bool = False              # division champion
     jun_yusho: bool = False          # tied for the best Makuuchi record among non-champions this basho

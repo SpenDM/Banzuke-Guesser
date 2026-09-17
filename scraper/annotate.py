@@ -34,15 +34,36 @@ def jun_yusho_keys(rows: list[RikishiRow], yusho_keys: set[str]) -> set[str]:
     return {r.key for r in others if r.wins == best}
 
 
+def match_previous(rows: list[RikishiRow], prev: list[RikishiRow] | None) -> dict[str, RikishiRow]:
+    """key of each of `rows` -> the same rikishi's row in `prev` (absent when not found).
+
+    Matched by rikishi id wherever both rows carry one, so a shikona change between the two basho
+    (a different `key`) does not lose the rikishi; by key when either side lacks the id.
+    """
+    if not prev:
+        return {}
+    by_id = {r.rikishi_id: r for r in prev if r.rikishi_id is not None}
+    by_key = {r.key: r for r in prev}
+    out = {}
+    for r in rows:
+        last = by_id.get(r.rikishi_id) if r.rikishi_id is not None else None
+        if last is None:
+            last = by_key.get(r.key)
+        if last is not None:
+            out[r.key] = last
+    return out
+
+
 def annotate(basho: Basho, prev1: list[RikishiRow] | None, prev2: list[RikishiRow] | None,
              yusho_keys: set[str], prev1_yusho_keys: set[str]) -> None:
     """Set the indicator fields on `basho.rikishi` in place.
 
     `prev1` / `prev2` are the rows of the previous and the one-before-previous basho (None when
-    unknown); `yusho_keys` the champions of this basho, `prev1_yusho_keys` those of `prev1`.
+    unknown); `yusho_keys` the champions of this basho, `prev1_yusho_keys` those of `prev1`
+    (keyed by the shikona used *in* `prev1`, like its rows).
     """
-    p1 = {r.key: r for r in prev1} if prev1 else {}
-    p2 = {r.key: r for r in prev2} if prev2 else {}
+    p1 = match_previous(basho.rikishi, prev1)
+    p2 = match_previous(basho.rikishi, prev2)
     p1_jun = jun_yusho_keys(prev1, prev1_yusho_keys) if prev1 else set()
     this_jun = jun_yusho_keys(basho.rikishi, yusho_keys)
     for r in basho.rikishi:
@@ -53,8 +74,9 @@ def annotate(basho: Basho, prev1: list[RikishiRow] | None, prev2: list[RikishiRo
         last = p1.get(r.key)
         if r.rank == "O" and last and last.rank == "O":
             r.kadoban = last.wins < KACHI_KOSHI
-            r.tsunatori = r.key in prev1_yusho_keys or r.key in p1_jun
-            r.tsunatori_needs_yusho = r.key in p1_jun
+            # Looked up under last basho's key: the yusho and the rows of prev1 share its shikona.
+            r.tsunatori = last.key in prev1_yusho_keys or last.key in p1_jun
+            r.tsunatori_needs_yusho = last.key in p1_jun
         if r.rank == "S":
             before = p2.get(r.key)
             r.ozeki_return = bool(last and last.rank == "O")
@@ -71,9 +93,37 @@ def _rows_for(basho_id: str, data_dir: Path) -> list[RikishiRow]:
         sumoapi._get(sumoapi.BANZUKE_URL.format(basho_id=basho_id, division="Makuuchi")))
 
 
-def _yusho_for(basho_id: str) -> set[str]:
+def _yusho_for(basho_id: str) -> list[tuple[int | None, str]]:
+    """Champions of `basho_id` as (rikishi id, key) pairs.
+
+    sumo-api.com lists them under their *current* shikona (sometimes with the given name
+    appended), not the one on that banzuke, so the id is what identifies them; the key is the
+    fallback when the id is unknown.
+    """
     info = sumoapi._get(sumoapi.BASHO_URL.format(basho_id=basho_id))
-    return {make_key(y["shikonaEn"]) for y in info.get("yusho") or [] if y.get("type") in YUSHO_DIVISIONS}
+    winners = []
+    for y in info.get("yusho") or []:
+        if y.get("type") not in YUSHO_DIVISIONS:
+            continue
+        api_id = y.get("rikishiId")
+        rid = sumoapi.nsk_id_for(int(api_id)) if api_id else None
+        winners.append((rid, make_key(y["shikonaEn"].split()[0])))
+    return winners
+
+
+def yusho_keys_in(rows: list[RikishiRow] | None, winners: list[tuple[int | None, str]] | None) -> set[str]:
+    """Keys of the rows in `rows` that are `winners`: matched by rikishi id, else by key."""
+    if not rows or not winners:
+        return set()
+    by_id = {r.rikishi_id: r.key for r in rows if r.rikishi_id is not None}
+    keys = {r.key for r in rows}
+    found = set()
+    for rid, key in winners:
+        if rid is not None and rid in by_id:
+            found.add(by_id[rid])
+        elif key in keys:
+            found.add(key)
+    return found
 
 
 def apply(basho: Basho, data_dir: Path) -> None:
@@ -90,8 +140,8 @@ def apply(basho: Basho, data_dir: Path) -> None:
 
     prev1 = fetch(f"{prev1_id} banzuke", _rows_for, prev1_id, data_dir)
     prev2 = fetch(f"{prev2_id} banzuke", _rows_for, prev2_id, data_dir)
-    yusho = fetch(f"{basho.id} yusho", _yusho_for, basho.id) or set()
-    prev1_yusho = fetch(f"{prev1_id} yusho", _yusho_for, prev1_id) or set()
+    yusho = yusho_keys_in(basho.rikishi, fetch(f"{basho.id} yusho", _yusho_for, basho.id))
+    prev1_yusho = yusho_keys_in(prev1, fetch(f"{prev1_id} yusho", _yusho_for, prev1_id))
     if not yusho:
         log(f"warning: {basho.id} has no yusho recorded; run `annotate --basho {basho.id}` later")
     annotate(basho, prev1, prev2, yusho, prev1_yusho)

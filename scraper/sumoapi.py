@@ -2,12 +2,17 @@
 from __future__ import annotations
 
 import re
+import sys
+
+import requests
 
 from .http import session
 from .model import Basho, NotAvailable, RikishiRow, Tournament, make_key
 
 BASHO_URL = "https://sumo-api.com/api/basho/{basho_id}"
 BANZUKE_URL = "https://sumo-api.com/api/basho/{basho_id}/banzuke/{division}"
+RIKISHIS_URL = "https://sumo-api.com/api/rikishis?limit=1000"   # active rikishi only, ~600
+RIKISHI_URL = "https://sumo-api.com/api/rikishi/{api_id}"
 RANK_CODE = {"Yokozuna": "Y", "Ozeki": "O", "Sekiwake": "S", "Komusubi": "K",
              "Maegashira": "M", "Juryo": "J"}
 _RANK_RE = re.compile(r"^(Yokozuna|Ozeki|Sekiwake|Komusubi|Maegashira|Juryo) (\d+) (East|West)$")
@@ -31,12 +36,50 @@ def _get(url: str) -> dict:
     return data
 
 
-def rows_from_payload(payload: dict) -> list[RikishiRow]:
+def log(msg: str) -> None:
+    print(msg, file=sys.stderr)
+
+
+# sumo-api.com's own rikishi id -> sumo.or.jp id (`nskId`), the stable id stored on every row.
+_nsk_ids: dict[int, int] | None = None
+
+
+def nsk_ids() -> dict[int, int]:
+    """The api id -> nskId map for every active rikishi, fetched once; {} when the list is unavailable."""
+    global _nsk_ids
+    if _nsk_ids is None:
+        try:
+            records = _get(RIKISHIS_URL).get("records") or []
+        except (NotAvailable, requests.RequestException, ValueError) as e:
+            log(f"warning: could not fetch the sumo-api.com rikishi list ({e}); ids will be looked up one by one")
+            records = []
+        _nsk_ids = {int(r["id"]): int(r["nskId"]) for r in records if r.get("nskId")}
+    return _nsk_ids
+
+
+def nsk_id_for(api_id: int) -> int | None:
+    """nskId of one rikishi: from the cached list, else (retired since) their own record."""
+    ids = nsk_ids()
+    if api_id not in ids:
+        try:
+            nsk = _get(RIKISHI_URL.format(api_id=api_id)).get("nskId")
+        except (NotAvailable, requests.RequestException, ValueError) as e:
+            log(f"warning: no sumo.or.jp id for sumo-api rikishi {api_id} ({e})")
+            return None
+        if not nsk:
+            return None
+        ids[api_id] = int(nsk)
+    return ids[api_id]
+
+
+def rows_from_payload(payload: dict, with_ids: bool = True) -> list[RikishiRow]:
+    """Rows of one division's banzuke payload; `with_ids=False` skips the rikishi-id lookups."""
     rows = []
     for side in ("east", "west"):
         for r in payload.get(side) or []:
             code, num, ew = parse_rank(r["rank"])
             name = r["shikonaEn"].strip()
+            api_id = r.get("rikishiID")
             rows.append(RikishiRow(
                 key=make_key(name),
                 name=name,
@@ -49,6 +92,7 @@ def rows_from_payload(payload: dict) -> list[RikishiRow]:
                 retired=False,
                 note=None,
                 profile_url=None,
+                rikishi_id=nsk_id_for(int(api_id)) if with_ids and api_id else None,
             ))
     return rows
 
