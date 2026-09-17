@@ -11,6 +11,8 @@
   --same: #6b6b6b;
   --up-bg: #e1f3e6;
   --down-bg: #fbe6e4;
+  --up-border: #9dc9ac;
+  --down-border: #e2a9a4;
   --gold-bg: #faf1c8;
   --bronze-bg: #f1decb;
   --gold: #d4af37;
@@ -145,8 +147,8 @@ td.rikishi .line { justify-content: flex-start; }
 /* Indicator badges (badges() in banzuke.js): neutral by default, then green/red once the result decides them. */
 .tag-yusho { background: none; padding: 0; font-size: 13px; line-height: 14px; }
 .tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
-.tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--chip-border); }
-.tag-missed { background: var(--down-bg); color: var(--down); border: 1px solid var(--chip-border); }
+.tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--up-border); }
+.tag-missed { background: var(--down-bg); color: var(--down); border: 1px solid var(--down-border); }
 
 td.slot.over, tbody.over td { background: var(--over) !important; }
 .drag-active td.slot, .selecting td.slot { cursor: copy; }
