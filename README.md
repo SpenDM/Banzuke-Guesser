@@ -68,6 +68,7 @@ system does not, shown as badges on the chip (the Legend box lists them):
 | `tsunatori` | →Y | Yokozuna run: a yusho or jun-yusho (tie with the champion) as Ozeki last basho; a yusho this tournament completes it, and so does a jun-yusho — unless last basho was *also* only a jun-yusho, since two ties in a row don't count (`tsunatori_needs_yusho`) |
 | `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins, the target for promotion |
 | `ozeki_return` | ↪O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
+| `suspended` | SUS | disciplinary suspension; ranked as a full absence (the full demotion applies, unlike `retired`) |
 | `retired` | Retired | announced retirement |
 
 Two badges need no flag, since they are decided by rank and this basho's result alone: a Komusubi
@@ -84,11 +85,11 @@ a shikona change between two tournaments — usual on Ozeki promotion — does n
 `key` (from the shikona) only identifies them *within* one basho file.
 
 Some of this is announced rather than derivable (a retirement after the data was fetched, a
-Yokozuna run the committee did or did not declare). Put corrections in
+suspension, a Yokozuna run the committee did or did not declare). Put corrections in
 `public/data/overrides/YYYYMM.json`, merged into the rikishi by the frontend at load time:
 
 ```json
-{ "hoshoryu": { "retired": true }, "kirishima": { "tsunatori": false } }
+{ "hoshoryu": { "retired": true }, "kirishima": { "tsunatori": false }, "abi": { "suspended": true } }
 ```
 
 ## Deployment (Cloudflare Pages)

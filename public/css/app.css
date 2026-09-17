@@ -150,7 +150,7 @@ td.rikishi .line { justify-content: flex-start; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; white-space: nowrap; }
 /* Indicator badges (badges() in banzuke.js): neutral by default, then blue/red once the result decides them. */
 .tag-yusho { background: none; padding: 0; font-size: 13px; line-height: 14px; }
-.tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
+.tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-suspended, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
 .tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--up-border); }
 .tag-missed { background: var(--down-bg); color: var(--down); border: 1px solid var(--down-border); }
 

@@ -59,6 +59,7 @@ class RikishiRow:
     losses: int
     absences: int
     retired: bool = False
+    suspended: bool = False   # announced, set via overrides; ranked as a full absence
     note: str | None = None
     profile_url: str | None = None
     # sumo.or.jp rikishi id (sumo-api.com's `nskId`). Unlike `key` it survives a shikona change,

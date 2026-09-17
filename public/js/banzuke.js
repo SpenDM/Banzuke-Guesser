@@ -74,6 +74,7 @@ function badges(r) {
     const need = maegashiraForceWinsNeeded(r);
     tag('tag-maegashira-force', `→K ${need}`, `New komusubi slot forced by ${M1_FORCE_WINS}+ wins at M1 or ${M2_FORCE_WINS}+ wins at M2 even if no existing slot is available`, true);
   }
+  if (r.suspended) tag('tag-suspended', 'SUS', 'Suspended');
   if (r.retired) tag('tag-retired', 'Retired', 'Retired');
   // The trophy goes last so it sits at the right edge of the chip whatever else stacks with it.
   if (r.yusho) tag('tag-yusho', '🏆', 'Tournament winner');
