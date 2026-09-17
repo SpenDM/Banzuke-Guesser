@@ -67,7 +67,7 @@ system does not, shown as badges on the chip (the Legend box lists them):
 | `kadoban` | KB | kadoban Ozeki: a losing record this tournament results in demotion |
 | `tsunatori` | →Y | Yokozuna run: a yusho or jun-yusho (tie with the champion) as Ozeki last basho; a yusho this tournament completes it, and so does a jun-yusho — unless last basho was *also* only a jun-yusho, since two ties in a row don't count (`tsunatori_needs_yusho`) |
 | `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins, the target for promotion |
-| `ozeki_return` | ↩O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
+| `ozeki_return` | ↪O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
 | `retired` | Retired | announced retirement |
 
 Two badges need no flag, since they are decided by rank and this basho's result alone: a Komusubi
@@ -118,7 +118,7 @@ If it does, re-enable the workflow from the Actions tab.
   Maegashira/Juryo candidates row (red) holds Makuuchi rikishi whose score would drop them into
   Juryo. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
   re-ordered within their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
-  The indicators override the score at the top: a `↩O 10` Sekiwake with 10+ wins, then a `→O n`
+  The indicators override the score at the top: a `↪O 10` Sekiwake with 10+ wins, then a `→O n`
   Sekiwake with n+ wins, go to the next open Ozeki slot below the sitting Ozeki; a `→Y` Ozeki with the
   yusho goes to the next open Yokozuna slot; a `KB` Ozeki with fewer than 8 wins goes to the first
   Sekiwake slot the score placements left open; a Komusubi with 11+ wins (`→S 11`) goes to the next

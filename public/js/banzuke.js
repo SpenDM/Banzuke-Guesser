@@ -60,7 +60,7 @@ function badges(r) {
       : 'Yokozuna run: won or tied for the title as ozeki in the previous basho; a win or another tie this tournament completes it';
     tag('tag-tsunatori', '→Y', title, tsunatoriMet(r));
   }
-  if (r.ozeki_return) tag('tag-ozeki-return', `↩O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, ozekiReturnMet(r));
+  if (r.ozeki_return) tag('tag-ozeki-return', `↪O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, ozekiReturnMet(r));
   if (r.ozeki_run != null) {
     const need = ozekiRunNeeded(r);
     tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} wins this basho reaches the target ${OZEKI_TARGET} wins over three basho at sanyaku typically required for promotion`, ozekiRunMet(r));
