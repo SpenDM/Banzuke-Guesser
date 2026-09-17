@@ -14,7 +14,7 @@ const basho = {
 test('sanyaku ranks start with as many rows as the previous banzuke had', () => {
   const s = new GuessState(basho);
   assert.deepEqual([s.rowCounts.Y, s.rowCounts.O, s.rowCounts.S, s.rowCounts.K], [1, 1, 2, 1]);
-  assert.deepEqual([s.rowCounts.M, s.rowCounts.J], [17, 14]);
+  assert.deepEqual([s.rowCounts.M, s.rowCounts.J], [18, 14]);
 });
 
 test('toJSON/load round-trips guesses and extra rows', () => {
@@ -53,7 +53,7 @@ test('load ignores snapshots from another basho and unknown rikishi/slots', () =
   assert.equal(s.slotOf('ghost'), null);
   assert.equal(s.slotOf('aonishiki'), null);
   assert.equal(s.slotOf('onosato'), 'O1E');
-  assert.equal(s.rowCounts.M, 17);
+  assert.equal(s.rowCounts.M, 18);
 });
 
 test('counts() tracks Makuuchi slots holding exactly one rikishi', () => {

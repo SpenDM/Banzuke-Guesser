@@ -19,7 +19,7 @@ export const MAX_SANYAKU_ROWS = 3;
 // Default row template for the guess banzuke's rank-and-file. Sanyaku ranks are not listed:
 // each starts with as many rows as the previous banzuke had (see GuessState).
 export const DEFAULT_GUESS_ROWS = [
-  ['M', 17], ['J', 14],
+  ['M', 18], ['J', 14],
 ].flatMap(([rank, count]) => Array.from({ length: count }, (_, i) => ({ rank, num: i + 1 })));
 
 export function slotId(rank, num, side) {
