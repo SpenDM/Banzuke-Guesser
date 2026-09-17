@@ -53,7 +53,6 @@ function badges(r) {
   const tag = (cls, text, title, met) => out.push(h('span', {
     class: `tag ${cls}${met == null ? '' : met ? ' tag-met' : ' tag-missed'}`, text, title,
   }));
-  if (r.yusho) tag('tag-yusho', '🏆', 'Tournament winner');
   if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban Ozeki: a losing record this tournament results in demotion`, !kadobanFailed(r));
   if (r.tsunatori) {
     const title = r.tsunatori_needs_yusho
@@ -76,6 +75,8 @@ function badges(r) {
     tag('tag-maegashira-force', `→K ${need}`, `New komusubi slot forced by ${M1_FORCE_WINS}+ wins at M1 or ${M2_FORCE_WINS}+ wins at M2 even if no existing slot is available`, true);
   }
   if (r.retired) tag('tag-retired', 'Retired', 'Retired');
+  // The trophy goes last so it sits at the right edge of the chip whatever else stacks with it.
+  if (r.yusho) tag('tag-yusho', '🏆', 'Tournament winner');
   return out;
 }
 
