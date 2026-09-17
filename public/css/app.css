@@ -138,8 +138,8 @@ td.rikishi .line { justify-content: flex-start; }
 .chip.placed .dest { color: var(--accent); font-size: 11px; }
 .chip.retired .name { text-decoration: line-through; }
 .chip.dragging { opacity: .4; }
-.chip.kind-up { background: var(--up-bg); border-color: var(--up); }
-.chip.kind-down { background: var(--down-bg); border-color: var(--down); }
+.chip.kind-up { background: var(--up-bg); }
+.chip.kind-down { background: var(--down-bg); }
 .chip.selected { background: var(--selected); border-color: #60a5fa; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; white-space: nowrap; }
 /* Indicator badges (badges() in banzuke.js): neutral by default, then green/red once the result decides them. */
