@@ -6,12 +6,12 @@
   --line: #ddd8cf;
   --head: #2b2b2b;
   --accent: #8a1c1c;
-  --up: #1c7a3a;
+  --up: #1c537a;
   --down: #b3261e;
   --same: #6b6b6b;
-  --up-bg: #e1f3e6;
+  --up-bg: #e1ebf3;
   --down-bg: #fbe6e4;
-  --up-border: #9dc9ac;
+  --up-border: #9db7c9;
   --down-border: #e2a9a4;
   --gold-bg: #faf1c8;
   --bronze-bg: #f1decb;
@@ -21,7 +21,7 @@
   --bronze-dark: #a5641f;
   --over: #ffe9a8;
   --joi-bg: #f5f5f5;
-  --candidates-bg: #eef7f0;
+  --candidates-bg: #eef3f7;
   --demotion-bg: #fbeeed;
   --chip: #fbfaf7;
   --chip-border: #cfc8bb;
@@ -118,7 +118,7 @@ tr.sanyaku-gold td.slot.empty { background: var(--gold-bg); }
 tr.sanyaku-bronze td.slot.empty { background: var(--bronze-bg); }
 tr.joi td { background: var(--joi-bg); }
 tr.joi td.rank { background: var(--joi-bg); }
-/* Temporary candidates row (see candidatesRow in banzuke.js): promotion half green, demotion half red. */
+/* Temporary candidates row (see candidatesRow in banzuke.js): promotion half blue, demotion half red. */
 tr.candidates td { background: var(--candidates-bg); border-top: 1px dashed var(--up); border-bottom: 1px dashed var(--up); }
 tr.candidates td.demotion { background: var(--demotion-bg); border-top-color: var(--down); border-bottom-color: var(--down); }
 tr.candidates td.rank { background: var(--candidates-bg); font-size: 16px; }
@@ -148,7 +148,7 @@ td.rikishi .line { justify-content: flex-start; }
 .chip.kind-down { background: var(--down-bg); }
 .chip.selected { background: var(--selected); border-color: #60a5fa; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; white-space: nowrap; }
-/* Indicator badges (badges() in banzuke.js): neutral by default, then green/red once the result decides them. */
+/* Indicator badges (badges() in banzuke.js): neutral by default, then blue/red once the result decides them. */
 .tag-yusho { background: none; padding: 0; font-size: 13px; line-height: 14px; }
 .tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
 .tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--up-border); }

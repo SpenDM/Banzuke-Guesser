@@ -45,7 +45,7 @@ function chip(r, { placed = false, dest = null, draggable = true, kind = null } 
 
 /**
  * Indicator badges (see the Legend box): what the rikishi carried into the basho and, now that
- * the result is known, whether they made it (`tag-met`, green) or not (`tag-missed`, red).
+ * the result is known, whether they made it (`tag-met`, blue) or not (`tag-missed`, red).
  * The same rules drive "Apply Ideal Rank Changes" (promote.js).
  */
 function badges(r) {
@@ -188,7 +188,7 @@ function sideCells(state, id, to, ladder, { extraClass = '', title = null, place
 }
 
 /**
- * The temporary "↑" row below a rank type. Its left half (green) holds rikishi whose result
+ * The temporary "↑" row below a rank type. Its left half (blue) holds rikishi whose result
  * would carry them up into that type. On the Sekiwake/Komusubi rows the right half just says
  * what the row is; on the Maegashira row it is a second drop target (red) for Makuuchi rikishi
  * whose result would drop them into Juryo.
