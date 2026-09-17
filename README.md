@@ -109,7 +109,7 @@ If it does, re-enable the workflow from the Actions tab.
 - **Apply Ideal Rank Changes** places every rikishi you have not placed yet (placed ones are left
   alone) by their net score, one rank number per point with East/West as half steps, so a 9-6 at
   M5E lands on M2E. Absences count as losses. Demotions chain into the next rank type down the
-  same way the Change column counts them. Anyone whose score would carry them up into a higher
+  same way the Rank Change column counts them. Anyone whose score would carry them up into a higher
   rank type is put in a temporary "↑" candidates row just below that type, for you to sort into
   the open slots; the row disappears once its last occupant is moved out. The right half of the
   Maegashira/Juryo candidates row (red) holds Makuuchi rikishi whose score would drop them into

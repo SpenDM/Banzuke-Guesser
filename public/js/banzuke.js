@@ -5,9 +5,11 @@ import {
 } from './rank.js';
 import {
   KACHI_KOSHI, KOMUSUBI_FORCE_WINS, M1_FORCE_WINS, M2_FORCE_WINS, OZEKI_RETURN_WINS, OZEKI_TARGET,
-  kadobanFailed, komusubiForceMet, maegashiraForceMet, maegashiraForceWinsNeeded,
+  kadobanFailed, komusubiForceMet, maegashiraForceMet, maegashiraForceWinsNeeded, netScore,
   ozekiReturnMet, ozekiRunMet, ozekiRunNeeded, tsunatoriMet,
 } from './promote.js';
+
+const formatNetWins = (n) => (n > 0 ? `+${n}` : `${n}`);
 
 const rankRowClass = (rank, num) => {
   if (SANYAKU_TINT[rank]) return `sanyaku-${SANYAKU_TINT[rank]}`;
@@ -125,7 +127,7 @@ export function renderPrevious(table, state) {
   );
 }
 
-/** Right: Cur Rank | East | Result | Change | Rank | Cur Rank | West | Result | Change */
+/** Right: Cur Rank | East | Net Wins | Rank Change | Rank | Cur Rank | West | Net Wins | Rank Change */
 export function renderGuess(table, state) {
   const rows = state.rows();
   const ladder = buildLadder(state.basho.rikishi);
@@ -159,16 +161,16 @@ export function renderGuess(table, state) {
   }
   table.replaceChildren(
     h('thead', {}, h('tr', {},
-      h('th', { text: 'Cur Rank' }), h('th', { text: 'East' }), h('th', { text: 'Result' }), h('th', { text: 'Change' }),
+      h('th', { text: 'Cur Rank' }), h('th', { text: 'East' }), h('th', { text: 'Net Wins' }), h('th', { text: 'Rank Change' }),
       h('th', { text: 'Rank' }),
-      h('th', { text: 'Cur Rank' }), h('th', { text: 'West' }), h('th', { text: 'Result' }), h('th', { text: 'Change' }))),
+      h('th', { text: 'Cur Rank' }), h('th', { text: 'West' }), h('th', { text: 'Net Wins' }), h('th', { text: 'Rank Change' }))),
     tbody,
   );
 }
 
 /**
- * The four cells of one side (or one half of a candidates row): Cur Rank | East/West | Result |
- * Change. `placeholder` is muted text shown in the rikishi cell while the slot is empty.
+ * The four cells of one side (or one half of a candidates row): Cur Rank | East/West | Net Wins |
+ * Rank Change. `placeholder` is muted text shown in the rikishi cell while the slot is empty.
  */
 function sideCells(state, id, to, ladder, { extraClass = '', title = null, placeholder = null } = {}) {
   const occupants = state.occupants(id);
@@ -180,7 +182,7 @@ function sideCells(state, id, to, ladder, { extraClass = '', title = null, place
   return [
     h('td', { class: `${cls} cur-rank`, dataSlot: id, title }, stack((r) => h('span', { text: `${r.rank}${r.num}${r.side}` }))),
     h('td', { class: `${cls} rikishi`, dataSlot: id, title }, rikishiStack),
-    h('td', { class: `${cls} result`, dataSlot: id, title }, stack((r) => h('span', { text: r.record }))),
+    h('td', { class: `${cls} result`, dataSlot: id, title }, stack((r) => h('span', { text: formatNetWins(netScore(r)) }))),
     h('td', { class: `${cls} change-cell`, dataSlot: id, title }, stack((r) => changeSpan(changeOf(r)))),
   ];
 }
