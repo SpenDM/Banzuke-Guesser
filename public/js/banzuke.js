@@ -53,7 +53,12 @@ function badges(r) {
   }));
   if (r.yusho) tag('tag-yusho', '🏆', 'Tournament winner');
   if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban Ozeki: a losing record this tournament results in demotion`, !kadobanFailed(r));
-  if (r.tsunatori) tag('tag-tsunatori', '→Y', 'Yokozuna run: tournament win or win-equivalent as ozeki in the previous basho; another this tournament yields eligibility for promotion', tsunatoriMet(r));
+  if (r.tsunatori) {
+    const title = r.tsunatori_needs_yusho
+      ? 'Yokozuna run: won or tied for the title as ozeki in the previous basho; since that was a tie, only an outright win this tournament completes it (a second straight tie doesn’t)'
+      : 'Yokozuna run: won or tied for the title as ozeki in the previous basho; a win or another tie this tournament completes it';
+    tag('tag-tsunatori', '→Y', title, tsunatoriMet(r));
+  }
   if (r.ozeki_return) tag('tag-ozeki-return', `↩O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, ozekiReturnMet(r));
   if (r.ozeki_run != null) {
     const need = ozekiRunNeeded(r);

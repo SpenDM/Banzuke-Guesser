@@ -44,14 +44,17 @@ def annotate(basho: Basho, prev1: list[RikishiRow] | None, prev2: list[RikishiRo
     p1 = {r.key: r for r in prev1} if prev1 else {}
     p2 = {r.key: r for r in prev2} if prev2 else {}
     p1_jun = jun_yusho_keys(prev1, prev1_yusho_keys) if prev1 else set()
+    this_jun = jun_yusho_keys(basho.rikishi, yusho_keys)
     for r in basho.rikishi:
         r.yusho = r.key in yusho_keys
-        r.kadoban = r.tsunatori = r.ozeki_return = False
+        r.jun_yusho = r.key in this_jun
+        r.kadoban = r.tsunatori = r.ozeki_return = r.tsunatori_needs_yusho = False
         r.ozeki_run = None
         last = p1.get(r.key)
         if r.rank == "O" and last and last.rank == "O":
             r.kadoban = last.wins < KACHI_KOSHI
             r.tsunatori = r.key in prev1_yusho_keys or r.key in p1_jun
+            r.tsunatori_needs_yusho = r.key in p1_jun
         if r.rank == "S":
             before = p2.get(r.key)
             r.ozeki_return = bool(last and last.rank == "O")

@@ -25,7 +25,10 @@ export const M2_FORCE_WINS = 10;
 export const ozekiRunNeeded = (r) => (r.ozeki_run == null ? null : OZEKI_TARGET - r.ozeki_run);
 export const ozekiRunMet = (r) => r.ozeki_run != null && r.wins >= ozekiRunNeeded(r);
 export const ozekiReturnMet = (r) => !!r.ozeki_return && r.wins >= OZEKI_RETURN_WINS;
-export const tsunatoriMet = (r) => !!r.tsunatori && !!r.yusho;
+// A run completes with an outright yusho, or a jun-yusho (tied with the champion) *unless* last
+// basho's trigger was itself only a jun-yusho: two ties in a row don't count, only an outright win
+// does, so at least one of the two basho has to be a real yusho.
+export const tsunatoriMet = (r) => !!r.tsunatori && (!!r.yusho || (!!r.jun_yusho && !r.tsunatori_needs_yusho));
 export const kadobanFailed = (r) => !!r.kadoban && r.wins < KACHI_KOSHI;
 export const komusubiForceMet = (r) => r.rank === 'K' && r.wins >= KOMUSUBI_FORCE_WINS;
 /** Wins needed for an M1/M2 to force a Komusubi slot, or null for any other rank/number. */

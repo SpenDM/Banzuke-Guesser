@@ -63,8 +63,12 @@ class RikishiRow:
     profile_url: str | None = None
     # Indicators computed by annotate.py from the previous basho (all off by default).
     yusho: bool = False              # division champion
+    jun_yusho: bool = False          # tied for the best Makuuchi record among non-champions this basho
     kadoban: bool = False            # Ozeki who had a make-koshi last basho
     tsunatori: bool = False          # Ozeki with a yusho / jun-yusho last basho (Yokozuna run)
+    # tsunatori earned via a jun-yusho last basho (not an outright win): completing the run this
+    # basho needs an actual yusho, since two jun-yusho in a row don't count.
+    tsunatori_needs_yusho: bool = False
     ozeki_run: int | None = None     # Sekiwake: wins over the previous two sanyaku basho, when >= 18
     ozeki_return: bool = False       # Sekiwake who was Ozeki last basho (10 wins regain the rank)
 

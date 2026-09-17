@@ -46,6 +46,12 @@ def test_kadoban_and_tsunatori_need_an_ozeki_result_last_basho():
     assert k["tsuna"].tsunatori and not k["tsuna"].kadoban
     assert k["junner"].tsunatori  # 12-3 jun-yusho behind the 14-1 champion
     assert not k["newozeki"].kadoban and not k["newozeki"].tsunatori  # was Sekiwake last basho
+    # tsuna's run started with an outright win last basho, junner's with only a tie for one.
+    assert not k["tsuna"].tsunatori_needs_yusho
+    assert k["junner"].tsunatori_needs_yusho
+    # This basho nobody has an outright yusho (yusho_keys=set()), so the two tied at 12-3 are jun-yusho.
+    assert k["tsuna"].jun_yusho and k["junner"].jun_yusho
+    assert not k["kado"].jun_yusho and not k["newozeki"].jun_yusho
 
 
 def test_ozeki_run_counts_sekiwake_or_komusubi_basho_and_needs_18_wins():
@@ -73,11 +79,12 @@ def test_ozeki_return_is_a_sekiwake_who_was_ozeki_last_basho():
 
 def test_annotate_resets_stale_flags_and_survives_missing_history():
     r = row("a", "O")
-    r.kadoban = r.tsunatori = r.yusho = True
+    r.kadoban = r.tsunatori = r.yusho = r.tsunatori_needs_yusho = True
     r.ozeki_run = 20
     b = basho([r])
     annotate(b, None, None, set(), set())
-    assert (r.kadoban, r.tsunatori, r.yusho, r.ozeki_run, r.ozeki_return) == (False, False, False, None, False)
+    assert (r.kadoban, r.tsunatori, r.yusho, r.ozeki_run, r.ozeki_return, r.tsunatori_needs_yusho) == (
+        False, False, False, None, False, False)
 
 
 def test_basho_round_trips_through_to_dict_and_from_dict():
