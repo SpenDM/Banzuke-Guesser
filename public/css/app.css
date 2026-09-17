@@ -42,11 +42,15 @@ p { margin: 4px 0; }
 a { color: var(--accent); }
 
 .topbar {
-  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; justify-content: space-between;
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
   padding: 14px 20px 10px; border-bottom: 1px solid var(--line); background: var(--panel);
 }
 .topbar p { color: var(--muted); }
-.controls { display: flex; gap: 12px; align-items: center; }
+/* A fixed height taller than the title text, so it (not the text) sets the banner's height;
+   negative top/bottom margins matching .topbar's own padding then cancel that padding out,
+   landing the image's edges flush on the banner's actual top and bottom edges. */
+.banner-photo { height: 80px; width: auto; margin: -14px 0 -10px; }
+.controls { display: flex; gap: 12px; align-items: center; margin-left: auto; }
 .summary { color: var(--muted); }
 button, select, .button-link {
   font: inherit; padding: 6px 12px; border: 1px solid var(--chip-border); border-radius: 6px;
