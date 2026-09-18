@@ -98,19 +98,21 @@
       <div class="table-wrap"><table id="guess" class="banzuke guess"></table></div>
     </section>
     <section class="results" data-view="results" hidden>
-      <div class="panel">
+      <div class="panel" id="my-panel">
         <h2 id="my-title">My Prediction</h2>
         <p id="my-empty" class="hint" hidden></p>
         <div class="table-wrap"><table id="my-banzuke" class="banzuke compare"></table></div>
       </div>
-      <div class="panel">
+      <div class="panel" id="actual-panel">
         <h2 id="actual-title">Banzuke</h2>
         <p id="actual-empty" class="hint" hidden></p>
         <div class="table-wrap"><table id="actual-banzuke" class="banzuke compare"></table></div>
       </div>
       <div class="panel">
-        <h2>My Results</h2>
-        <dl id="my-score" class="score"></dl>
+        <div id="my-results-section">
+          <h2>My Results</h2>
+          <dl id="my-score" class="score"></dl>
+        </div>
         <h3>Leaderboard</h3>
         <div class="table-wrap"><table id="leaderboard" class="leaderboard"></table></div>
       </div>
