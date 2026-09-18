@@ -1,8 +1,15 @@
-# Cloudflare Pages configuration: the static site in public/ plus the submission API in functions/.
-# Create the database once with `npx wrangler d1 create banzuke-guesser` and paste its id below.
+# Cloudflare Worker: the static site in public/ served as assets, worker.js answering /api/*
+# (handlers in functions/api) with the submissions in a D1 database. Deployed by Workers Builds
+# on every push (`npx wrangler deploy`).
 name = "banzuke-guesser"
-pages_build_output_dir = "public"
-compatibility_date = "2026-09-01"
+main = "worker.js"
+compatibility_date = "2025-07-18"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+# Only the API reaches the Worker; every other path is served straight from the assets.
+run_worker_first = ["/api/*"]
 
 [[d1_databases]]
 binding = "DB"

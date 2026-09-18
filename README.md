@@ -10,15 +10,15 @@ Finished predictions can be submitted to the app itself under a shikona; once th
 announced the *Results* page scores every submission against it and shows a leaderboard
 (see *Submitting a guess* and *Scoring*).
 
-Live site: deployed on Cloudflare Pages from this repository (see *Deployment*).
+Live site: deployed on Cloudflare Workers from this repository (see *Deployment*).
 
 ## How it works
 
 ```
 sumo.or.jp ──┐
-             ├─► scraper (Python, GitHub Actions nightly) ──► public/data/*.json ──► Cloudflare Pages
-sumo-api.com ┘                                                                        (static site)
-                                                    browser ──► /api/* (Pages Functions) ──► D1 (submissions)
+             ├─► scraper (Python, GitHub Actions nightly) ──► public/data/*.json ──► Cloudflare Worker
+sumo-api.com ┘                                                                        (static assets)
+                                                    browser ──► /api/* (worker.js) ──► D1 (submissions)
 ```
 
 - `public/` — the site. Plain HTML/CSS/ES modules, no build step.
@@ -36,8 +36,9 @@ sumo-api.com ┘                                                                
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json` (results),
     `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against), plus optional
     hand-edited `overrides/YYYYMM.json` (see *Special Statuses*).
-- `functions/` — Cloudflare Pages Functions behind `/api/submit` and `/api/submissions`, storing
-  submissions in a D1 database (see *Submissions backend*).
+- `worker.js` + `functions/api/` — the Cloudflare Worker: `/api/submit` and `/api/submissions`
+  store submissions in a D1 database; every other path is served from `public/` as static assets
+  (see *Submissions backend*).
 - `scraper/` — Python package that produces `public/data`.
   - `schedule.py` — parses the [tournament schedule](https://www.sumo.or.jp/EnTicket/year_schedule/).
   - `official.py` — banzuke + results from the [sumo.or.jp](https://www.sumo.or.jp/EnHonbashoBanzuke/index/)
@@ -50,7 +51,7 @@ sumo-api.com ┘                                                                
   It refreshes the schedule; if a tournament finished the day before and its data is not yet in
   the repo, fetches it (sumo.or.jp first, sumo-api.com if the official site has already moved on);
   and if a banzuke has been announced (mid-morning JST, hence the noon run) and `data/banzuke/`
-  lacks it, fetches that. Changes are committed; the push triggers a Cloudflare Pages deploy.
+  lacks it, fetches that. Changes are committed; the push triggers a Cloudflare deploy.
 
 ## Local development
 
@@ -71,11 +72,11 @@ python -m scraper.cli annotate --basho 202607     # recompute the indicators of 
 python -m scraper.cli banzuke --basho 202609      # fetch an announced banzuke into data/banzuke/
 ```
 
-To run the submission API locally as well (Node 20+):
+To run the submission API locally as well (Node 22+):
 
 ```sh
 npx wrangler d1 execute banzuke-guesser --local --file functions/schema.sql   # once
-npx wrangler pages dev public                                                  # site + /api on :8788
+npx wrangler dev                                                               # site + /api on :8787
 ```
 
 ## Special Statuses
@@ -151,26 +152,24 @@ others' guesses before the announcement.
 
 ## Submissions backend (Cloudflare D1)
 
-`functions/` is deployed automatically with the site (Pages Functions need no build step). One-time
-setup:
+`worker.js` dispatches `/api/*` to the handlers in `functions/api/` and everything else to the
+assets; `wrangler.toml` declares the assets directory and the `DB` binding. One-time setup:
 
 1. `npx wrangler d1 create banzuke-guesser` and paste the returned `database_id` into `wrangler.toml`.
 2. `npx wrangler d1 execute banzuke-guesser --remote --file functions/schema.sql`.
-3. In the Pages project, **Settings → Bindings → D1 database**: bind `DB` to that database (Pages
-   also reads `wrangler.toml`, but the dashboard binding is the reliable one for Git deploys).
 
 Endpoints: `POST /api/submit` `{basho, shikona, placements}` with header `X-Guesser-Token`
 (→ `409 shikona_taken`, `403 closed`, `400` on a malformed guess), and
 `GET /api/submissions?basho=YYYYMM` (→ `{published, count, me, submissions?}`).
 
-## Deployment (Cloudflare Pages)
+## Deployment (Cloudflare Workers)
 
-One-time setup in the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to Git**,
-pick this repository, then:
+One-time setup in the Cloudflare dashboard: **Workers & Pages → Create → Workers → Import a
+repository**, pick this repository, then:
 
 - Production branch: `main`
 - Build command: *(leave empty)*
-- Build output directory: `public`
+- Deploy command: `npx wrangler deploy` (the default)
 
 Every push to `main` (including the nightly data commit) redeploys. `public/_headers` sets a
 5-minute cache on `/data/*` so fresh results show up shortly after a deploy.
