@@ -88,8 +88,12 @@ def current_basho_info() -> dict:
     return fetch_banzuke(MAKUUCHI)["BashoInfo"]
 
 
-def build_basho(tournament: Tournament) -> Basho:
-    """Fetch Makuuchi + Juryo for `tournament`; raise NotAvailable if the site shows a different basho."""
+def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
+    """Fetch Makuuchi + Juryo for `tournament`; raise NotAvailable if the site shows a different basho.
+
+    The site shows the upcoming basho from its announcement day, so with `require_results=False`
+    this also fetches a freshly announced banzuke (results all zero).
+    """
     mak_banzuke = fetch_banzuke(MAKUUCHI)
     info = mak_banzuke["BashoInfo"]
     if info.get("end_date") != tournament.end_date:

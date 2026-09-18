@@ -1,0 +1,347 @@
+{
+  "id": "202609",
+  "name": "September 2026",
+  "banzuke_date": "2026-08-31",
+  "start_date": "2026-09-13",
+  "end_date": "2026-09-27",
+  "source": "sumo.or.jp",
+  "fetched_at": "2026-09-18T07:45:58+00:00",
+  "rikishi": [
+    {
+      "key": "onosato",
+      "name": "Onosato",
+      "rank": "Y",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 4227
+    },
+    {
+      "key": "hoshoryu",
+      "name": "Hoshoryu",
+      "rank": "Y",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 3842
+    },
+    {
+      "key": "kirishima",
+      "name": "Kirishima",
+      "rank": "O",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 3622
+    },
+    {
+      "key": "kotozakura",
+      "name": "Kotozakura",
+      "rank": "O",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 3661
+    },
+    {
+      "key": "aonishiki",
+      "name": "Aonishiki",
+      "rank": "O",
+      "num": 2,
+      "side": "E",
+      "rikishi_id": 4230
+    },
+    {
+      "key": "atamifuji",
+      "name": "Atamifuji",
+      "rank": "S",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 4055
+    },
+    {
+      "key": "fujinokawa",
+      "name": "Fujinokawa",
+      "rank": "S",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 4191
+    },
+    {
+      "key": "hakunofuji",
+      "name": "Hakunofuji",
+      "rank": "K",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 4187
+    },
+    {
+      "key": "daieisho",
+      "name": "Daieisho",
+      "rank": "K",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 3376
+    },
+    {
+      "key": "kotoshoho",
+      "name": "Kotoshoho",
+      "rank": "M",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 3840
+    },
+    {
+      "key": "kotoeiho",
+      "name": "Kotoeiho",
+      "rank": "M",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 4120
+    },
+    {
+      "key": "takayasu",
+      "name": "Takayasu",
+      "rank": "M",
+      "num": 2,
+      "side": "E",
+      "rikishi_id": 2775
+    },
+    {
+      "key": "yoshinofuji",
+      "name": "Yoshinofuji",
+      "rank": "M",
+      "num": 2,
+      "side": "W",
+      "rikishi_id": 4279
+    },
+    {
+      "key": "gonoyama",
+      "name": "Gonoyama",
+      "rank": "M",
+      "num": 3,
+      "side": "E",
+      "rikishi_id": 4079
+    },
+    {
+      "key": "churanoumi",
+      "name": "Churanoumi",
+      "rank": "M",
+      "num": 3,
+      "side": "W",
+      "rikishi_id": 3711
+    },
+    {
+      "key": "takanosho",
+      "name": "Takanosho",
+      "rank": "M",
+      "num": 4,
+      "side": "E",
+      "rikishi_id": 3265
+    },
+    {
+      "key": "fujiryoga",
+      "name": "Fujiryoga",
+      "rank": "M",
+      "num": 4,
+      "side": "W",
+      "rikishi_id": 4336
+    },
+    {
+      "key": "roga",
+      "name": "Roga",
+      "rank": "M",
+      "num": 5,
+      "side": "E",
+      "rikishi_id": 3907
+    },
+    {
+      "key": "oshoma",
+      "name": "Oshoma",
+      "rank": "M",
+      "num": 5,
+      "side": "W",
+      "rikishi_id": 4108
+    },
+    {
+      "key": "asanoyama",
+      "name": "Asanoyama",
+      "rank": "M",
+      "num": 6,
+      "side": "E",
+      "rikishi_id": 3682
+    },
+    {
+      "key": "ichiyamamoto",
+      "name": "Ichiyamamoto",
+      "rank": "M",
+      "num": 6,
+      "side": "W",
+      "rikishi_id": 3753
+    },
+    {
+      "key": "fujiseiun",
+      "name": "Fujiseiun",
+      "rank": "M",
+      "num": 7,
+      "side": "E",
+      "rikishi_id": 4093
+    },
+    {
+      "key": "nishikifuji",
+      "name": "Nishikifuji",
+      "rank": "M",
+      "num": 7,
+      "side": "W",
+      "rikishi_id": 3742
+    },
+    {
+      "key": "takerufuji",
+      "name": "Takerufuji",
+      "rank": "M",
+      "num": 8,
+      "side": "E",
+      "rikishi_id": 4171
+    },
+    {
+      "key": "hiradoumi",
+      "name": "Hiradoumi",
+      "rank": "M",
+      "num": 8,
+      "side": "W",
+      "rikishi_id": 3705
+    },
+    {
+      "key": "ura",
+      "name": "Ura",
+      "rank": "M",
+      "num": 9,
+      "side": "E",
+      "rikishi_id": 3616
+    },
+    {
+      "key": "shishi",
+      "name": "Shishi",
+      "rank": "M",
+      "num": 9,
+      "side": "W",
+      "rikishi_id": 3990
+    },
+    {
+      "key": "oho",
+      "name": "Oho",
+      "rank": "M",
+      "num": 10,
+      "side": "E",
+      "rikishi_id": 3844
+    },
+    {
+      "key": "kinbozan",
+      "name": "Kinbozan",
+      "rank": "M",
+      "num": 10,
+      "side": "W",
+      "rikishi_id": 4112
+    },
+    {
+      "key": "wakamotoharu",
+      "name": "Wakamotoharu",
+      "rank": "M",
+      "num": 11,
+      "side": "E",
+      "rikishi_id": 3371
+    },
+    {
+      "key": "shodai",
+      "name": "Shodai",
+      "rank": "M",
+      "num": 11,
+      "side": "W",
+      "rikishi_id": 3521
+    },
+    {
+      "key": "wakatakakage",
+      "name": "Wakatakakage",
+      "rank": "M",
+      "num": 12,
+      "side": "E",
+      "rikishi_id": 3761
+    },
+    {
+      "key": "asahakuryu",
+      "name": "Asahakuryu",
+      "rank": "M",
+      "num": 12,
+      "side": "W",
+      "rikishi_id": 4175
+    },
+    {
+      "key": "asakoryu",
+      "name": "Asakoryu",
+      "rank": "M",
+      "num": 13,
+      "side": "E",
+      "rikishi_id": 4101
+    },
+    {
+      "key": "abi",
+      "name": "Abi",
+      "rank": "M",
+      "num": 13,
+      "side": "W",
+      "rikishi_id": 3485
+    },
+    {
+      "key": "tobizaru",
+      "name": "Tobizaru",
+      "rank": "M",
+      "num": 14,
+      "side": "E",
+      "rikishi_id": 3594
+    },
+    {
+      "key": "chiyoshoma",
+      "name": "Chiyoshoma",
+      "rank": "M",
+      "num": 14,
+      "side": "W",
+      "rikishi_id": 3207
+    },
+    {
+      "key": "asasuiryu",
+      "name": "Asasuiryu",
+      "rank": "M",
+      "num": 15,
+      "side": "E",
+      "rikishi_id": 4285
+    },
+    {
+      "key": "tokihayate",
+      "name": "Tokihayate",
+      "rank": "M",
+      "num": 15,
+      "side": "W",
+      "rikishi_id": 3933
+    },
+    {
+      "key": "wakanosho",
+      "name": "Wakanosho",
+      "rank": "M",
+      "num": 16,
+      "side": "E",
+      "rikishi_id": 4121
+    },
+    {
+      "key": "toshinofuji",
+      "name": "Toshinofuji",
+      "rank": "M",
+      "num": 16,
+      "side": "W",
+      "rikishi_id": 4243
+    },
+    {
+      "key": "shonannoumi",
+      "name": "Shonannoumi",
+      "rank": "M",
+      "num": 17,
+      "side": "E",
+      "rikishi_id": 3553
+    }
+  ]
+}

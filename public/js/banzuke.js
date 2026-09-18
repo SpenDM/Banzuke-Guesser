@@ -30,9 +30,9 @@ const h = (tag, attrs = {}, ...children) => {
   return el;
 };
 
-function chip(r, { placed = false, dest = null, draggable = true, kind = null } = {}) {
+function chip(r, { placed = false, dest = null, draggable = true, kind = null, mark = null } = {}) {
   const el = h('div', {
-    class: `chip${placed ? ' placed' : ''}${r.retired ? ' retired' : ''}${kind ? ` kind-${kind}` : ''}`,
+    class: `chip${placed ? ' placed' : ''}${r.retired ? ' retired' : ''}${kind ? ` kind-${kind}` : ''}${mark ? ` ${mark}` : ''}`,
     draggable: draggable ? 'true' : null,
     dataKey: r.key,
     title: r.retired ? `${r.name} (retired)` : r.name,
@@ -213,6 +213,38 @@ function candidatesRow(state, rank, ladder) {
     right = [h('td', { class: 'slot candidates promotion note', colspan: 4, dataSlot: upId }, h('span', { text: upTitle }))];
   }
   return h('tr', { class: 'candidates' }, ...left, rankCell, ...right);
+}
+
+/**
+ * Results view: one Makuuchi banzuke (a submitted prediction or the announced one) as
+ * East | Rank | West, each chip blue when that slot is in `correctSlots` and red otherwise.
+ * `placements` are {slot, key, name, rikishi_id}.
+ */
+export function renderComparison(table, placements, correctSlots) {
+  const bySlot = new Map(placements.map((p) => [p.slot, p]));
+  const rowsByRank = {};
+  for (const p of placements) {
+    const { rank, num } = parseSlot(p.slot);
+    rowsByRank[rank] = Math.max(rowsByRank[rank] || 0, num);
+  }
+  const tbody = h('tbody');
+  let lastDivision = null;
+  for (const rank of ['Y', 'O', 'S', 'K', 'M']) {
+    for (let num = 1; num <= (rowsByRank[rank] || 0); num++) {
+      if (DIVISION_OF[rank] !== lastDivision) { tbody.append(divisionRow(rank, 3)); lastDivision = DIVISION_OF[rank]; }
+      const cellFor = (side) => {
+        const p = bySlot.get(slotId(rank, num, side));
+        if (!p) return h('td', { class: 'rikishi empty' });
+        return h('td', { class: 'rikishi' }, chip(p, { draggable: false, mark: correctSlots.has(p.slot) ? 'correct' : 'wrong' }));
+      };
+      tbody.append(h('tr', { class: rankRowClass(rank, num) },
+        cellFor('E'), h('td', { class: 'rank', text: `${rank}${num}` }), cellFor('W')));
+    }
+  }
+  table.replaceChildren(
+    h('thead', {}, h('tr', {}, h('th', { text: 'East' }), h('th', { text: 'Rank' }), h('th', { text: 'West' }))),
+    tbody,
+  );
 }
 
 export function renderSummary(el, state) {

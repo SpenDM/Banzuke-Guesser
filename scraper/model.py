@@ -136,6 +136,22 @@ class Basho:
                    source=d["source"], rikishi=rows, next=d.get("next"),
                    fetched_at=d.get("fetched_at") or cls.__dataclass_fields__["fetched_at"].default_factory())
 
+    def to_banzuke_dict(self, banzuke_date: str) -> dict:
+        """The announced banzuke (Makuuchi slots only, no results): what predictions are scored against."""
+        rows = [{"key": r.key, "name": r.name, "rank": r.rank, "num": r.num, "side": r.side,
+                 "rikishi_id": r.rikishi_id}
+                for r in self.sorted_rikishi() if r.division == "makuuchi"]
+        return {
+            "id": self.id,
+            "name": self.name,
+            "banzuke_date": banzuke_date,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "source": self.source,
+            "fetched_at": self.fetched_at,
+            "rikishi": rows,
+        }
+
     def validation_warnings(self) -> list[str]:
         """Soft checks: a finished basho should have 15 bouts accounted for per rikishi."""
         warnings = []
@@ -182,6 +198,20 @@ def write_json(path: Path, payload) -> None:
 def write_basho(data_dir: Path, basho: Basho) -> Path:
     path = data_dir / "basho" / f"{basho.id}.json"
     write_json(path, basho.to_dict())
+    return path
+
+
+def banzuke_path(data_dir: Path, basho_id: str) -> Path:
+    return data_dir / "banzuke" / f"{basho_id}.json"
+
+
+def banzuke_exists(data_dir: Path, basho_id: str) -> bool:
+    return banzuke_path(data_dir, basho_id).exists()
+
+
+def write_banzuke(data_dir: Path, basho: Basho, banzuke_date: str) -> Path:
+    path = banzuke_path(data_dir, basho.id)
+    write_json(path, basho.to_banzuke_dict(banzuke_date))
     return path
 
 

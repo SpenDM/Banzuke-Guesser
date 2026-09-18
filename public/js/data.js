@@ -36,6 +36,16 @@ export function applyOverrides(basho, overrides) {
   return basho;
 }
 
+/** The announced banzuke a round is scored against (data/banzuke/YYYYMM.json), or null before it is published. */
+export async function loadBanzuke(id) {
+  const res = await fetch(`data/banzuke/${id}.json`, { cache: 'no-cache' });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`banzuke ${id}: HTTP ${res.status}`);
+  // Cloudflare Pages answers unknown paths with index.html and a 200, so check what came back.
+  if (!(res.headers.get('content-type') || '').includes('json')) return null;
+  return res.json();
+}
+
 export async function loadBasho(id) {
   const [basho, overrides] = await Promise.all([getJson(`data/basho/${id}.json`), loadOverrides(id)]);
   return applyOverrides(basho, overrides);

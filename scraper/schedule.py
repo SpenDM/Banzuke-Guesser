@@ -57,3 +57,9 @@ def latest_finished(schedule: list[Tournament], today: date) -> Tournament | Non
     """Most recent tournament whose final day is strictly before `today`."""
     done = [t for t in schedule if date.fromisoformat(t.end_date) < today]
     return max(done, key=lambda t: t.id) if done else None
+
+
+def latest_announced(schedule: list[Tournament], today: date) -> Tournament | None:
+    """Most recent tournament whose banzuke has been announced (announcement day included)."""
+    out = [t for t in schedule if date.fromisoformat(t.banzuke_date) <= today]
+    return max(out, key=lambda t: t.id) if out else None

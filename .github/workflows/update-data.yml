@@ -2,12 +2,15 @@ name: Update banzuke data
 
 on:
   schedule:
-    # 00:10 JST daily (15:10 UTC). The script is a no-op unless a tournament just finished.
+    # 00:10 JST daily (15:10 UTC). The script is a no-op unless a tournament just finished or a
+    # banzuke was just announced.
     - cron: "10 15 * * *"
+    # 12:10 JST (03:10 UTC): the banzuke is announced mid-morning JST, so this catches it the same day.
+    - cron: "10 3 * * *"
   workflow_dispatch:
     inputs:
       force:
-        description: "Re-fetch the latest finished basho even if it already exists"
+        description: "Re-fetch the latest finished basho and announced banzuke even if they already exist"
         type: boolean
         default: false
 
@@ -33,7 +36,7 @@ jobs:
 
       - run: python -m pytest -q
 
-      - name: Fetch latest finished tournament
+      - name: Fetch latest finished tournament and announced banzuke
         run: python -m scraper.cli update ${{ inputs.force && '--force' || '' }}
 
       - name: Commit and push if data changed

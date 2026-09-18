@@ -17,7 +17,21 @@
     <div class="controls">
       <select id="basho-select" hidden aria-label="Previous tournament"></select>
       <span id="summary" class="summary"></span>
-      <a id="submit-guess" class="button-link" href="https://sumodb.sumogames.de/gtb/GTBEntry.aspx" target="_blank" rel="noopener noreferrer">Submit Guess</a>
+      <span id="submitted-note" class="submitted-note" hidden></span>
+      <div class="submit-wrap">
+        <button id="submit" type="button">Submit Guess</button>
+        <div id="shikona-box" class="panel shikona-box" hidden>
+          <form id="shikona-form">
+            <label for="shikona">Enter your shikona</label>
+            <div class="row">
+              <input id="shikona" type="text" maxlength="30" autocomplete="nickname" required>
+              <button type="submit">Submit</button>
+            </div>
+            <span id="shikona-error" class="form-error"></span>
+          </form>
+        </div>
+      </div>
+      <a id="submit-guess" class="button-link" href="https://sumodb.sumogames.de/gtb/GTBEntry.aspx" target="_blank" rel="noopener noreferrer">Submit Guess<br>to GTB</a>
     </div>
   </header>
 
@@ -27,6 +41,11 @@
         <h2>Tools</h2>
         <button id="apply-ideal" type="button">Apply&nbsp;Ideal<br>Rank&nbsp;Changes</button>
         <button id="reset" type="button">Reset</button>
+      </div>
+      <div class="panel pages">
+        <h2>Pages</h2>
+        <button id="view-predict" type="button" data-view-button="predict">Predict</button>
+        <button id="view-results" type="button" data-view-button="results">Results</button>
       </div>
       <div class="panel legend">
         <h2>Legend</h2>
@@ -62,13 +81,36 @@
         </dl>
       </div>
     </aside>
-    <section class="panel">
+    <section class="panel" data-view="predict">
       <h2><span id="basho-name">Previous</span> Results</h2>
       <div class="table-wrap"><table id="previous" class="banzuke previous"></table></div>
     </section>
-    <section class="panel">
+    <section class="panel" data-view="predict">
       <h2><span id="guess-name">Next</span> Banzuke Prediction</h2>
       <div class="table-wrap"><table id="guess" class="banzuke guess"></table></div>
+    </section>
+    <section class="results" data-view="results" hidden>
+      <div class="panel">
+        <h2 id="my-title">My Prediction</h2>
+        <p id="my-empty" class="hint" hidden></p>
+        <div class="table-wrap"><table id="my-banzuke" class="banzuke compare"></table></div>
+      </div>
+      <div class="panel">
+        <h2 id="actual-title">Banzuke</h2>
+        <p id="actual-empty" class="hint" hidden></p>
+        <div class="table-wrap"><table id="actual-banzuke" class="banzuke compare"></table></div>
+      </div>
+      <div class="panel">
+        <h2>My Results</h2>
+        <dl id="my-score" class="score"></dl>
+        <h3>Leaderboard</h3>
+        <div class="table-wrap"><table id="leaderboard" class="leaderboard"></table></div>
+      </div>
+      <div class="panel">
+        <h2 id="other-title">Community Prediction</h2>
+        <p id="other-hint" class="hint">Click a shikona in the leaderboard to see that prediction.</p>
+        <div class="table-wrap"><table id="other-banzuke" class="banzuke compare"></table></div>
+      </div>
     </section>
   </main>
 

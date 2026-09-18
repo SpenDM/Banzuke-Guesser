@@ -3,14 +3,27 @@ import { GuessState } from './state.js';
 import { renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, saveGuesses } from './storage.js';
+import { formatDate, todayJST } from './dates.js';
+import { SubmitController } from './submit.js';
+import { ResultsView } from './results.js';
 
 const $ = (sel) => document.querySelector(sel);
 
-function formatDate(iso) {
-  if (!iso) return '';
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+const BANNER = { predict: 'images/atami_banzuke.png', results: 'images/onosato_win.png' };
+let results = null;   // the ResultsView of the basho on screen
+let view = null;
+
+/** Shows the Predict or Results page; the Results page loads its data the first time it opens. */
+function setView(name) {
+  view = name;
+  for (const el of document.querySelectorAll('[data-view]')) el.hidden = el.dataset.view !== name;
+  for (const btn of document.querySelectorAll('[data-view-button]')) btn.classList.toggle('active', btn.dataset.viewButton === name);
+  $('.banner-photo').src = BANNER[name];
+  if (name === 'results' && results) results.load().catch(showError);
 }
+
+/** Results once the banzuke is out (the day after the announcement onwards), Predict before. */
+const defaultView = (basho) => (basho.next && todayJST() > basho.next.banzuke_date ? 'results' : 'predict');
 
 function renderHeader(basho) {
   $('#basho-name').textContent = basho.name;
@@ -52,6 +65,22 @@ async function showBasho(id) {
   $('#reset').onclick = () => {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();
   };
+
+  const submitEls = {
+    button: $('#submit'), note: $('#submitted-note'), box: $('#shikona-box'),
+    form: $('#shikona-form'), input: $('#shikona'), error: $('#shikona-error'),
+  };
+  // A fresh button per basho, so the previous basho's listeners don't linger.
+  submitEls.button.replaceWith(submitEls.button.cloneNode(true));
+  submitEls.button = $('#submit');
+  submitEls.form.replaceWith(submitEls.form.cloneNode(true));
+  submitEls.form = $('#shikona-form');
+  submitEls.input = $('#shikona');
+  submitEls.error = $('#shikona-error');
+  new SubmitController(state, basho.next, submitEls);
+
+  results = new ResultsView(basho);
+  setView(view || defaultView(basho));
 }
 
 async function main() {
@@ -64,6 +93,7 @@ async function main() {
     select.hidden = false;
     select.onchange = () => showBasho(select.value).catch(showError);
   }
+  for (const btn of document.querySelectorAll('[data-view-button]')) btn.onclick = () => setView(btn.dataset.viewButton);
   await showBasho(index.latest);
 }
 

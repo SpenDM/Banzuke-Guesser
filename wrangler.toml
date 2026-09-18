@@ -1,0 +1,10 @@
+# Cloudflare Pages configuration: the static site in public/ plus the submission API in functions/.
+# Create the database once with `npx wrangler d1 create banzuke-guesser` and paste its id below.
+name = "banzuke-guesser"
+pages_build_output_dir = "public"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "banzuke-guesser"
+database_id = "dbcf1ada-0d41-4140-ab2c-892bc5f667ca"

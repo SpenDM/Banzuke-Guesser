@@ -97,13 +97,14 @@ def rows_from_payload(payload: dict, with_ids: bool = True) -> list[RikishiRow]:
     return rows
 
 
-def build_basho(tournament: Tournament) -> Basho:
+def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
+    """`require_results=False` accepts the freshly announced banzuke, whose results are all zero."""
     rows: list[RikishiRow] = []
     for division in ("Makuuchi", "Juryo"):
         rows += rows_from_payload(_get(BANZUKE_URL.format(basho_id=tournament.id, division=division)))
     if not rows:
         raise NotAvailable(f"sumo-api.com returned no rikishi for {tournament.id}")
-    if all(r.wins + r.losses + r.absences == 0 for r in rows):
+    if require_results and all(r.wins + r.losses + r.absences == 0 for r in rows):
         raise NotAvailable(f"sumo-api.com has no results yet for {tournament.id}")
     return Basho(
         id=tournament.id,

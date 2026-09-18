@@ -60,6 +60,20 @@ def test_nsk_id_for_falls_back_to_the_rikishi_record(monkeypatch):
     assert calls == [sumoapi.RIKISHIS_URL, sumoapi.RIKISHI_URL.format(api_id=7)]
 
 
+def test_build_basho_needs_results_unless_told_otherwise(fixture_json, monkeypatch):
+    payload = fixture_json("sumoapi_202607_makuuchi.json")
+    for side in ("east", "west"):
+        for r in payload[side]:
+            r["wins"] = r["losses"] = r["absences"] = 0
+    monkeypatch.setattr(sumoapi, "_get", lambda url: payload if "Makuuchi" in url else {"east": [], "west": []})
+    monkeypatch.setattr(sumoapi, "nsk_id_for", lambda api_id: None)
+    t = Tournament("202609", "September 2026", "Kokugikan", "2026-08-31", "2026-09-13", "2026-09-27")
+    with pytest.raises(sumoapi.NotAvailable):
+        sumoapi.build_basho(t)
+    basho = sumoapi.build_basho(t, require_results=False)
+    assert len(basho.rikishi) == 42 and basho.source == "sumo-api.com"
+
+
 def test_full_basho_validates_cleanly(fixture_json, nsk_ids):
     rows = sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makuuchi.json"))
     rows += sumoapi.rows_from_payload(fixture_json("sumoapi_202607_juryo.json"))

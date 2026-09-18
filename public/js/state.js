@@ -1,6 +1,7 @@
 // Guess state: which slot each rikishi has been dragged to, plus the guess-table row layout.
 import {
-  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateRowSlots, parseSlot, slotId,
+  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateRowSlots, compareSlots,
+  parseSlot, slotId,
 } from './rank.js';
 import { idealPlacements } from './promote.js';
 
@@ -116,6 +117,21 @@ export class GuessState extends EventTarget {
       if (n === 1 && !s.candidates && DIVISION_OF[s.rank] === 'makuuchi') filled++;
     }
     return { spots, filled };
+  }
+
+  /**
+   * What gets submitted: every rikishi guessed into a numbered Makuuchi slot, in banzuke order, as
+   * {slot, key, rikishi_id, name}. Candidates rows and Juryo are left out (see validateGuess).
+   */
+  makuuchiPlacements() {
+    const out = [];
+    for (const [key, slot] of this.guesses) {
+      const s = parseSlot(slot);
+      if (s.candidates || DIVISION_OF[s.rank] !== 'makuuchi') continue;
+      const r = this.rikishi.get(key);
+      out.push({ slot, key, rikishi_id: r.rikishi_id ?? null, name: r.name });
+    }
+    return out.sort((a, b) => compareSlots(parseSlot(a.slot), parseSlot(b.slot)));
   }
 
   toJSON() { return { basho: this.basho.id, guesses: Object.fromEntries(this.guesses), rowCounts: this.rowCounts }; }
