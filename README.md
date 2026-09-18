@@ -32,7 +32,7 @@ sumo-api.com ┘                                                                
     plus the browser token and the last submission.
   - `js/submit.js` — the Submit Guess button: validation, the shikona popover, the API call.
   - `js/score.js` — scores a prediction against the announced banzuke and ranks the leaderboard.
-  - `js/results.js` — the Results page.
+  - `js/results.js` — the Results page; `js/rounds.js` names the rounds the Past Banzuke box lists.
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json` (results),
     `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against), plus optional
     hand-edited `overrides/YYYYMM.json` (see *Special Statuses*).
@@ -125,7 +125,8 @@ headcount is right (rikishi in numbered Makuuchi slots or left in a ↑ candidat
 same rank type (*Gap at M7W*). A message stays on the (disabled) button until the prediction
 changes. Then it asks for a shikona and posts to `/api/submit`; the button reads *Submitted* and a
 note says when to come back (the announcement date), turning into *Resubmit Guess* as soon as the
-prediction changes again. Submissions close on the announcement day.
+prediction changes again. Submissions close on the announcement day (*Submissions closed until
+<date>*, the day after that tournament ends, when the next round opens).
 
 Users are told apart by a random token kept in the browser's `localStorage` (not by IP address, so
 two people behind one router can both play; the flip side is that a new browser or cleared storage
@@ -135,9 +136,12 @@ tournament (*Shikona taken*), and changing your shikona frees the old one.
 ## Scoring
 
 The *Results* page (the Pages box switches between *Predict* and *Results*; Results is the default
-from the day after the announcement until the tournament ends) shows the submitted prediction next
-to the announced banzuke, correct slots in blue and wrong ones in red, plus the score, community
-placement, the leaderboard, and any other user's prediction on click.
+from the day after the announcement until the tournament ends, but only for a user who submitted a
+prediction) shows the submitted prediction next to the announced banzuke, correct slots in blue
+and wrong ones in red, plus the score, community placement, the leaderboard, and any other user's
+prediction on click. Its sidebar swaps Tools and Legend for a *Past Banzuke* box: a year and a
+tournament select over every round the app has data for (one results file each), or a welcome
+note while there is only the first.
 
 A prediction earns 1 point per rikishi in the right slot and 1 point per correct neighbour pairing:
 two rikishi that follow each other on the real banzuke (Y1E, Y1W, O1E, … order) and also follow

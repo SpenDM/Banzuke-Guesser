@@ -52,8 +52,8 @@ const samePlacements = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 
 /**
  * The submit button, the "<shikona>, come back <date>" note and the shikona popover.
- * `round` is the tournament being predicted ({id, name, banzuke_date}); `els` the elements
- * {button, note, box, form, input, error}.
+ * `round` is the tournament being predicted ({id, name, banzuke_date, reopens}, `reopens` being
+ * the formatted day the next round opens); `els` the elements {button, note, box, form, input, error}.
  */
 export class SubmitController {
   constructor(state, round, els, { fetchImpl = fetch, now = todayJST } = {}) {
@@ -129,7 +129,9 @@ export class SubmitController {
   /** Button text and whether it is clickable, from the current state. */
   status() {
     if (!this.round) return { text: 'No upcoming basho', enabled: false };
-    if (this.closed) return { text: 'Submissions closed', enabled: false };
+    if (this.closed) {
+      return { text: this.round.reopens ? `Submissions closed until ${this.round.reopens}` : 'Submissions closed', enabled: false };
+    }
     if (this.message) return { text: this.message, enabled: false, error: true };
     if (this.asking) return { text: 'Enter your shikona', enabled: false };
     if (this.submitted) return { text: 'Submitted', enabled: false };

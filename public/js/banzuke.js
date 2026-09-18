@@ -217,8 +217,9 @@ function candidatesRow(state, rank, ladder) {
 
 /**
  * Results view: one Makuuchi banzuke (a submitted prediction or the announced one) as
- * East | Rank | West, each chip blue when that slot is in `correctSlots` and red otherwise.
- * `placements` are {slot, key, name, rikishi_id}.
+ * East | Rank | West, each chip blue when that slot is in `correctSlots` and red otherwise
+ * (neutral when `correctSlots` is null: nothing to compare against). `placements` are
+ * {slot, key, name, rikishi_id}.
  */
 export function renderComparison(table, placements, correctSlots) {
   const bySlot = new Map(placements.map((p) => [p.slot, p]));
@@ -235,7 +236,8 @@ export function renderComparison(table, placements, correctSlots) {
       const cellFor = (side) => {
         const p = bySlot.get(slotId(rank, num, side));
         if (!p) return h('td', { class: 'rikishi empty' });
-        return h('td', { class: 'rikishi' }, chip(p, { draggable: false, mark: correctSlots.has(p.slot) ? 'correct' : 'wrong' }));
+        const mark = correctSlots && (correctSlots.has(p.slot) ? 'correct' : 'wrong');
+        return h('td', { class: 'rikishi' }, chip(p, { draggable: false, mark }));
       };
       tbody.append(h('tr', { class: rankRowClass(rank, num) },
         cellFor('E'), h('td', { class: 'rank', text: `${rank}${num}` }), cellFor('W')));

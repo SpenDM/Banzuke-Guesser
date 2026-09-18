@@ -15,7 +15,7 @@
     </div>
     <img class="banner-photo" src="images/atami_banzuke.png" alt="">
     <div class="controls">
-      <select id="basho-select" hidden aria-label="Previous tournament"></select>
+      <select id="basho-select" hidden aria-label="Previous tournament" data-view="predict"></select>
       <span id="summary" class="summary"></span>
       <span id="submitted-note" class="submitted-note" hidden></span>
       <div class="submit-wrap">
@@ -37,7 +37,7 @@
 
   <main id="app" class="panels">
     <aside class="sidebar">
-      <div class="panel tools">
+      <div class="panel tools" data-view="predict">
         <h2>Tools</h2>
         <button id="apply-ideal" type="button">Apply&nbsp;Ideal<br>Rank&nbsp;Changes</button>
         <button id="reset" type="button">Reset</button>
@@ -47,7 +47,13 @@
         <button id="view-predict" type="button" data-view-button="predict">Predict</button>
         <button id="view-results" type="button" data-view-button="results">Results</button>
       </div>
-      <div class="panel legend">
+      <div class="panel past" data-view="results" hidden>
+        <h2>Past Banzuke</h2>
+        <p id="past-none" class="hint" hidden>No historic banzuke - welcome to the inaugural Banzuke Guesser competition!</p>
+        <select id="past-year" aria-label="Year" hidden></select>
+        <select id="past-basho" aria-label="Tournament" hidden></select>
+      </div>
+      <div class="panel legend" data-view="predict">
         <h2>Legend</h2>
         <h3>Ranks</h3>
         <dl>

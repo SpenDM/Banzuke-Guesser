@@ -66,7 +66,7 @@ export class ResultsView {
 
     if (!actual) {
       this.empty(`The ${round.name} banzuke hasn't been announced yet (expected ${formatDate(round.banzuke_date)}).`);
-      if (mine) renderComparison($('#my-banzuke'), mine.placements, new Set());
+      if (mine) renderComparison($('#my-banzuke'), mine.placements, null);
       return;
     }
     const actualRows = actual.rikishi.map((r) => ({ slot: `${r.rank}${r.num}${r.side}`, key: r.key, name: r.name, rikishi_id: r.rikishi_id }));
@@ -82,7 +82,7 @@ export class ResultsView {
       $('#my-empty').hidden = true;
     } else {
       $('#my-banzuke').replaceChildren();
-      renderComparison($('#actual-banzuke'), actualRows, new Set());
+      renderComparison($('#actual-banzuke'), actualRows, null);
       $('#my-empty').textContent = "You didn't submit a prediction for this tournament.";
       $('#my-empty').hidden = false;
     }
