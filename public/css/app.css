@@ -35,7 +35,11 @@ body {
   font: 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   color: var(--ink);
   background: var(--bg);
+  opacity: 1; transition: opacity .15s ease-in;
 }
+/* Keeps the page invisible (but laid out) until main.js has loaded everything and shows it all
+   at once; js/main.js removes this class once the page is ready or has failed with an error. */
+html.loading body { opacity: 0; transition: none; }
 h1 { margin: 0; font-size: 22px; }
 h2 { margin: 0 0 8px; font-size: 16px; }
 p { margin: 4px 0; }

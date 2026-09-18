@@ -163,4 +163,4 @@ function showError(err) {
   $('#subtitle').textContent = `Could not load data: ${err.message}`;
 }
 
-main().catch(showError);
+main().catch(showError).finally(() => document.documentElement.classList.remove('loading'));
