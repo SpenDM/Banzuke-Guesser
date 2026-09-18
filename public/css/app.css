@@ -53,7 +53,7 @@ a { color: var(--accent); }
 .banner-wrap { height: 80px; margin: -14px 0 -10px; overflow: hidden; position: relative; }
 .banner-photo {
   height: 80px; width: auto; display: block;
-  transition: transform .35s ease-in-out;
+  transition: transform .175s ease-in-out;
 }
 .banner-photo.banner-photo--sliding { transform: translateY(100%); }
 .banner-photo.banner-photo--jump { transition: none; }
@@ -61,7 +61,7 @@ a { color: var(--accent); }
 .summary { color: var(--muted); }
 button, select, .button-link {
   font: inherit; padding: 6px 12px; border: 1px solid var(--chip-border); border-radius: 6px;
-  background: var(--chip); cursor: pointer;
+  background: var(--chip); cursor: pointer; white-space: pre-line;
 }
 button:hover, .button-link:hover { background: #f0ede6; }
 button:disabled { cursor: default; color: var(--muted); background: var(--chip); }

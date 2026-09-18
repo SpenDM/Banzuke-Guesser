@@ -130,7 +130,7 @@ export class SubmitController {
   status() {
     if (!this.round) return { text: 'No upcoming basho', enabled: false };
     if (this.closed) {
-      return { text: this.round.reopens ? `Submissions closed until ${this.round.reopens}` : 'Submissions closed', enabled: false };
+      return { text: this.round.reopens ? `Submissions closed\nuntil ${this.round.reopens}` : 'Submissions closed', enabled: false };
     }
     if (this.message) return { text: this.message, enabled: false, error: true };
     if (this.asking) return { text: 'Enter your shikona', enabled: false };
