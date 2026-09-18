@@ -158,7 +158,14 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
 .banzuke td.rank { position: relative; text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
 .banzuke td.result, .banzuke td.cur-rank, .banzuke td.change-cell { text-align: center; white-space: nowrap; width: 1%; color: var(--muted); }
 .banzuke td.rikishi { min-width: 120px; }
-.banzuke.guess td.rikishi { min-width: 92px; }
+/* Capped (not just floored) at the same width, unlike the previous table's rikishi column: with
+   badges and Rank Change/Cur Rank numbers filling in (e.g. after Apply Ideal Rank Changes), an
+   uncapped column would grow to fit its widest chip, squeezing the previous table's 1fr column
+   out of the space it needs. A long name+badges combo just ellipses instead. */
+.banzuke.guess td.rikishi { min-width: 92px; max-width: 92px; overflow: hidden; }
+.banzuke.guess td.rikishi .chip { max-width: 100%; }
+.banzuke.guess td.rikishi .chip .name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.banzuke.guess td.rikishi .chip > *:not(.name) { flex: 0 0 auto; }
 .banzuke tr.division td { background: #efece4; font-weight: 700; text-align: left; padding: 4px 8px; letter-spacing: .02em; }
 tr.sanyaku-gold td { background: var(--gold-bg); }
 tr.sanyaku-bronze td { background: var(--bronze-bg); }
