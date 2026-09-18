@@ -1,6 +1,6 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
 import {
-  RANK_NAMES, DIVISION_OF, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
+  RANK_NAMES, DIVISION_OF, DIVISION_NAMES, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
   DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
 } from './rank.js';
 import {
@@ -89,7 +89,7 @@ function changeSpan(c) {
 }
 
 function divisionRow(rank, colspan) {
-  return h('tr', { class: 'division' }, h('td', { colspan, text: RANK_NAMES[rank] }));
+  return h('tr', { class: 'division' }, h('td', { colspan, text: DIVISION_NAMES[DIVISION_OF[rank]] }));
 }
 
 /** Left: Result | East | Rank | West | Result */

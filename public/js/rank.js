@@ -3,6 +3,7 @@
 export const RANK_ORDER = ['Y', 'O', 'S', 'K', 'M', 'J'];
 export const RANK_NAMES = { Y: 'Yokozuna', O: 'Ozeki', S: 'Sekiwake', K: 'Komusubi', M: 'Maegashira', J: 'Juryo' };
 export const DIVISION_OF = { Y: 'makuuchi', O: 'makuuchi', S: 'makuuchi', K: 'makuuchi', M: 'makuuchi', J: 'juryo' };
+export const DIVISION_NAMES = { makuuchi: 'Makuuchi', juryo: 'Juryo' };
 
 // Sanyaku rows alternate gold/bronze instead of the plain white used for Maegashira/Juryo.
 export const SANYAKU_TINT = { Y: 'gold', O: 'bronze', S: 'gold', K: 'bronze' };

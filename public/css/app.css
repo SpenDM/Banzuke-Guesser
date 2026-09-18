@@ -154,6 +154,11 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
   position: sticky; top: 0; z-index: 1;
   background: var(--head); color: #fff; font-weight: 600; font-size: 12px; padding: 6px 6px; text-align: center;
 }
+/* The guess table's two-word headers ("Cur Rank", "Net Wins", "Rank Change") wrap onto two lines
+   at this width, making its header row taller than the previous table's single-line one.
+   Thickening the previous table's header row to match keeps every row below it lined up between
+   the two side-by-side tables in the Predict view. */
+.banzuke.previous th { height: 46px; }
 .banzuke td { border: 1px solid var(--line); padding: 2px 6px; vertical-align: top; }
 .banzuke td.rank { position: relative; text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
 .banzuke td.result, .banzuke td.cur-rank, .banzuke td.change-cell { text-align: center; white-space: nowrap; width: 1%; color: var(--muted); }
