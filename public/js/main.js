@@ -23,8 +23,23 @@ function setView(name) {
     el.hidden = el.dataset.view !== name || (el.id === 'basho-select' && el.options.length < 2);
   }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.classList.toggle('active', btn.dataset.viewButton === name);
-  $('.banner-photo').src = BANNER[name];
+  setBanner(BANNER[name]);
   if (name === 'results' && results) results.load().catch(showError);
+}
+
+/** Swaps the banner photo: the old image slides down out of the banner, then the new one slides up into it. */
+function setBanner(src) {
+  const img = $('.banner-photo');
+  if (img.getAttribute('src') === src) return;
+  img.classList.add('banner-photo--sliding');
+  img.addEventListener('transitionend', function onSlideOut() {
+    img.removeEventListener('transitionend', onSlideOut);
+    img.classList.add('banner-photo--jump');
+    img.src = src;
+    void img.offsetHeight; // force a reflow so the jump to the start position isn't animated
+    img.classList.remove('banner-photo--jump');
+    img.classList.remove('banner-photo--sliding'); // animates back to translateY(0), i.e. slides up
+  }, { once: true });
 }
 
 /**

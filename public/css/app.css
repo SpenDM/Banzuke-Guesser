@@ -48,8 +48,15 @@ a { color: var(--accent); }
 .topbar p { color: var(--muted); }
 /* A fixed height taller than the title text, so it (not the text) sets the banner's height;
    negative top/bottom margins matching .topbar's own padding then cancel that padding out,
-   landing the image's edges flush on the banner's actual top and bottom edges. */
-.banner-photo { height: 80px; width: auto; margin: -14px 0 -10px; }
+   landing the wrap's edges flush on the banner's actual top and bottom edges. overflow: hidden
+   is what turns the slide animation into a slide "into"/"out of" the bottom border. */
+.banner-wrap { height: 80px; margin: -14px 0 -10px; overflow: hidden; position: relative; }
+.banner-photo {
+  height: 80px; width: auto; display: block;
+  transition: transform .35s ease-in-out;
+}
+.banner-photo.banner-photo--sliding { transform: translateY(100%); }
+.banner-photo.banner-photo--jump { transition: none; }
 .controls { display: flex; gap: 12px; align-items: center; margin-left: auto; }
 .summary { color: var(--muted); }
 button, select, .button-link {
