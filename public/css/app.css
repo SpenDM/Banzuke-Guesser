@@ -72,14 +72,24 @@ button:disabled { cursor: default; color: var(--muted); background: var(--chip);
 button.button-error:disabled { color: var(--down); font-weight: 600; }
 .button-link { display: inline-block; color: inherit; text-decoration: none; line-height: 1.4; text-align: center; }
 
-/* Submit Guess: the "<shikona>, come back <date>" note and the shikona popover under the button. */
+/* Submit Guess: the "Submitted, come back <date>" note. Register: the button (showing the shikona
+   once registered) and the popover under it with the shikona field and the sign-in forms. */
 .submitted-note { color: var(--muted); font-size: 12px; max-width: 220px; text-align: right; }
-.submit-wrap { position: relative; }
-.shikona-box { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; width: 260px; box-shadow: 0 4px 12px rgba(0, 0, 0, .15); }
-.shikona-box label { display: block; font-weight: 600; margin-bottom: 6px; }
-.shikona-box .row { display: flex; gap: 6px; }
-.shikona-box input { flex: 1; min-width: 0; font: inherit; padding: 5px 8px; border: 1px solid var(--chip-border); border-radius: 6px; }
+.register-wrap { position: relative; }
+.popover { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; width: 300px; box-shadow: 0 4px 12px rgba(0, 0, 0, .15); }
+.popover label { display: block; font-weight: 600; margin-bottom: 6px; }
+.popover .row { display: flex; gap: 6px; align-items: center; }
+.popover input { flex: 1; min-width: 0; width: 100%; font: inherit; padding: 5px 8px; border: 1px solid var(--chip-border); border-radius: 6px; }
+.popover .hint { margin: 0 0 8px; }
+.popover button.wide { width: 100%; }
+.popover button.link { border: 0; background: none; padding: 0 4px; color: var(--accent); text-decoration: underline; }
+.popover button.link:disabled { color: var(--muted); }
+.account { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 10px; }
+.account[hidden], #account-out[hidden], #account-in[hidden] { display: none; }
+#email-form { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+#account-in { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
 .form-error { display: block; min-height: 1.4em; margin-top: 4px; color: var(--down); font-size: 12px; font-weight: 600; }
+.form-error.ok { color: var(--muted); }
 
 /* Results view: prediction vs banzuke on top, my score + leaderboard and a clicked prediction below. */
 .results { grid-column: 2 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }

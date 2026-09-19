@@ -6,9 +6,10 @@ drag each rikishi into the slot you think they'll occupy on the next banzuke on 
 The app fills in current rank, result and the rank change (`+0.5`, `-4.5`, `↑K`, `↓J`)
 for you. Several rikishi can share a slot while you resolve conflicts.
 
-Finished predictions can be submitted to the app itself under a shikona; once the real banzuke is
+Finished predictions can be submitted to the app itself under a registered shikona — optionally
+tied to a Google or email sign-in so it follows you across devices; once the real banzuke is
 announced the *Results* page scores every submission against it and shows a leaderboard
-(see *Submitting a guess* and *Scoring*).
+(see *Registering and submitting a guess* and *Scoring*).
 
 Live site: deployed on Cloudflare Workers from this repository (see *Deployment*).
 
@@ -18,7 +19,8 @@ Live site: deployed on Cloudflare Workers from this repository (see *Deployment*
 sumo.or.jp ──┐
              ├─► scraper (Python, GitHub Actions nightly) ──► public/data/*.json ──► Cloudflare Worker
 sumo-api.com ┘                                                                        (static assets)
-                                                    browser ──► /api/* (worker.js) ──► D1 (submissions)
+                                                    browser ──► /api/* (worker.js) ──► D1 (users, submissions)
+                                                       └──► Firebase Auth (optional sign-in; the Worker verifies its ID tokens)
 ```
 
 - `public/` — the site. Plain HTML/CSS/ES modules, no build step.
@@ -29,16 +31,20 @@ sumo-api.com ┘                                                                
   - `js/banzuke.js` — renders the previous and guess banzuke tables.
   - `js/dnd.js` — HTML5 drag-and-drop plus a tap-to-select fallback for touch devices.
   - `js/storage.js` — saves the guess in `localStorage` (one entry per basho) so it survives a reload,
-    plus the browser token and the last submission.
-  - `js/submit.js` — the Submit Guess button: validation, the shikona popover, the API call.
+    plus the browser token, the registered profile and the last submission.
+  - `js/register.js` — the Register button and popover: shikona, Google / email sign-in.
+  - `js/auth.js` — the identity sent to the API (browser token + Firebase ID token when signed in);
+    loads the Firebase SDK lazily. `js/firebase-config.js` holds the project's web config.
+  - `js/submit.js` — the Submit Guess button: validation and the API call.
   - `js/score.js` — scores a prediction against the announced banzuke and ranks the leaderboard.
   - `js/results.js` — the Results page; `js/rounds.js` names the rounds the Past Banzuke box lists.
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json` (results),
     `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against), plus optional
     hand-edited `overrides/YYYYMM.json` (see *Special Statuses*).
-- `worker.js` + `functions/api/` — the Cloudflare Worker: `/api/submit` and `/api/submissions`
-  store submissions in a D1 database; every other path is served from `public/` as static assets
-  (see *Submissions backend*).
+- `worker.js` + `functions/api/` — the Cloudflare Worker: `/api/register`, `/api/me`, `/api/submit`
+  and `/api/submissions` keep users and submissions in a D1 database (`functions/firebase.js`
+  verifies Firebase ID tokens); `/__/auth/*` is proxied to Firebase for the sign-in popup; every
+  other path is served from `public/` as static assets (see *Submissions backend*).
 - `scraper/` — Python package that produces `public/data`.
   - `schedule.py` — parses the [tournament schedule](https://www.sumo.or.jp/EnTicket/year_schedule/).
   - `official.py` — banzuke + results from the [sumo.or.jp](https://www.sumo.or.jp/EnHonbashoBanzuke/index/)
@@ -115,23 +121,33 @@ suspension, a Yokozuna run the committee did or did not declare). Put correction
 { "hoshoryu": { "retired": true }, "kirishima": { "tsunatori": false }, "abi": { "suspended": true } }
 ```
 
-## Submitting a guess
+## Registering and submitting a guess
+
+**Register** opens a popover asking for a shikona; once saved, the button shows it, and clicking it
+again lets the user rename or change their sign-in. A shikona belongs to one user across every
+round (*Shikona taken*), and renaming frees the old one (and renames past submissions). The popover
+also offers, optionally, **Continue with Google** and an email/password form (sign in, create
+account, forgot password): signing in ties the shikona and the predictions to the account, so they
+are the same on every device and survive a cleared browser.
+
+Without a sign-in, users are told apart by a random token kept in the browser's `localStorage`
+(not by IP address, so two people behind one router can both play; the flip side is that a new
+browser or cleared storage counts as a new user). Signing in folds that browser's anonymous
+identity into the account: its registration moves over unless the account already has a shikona
+(the account's wins), and so do its submissions, except for rounds the account already submitted.
+Signing out returns the browser to its (now empty) anonymous identity.
 
 **Submit Guess** (next to the *Submit Guess to GTB* link, which still opens sumodb's game) saves the
 Makuuchi half of the prediction in this app. It first checks, in this order, that the Makuuchi
 headcount is right (rikishi in numbered Makuuchi slots or left in a ↑ candidates row; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
 *Unplaced at ↑K* for a candidates row), and that there is no empty slot above a filled one of the
-same rank type (*Gap at M7W*). A message stays on the (disabled) button until the prediction
-changes. Then it asks for a shikona and posts to `/api/submit`; the button reads *Submitted* and a
-note says when to come back (the announcement date), turning into *Resubmit Guess* as soon as the
-prediction changes again. Submissions close on the announcement day (*Submissions closed until
-<date>*, the day after that tournament ends, when the next round opens).
-
-Users are told apart by a random token kept in the browser's `localStorage` (not by IP address, so
-two people behind one router can both play; the flip side is that a new browser or cleared storage
-counts as a new user). One submission per token per tournament; a shikona belongs to one token per
-tournament (*Shikona taken*), and changing your shikona frees the old one.
+same rank type (*Gap at M7W*); then that the user is registered (*Register first*, opening the
+popover). A message stays on the (disabled) button until the prediction changes. Then it posts to
+`/api/submit`; the button reads *Submitted* and a note says when to come back (the announcement
+date), turning into *Resubmit Guess* as soon as the prediction changes again. One submission per
+user per tournament. Submissions close on the announcement day (*Submissions closed until <date>*,
+the day after that tournament ends, when the next round opens).
 
 ## Scoring
 
@@ -160,11 +176,43 @@ others' guesses before the announcement.
 assets; `wrangler.toml` declares the assets directory and the `DB` binding. One-time setup:
 
 1. `npx wrangler d1 create banzuke-guesser` and paste the returned `database_id` into `wrangler.toml`.
-2. `npx wrangler d1 execute banzuke-guesser --remote --file functions/schema.sql`.
+2. `npx wrangler d1 execute banzuke-guesser --remote --file functions/schema.sql` (a database from
+   before the `users` table: `--file functions/migrate-users.sql` instead, once — it registers every
+   token that has submitted under its latest shikona and drops the per-round shikona constraint).
 
-Endpoints: `POST /api/submit` `{basho, shikona, placements}` with header `X-Guesser-Token`
-(→ `409 shikona_taken`, `403 closed`, `400` on a malformed guess), and
-`GET /api/submissions?basho=YYYYMM` (→ `{published, count, me, submissions?}`).
+Every endpoint identifies the caller by the `X-Guesser-Token` header (the browser token) and/or
+`Authorization: Bearer <Firebase ID token>` (→ `401 bad_auth` if it does not verify); rows are keyed
+by the token or by `fb:<uid>`. A request carrying both first folds the token's identity into the
+account (see *Registering and submitting a guess*).
+
+- `POST /api/register` `{shikona?, basho?}` — registers or renames (→ `409 shikona_taken`,
+  `400 bad_shikona`); without `shikona` just answers with the profile. Both return
+  `{shikona, signed_in, provider, submission}`, `submission` being the caller's prediction for `basho`.
+- `GET /api/me?basho=YYYYMM` — the same profile.
+- `POST /api/submit` `{basho, placements}` (→ `403 not_registered`, `403 closed`, `400` on a
+  malformed guess).
+- `GET /api/submissions?basho=YYYYMM` (→ `{published, count, me, submissions?}`).
+
+### Firebase sign-in
+
+Sign-in is optional and off until `public/js/firebase-config.js` is filled in. One-time setup:
+
+1. [Firebase console](https://console.firebase.google.com/): create a project (no Analytics needed),
+   add a **Web app** and copy its `apiKey`, `projectId` and `appId` into `firebase-config.js`.
+   Keep `authDomain` as the site's own domain (`sumo.ranker.page`).
+2. **Authentication → Sign-in method**: enable **Google** and **Email/Password**. Other providers
+   (Apple, GitHub, Microsoft…) are a toggle here plus a method in `auth.js` and a button.
+3. **Authentication → Settings → Authorized domains**: add `sumo.ranker.page` (and `localhost`
+   for `wrangler dev`).
+4. Because `authDomain` is the site itself, the Worker proxies `/__/auth/*` to
+   `<projectId>.firebaseapp.com`, which keeps the Google popup working in browsers that block
+   third-party storage. For that, in [Google Cloud console](https://console.cloud.google.com/apis/credentials)
+   → the project's *Web client (auto created by Google Service)* OAuth client, add
+   `https://sumo.ranker.page/__/auth/handler` to **Authorized redirect URIs**
+   (Firebase's [redirect best practices](https://firebase.google.com/docs/auth/web/redirect-best-practices), option 3).
+
+No secret is involved: the Worker verifies ID tokens against Google's public keys
+(`functions/firebase.js`), and the web config only names the project.
 
 ## Deployment (Cloudflare Workers)
 

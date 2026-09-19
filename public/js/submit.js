@@ -1,8 +1,10 @@
-// "Submit Guess": checks the prediction is a complete Makuuchi banzuke, asks for a shikona and
-// saves it through the API (functions/api/submit.js). Owns the button's text/enabled state.
+// "Submit Guess": checks the prediction is a complete Makuuchi banzuke and saves it through the
+// API (functions/api/submit.js) under the shikona the user registered (register.js). Owns the
+// button's text/enabled state.
 import { DIVISION_OF, RANK_ORDER, compareSlots, parseSlot, slotId, slotName } from './rank.js';
 import { formatDate, todayJST } from './dates.js';
-import { getToken, loadSubmission, saveSubmission } from './storage.js';
+import { loadSubmission, saveSubmission } from './storage.js';
+import { api } from './auth.js';
 
 const MAKUUCHI_RANKS = RANK_ORDER.filter((rank) => DIVISION_OF[rank] === 'makuuchi');
 
@@ -49,82 +51,91 @@ export function validateGuess(state) {
 }
 
 const samePlacements = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const REGISTER_FIRST = 'Register first';
 
 /**
- * The submit button, the "<shikona>, come back <date>" note and the shikona popover.
+ * The submit button and the "come back <date>" note.
  * `round` is the tournament being predicted ({id, name, banzuke_date, reopens}, `reopens` being
- * the formatted day the next round opens); `els` the elements {button, note, box, form, input, error}.
+ * the formatted day the next round opens); `els` the elements {button, note}; `register` the
+ * RegisterController (its shikona gates submitting, and its 'change' events carry the server's
+ * copy of this round's submission).
  */
 export class SubmitController {
-  constructor(state, round, els, { fetchImpl = fetch, now = todayJST } = {}) {
+  constructor(state, round, els, register, { fetchImpl = api, now = todayJST } = {}) {
     this.state = state;
     this.round = round;
     this.els = els;
-    this.fetch = (...args) => fetchImpl(...args);   // window.fetch must not be called with `this` rebound
+    this.register = register;
+    this.fetch = (...args) => fetchImpl(...args);
     this.now = now;
     this.submission = round ? loadSubmission(round.id) : null;
     this.message = null;      // a validation/API message shown on the button until the next change
-    this.asking = false;      // the shikona popover is open
-    state.addEventListener('change', () => this.onChange());
-    els.button.addEventListener('click', () => this.onClick());
-    els.form.addEventListener('submit', (e) => { e.preventDefault(); this.send(); });
+    this.sending = false;
+    this.listeners = new AbortController();
+    const { signal } = this.listeners;
+    state.addEventListener('change', () => this.onChange(), { signal });
+    els.button.addEventListener('click', () => this.onClick(), { signal });
+    register.addEventListener('change', (e) => this.onProfile(e.detail), { signal });
     this.render();
   }
+
+  /** Stops listening (the page moved on to another basho). */
+  dispose() { this.listeners.abort(); }
 
   get closed() { return !this.round || this.now() >= this.round.banzuke_date; }
   get submitted() { return !!this.submission && samePlacements(this.submission.placements, this.state.makuuchiPlacements()); }
 
   onChange() {
     this.message = null;
-    this.asking = false;
+    this.render();
+  }
+
+  /** The server's word on the user's submission for this round, after registering or signing in/out. */
+  onProfile({ profile, submission }) {
+    if (this.round) {
+      this.submission = submission ? { shikona: profile.shikona, ...submission } : null;
+      saveSubmission(this.round.id, this.submission);
+    }
+    if (this.message === REGISTER_FIRST && profile.shikona) this.message = null;
     this.render();
   }
 
   onClick() {
-    if (this.closed || this.submitted) return;
+    if (this.closed || this.submitted || this.sending) return;
     const problem = validateGuess(this.state);
     if (problem) { this.message = problem; this.render(); return; }
-    this.asking = true;
-    this.render();
-    this.els.input.value = this.submission?.shikona || this.els.input.value;
-    this.els.input.focus();
+    if (!this.register.shikona) { this.message = REGISTER_FIRST; this.render(); this.register.open(); return; }
+    this.send();
   }
 
   async send() {
-    const shikona = this.els.input.value.trim().replace(/\s+/g, ' ');
-    if (!shikona) { this.showFormError('Enter a shikona'); return; }
     const placements = this.state.makuuchiPlacements();
-    this.els.form.querySelector('button').disabled = true;
-    this.showFormError('');
+    this.sending = true;
+    this.render();
     try {
-      const res = await this.fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-guesser-token': getToken() },
-        body: JSON.stringify({ basho: this.round.id, shikona, placements }),
-      });
+      const res = await this.fetch('/api/submit', { method: 'POST', body: { basho: this.round.id, placements } });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
-        this.submission = { shikona: data.shikona || shikona, placements, submitted_at: data.submitted_at };
+        this.submission = { shikona: data.shikona || this.register.shikona, placements, submitted_at: data.submitted_at };
         saveSubmission(this.round.id, this.submission);
-        this.asking = false;
         this.message = null;
-      } else if (data.error === 'shikona_taken') {
-        this.showFormError('Shikona taken');
+      } else if (data.error === 'not_registered') {
+        this.message = REGISTER_FIRST;
+        this.register.open();
       } else if (data.error === 'closed') {
-        this.asking = false;
         this.message = 'Submissions closed';
+      } else if (data.error === 'bad_auth') {
+        this.message = 'Sign in again';
       } else {
-        this.showFormError(data.error === 'bad_shikona' ? 'Shikona must be 1–30 characters' : 'Try again');
+        this.message = 'Try again';
       }
     } catch {
-      this.showFormError('Try again');
+      this.message = 'Try again';
     } finally {
-      this.els.form.querySelector('button').disabled = false;
+      this.sending = false;
       this.render();
     }
   }
-
-  showFormError(text) { this.els.error.textContent = text; }
 
   /** Button text and whether it is clickable, from the current state. */
   status() {
@@ -132,22 +143,20 @@ export class SubmitController {
     if (this.closed) {
       return { text: this.round.reopens ? `Submissions closed\nuntil ${this.round.reopens}` : 'Submissions closed', enabled: false };
     }
+    if (this.sending) return { text: 'Submitting…', enabled: false };
     if (this.message) return { text: this.message, enabled: false, error: true };
-    if (this.asking) return { text: 'Enter your shikona', enabled: false };
     if (this.submitted) return { text: 'Submitted', enabled: false };
     return { text: this.submission ? 'Resubmit Guess' : 'Submit Guess', enabled: true };
   }
 
   render() {
-    const { button, note, box } = this.els;
+    const { button, note } = this.els;
     const s = this.status();
     button.textContent = s.text;
     button.disabled = !s.enabled;
     button.classList.toggle('button-error', !!s.error);
-    box.hidden = !this.asking;
-    if (!this.asking) this.showFormError('');
     if (this.submission && this.round) {
-      note.textContent = `${this.submission.shikona}, come back ${formatDate(this.round.banzuke_date)}`;
+      note.textContent = `Submitted, come back ${formatDate(this.round.banzuke_date)}`;
       note.hidden = false;
     } else {
       note.hidden = true;

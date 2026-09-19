@@ -5,6 +5,7 @@ import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, loadSubmission, saveGuesses } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
 import { SubmitController } from './submit.js';
+import { RegisterController } from './register.js';
 import { ResultsView } from './results.js';
 import { reopenDate, rounds } from './rounds.js';
 
@@ -14,6 +15,8 @@ const BANNER = { predict: 'images/atami_banzuke.png', results: 'images/onosato_w
 let results = null;   // the ResultsView of the round picked in the Past Banzuke box
 let view = null;
 let schedule = [];
+let register = null;  // the Register button, shared by every basho shown
+let submit = null;    // the Submit Guess button of the basho shown
 
 /** Shows the Predict or Results page (each with its own sidebar boxes); Results loads its data on first open. */
 function setView(name) {
@@ -98,19 +101,31 @@ async function showBasho(id) {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();
   };
 
-  const submitEls = {
-    button: $('#submit'), note: $('#submitted-note'), box: $('#shikona-box'),
-    form: $('#shikona-form'), input: $('#shikona'), error: $('#shikona-error'),
-  };
-  // A fresh button per basho, so the previous basho's listeners don't linger.
-  submitEls.button.replaceWith(submitEls.button.cloneNode(true));
-  submitEls.button = $('#submit');
-  submitEls.form.replaceWith(submitEls.form.cloneNode(true));
-  submitEls.form = $('#shikona-form');
-  submitEls.input = $('#shikona');
-  submitEls.error = $('#shikona-error');
-  new SubmitController(state, roundOf(basho), submitEls);
+  const round = roundOf(basho);
+  register.setRound(round?.id ?? null);
+  submit?.dispose();
+  submit = new SubmitController(state, round, { button: $('#submit'), note: $('#submitted-note') }, register);
   return basho;
+}
+
+/** The Register button and popover (register.js), created once for the page. */
+function installRegister() {
+  register = new RegisterController({
+    button: $('#register'), box: $('#register-box'), form: $('#register-form'), input: $('#shikona'),
+    error: $('#register-error'), account: $('#account'), out: $('#account-out'), in: $('#account-in'),
+    google: $('#google-signin'), emailForm: $('#email-form'), email: $('#email'), password: $('#password'),
+    create: $('#email-create'), reset: $('#email-reset'), who: $('#account-who'), signout: $('#signout'),
+    accountMsg: $('#account-msg'),
+  });
+  // Signing in or out (or renaming) changes whose submission the Results page shows.
+  let known = JSON.stringify(register.profile);
+  register.addEventListener('change', (e) => {
+    const profile = JSON.stringify(e.detail.profile);
+    if (profile === known || !results) return;
+    known = profile;
+    results = new ResultsView(results.basho);
+    if (view === 'results') results.load().catch(showError);
+  });
 }
 
 /** The Results page for one round (identified by its results file). */
@@ -153,9 +168,13 @@ async function main() {
   }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.onclick = () => setView(btn.dataset.viewButton);
   installPastBanzuke(index);
+  installRegister();
   const basho = await showBasho(index.latest);
   results = new ResultsView(basho);
   setView(defaultView(basho));
+  // Who the user is, from the API (a persisted sign-in first): updates the Register button and
+  // the submission state once known, without holding up the page.
+  register.init();
 }
 
 function showError(err) {

@@ -5,14 +5,13 @@ import { loadBanzuke } from './data.js';
 import { renderComparison } from './banzuke.js';
 import { rankSubmissions, scoreGuess } from './score.js';
 import { formatDate } from './dates.js';
-import { getToken, loadSubmission } from './storage.js';
+import { loadSubmission } from './storage.js';
+import { api } from './auth.js';
 
 const $ = (sel) => document.querySelector(sel);
 
 async function fetchSubmissions(roundId) {
-  const res = await fetch(`/api/submissions?basho=${roundId}`, {
-    headers: { 'x-guesser-token': getToken() }, cache: 'no-store',
-  });
+  const res = await api(`/api/submissions?basho=${roundId}`);
   if (!res.ok) throw new Error(`submissions: HTTP ${res.status}`);
   return res.json();
 }

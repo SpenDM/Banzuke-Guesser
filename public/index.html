@@ -20,19 +20,40 @@
       <select id="basho-select" hidden aria-label="Previous tournament" data-view="predict"></select>
       <span id="summary" class="summary"></span>
       <span id="submitted-note" class="submitted-note" hidden></span>
-      <div class="submit-wrap">
-        <button id="submit" type="button">Submit Guess</button>
-        <div id="shikona-box" class="panel shikona-box" hidden>
-          <form id="shikona-form">
-            <label for="shikona">Enter your shikona</label>
+      <div class="register-wrap">
+        <button id="register" type="button">Register</button>
+        <div id="register-box" class="panel popover" hidden>
+          <form id="register-form">
+            <label for="shikona">Your shikona</label>
             <div class="row">
               <input id="shikona" type="text" maxlength="30" autocomplete="nickname" required>
-              <button type="submit">Submit</button>
+              <button type="submit">Save</button>
             </div>
-            <span id="shikona-error" class="form-error"></span>
+            <span id="register-error" class="form-error"></span>
           </form>
+          <div id="account" class="account" hidden>
+            <div id="account-out">
+              <p class="hint">Optional: sign in to keep your shikona and predictions on every device.</p>
+              <button id="google-signin" type="button" class="wide">Continue with Google</button>
+              <form id="email-form">
+                <input id="email" type="email" autocomplete="email" placeholder="Email" required>
+                <input id="password" type="password" autocomplete="current-password" placeholder="Password" minlength="6" required>
+                <div class="row">
+                  <button type="submit">Sign in</button>
+                  <button id="email-create" type="button">Create account</button>
+                  <button id="email-reset" type="button" class="link">Forgot?</button>
+                </div>
+              </form>
+            </div>
+            <div id="account-in" hidden>
+              <span id="account-who" class="hint"></span>
+              <button id="signout" type="button" class="link">Sign out</button>
+            </div>
+            <span id="account-msg" class="form-error"></span>
+          </div>
         </div>
       </div>
+      <button id="submit" type="button">Submit Guess</button>
       <a id="submit-guess" class="button-link" href="https://sumodb.sumogames.de/gtb/GTBEntry.aspx" target="_blank" rel="noopener noreferrer">Submit Guess<br>to GTB</a>
     </div>
   </header>
