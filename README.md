@@ -126,7 +126,7 @@ suspension, a Yokozuna run the committee did or did not declare). Put correction
 **Register** opens a popover asking for a shikona; once saved, the button shows it, and clicking it
 again lets the user rename or change their sign-in. A shikona belongs to one user across every
 round (*Shikona taken*), and renaming frees the old one (and renames past submissions). The popover
-also offers, optionally, **Continue with Google** and an email/password form (sign in, create
+also offers, optionally, **Sign in with Google** and an email/password form (sign in, create
 account, forgot password): signing in ties the shikona and the predictions to the account, so they
 are the same on every device and survive a cleared browser.
 

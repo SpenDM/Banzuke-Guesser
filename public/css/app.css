@@ -86,7 +86,8 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 .popover button.link:disabled { color: var(--muted); }
 .account { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 10px; }
 .account[hidden], #account-out[hidden], #account-in[hidden] { display: none; }
-#email-form { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.popover .or { margin: 6px 0; text-align: center; color: var(--muted); font-size: 12px; }
+#email-form { display: flex; flex-direction: column; gap: 6px; }
 #account-in { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
 .form-error { display: block; min-height: 1.4em; margin-top: 4px; color: var(--down); font-size: 12px; font-weight: 600; }
 .form-error.ok { color: var(--muted); }
