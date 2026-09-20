@@ -40,6 +40,11 @@ body {
 /* Keeps the page invisible (but laid out) until main.js has loaded everything and shows it all
    at once; js/main.js removes this class once the page is ready or has failed with an error. */
 html.loading body { opacity: 0; transition: none; }
+/* Same idea as the load pause above, but for the first Predict/Results view change: the content
+   area is held invisible while the incoming page finishes its async work, then fades in. Scoped
+   to #app so the header and its banner animation stay visible through the transition (js/main.js). */
+#app { transition: opacity .15s ease-in; }
+#app.buffering { opacity: 0; transition: none; }
 h1 { margin: 0; font-size: 22px; }
 h2 { margin: 0 0 8px; font-size: 16px; }
 /* The "(Official release: …)" note beside the prediction heading: same line, not bold. */

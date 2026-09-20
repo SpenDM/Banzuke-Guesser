@@ -18,8 +18,11 @@ let schedule = [];
 let register = null;  // the Register button, shared by every basho shown
 let submit = null;    // the Submit Guess button of the basho shown
 
+let buffered = false;   // the first view change gets a buffering pause (see setView)
+
 /** Shows the Predict or Results page (each with its own sidebar boxes); Results loads its data on first open. */
 function setView(name) {
+  const isChange = view !== null && view !== name;
   view = name;
   for (const el of document.querySelectorAll('[data-view]')) {
     // The header's basho select is only shown when there is more than one results file.
@@ -27,7 +30,29 @@ function setView(name) {
   }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.classList.toggle('active', btn.dataset.viewButton === name);
   setBanner(BANNER[name]);
-  if (name === 'results' && results) results.load().catch(showError);
+  const ready = name === 'results' && results ? results.load().catch(showError) : Promise.resolve();
+  // The first view change reveals a page that still has async work to do (Results fetches
+  // submissions, then re-renders and hides sections), so its panels would otherwise flash in
+  // half-built. Mirror the initial page-load pause (html.loading body): hold the content area
+  // invisible until that work has painted, then fade it in. Only #app is buffered, so the header
+  // and its banner animation stay visible throughout the transition.
+  if (isChange && !buffered) {
+    buffered = true;
+    bufferContent(ready);
+  }
+}
+
+/** Holds #app invisible until `ready` resolves and the fresh content has painted, then fades it in. */
+function bufferContent(ready) {
+  const app = $('#app');
+  app.classList.add('buffering');
+  ready.finally(() => requestAnimationFrame(() => requestAnimationFrame(() => app.classList.remove('buffering'))));
+}
+
+/** Warms the browser cache with both banner photos so the first slide animation doesn't flash
+    while the incoming image is still being fetched. */
+function preloadBanners() {
+  for (const src of Object.values(BANNER)) { const img = new Image(); img.src = src; }
 }
 
 /** Swaps the banner photo: the old image slides down out of the banner, then the new one slides up into it. */
@@ -158,6 +183,7 @@ function installPastBanzuke(index) {
 }
 
 async function main() {
+  preloadBanners();
   const [index, sched] = await Promise.all([loadIndex(), loadSchedule().catch(() => [])]);
   schedule = sched;
   const select = $('#basho-select');
