@@ -204,9 +204,28 @@ async function main() {
   register.init();
 }
 
+/** Dark-mode toggle: flips the `dark` class on <html>, remembers the choice, and keeps the
+ * button's label ("Dark Mode" / "Light Mode") in sync with the current theme. */
+function installThemeToggle() {
+  const btn = $('#theme-toggle');
+  if (!btn) return;
+  const sync = () => {
+    const dark = document.documentElement.classList.contains('dark');
+    btn.innerHTML = dark ? 'Light<br>Mode' : 'Dark<br>Mode';
+    btn.setAttribute('aria-pressed', String(dark));
+  };
+  btn.onclick = () => {
+    const dark = document.documentElement.classList.toggle('dark');
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light'); } catch (e) {}
+    sync();
+  };
+  sync();
+}
+
 function showError(err) {
   console.error(err);
   $('#subtitle').textContent = `Could not load data: ${err.message}`;
 }
 
+installThemeToggle();
 main().catch(showError).finally(() => document.documentElement.classList.remove('loading'));

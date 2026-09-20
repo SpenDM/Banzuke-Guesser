@@ -42,6 +42,40 @@
   --line-h: 26px;
 }
 
+/* Dark mode (toggled by adding `dark` to <html>; see installThemeToggle in js/main.js). Almost
+   everything is driven by the palette variables above, so the theme is mostly a matter of
+   redefining them here; the handful of rules that hardcode a light colour get their own dark
+   overrides lower down, tagged with "dark:" comments. */
+:root.dark {
+  --bg: #16181c;
+  --panel: #1f2226;
+  --ink: #e7e6e3;
+  --muted: #9aa0a6;
+  --line: #34383e;
+  --head: #0f1114;
+  --accent: #e0736b;
+  --up: #6fb0e0;
+  --down: #e07b72;
+  --same: #9aa0a6;
+  --up-bg: #1b2c3a;
+  --down-bg: #3a201e;
+  --up-border: #365167;
+  --down-border: #6e3a35;
+  --gold-bg: #3a3318;
+  --bronze-bg: #352819;
+  --gold: #d4af37;
+  --gold-dark: #b8912f;
+  --bronze: #cd7f32;
+  --bronze-dark: #b56a26;
+  --over: #4a3d16;
+  --joi-bg: #26292e;
+  --candidates-bg: #1d2b36;
+  --demotion-bg: #35211f;
+  --chip: #2a2e33;
+  --chip-border: #454b52;
+  --selected: #24405f;
+}
+
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -90,6 +124,7 @@ button, select, .button-link {
   background: var(--chip); cursor: pointer; white-space: pre-line;
 }
 button:hover, .button-link:hover { background: #f0ede6; }
+.dark button:hover, .dark .button-link:hover { background: #2f343a; } /* dark: hover */
 button:disabled { cursor: default; color: var(--muted); background: var(--chip); }
 button.button-error:disabled { color: var(--down); font-weight: 600; }
 .button-link { display: inline-block; color: inherit; text-decoration: none; line-height: 1.4; text-align: center; }
@@ -206,6 +241,7 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
 .banzuke.previous th { height: 46px; }
 .banzuke td { border: 1px solid var(--line); padding: 2px 6px; vertical-align: top; }
 .banzuke td.rank { position: relative; text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
+.dark .banzuke td.rank { background: #23262b; } /* dark: rank cell */
 .banzuke td.result, .banzuke td.cur-rank, .banzuke td.change-cell { text-align: center; white-space: nowrap; width: 1%; color: var(--muted); }
 /* Floored, never capped, in both banzuke: the rikishi column grows to fit its widest chip
    (name + badges + Rank Change/Cur Rank numbers) so a name is never compressed or ellipsed.
@@ -213,6 +249,7 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
    yield, so an uncapped guess column no longer squeezes the previous one into scroll mode. */
 .banzuke td.rikishi { min-width: 120px; }
 .banzuke tr.division td { background: #efece4; font-weight: 700; text-align: left; padding: 4px 8px; letter-spacing: .02em; }
+.dark .banzuke tr.division td { background: #2b2f34; } /* dark: division header row */
 tr.sanyaku-gold td { background: var(--gold-bg); }
 tr.sanyaku-bronze td { background: var(--bronze-bg); }
 tr.sanyaku-gold td.rank { background: var(--gold-bg); }
@@ -251,9 +288,12 @@ td.rikishi .line { justify-content: flex-start; }
 .chip.kind-down { background: var(--down-bg); }
 .chip.selected { background: var(--selected); border-color: #60a5fa; }
 .tag { font-size: 10px; padding: 0 5px; border-radius: 8px; background: #e8dcc5; color: #5b4a2a; white-space: nowrap; }
+.dark .tag { background: #4a4230; color: #ecdfc4; } /* dark: neutral badge */
 /* Indicator badges (badges() in banzuke.js): neutral by default, then blue/red once the result decides them. */
 .tag-yusho { background: none; padding: 0; font-size: 13px; line-height: 14px; }
 .tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-suspended, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
+/* dark: status badges */
+.dark .tag-kadoban, .dark .tag-tsunatori, .dark .tag-ozeki-run, .dark .tag-ozeki-return, .dark .tag-komusubi-force, .dark .tag-maegashira-force, .dark .tag-suspended, .dark .tag-retired { background: #3a3e44; color: #d7dade; }
 .tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--up-border); }
 .tag-missed { background: var(--down-bg); color: var(--down); border: 1px solid var(--down-border); }
 

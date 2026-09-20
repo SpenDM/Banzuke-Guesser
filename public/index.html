@@ -6,6 +6,10 @@
   <title>Sumo Ranker</title>
   <link rel="icon" type="image/jpeg" href="resources/images/banzuke_permission_favicon.jpeg">
   <link rel="stylesheet" href="css/app.css">
+  <script>
+    // Apply the saved theme before first paint so dark mode never flashes light.
+    try { if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+  </script>
 </head>
 <body>
   <header class="topbar">
@@ -20,6 +24,9 @@
       <select id="basho-select" hidden aria-label="Previous tournament" data-view="predict"></select>
       <span id="summary" class="summary"></span>
       <span id="submitted-note" class="submitted-note" hidden></span>
+      <button id="submit" type="button">Submit Guess</button>
+      <a id="submit-guess" class="button-link" href="https://sumodb.sumogames.de/gtb/GTBEntry.aspx" target="_blank" rel="noopener noreferrer">Submit Guess<br>to GTB</a>
+      <button id="theme-toggle" type="button" aria-pressed="false">Dark<br>Mode</button>
       <div class="register-wrap">
         <button id="register" type="button">Register</button>
         <div id="register-box" class="panel popover" hidden>
@@ -54,8 +61,6 @@
           </div>
         </div>
       </div>
-      <button id="submit" type="button">Submit Guess</button>
-      <a id="submit-guess" class="button-link" href="https://sumodb.sumogames.de/gtb/GTBEntry.aspx" target="_blank" rel="noopener noreferrer">Submit Guess<br>to GTB</a>
     </div>
   </header>
 
