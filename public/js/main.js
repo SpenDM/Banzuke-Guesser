@@ -11,7 +11,7 @@ import { reopenDate, rounds } from './rounds.js';
 
 const $ = (sel) => document.querySelector(sel);
 
-const BANNER = { predict: 'images/atami_banzuke.png', results: 'images/onosato_win.png' };
+const BANNER = { predict: 'resources/images/atami_banzuke.png', results: 'resources/images/onosato_win.png' };
 let results = null;   // the ResultsView of the round picked in the Past Banzuke box
 let view = null;
 let schedule = [];
