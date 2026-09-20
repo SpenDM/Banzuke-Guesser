@@ -119,12 +119,14 @@ table.leaderboard { border-collapse: collapse; width: 100%; font-variant-numeric
 @media (max-width: 1000px) { .results { grid-template-columns: 1fr; } }
 
 .panels {
-  /* The prediction column is sized to its own content (max-content) rather than a flexible fr
-     share, so it only ever claims the width its East/West columns actually need; the results
-     column (1fr) gets whatever's left, which keeps it from being squeezed into scroll mode when
-     a long name lands on the prediction side. If space is genuinely short, max-content tracks
-     are resolved before flexible ones, so the prediction table still wins. */
-  display: grid; grid-template-columns: 200px minmax(360px, 1fr) minmax(500px, max-content); gap: 16px;
+  /* Both banzuke size their East/West columns to their own content (no fixed cap — see the
+     rikishi rules below), so neither compresses a name. The prediction column (max-content) is
+     given priority: max-content tracks resolve before flexible ones, so it always claims the
+     full width its columns need. The previous-results column (minmax(0, 1fr)) takes whatever's
+     left; when space is genuinely short it shrinks and its own .table-wrap scrolls, rather than
+     the prediction table shrinking or the page gaining a horizontal scrollbar. On a normal
+     laptop/desktop there is room for both at full width, so neither actually scrolls. */
+  display: grid; grid-template-columns: 200px minmax(0, 1fr) minmax(500px, max-content); gap: 16px;
   padding: 16px 20px 24px; align-items: start;
 }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
@@ -151,7 +153,7 @@ table.leaderboard { border-collapse: collapse; width: 100%; font-variant-numeric
 .legend dt { font-weight: 700; white-space: nowrap; }
 .legend dd { margin: 0; color: var(--muted); }
 @media (max-width: 1200px) {
-  .panels { grid-template-columns: minmax(360px, 1fr) minmax(560px, max-content); }
+  .panels { grid-template-columns: minmax(0, 1fr) minmax(560px, max-content); }
   .sidebar { position: static; max-height: none; overflow: visible; grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: flex-start; }
   .tools, .pages { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; align-self: flex-start; }
   .tools button, .pages button { width: auto; }
@@ -177,15 +179,11 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
 .banzuke td { border: 1px solid var(--line); padding: 2px 6px; vertical-align: top; }
 .banzuke td.rank { position: relative; text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
 .banzuke td.result, .banzuke td.cur-rank, .banzuke td.change-cell { text-align: center; white-space: nowrap; width: 1%; color: var(--muted); }
+/* Floored, never capped, in both banzuke: the rikishi column grows to fit its widest chip
+   (name + badges + Rank Change/Cur Rank numbers) so a name is never compressed or ellipsed.
+   The grid above lets the prediction table claim that full width first and the previous table
+   yield, so an uncapped guess column no longer squeezes the previous one into scroll mode. */
 .banzuke td.rikishi { min-width: 120px; }
-/* Capped (not just floored) at the same width, unlike the previous table's rikishi column: with
-   badges and Rank Change/Cur Rank numbers filling in (e.g. after Apply Ideal Rank Changes), an
-   uncapped column would grow to fit its widest chip, squeezing the previous table's 1fr column
-   out of the space it needs. A long name+badges combo just ellipses instead. */
-.banzuke.guess td.rikishi { min-width: 92px; max-width: 92px; overflow: hidden; }
-.banzuke.guess td.rikishi .chip { max-width: 100%; }
-.banzuke.guess td.rikishi .chip .name { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.banzuke.guess td.rikishi .chip > *:not(.name) { flex: 0 0 auto; }
 .banzuke tr.division td { background: #efece4; font-weight: 700; text-align: left; padding: 4px 8px; letter-spacing: .02em; }
 tr.sanyaku-gold td { background: var(--gold-bg); }
 tr.sanyaku-bronze td { background: var(--bronze-bg); }
