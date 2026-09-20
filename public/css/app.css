@@ -123,6 +123,9 @@ button, select, .button-link {
   font: inherit; padding: 6px 12px; border: 1px solid var(--chip-border); border-radius: 6px;
   background: var(--chip); cursor: pointer; white-space: pre-line;
 }
+/* dark: white text on every control (sidebar, banner, row +/- buttons); kept above button:disabled
+   so disabled controls still fall through to the muted colour below. */
+.dark button, .dark select, .dark .button-link { color: #fff; }
 button:hover, .button-link:hover { background: #f0ede6; }
 .dark button:hover, .dark .button-link:hover { background: #2f343a; } /* dark: hover */
 button:disabled { cursor: default; color: var(--muted); background: var(--chip); }
@@ -296,6 +299,10 @@ td.rikishi .line { justify-content: flex-start; }
 .dark .tag-kadoban, .dark .tag-tsunatori, .dark .tag-ozeki-run, .dark .tag-ozeki-return, .dark .tag-komusubi-force, .dark .tag-maegashira-force, .dark .tag-suspended, .dark .tag-retired { background: #3a3e44; color: #d7dade; }
 .tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--up-border); }
 .tag-missed { background: var(--down-bg); color: var(--down); border: 1px solid var(--down-border); }
+/* dark: a met/missed badge also carries its neutral base class, whose .dark override above outranks
+   .tag-met/.tag-missed on specificity; re-assert blue/red here so results read the same as in light. */
+.dark .tag-met { background: var(--up-bg); color: var(--up); border-color: var(--up-border); }
+.dark .tag-missed { background: var(--down-bg); color: var(--down); border-color: var(--down-border); }
 
 td.slot.over, tbody.over td { background: var(--over) !important; }
 .drag-active td.slot, .selecting td.slot { cursor: copy; }
