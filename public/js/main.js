@@ -60,11 +60,15 @@ function setBanner(src) {
   const img = $('.banner-photo');
   if (img.getAttribute('src') === src) return;
   img.classList.add('banner-photo--sliding');
-  img.addEventListener('transitionend', function onSlideOut() {
+  img.addEventListener('transitionend', async function onSlideOut() {
     img.removeEventListener('transitionend', onSlideOut);
     img.classList.add('banner-photo--jump');
     img.src = src;
     void img.offsetHeight; // force a reflow so the jump to the start position isn't animated
+    // The image is now parked below the banner (translateY(100%), clipped by overflow: hidden), so it
+    // is out of sight. Wait until the new src is decoded and ready to paint before sliding it up, so on
+    // a cold cache (first play) it can't appear mid-slide while it is still loading.
+    try { await img.decode(); } catch (e) { /* decode rejects if the src changes again first; ignore */ }
     img.classList.remove('banner-photo--jump');
     img.classList.remove('banner-photo--sliding'); // animates back to translateY(0), i.e. slides up
   }, { once: true });
