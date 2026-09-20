@@ -58,7 +58,7 @@ html.loading body { opacity: 0; transition: none; }
    to #app so the header and its banner animation stay visible through the transition (js/main.js). */
 #app { transition: opacity .15s ease-in; }
 #app.buffering { opacity: 0; transition: none; }
-h1 { margin: 0; font-family: "Harukaze", serif; font-size: 40px; }
+h1 { margin: 0; font-family: "Harukaze", serif; font-size: 50px; }
 h2 { margin: 0 0 8px; font-size: 16px; }
 /* The "(Official release: …)" note beside the prediction heading: same line, not bold. */
 .release-note { font-weight: 400; color: var(--muted); font-size: 13px; }
