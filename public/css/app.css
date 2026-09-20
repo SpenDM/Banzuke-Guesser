@@ -58,7 +58,7 @@ html.loading body { opacity: 0; transition: none; }
    to #app so the header and its banner animation stay visible through the transition (js/main.js). */
 #app { transition: opacity .15s ease-in; }
 #app.buffering { opacity: 0; transition: none; }
-h1 { margin: 0; font-family: "Harukaze", serif; font-size: 50px; }
+h1 { margin: 0; font-family: "Harukaze", serif; font-size: 50px; line-height: 1.25; }
 h2 { margin: 0 0 8px; font-size: 16px; }
 /* The "(Official release: …)" note beside the prediction heading: same line, not bold. */
 .release-note { font-weight: 400; color: var(--muted); font-size: 13px; }
@@ -67,16 +67,18 @@ a { color: var(--accent); }
 
 .topbar {
   display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
-  padding: 14px 20px 10px; border-bottom: 1px solid var(--line); background: var(--panel);
+  padding: 7px 20px 10px; border-bottom: 1px solid var(--line); background: var(--panel);
 }
-.topbar p { color: var(--muted); }
-/* A fixed height taller than the title text, so it (not the text) sets the banner's height;
-   negative top/bottom margins matching .topbar's own padding then cancel that padding out,
-   landing the wrap's edges flush on the banner's actual top and bottom edges. overflow: hidden
+/* Pull the subtitle up (negative overrides the global p top margin) to tighten the gap under the title. */
+.topbar p { color: var(--muted); margin-top: -4px; }
+/* Sized to fill the banner: the title text sets the banner's height, and this height matches it so
+   the image spans top to bottom. Negative top/bottom margins matching .topbar's own padding cancel
+   that padding out, landing the wrap's edges flush on the banner's actual top and bottom edges; the
+   left margin adds a little breathing room between the title text and the image. overflow: hidden
    is what turns the slide animation into a slide "into"/"out of" the bottom border. */
-.banner-wrap { height: 80px; margin: -14px 0 -10px; overflow: hidden; position: relative; }
+.banner-wrap { height: 99px; margin: -7px 0 -10px 16px; overflow: hidden; position: relative; }
 .banner-photo {
-  height: 80px; width: auto; display: block;
+  height: 99px; width: auto; display: block;
   transition: transform .175s ease-in-out;
 }
 .banner-photo.banner-photo--sliding { transform: translateY(100%); }
