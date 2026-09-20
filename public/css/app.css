@@ -42,6 +42,8 @@ body {
 html.loading body { opacity: 0; transition: none; }
 h1 { margin: 0; font-size: 22px; }
 h2 { margin: 0 0 8px; font-size: 16px; }
+/* The "(Official release: …)" note beside the prediction heading: same line, not bold. */
+.release-note { font-weight: 400; color: var(--muted); font-size: 13px; }
 p { margin: 4px 0; }
 a { color: var(--accent); }
 
@@ -75,7 +77,13 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 /* Submit Guess: the "Submitted, come back <date>" note. Register: the button (showing the shikona
    once registered) and the popover under it with the shikona field and the sign-in forms. */
 .submitted-note { color: var(--muted); font-size: 12px; max-width: 220px; text-align: right; }
-.register-wrap { position: relative; }
+/* align-self: stretch makes the wrap as tall as the tallest control in the row (the two-line
+   Submit buttons); the register button, as a flex child, stretches to fill it, so the login
+   button matches its neighbours' height. */
+.register-wrap { position: relative; align-self: stretch; display: flex; }
+#register { flex: 1; }
+/* Bold once the button shows the user's shikona rather than the plain "Register" label. */
+#register.has-shikona { font-weight: 700; }
 .popover { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; width: 300px; box-shadow: 0 4px 12px rgba(0, 0, 0, .15); }
 .popover label { display: block; font-weight: 600; margin-bottom: 6px; }
 .popover .row { display: flex; gap: 6px; align-items: center; }

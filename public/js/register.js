@@ -168,6 +168,8 @@ export class RegisterController extends EventTarget {
   render() {
     const { button, out, in: signedIn, who, input } = this.els;
     button.textContent = this.profile.shikona || 'Register';
+    // Bold only when the button shows the user's shikona (not the plain "Register" label).
+    button.classList.toggle('has-shikona', !!this.profile.shikona);
     button.title = this.profile.shikona ? 'Change your shikona or sign-in' : 'Pick a shikona to submit a guess';
     const user = auth.user;
     out.hidden = !!user;
