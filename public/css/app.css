@@ -5,6 +5,12 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "JapanBrush";
+  src: url("../resources/fonts/JAPAB___.TTF") format("truetype");
+  font-display: swap;
+}
+
 :root {
   --bg: #f6f5f1;
   --panel: #ffffff;
@@ -52,7 +58,7 @@ html.loading body { opacity: 0; transition: none; }
    to #app so the header and its banner animation stay visible through the transition (js/main.js). */
 #app { transition: opacity .15s ease-in; }
 #app.buffering { opacity: 0; transition: none; }
-h1 { margin: 0; font-family: "Harukaze", serif; font-size: 25.3px; }
+h1 { margin: 0; font-family: "JapanBrush", serif; font-size: 25.3px; }
 h2 { margin: 0 0 8px; font-size: 16px; }
 /* The "(Official release: …)" note beside the prediction heading: same line, not bold. */
 .release-note { font-weight: 400; color: var(--muted); font-size: 13px; }
