@@ -1,0 +1,282 @@
+{
+  "rikishi_id": 4112,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4112/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20210057.jpg",
+  "shikona": "Kinbozan",
+  "real_name": "Baltagul Yersin",
+  "stable": "Kise",
+  "birthplace": {
+    "flag": "🇰🇿",
+    "country": "Kazakhstan",
+    "province": null,
+    "city": "Almaty"
+  },
+  "current_rank": "Maegashira #10",
+  "highest_rank": "Maegashira #3",
+  "birth_date": "1997-06-24",
+  "height_cm": 194.0,
+  "weight_kg": 181.0,
+  "signature_maneuvers": [
+    "tsuki",
+    "oshi"
+  ],
+  "style": {
+    "primary": "Thruster",
+    "notes": [
+      "big frame",
+      "oshi with long reach"
+    ]
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Maegashira #10",
+      "record": "6-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Maegashira #14",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Maegashira #11",
+      "record": "6-9",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Maegashira #16",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Maegashira #8",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Maegashira #8",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Maegashira #8",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Maegashira #3",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Maegashira #8",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Maegashira #5",
+      "record": "6-9",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Maegashira #14",
+      "record": "12-3",
+      "achievements": [
+        "Kanto-sho (Fighting Spirit Prize)"
+      ]
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Juryo #1",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Maegashira #12",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Maegashira #8",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Maegashira #10",
+      "record": "8-7",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Maegashira #7",
+      "record": "6-7-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Maegashira #6",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Maegashira #7",
+      "record": "8-7",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Maegashira #10",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Maegashira #10",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Maegashira #5",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Maegashira #14",
+      "record": "11-4",
+      "achievements": [
+        "Kanto-sho (Fighting Spirit Prize)"
+      ]
+    },
+    {
+      "year": 2023,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Juryo #5",
+      "record": "11-4",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Juryo #7",
+      "record": "8-7",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #12",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Makushita #1",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Makushita #4",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Makushita #34",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2022,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Makushita #59",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "November",
+      "division": "",
+      "rank": "Sandanme #100",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    }
+  ]
+}

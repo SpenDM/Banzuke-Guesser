@@ -1,0 +1,156 @@
+{
+  "rikishi_id": 4267,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4267/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20240031.jpg",
+  "shikona": "Arashifuji",
+  "real_name": "Kanato Matsui",
+  "stable": "Isegahama",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Fukuoka",
+    "city": "Umi"
+  },
+  "current_rank": "Juryo #5",
+  "highest_rank": "Juryo #5",
+  "birth_date": "2004-10-12",
+  "height_cm": 172.0,
+  "weight_kg": 123.0,
+  "signature_maneuvers": [
+    "oshi"
+  ],
+  "style": {
+    "primary": "Thruster",
+    "notes": []
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #5",
+      "record": "4-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Juryo #13",
+      "record": "11-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Makushita #2",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Makushita #7",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Makushita #9",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Makushita #11",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Makushita #9",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Makushita #14",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Makushita #19",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Makushita #25",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Makushita #8",
+      "record": "2-5",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Makushita #17",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Makushita #23",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Makushita #31",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Makushita #41",
+      "record": "4-2-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "",
+      "rank": "Makushita #60",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

@@ -38,8 +38,11 @@ sumo-api.com ┘                                                                
   - `js/submit.js` — the Submit Guess button: validation and the API call.
   - `js/score.js` — scores a prediction against the announced banzuke and ranks the leaderboard.
   - `js/results.js` — the Results page; `js/rounds.js` names the rounds the Past Banzuke box lists.
+  - `js/profile.js` — the rikishi profile popup (photo, fact sheet, tournament history), opened by
+    double-clicking a name (or single-clicking a name already moved to the prediction banzuke).
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json` (results),
-    `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against), plus optional
+    `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against),
+    `profiles/{rikishi_id}.json` (one per rikishi, for the profile popup), plus optional
     hand-edited `overrides/YYYYMM.json` (see *Special Statuses*).
 - `worker.js` + `functions/api/` — the Cloudflare Worker: `/api/register`, `/api/me`, `/api/submit`
   and `/api/submissions` keep users and submissions in a D1 database (`functions/firebase.js`
@@ -51,8 +54,13 @@ sumo-api.com ┘                                                                
     JSON endpoints (the site only exposes the *current* basho).
   - `sumoapi.py` — fallback/bootstrap from [sumo-api.com](https://sumo-api.com/), which has full history.
   - `annotate.py` — the special-status flags, computed from the previous two basho (see *Special Statuses*).
+  - `profiles.py` — one `data/profiles/{rikishi_id}.json` per rikishi for the profile popup: the
+    sumo.or.jp English profile page (photo, fact sheet, signature maneuvers, tournament records)
+    enriched with sumo-api.com birthplace and a hand-curated wrestling style (`style_overlay.json`,
+    keyed by sumo.or.jp id; anyone uncurated falls back to a guess from their signature maneuvers).
+    Refreshed automatically whenever a basho's results are written.
   - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `annotate --basho YYYYMM`,
-    `banzuke --basho YYYYMM`, `schedule`.
+    `banzuke --basho YYYYMM`, `profiles --basho YYYYMM`, `schedule`.
 - `.github/workflows/update-data.yml` — runs `scraper.cli update` at 00:10 and 12:10 JST.
   It refreshes the schedule; if a tournament finished the day before and its data is not yet in
   the repo, fetches it (sumo.or.jp first, sumo-api.com if the official site has already moved on);
@@ -76,6 +84,7 @@ python -m scraper.cli bootstrap --basho 202607    # seed a specific basho from s
 python -m scraper.cli update --force --source official   # re-fetch from sumo.or.jp only
 python -m scraper.cli annotate --basho 202607     # recompute the indicators of an existing file
 python -m scraper.cli banzuke --basho 202609      # fetch an announced banzuke into data/banzuke/
+python -m scraper.cli profiles --basho 202607     # (re)build the rikishi profile pages for a basho
 ```
 
 To run the submission API locally as well (Node 22+):

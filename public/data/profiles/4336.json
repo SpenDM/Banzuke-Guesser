@@ -1,0 +1,112 @@
+{
+  "rikishi_id": 4336,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4336/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20250038.jpg",
+  "shikona": "Fujiryoga",
+  "real_name": "Masaharu Goshima",
+  "stable": "Fujishima",
+  "birthplace": {
+    "flag": null,
+    "country": "Aichi",
+    "province": null,
+    "city": null
+  },
+  "current_rank": "Maegashira #4",
+  "highest_rank": "Maegashira #4",
+  "birth_date": "2003-02-27",
+  "height_cm": 180.0,
+  "weight_kg": 184.0,
+  "signature_maneuvers": [
+    "oshi"
+  ],
+  "style": {
+    "primary": "Thruster",
+    "notes": [
+      "oshi-zumo"
+    ]
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Maegashira #4",
+      "record": "3-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Maegashira #9",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Maegashira #17",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Maegashira #17",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Juryo #3",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Juryo #13",
+      "record": "13-2",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Makushita #5",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Makushita #9",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Makushita #28",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "Makushita #60",
+      "record": "6-1",
+      "achievements": []
+    }
+  ]
+}

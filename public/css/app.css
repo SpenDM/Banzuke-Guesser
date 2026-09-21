@@ -345,3 +345,49 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .rank-controls .row-btn-bronze:hover { background: var(--bronze); }
 
 .foot { padding: 8px 20px 20px; color: var(--muted); font-size: 12px; }
+
+/* ---- Rikishi profile popup (profile.js) ---------------------------------- */
+.profile-backdrop { position: fixed; inset: 0; z-index: 900; background: rgba(0, 0, 0, .28); }
+.profile-popup {
+  position: fixed; z-index: 901; overflow: auto; padding: 16px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .3);
+}
+.profile-close {
+  position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; padding: 0;
+  display: flex; align-items: center; justify-content: center; line-height: 1;
+  font-size: 18px; border-radius: 50%; border: 1px solid var(--chip-border);
+  background: var(--chip); color: var(--ink); cursor: pointer;
+}
+.profile-close:hover { background: var(--line); }
+.profile-loading, .profile-error { color: var(--muted); margin: 4px 24px 4px 0; }
+
+.profile-head { display: flex; gap: 16px; align-items: flex-start; margin-right: 24px; }
+.profile-photo {
+  width: 135px; height: 237px; flex: none; object-fit: cover;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--bg);
+}
+.profile-photo--missing { display: flex; align-items: center; justify-content: center; color: var(--muted); }
+.profile-facts { flex: 1; min-width: 0; }
+.profile-name { margin: 0 0 8px; font-size: 22px; }
+.profile-name a { color: var(--ink); text-decoration: none; }
+.profile-name a:hover { text-decoration: underline; }
+
+.profile-fields { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; margin: 0; }
+.profile-fields dt { color: var(--muted); font-size: 12px; font-weight: 600; }
+.profile-fields dd { margin: 0; font-size: 13px; }
+
+.profile-history { margin-top: 16px; }
+.profile-history h3 { margin: 0 0 6px; font-size: 14px; }
+.profile-history-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.profile-history-table th {
+  position: sticky; top: 0; z-index: 1; text-align: left; padding: 4px 8px;
+  background: var(--head); color: #fff; font-weight: 600; white-space: nowrap;
+}
+.profile-history-table td { border: 1px solid var(--line); padding: 3px 8px; white-space: nowrap; }
+.profile-history-table tr.mak td { background: var(--bronze-bg); }
+.profile-history-table tr.top td { background: var(--gold-bg); }
+
+@media (max-width: 560px) {
+  .profile-photo { width: 96px; height: 168px; }
+  .profile-name { font-size: 18px; }
+}

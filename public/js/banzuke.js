@@ -35,6 +35,7 @@ function chip(r, { placed = false, dest = null, draggable = true, kind = null, m
     class: `chip${placed ? ' placed' : ''}${r.retired ? ' retired' : ''}${kind ? ` kind-${kind}` : ''}${mark ? ` ${mark}` : ''}`,
     draggable: draggable ? 'true' : null,
     dataKey: r.key,
+    dataRikishiId: r.rikishi_id ?? null,
     title: r.retired ? `${r.name} (retired)` : r.name,
   }, h('span', { class: 'name', text: r.name }));
   if (r.note) el.append(h('span', { class: 'tag', text: r.note }));

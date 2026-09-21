@@ -1,0 +1,176 @@
+{
+  "rikishi_id": 4231,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4231/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20230053.jpg",
+  "shikona": "Onokatsu",
+  "real_name": "Batjargal Choijilsuren",
+  "stable": "Onomatsu",
+  "birthplace": {
+    "flag": "🇲🇳",
+    "country": "Mongolia",
+    "province": null,
+    "city": "Uvs"
+  },
+  "current_rank": "Juryo #3",
+  "highest_rank": "Maegashira #3",
+  "birth_date": "2000-05-05",
+  "height_cm": 184.0,
+  "weight_kg": 165.0,
+  "signature_maneuvers": [
+    "migi-yotsu",
+    "yori"
+  ],
+  "style": {
+    "primary": "Grappler",
+    "notes": [
+      "strong belt",
+      "powerful"
+    ]
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #3",
+      "record": "4-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Maegashira #15",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Juryo #1",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Maegashira #6",
+      "record": "1-6-8",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Maegashira #6",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Maegashira #6",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Maegashira #6",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Maegashira #3",
+      "record": "6-9",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Maegashira #8",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Maegashira #12",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Maegashira #12",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Maegashira #15",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Maegashira #14",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Juryo #1",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Juryo #12",
+      "record": "13-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Makushita #2",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Makushita #8",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "",
+      "rank": "Makushita #15",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

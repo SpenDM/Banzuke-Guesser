@@ -1,0 +1,140 @@
+{
+  "rikishi_id": 4285,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4285/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20240052.jpg",
+  "shikona": "Asasuiryu",
+  "real_name": "Ryoma Ishizaki",
+  "stable": "Takasago",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Osaka",
+    "city": "Shijonawate"
+  },
+  "current_rank": "Maegashira #15",
+  "highest_rank": "Maegashira #15",
+  "birth_date": "2000-08-09",
+  "height_cm": 175.0,
+  "weight_kg": 120.0,
+  "signature_maneuvers": [
+    "oshi"
+  ],
+  "style": {
+    "primary": "Thruster",
+    "notes": []
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Maegashira #15",
+      "record": "4-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Juryo #1",
+      "record": "11-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Juryo #4",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Juryo #2",
+      "record": "6-9",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Juryo #7",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Juryo #12",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #12",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Makushita #2",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Makushita #4",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Makushita #1",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Makushita #8",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Makushita #22",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Makushita #29",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "Makushita #60",
+      "record": "6-1",
+      "achievements": []
+    }
+  ]
+}

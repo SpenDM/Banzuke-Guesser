@@ -1,0 +1,337 @@
+{
+  "rikishi_id": 4025,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4025/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20200042.jpg",
+  "shikona": "Oshoumi",
+  "real_name": "Seiya Fukasawa",
+  "stable": "Naruto",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Ishikawa",
+    "city": "Tsubata"
+  },
+  "current_rank": "Makushita #2",
+  "highest_rank": "Maegashira #11",
+  "birth_date": "2001-05-12",
+  "height_cm": 184.0,
+  "weight_kg": 140.1,
+  "signature_maneuvers": [
+    "hidari-yotsu",
+    "yori"
+  ],
+  "style": {
+    "primary": "Grappler",
+    "notes": []
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Makushita #2",
+      "record": "0-0-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Juryo #5",
+      "record": "0-5-10",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Maegashira #15",
+      "record": "4-11",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Maegashira #11",
+      "record": "5-10",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Maegashira #16",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Maegashira #16",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #1",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Juryo #3",
+      "record": "8-7",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Juryo #9",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Juryo #4",
+      "record": "4-7-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Juryo #9",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Juryo #14",
+      "record": "10-3-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #14",
+      "record": "6-9",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Makushita #3",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Juryo #13",
+      "record": "5-10",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Juryo #11",
+      "record": "6-9",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Juryo #13",
+      "record": "8-7",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Makushita #2",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Makushita #11",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Makushita #16",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Makushita #22",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Makushita #29",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Makushita #45",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Makushita #54",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Sandanme #78",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2022,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Jonidan #6",
+      "record": "4-0-3",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Sandanme #36",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Makushita #56",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Makushita #21",
+      "record": "0-2-5",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Makushita #7",
+      "record": "2-2-3",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Makushita #23",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Makushita #52",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "May",
+      "division": "",
+      "rank": "West Makushita #33",
+      "record": "2-2-3",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Makushita #53",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Sandanme #15",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Jonidan #6",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2020,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Jonidan #79",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Jonokuchi #15",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

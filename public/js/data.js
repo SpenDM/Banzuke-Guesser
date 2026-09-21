@@ -10,6 +10,19 @@ export function loadIndex() {
   return getJson('data/index.json');
 }
 
+// Rikishi profile pages (data/profiles/{rikishi_id}.json), memoized so re-opening is instant.
+const profileCache = new Map();
+
+export function loadProfile(rikishiId) {
+  if (!profileCache.has(rikishiId)) {
+    profileCache.set(rikishiId, getJson(`data/profiles/${rikishiId}.json`).catch((err) => {
+      profileCache.delete(rikishiId); // don't cache a failure; allow a retry on the next open
+      throw err;
+    }));
+  }
+  return profileCache.get(rikishiId);
+}
+
 export function loadSchedule() {
   return getJson('data/schedule.json');
 }

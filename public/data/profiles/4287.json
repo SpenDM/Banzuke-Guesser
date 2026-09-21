@@ -1,0 +1,154 @@
+{
+  "rikishi_id": 4287,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4287/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20240054.jpg",
+  "shikona": "Kazuma",
+  "real_name": "Kazuma Kawabuchi",
+  "stable": "Kise",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Ishikawa",
+    "city": "Minato"
+  },
+  "current_rank": "Juryo #2",
+  "highest_rank": "Maegashira #15",
+  "birth_date": "2001-11-12",
+  "height_cm": 185.0,
+  "weight_kg": 202.0,
+  "signature_maneuvers": [
+    "tsuki",
+    "oshi",
+    "hidari-yotsu",
+    "yori"
+  ],
+  "style": {
+    "primary": "Grappler",
+    "notes": [
+      "young all-rounder",
+      "belt and thrust"
+    ]
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Juryo #2",
+      "record": "2-6",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Maegashira #15",
+      "record": "5-10",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Juryo #6",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Juryo #11",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Juryo #14",
+      "record": "8-7",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Makushita #15",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Sandanme #26",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Jonidan #5",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Jonokuchi #7",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Jonidan #80",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Jonidan #9",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Sandanme #29",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Makushita #49",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "Makushita #60",
+      "record": "4-1-2",
+      "achievements": []
+    }
+  ]
+}

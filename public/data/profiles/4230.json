@@ -1,0 +1,198 @@
+{
+  "rikishi_id": 4230,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4230/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20230052.jpg",
+  "shikona": "Aonishiki",
+  "real_name": "Yavhusishyn Danylo",
+  "stable": "Ajigawa",
+  "birthplace": {
+    "flag": "🇺🇦",
+    "country": "Ukraine",
+    "province": null,
+    "city": "Vinnytsia Oblast"
+  },
+  "current_rank": "Ozeki",
+  "highest_rank": "Ozeki",
+  "birth_date": "2004-03-23",
+  "height_cm": 182.0,
+  "weight_kg": 142.0,
+  "signature_maneuvers": [
+    "migi-yotsu",
+    "yori"
+  ],
+  "style": {
+    "primary": "Versatile",
+    "notes": [
+      "attacks low",
+      "quick footwork",
+      "mobile"
+    ]
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makuuchi",
+      "rank": "East Ozeki",
+      "record": "5-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makuuchi",
+      "rank": "West Sekiwake",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho",
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makuuchi",
+      "rank": "West Ozeki",
+      "record": "0-0-15",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makuuchi",
+      "rank": "East Ozeki",
+      "record": "7-8",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makuuchi",
+      "rank": "West Ozeki",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "East Sekiwake",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho",
+        "Shukun-sho (Outstanding Performance Award)",
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makuuchi",
+      "rank": "West Komusubi",
+      "record": "11-4",
+      "achievements": [
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Maegashira #1",
+      "record": "11-4",
+      "achievements": [
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Maegashira #9",
+      "record": "11-4",
+      "achievements": [
+        "Kanto-sho (Fighting Spirit Prize)"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Maegashira #15",
+      "record": "11-4",
+      "achievements": [
+        "Kanto-sho (Fighting Spirit Prize)"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Juryo #5",
+      "record": "12-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Juryo #11",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "",
+      "rank": "West Makushita #4",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "",
+      "rank": "West Makushita #17",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "",
+      "rank": "East Makushita #40",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "",
+      "rank": "East Sandanme #18",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "",
+      "rank": "East Jonidan #10",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "",
+      "rank": "West Jonokuchi #14",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    }
+  ]
+}

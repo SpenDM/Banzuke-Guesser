@@ -1,0 +1,224 @@
+{
+  "rikishi_id": 4227,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4227/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20230048.jpg",
+  "shikona": "Onosato",
+  "real_name": "Daiki Nakamura",
+  "stable": "Nishonoseki",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Ishikawa",
+    "city": "Tsubata"
+  },
+  "current_rank": "Yokozuna",
+  "highest_rank": "Yokozuna",
+  "birth_date": "2000-06-07",
+  "height_cm": 190.0,
+  "weight_kg": 188.0,
+  "signature_maneuvers": [
+    "tsuki",
+    "oshi",
+    "migi-yotsu",
+    "yori"
+  ],
+  "style": {
+    "primary": "Grappler",
+    "notes": [
+      "powerful tachiai",
+      "strong right-hand grip (migi-yotsu)",
+      "textbook yorikiri"
+    ]
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makuuchi",
+      "rank": "East Yokozuna",
+      "record": "7-1",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makuuchi",
+      "rank": "West Yokozuna",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makuuchi",
+      "rank": "West Yokozuna",
+      "record": "0-0-15",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makuuchi",
+      "rank": "West Yokozuna",
+      "record": "0-4-11",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makuuchi",
+      "rank": "West Yokozuna",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "East Yokozuna",
+      "record": "11-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makuuchi",
+      "rank": "East Yokozuna",
+      "record": "13-2",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Makuuchi",
+      "rank": "West Yokozuna",
+      "record": "11-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "Makuuchi",
+      "rank": "East Ozeki",
+      "record": "14-1",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "Makuuchi",
+      "rank": "East Ozeki",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "Makuuchi",
+      "rank": "West Ozeki",
+      "record": "10-5",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "West Ozeki",
+      "record": "9-6",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "Makuuchi",
+      "rank": "West Sekiwake",
+      "record": "13-2",
+      "achievements": [
+        "🏆 Yusho",
+        "Kanto-sho (Fighting Spirit Prize)",
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "Makuuchi",
+      "rank": "West Sekiwake",
+      "record": "9-6",
+      "achievements": [
+        "Shukun-sho (Outstanding Performance Award)"
+      ]
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "Makuuchi",
+      "rank": "West Komusubi",
+      "record": "12-3",
+      "achievements": [
+        "🏆 Yusho",
+        "Shukun-sho (Outstanding Performance Award)",
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "",
+      "rank": "West Maegashira #5",
+      "record": "11-4",
+      "achievements": [
+        "Kanto-sho (Fighting Spirit Prize)",
+        "Gino-sho (Technique Prize)"
+      ]
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "",
+      "rank": "West Maegashira #15",
+      "record": "11-4",
+      "achievements": [
+        "Kanto-sho (Fighting Spirit Prize)"
+      ]
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "",
+      "rank": "East Juryo #5",
+      "record": "12-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "September",
+      "division": "",
+      "rank": "East Juryo #14",
+      "record": "12-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "July",
+      "division": "",
+      "rank": "East Makushita #3",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "May",
+      "division": "",
+      "rank": "Makushita #10",
+      "record": "6-1",
+      "achievements": []
+    }
+  ]
+}

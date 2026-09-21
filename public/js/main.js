@@ -8,6 +8,7 @@ import { SubmitController } from './submit.js';
 import { RegisterController } from './register.js';
 import { ResultsView } from './results.js';
 import { reopenDate, rounds } from './rounds.js';
+import { installProfilePopup } from './profile.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -138,6 +139,25 @@ async function showBasho(id) {
   return basho;
 }
 
+/**
+ * Opens the rikishi profile popup on a double-click of any name, or a single click of a name in
+ * the previous banzuke once that rikishi has been moved to the prediction (those chips aren't
+ * draggable, so a single click is otherwise unused; draggable chips still use click to select).
+ */
+function installProfileOpeners() {
+  const app = $('#app');
+  const popup = installProfilePopup();
+  const openFor = (chip) => {
+    const id = chip?.dataset.rikishiId;
+    if (id) popup.open(Number(id), chip);
+  };
+  app.addEventListener('dblclick', (e) => openFor(e.target.closest('.chip[data-rikishi-id]')));
+  app.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip.placed[data-rikishi-id]');
+    if (chip && chip.closest('#previous')) openFor(chip);
+  });
+}
+
 /** The Register button and popover (register.js), created once for the page. */
 function installRegister() {
   register = new RegisterController({
@@ -200,6 +220,7 @@ async function main() {
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.onclick = () => setView(btn.dataset.viewButton);
   installPastBanzuke(index);
   installRegister();
+  installProfileOpeners();
   const basho = await showBasho(index.latest);
   results = new ResultsView(basho);
   setView(defaultView(basho));

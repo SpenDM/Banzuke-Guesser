@@ -124,12 +124,6 @@ export function installDragAndDrop(root, state) {
     else state.remove(key);
   });
 
-  // Double-click a placed chip to send it back to the previous banzuke.
-  root.addEventListener('dblclick', (e) => {
-    const chip = e.target.closest?.('[data-slot] .chip');
-    if (chip) { select(null); state.remove(chip.dataset.key); }
-  });
-
   // Click fallback: tap a chip, then tap a destination slot (or the left table to unplace).
   root.addEventListener('click', (e) => {
     if (e.target.closest?.('button')) return;
