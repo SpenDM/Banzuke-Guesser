@@ -22,12 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Versatile",
-    "notes": [
-      "attacks low",
-      "quick footwork",
-      "mobile"
-    ]
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder"
   },
   "history": [
     {

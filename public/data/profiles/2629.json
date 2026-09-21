@@ -21,8 +21,9 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": []
+    "weight_class": "Heavy",
+    "primary": "Pusher-Thruster",
+    "known_for": "relentless tsuppari"
   },
   "history": [
     {

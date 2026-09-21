@@ -21,10 +21,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "oshi-zumo"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Pusher-Thruster"
   },
   "history": [
     {

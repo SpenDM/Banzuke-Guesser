@@ -21,11 +21,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "huge frame",
-      "oshi-zumo"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Grappler"
   },
   "history": [
     {

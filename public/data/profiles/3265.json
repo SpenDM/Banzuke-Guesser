@@ -21,11 +21,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "powerful oshi",
-      "tsuppari"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Pusher-Thruster"
   },
   "history": [
     {

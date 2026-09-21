@@ -22,13 +22,9 @@
     "ashitori"
   ],
   "style": {
-    "primary": "Versatile",
-    "notes": [
-      "agile",
-      "acrobatic",
-      "unorthodox",
-      "signature ashitori and kubinage"
-    ]
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder",
+    "known_for": "rare technique usage"
   },
   "history": [
     {

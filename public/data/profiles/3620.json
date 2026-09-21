@@ -22,11 +22,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "powerful oshi",
-      "quick tachiai"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Pusher-Thruster"
   },
   "history": [
     {

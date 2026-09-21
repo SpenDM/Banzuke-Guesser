@@ -24,12 +24,9 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "powerful tachiai",
-      "strong right-hand grip (migi-yotsu)",
-      "textbook yorikiri"
-    ]
+    "weight_class": "Heavy",
+    "primary": "All-Rounder",
+    "known_for": "overwhelming forward power"
   },
   "history": [
     {

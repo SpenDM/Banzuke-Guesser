@@ -23,12 +23,9 @@
     "nage"
   ],
   "style": {
+    "weight_class": "Mid-weight",
     "primary": "Grappler",
-    "notes": [
-      "strong belt grip",
-      "signature uwatenage",
-      "migi-yotsu"
-    ]
+    "known_for": "powerful throws"
   },
   "history": [
     {

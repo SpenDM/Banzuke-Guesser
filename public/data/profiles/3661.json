@@ -23,12 +23,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "heavy and powerful",
-      "migi-yotsu into yorikiri",
-      "steady oshi"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Grappler"
   },
   "history": [
     {

@@ -24,12 +24,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "powerful and versatile",
-      "strong belt",
-      "attacks with oshi and yotsu"
-    ]
+    "weight_class": "Mid-weight",
+    "primary": "All-Rounder"
   },
   "history": [
     {

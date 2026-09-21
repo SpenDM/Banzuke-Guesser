@@ -22,10 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "forward-pressing belt work"
-    ]
+    "weight_class": "Mid-weight",
+    "primary": "Grappler"
   },
   "history": [
     {

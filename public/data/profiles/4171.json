@@ -22,11 +22,9 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "explosive tachiai",
-      "fast and aggressive"
-    ]
+    "weight_class": "Light-weight",
+    "primary": "Pusher-Thruster",
+    "known_for": "explosive forward attack"
   },
   "history": [
     {

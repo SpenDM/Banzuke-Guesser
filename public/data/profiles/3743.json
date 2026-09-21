@@ -22,12 +22,9 @@
     "katasukashi"
   ],
   "style": {
-    "primary": "Thrower",
-    "notes": [
-      "signature katasukashi",
-      "agile",
-      "undersized technician"
-    ]
+    "weight_class": "Light-weight",
+    "primary": "Grappler",
+    "known_for": "signature katasukashi"
   },
   "history": [
     {

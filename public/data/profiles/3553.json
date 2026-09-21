@@ -23,8 +23,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": []
+    "weight_class": "Heavy",
+    "primary": "Grappler"
   },
   "history": [
     {

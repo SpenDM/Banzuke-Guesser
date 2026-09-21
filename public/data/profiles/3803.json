@@ -22,8 +22,9 @@
     "shitatenage"
   ],
   "style": {
+    "weight_class": "Light-weight",
     "primary": "Grappler",
-    "notes": []
+    "known_for": "lightning-fast, low sumo"
   },
   "history": [
     {

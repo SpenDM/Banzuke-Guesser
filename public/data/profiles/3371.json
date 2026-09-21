@@ -22,11 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "long reach",
-      "left-hand belt (hidari-yotsu)"
-    ]
+    "weight_class": "Mid-weight",
+    "primary": "Grappler"
   },
   "history": [
     {

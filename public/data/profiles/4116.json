@@ -23,10 +23,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "oshi and migi-yotsu"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Grappler"
   },
   "history": [
     {

@@ -22,12 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "long reach",
-      "migi-yotsu",
-      "reach-and-thrust openings"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Grappler"
   },
   "history": [
     {

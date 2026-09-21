@@ -22,11 +22,8 @@
     "inashi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "deft inashi",
-      "oshi with belt backup"
-    ]
+    "weight_class": "Mid-weight",
+    "primary": "Pusher-Thruster"
   },
   "history": [
     {

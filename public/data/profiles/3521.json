@@ -22,11 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "slow starter, strong going forward",
-      "migi-yotsu"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Grappler"
   },
   "history": [
     {

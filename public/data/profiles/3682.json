@@ -23,11 +23,9 @@
     "yori"
   ],
   "style": {
+    "weight_class": "Heavy",
     "primary": "Grappler",
-    "notes": [
-      "strong right-hand grip (migi-yotsu)",
-      "powerful yorikiri"
-    ]
+    "known_for": "dominant right-hand grip"
   },
   "history": [
     {

@@ -22,12 +22,9 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "signature double-arm thrust (moro-te-zuki)",
-      "long reach",
-      "pull-downs"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Pusher-Thruster",
+    "known_for": "signature double-arm tsuppari"
   },
   "history": [
     {

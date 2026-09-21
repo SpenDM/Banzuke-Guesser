@@ -23,11 +23,9 @@
     "yori"
   ],
   "style": {
-    "primary": "Versatile",
-    "notes": [
-      "agile and tricky",
-      "throws and henka"
-    ]
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder",
+    "known_for": "henka and trickery"
   },
   "history": [
     {

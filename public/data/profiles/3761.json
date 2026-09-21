@@ -22,12 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Versatile",
-    "notes": [
-      "agile",
-      "quick",
-      "all-around technician"
-    ]
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder"
   },
   "history": [
     {

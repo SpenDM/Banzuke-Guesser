@@ -22,8 +22,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": []
+    "weight_class": "Light-weight",
+    "primary": "Pusher-Thruster"
   },
   "history": [
     {

@@ -22,11 +22,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "big frame",
-      "oshi with long reach"
-    ]
+    "weight_class": "Heavy",
+    "primary": "Pusher-Thruster"
   },
   "history": [
     {

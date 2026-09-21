@@ -188,22 +188,38 @@ def _style_overlay() -> dict:
 
 
 def _auto_primary(maneuvers: list[str]) -> str:
-    """A rough primary style from the signature maneuvers, for rikishi not yet hand-curated."""
+    """A rough primary style from the signature maneuvers, for rikishi not yet hand-curated.
+
+    Grappler = yotsu-sumo (belt), Pusher-Thruster = oshi-sumo, All-Rounder = versatile/mixed.
+    """
     m = " ".join(maneuvers).lower()
     yotsu = "yotsu" in m or "yori" in m
     oshi = "oshi" in m or "tsuki" in m or "tsuppari" in m
     if oshi and not yotsu:
-        return "Thruster"
+        return "Pusher-Thruster"
     if yotsu and not oshi:
         return "Grappler"
-    return "Grappler" if yotsu else "Versatile"
+    return "Grappler" if yotsu else "All-Rounder"
 
 
 def _style(rikishi_id: int, maneuvers: list[str]) -> dict:
-    ov = _style_overlay().get(str(rikishi_id))
-    if ov:
-        return {"primary": ov.get("primary") or _auto_primary(maneuvers), "notes": ov.get("notes", [])}
-    return {"primary": _auto_primary(maneuvers), "notes": []}
+    """{primary, known_for?} from the overlay; weight_class is added later (cohort-relative)."""
+    ov = _style_overlay().get(str(rikishi_id)) or {}
+    style = {"primary": ov.get("primary") or _auto_primary(maneuvers)}
+    if ov.get("known_for"):
+        style["known_for"] = ov["known_for"]
+    return style
+
+
+def _weight_classes(weights: list[float | None]) -> list[str | None]:
+    """Heavy / Mid-weight / Light-weight by positional thirds of the cohort (heaviest first)."""
+    order = sorted((i for i, w in enumerate(weights) if w is not None),
+                   key=lambda i: weights[i], reverse=True)
+    n = len(order)
+    out: list[str | None] = [None] * len(weights)
+    for rank, i in enumerate(order):
+        out[i] = "Heavy" if rank < n / 3 else "Mid-weight" if rank < 2 * n / 3 else "Light-weight"
+    return out
 
 
 def build_profile(rikishi_id: int, shusshin: str | None = None) -> dict:
@@ -270,7 +286,9 @@ def write_profiles(data_dir: Path, basho: Basho) -> int:
     shusshin = _shusshin_by_nsk()
     shikona_ja = _shikona_ja_by_nsk()
     out_dir = data_dir / "profiles"
-    written = 0
+
+    # First pass: build every profile (weight_class needs the whole cohort's weights).
+    profiles = []
     for r in basho.rikishi:
         if not r.rikishi_id:
             continue
@@ -287,7 +305,12 @@ def write_profiles(data_dir: Path, basho: Basho) -> int:
                 if k == "shikona":
                     ordered["shikona_ja"] = shikona_ja[r.rikishi_id]
             profile = ordered
-        write_json(out_dir / f"{r.rikishi_id}.json", profile)
-        written += 1
-    log(f"wrote {written} profiles to {out_dir}")
-    return written
+        profiles.append(profile)
+
+    # Second pass: prepend the cohort-relative weight class onto each style, then write.
+    classes = _weight_classes([p.get("weight_kg") for p in profiles])
+    for profile, weight_class in zip(profiles, classes):
+        profile["style"] = {"weight_class": weight_class, **profile.get("style", {})}
+        write_json(out_dir / f"{profile['rikishi_id']}.json", profile)
+    log(f"wrote {len(profiles)} profiles to {out_dir}")
+    return len(profiles)

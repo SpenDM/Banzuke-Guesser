@@ -22,10 +22,9 @@
     "oshi"
   ],
   "style": {
-    "primary": "Thruster",
-    "notes": [
-      "long-range tsuppari"
-    ]
+    "weight_class": "Mid-weight",
+    "primary": "Pusher-Thruster",
+    "known_for": "rapid-fire tsuppari"
   },
   "history": [
     {

@@ -1,48 +1,229 @@
 {
-  "_comment": "Hand-curated wrestling style, keyed by sumo.or.jp rikishi id (nskId). primary is one of Grappler / Thruster / Thrower / Versatile; notes are short free-form trait tags. Merged over the auto-derived style in scraper/profiles.py. Underscore keys are ignored (not numeric ids).",
-
-  "3842": { "primary": "Grappler", "notes": ["belt technician", "spectacular throws (uwatenage)", "lightning reactions", "occasional henka"] },
-  "4227": { "primary": "Grappler", "notes": ["powerful tachiai", "strong right-hand grip (migi-yotsu)", "textbook yorikiri"] },
-  "3622": { "primary": "Grappler", "notes": ["strong belt grip", "signature uwatenage", "migi-yotsu"] },
-  "3661": { "primary": "Grappler", "notes": ["heavy and powerful", "migi-yotsu into yorikiri", "steady oshi"] },
-  "4055": { "primary": "Grappler", "notes": ["patient belt work", "big frame", "absorbs pressure"] },
-  "3840": { "primary": "Grappler", "notes": ["long reach", "migi-yotsu", "reach-and-thrust openings"] },
-  "3761": { "primary": "Versatile", "notes": ["agile", "quick", "all-around technician"] },
-  "4230": { "primary": "Versatile", "notes": ["attacks low", "quick footwork", "mobile"] },
-  "4279": { "primary": "Grappler", "notes": ["forward-pressing belt work"] },
-  "3844": { "primary": "Thruster", "notes": ["big frame", "oshi-zumo"] },
-  "4191": { "primary": "Thruster", "notes": ["oshi-zumo"] },
-  "3265": { "primary": "Thruster", "notes": ["powerful oshi", "tsuppari"] },
-  "4079": { "primary": "Thruster", "notes": ["aggressive tachiai", "powerful oshi"] },
-  "3711": { "primary": "Grappler", "notes": ["left-hand belt (hidari-yotsu)", "sturdy defence"] },
-  "3705": { "primary": "Grappler", "notes": ["relentless forward pressure", "migi-yotsu"] },
-  "4187": { "primary": "Grappler", "notes": ["powerful and versatile", "strong belt", "attacks with oshi and yotsu"] },
-  "3376": { "primary": "Thruster", "notes": ["fierce tsuppari", "explosive thrusting attack"] },
-  "3753": { "primary": "Thruster", "notes": ["long-range tsuppari"] },
-  "3616": { "primary": "Versatile", "notes": ["agile", "acrobatic", "unorthodox", "signature ashitori and kubinage"] },
-  "4108": { "primary": "Thruster", "notes": ["deft inashi", "oshi with belt backup"] },
-  "3521": { "primary": "Grappler", "notes": ["slow starter, strong going forward", "migi-yotsu"] },
-  "4093": { "primary": "Grappler", "notes": ["migi-yotsu"] },
-  "4120": { "primary": "Grappler", "notes": ["migi-yotsu"] },
-  "2775": { "primary": "Versatile", "notes": ["powerful all-rounder", "strong oshi and belt"] },
-  "3371": { "primary": "Grappler", "notes": ["long reach", "left-hand belt (hidari-yotsu)"] },
-  "3907": { "primary": "Grappler", "notes": ["migi-yotsu"] },
-  "4336": { "primary": "Thruster", "notes": ["oshi-zumo"] },
-  "3594": { "primary": "Versatile", "notes": ["agile", "energetic", "unpredictable"] },
-  "3682": { "primary": "Grappler", "notes": ["strong right-hand grip (migi-yotsu)", "powerful yorikiri"] },
-  "3207": { "primary": "Versatile", "notes": ["agile and tricky", "throws and henka"] },
-  "4121": { "primary": "Thruster", "notes": ["oshi-zumo"] },
-  "3620": { "primary": "Thruster", "notes": ["powerful oshi", "quick tachiai"] },
-  "4175": { "primary": "Grappler", "notes": ["migi-yotsu"] },
-  "3485": { "primary": "Thruster", "notes": ["signature double-arm thrust (moro-te-zuki)", "long reach", "pull-downs"] },
-  "3742": { "primary": "Grappler", "notes": ["left-hand belt (hidari-yotsu)", "mixes in oshi"] },
-  "4171": { "primary": "Thruster", "notes": ["explosive tachiai", "fast and aggressive"] },
-  "4112": { "primary": "Thruster", "notes": ["big frame", "oshi with long reach"] },
-  "3990": { "primary": "Thruster", "notes": ["huge frame", "oshi-zumo"] },
-  "4231": { "primary": "Grappler", "notes": ["strong belt", "powerful"] },
-  "4287": { "primary": "Grappler", "notes": ["young all-rounder", "belt and thrust"] },
-  "4116": { "primary": "Grappler", "notes": ["oshi and migi-yotsu"] },
-  "4101": { "primary": "Versatile", "notes": ["agile", "quick and mobile"] },
-
-  "3743": { "primary": "Thrower", "notes": ["signature katasukashi", "agile", "undersized technician"] }
+  "_comment": "Hand-curated fighting style, keyed by sumo.or.jp rikishi id (nskId). primary is one of Grappler / Pusher-Thruster / All-Rounder (yotsu / oshi / versatile). known_for is an optional short standout trait, shown as 'Known for ...'. weight_class (Heavy / Mid-weight / Light-weight) is NOT stored here: it is computed per scrape from the cohort's weights in scraper/profiles.py. Underscore keys are ignored.",
+  "4287": {
+    "primary": "Grappler"
+  },
+  "4055": {
+    "primary": "Grappler"
+  },
+  "4227": {
+    "primary": "All-Rounder",
+    "known_for": "overwhelming forward power"
+  },
+  "3844": {
+    "primary": "Pusher-Thruster"
+  },
+  "2892": {
+    "primary": "Grappler"
+  },
+  "4336": {
+    "primary": "Pusher-Thruster"
+  },
+  "3990": {
+    "primary": "Grappler"
+  },
+  "4112": {
+    "primary": "Pusher-Thruster"
+  },
+  "3553": {
+    "primary": "Grappler"
+  },
+  "2629": {
+    "primary": "Pusher-Thruster",
+    "known_for": "relentless tsuppari"
+  },
+  "3661": {
+    "primary": "Grappler"
+  },
+  "3265": {
+    "primary": "Pusher-Thruster"
+  },
+  "3620": {
+    "primary": "Pusher-Thruster"
+  },
+  "2775": {
+    "primary": "All-Rounder"
+  },
+  "3818": {
+    "primary": "Pusher-Thruster"
+  },
+  "3682": {
+    "primary": "Grappler",
+    "known_for": "dominant right-hand grip"
+  },
+  "4116": {
+    "primary": "Grappler"
+  },
+  "3840": {
+    "primary": "Grappler"
+  },
+  "3255": {
+    "primary": "Pusher-Thruster"
+  },
+  "3334": {
+    "primary": "Pusher-Thruster"
+  },
+  "3521": {
+    "primary": "Grappler"
+  },
+  "4165": {
+    "primary": "Pusher-Thruster"
+  },
+  "3485": {
+    "primary": "Pusher-Thruster",
+    "known_for": "signature double-arm tsuppari"
+  },
+  "4231": {
+    "primary": "Grappler"
+  },
+  "4232": {
+    "primary": "Grappler"
+  },
+  "3376": {
+    "primary": "Pusher-Thruster",
+    "known_for": "explosive tachiai"
+  },
+  "4079": {
+    "primary": "Pusher-Thruster",
+    "known_for": "aggressive tachiai"
+  },
+  "4108": {
+    "primary": "Pusher-Thruster"
+  },
+  "4187": {
+    "primary": "All-Rounder"
+  },
+  "4279": {
+    "primary": "Grappler"
+  },
+  "3839": {
+    "primary": "Pusher-Thruster"
+  },
+  "4164": {
+    "primary": "Grappler"
+  },
+  "3753": {
+    "primary": "Pusher-Thruster",
+    "known_for": "rapid-fire tsuppari"
+  },
+  "2890": {
+    "primary": "Grappler",
+    "known_for": "long-limbed moro-zashi"
+  },
+  "3907": {
+    "primary": "Grappler"
+  },
+  "3939": {
+    "primary": "Grappler"
+  },
+  "4095": {
+    "primary": "Grappler"
+  },
+  "4158": {
+    "primary": "Pusher-Thruster"
+  },
+  "3337": {
+    "primary": "Grappler"
+  },
+  "3711": {
+    "primary": "Grappler"
+  },
+  "4175": {
+    "primary": "Grappler"
+  },
+  "4243": {
+    "primary": "Grappler"
+  },
+  "3742": {
+    "primary": "Grappler"
+  },
+  "3983": {
+    "primary": "Pusher-Thruster"
+  },
+  "3622": {
+    "primary": "Grappler",
+    "known_for": "powerful throws"
+  },
+  "3371": {
+    "primary": "Grappler"
+  },
+  "4093": {
+    "primary": "Grappler"
+  },
+  "4171": {
+    "primary": "Pusher-Thruster",
+    "known_for": "explosive forward attack"
+  },
+  "3842": {
+    "primary": "Grappler",
+    "known_for": "spectacular throws"
+  },
+  "3207": {
+    "primary": "All-Rounder",
+    "known_for": "henka and trickery"
+  },
+  "4121": {
+    "primary": "Pusher-Thruster"
+  },
+  "3705": {
+    "primary": "All-Rounder"
+  },
+  "4230": {
+    "primary": "All-Rounder"
+  },
+  "2565": {
+    "primary": "Grappler"
+  },
+  "4025": {
+    "primary": "Grappler"
+  },
+  "3914": {
+    "primary": "Pusher-Thruster"
+  },
+  "4120": {
+    "primary": "Grappler"
+  },
+  "3616": {
+    "primary": "All-Rounder",
+    "known_for": "rare technique usage"
+  },
+  "3761": {
+    "primary": "All-Rounder"
+  },
+  "3969": {
+    "primary": "Pusher-Thruster"
+  },
+  "3594": {
+    "primary": "All-Rounder",
+    "known_for": "agile, acrobatic movement"
+  },
+  "3933": {
+    "primary": "Grappler"
+  },
+  "4124": {
+    "primary": "Pusher-Thruster"
+  },
+  "4191": {
+    "primary": "Pusher-Thruster"
+  },
+  "3367": {
+    "primary": "Grappler"
+  },
+  "4267": {
+    "primary": "Pusher-Thruster"
+  },
+  "4101": {
+    "primary": "All-Rounder"
+  },
+  "4285": {
+    "primary": "Pusher-Thruster"
+  },
+  "3743": {
+    "primary": "Grappler",
+    "known_for": "signature katasukashi"
+  },
+  "3803": {
+    "primary": "Grappler",
+    "known_for": "lightning-fast, low sumo"
+  }
 }

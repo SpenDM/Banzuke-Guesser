@@ -23,8 +23,8 @@
     "nage"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": []
+    "weight_class": "Light-weight",
+    "primary": "Grappler"
   },
   "history": [
     {

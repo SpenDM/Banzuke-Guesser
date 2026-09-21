@@ -23,13 +23,9 @@
     "nage"
   ],
   "style": {
+    "weight_class": "Light-weight",
     "primary": "Grappler",
-    "notes": [
-      "belt technician",
-      "spectacular throws (uwatenage)",
-      "lightning reactions",
-      "occasional henka"
-    ]
+    "known_for": "spectacular throws"
   },
   "history": [
     {

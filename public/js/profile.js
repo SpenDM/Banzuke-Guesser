@@ -41,8 +41,9 @@ function isHighestRankRow(rank, highest) {
 
 function styleDd(style) {
   if (!style) return h('dd', { text: '—' });
-  const dd = h('dd', {}, h('strong', { text: style.primary || 'Versatile' }));
-  if (style.notes && style.notes.length) dd.append(` — ${style.notes.join(', ')}`);
+  const label = [style.weight_class, style.primary || 'All-Rounder'].filter(Boolean).join(' ');
+  const dd = h('dd', {}, h('strong', { text: label }));
+  if (style.known_for) dd.append(` — Known for ${style.known_for}`);
   return dd;
 }
 
@@ -60,7 +61,7 @@ function factsList(p) {
   add('Age', ageFrom(p.birth_date));
   add('Height', p.height_cm != null ? `${p.height_cm} cm` : null);
   add('Weight', p.weight_kg != null ? `${p.weight_kg} kg` : null);
-  dl.append(h('dt', { text: 'Wrestling style' }), styleDd(p.style));
+  dl.append(h('dt', { text: 'Fighting Style' }), styleDd(p.style));
   return dl;
 }
 

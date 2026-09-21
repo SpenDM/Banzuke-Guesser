@@ -22,11 +22,8 @@
     "yori"
   ],
   "style": {
-    "primary": "Grappler",
-    "notes": [
-      "left-hand belt (hidari-yotsu)",
-      "mixes in oshi"
-    ]
+    "weight_class": "Mid-weight",
+    "primary": "Grappler"
   },
   "history": [
     {

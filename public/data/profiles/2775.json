@@ -22,11 +22,8 @@
     "oshi"
   ],
   "style": {
-    "primary": "Versatile",
-    "notes": [
-      "powerful all-rounder",
-      "strong oshi and belt"
-    ]
+    "weight_class": "Heavy",
+    "primary": "All-Rounder"
   },
   "history": [
     {
