@@ -371,6 +371,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 .profile-name { margin: 0 0 8px; font-size: 22px; }
 .profile-name a { color: var(--ink); text-decoration: none; }
 .profile-name a:hover { text-decoration: underline; }
+.profile-name-ja { color: var(--muted); font-weight: 400; }
 
 .profile-fields { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; margin: 0; }
 .profile-fields dt { color: var(--muted); font-size: 12px; font-weight: 600; }

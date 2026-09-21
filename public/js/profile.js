@@ -89,7 +89,9 @@ function renderProfile(body, p) {
     h('div', { class: 'profile-head' },
       photo,
       h('div', { class: 'profile-facts' },
-        h('h2', { class: 'profile-name' }, h('a', { href: p.profile_url, target: '_blank', rel: 'noopener noreferrer', text: p.shikona || 'Rikishi' })),
+        h('h2', { class: 'profile-name' },
+          h('a', { href: p.profile_url, target: '_blank', rel: 'noopener noreferrer', text: p.shikona || 'Rikishi' }),
+          p.shikona_ja ? h('span', { class: 'profile-name-ja', text: ` ${p.shikona_ja}` }) : null),
         factsList(p))),
     h('div', { class: 'profile-history' }, h('h3', { text: 'Tournament History' }), historyTable(p)));
 }

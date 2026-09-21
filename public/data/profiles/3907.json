@@ -3,13 +3,14 @@
   "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/3907/",
   "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20180068.jpg",
   "shikona": "Roga",
+  "shikona_ja": "狼雅",
   "real_name": "Amartuvshin Amarsanaa",
   "stable": "Futagoyama",
   "birthplace": {
-    "flag": "🇲🇳",
-    "country": "Mongolia",
-    "province": null,
-    "city": "Ulaanbaatar - Russia"
+    "flag": "🇷🇺",
+    "country": "Russia",
+    "province": "Tuva",
+    "city": "Kyzyl"
   },
   "current_rank": "Maegashira #5",
   "highest_rank": "Maegashira #5",

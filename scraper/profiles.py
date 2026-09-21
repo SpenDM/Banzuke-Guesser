@@ -248,9 +248,27 @@ def _shusshin_by_nsk() -> dict[int, str]:
     return {int(r["nskId"]): r.get("shusshin") for r in records if r.get("nskId")}
 
 
+def _shikona_ja_by_nsk() -> dict[int, str]:
+    """{nskId: shikonaJp} from sumo-api's active-rikishi list."""
+    try:
+        records = sumoapi._get(sumoapi.RIKISHIS_URL).get("records") or []
+    except (sumoapi.NotAvailable, requests.RequestException, ValueError) as e:
+        log(f"warning: no sumo-api rikishi list for Japanese shikona ({e})")
+        return {}
+    out = {}
+    for r in records:
+        if not r.get("nskId"):
+            continue
+        jp = (r.get("shikonaJp") or "").strip()
+        if jp:
+            out[int(r["nskId"])] = jp.split("　")[0].split(" ")[0]
+    return out
+
+
 def write_profiles(data_dir: Path, basho: Basho) -> int:
     """Write public/data/profiles/{id}.json for every rikishi in `basho` that has a sumo.or.jp id."""
     shusshin = _shusshin_by_nsk()
+    shikona_ja = _shikona_ja_by_nsk()
     out_dir = data_dir / "profiles"
     written = 0
     for r in basho.rikishi:
@@ -261,6 +279,14 @@ def write_profiles(data_dir: Path, basho: Basho) -> int:
         except (requests.RequestException, ValueError) as e:
             log(f"warning: could not build profile for {r.name} ({r.rikishi_id}): {e}")
             continue
+        if r.rikishi_id in shikona_ja:
+            # Insert shikona_ja immediately after shikona
+            ordered: dict = {}
+            for k, v in profile.items():
+                ordered[k] = v
+                if k == "shikona":
+                    ordered["shikona_ja"] = shikona_ja[r.rikishi_id]
+            profile = ordered
         write_json(out_dir / f"{r.rikishi_id}.json", profile)
         written += 1
     log(f"wrote {written} profiles to {out_dir}")
