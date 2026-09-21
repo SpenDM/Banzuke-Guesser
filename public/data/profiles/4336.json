@@ -29,48 +29,48 @@
     {
       "year": 2026,
       "tournament": "September",
-      "division": "",
-      "rank": "West Maegashira #4",
+      "division": "Makuuchi",
+      "rank": "Maegashira #4",
       "record": "3-5",
       "achievements": []
     },
     {
       "year": 2026,
       "tournament": "July",
-      "division": "",
-      "rank": "East Maegashira #9",
+      "division": "Makuuchi",
+      "rank": "Maegashira #9",
       "record": "10-5",
       "achievements": []
     },
     {
       "year": 2026,
       "tournament": "May",
-      "division": "",
-      "rank": "East Maegashira #17",
+      "division": "Makuuchi",
+      "rank": "Maegashira #17",
       "record": "10-5",
       "achievements": []
     },
     {
       "year": 2026,
       "tournament": "March",
-      "division": "",
-      "rank": "East Maegashira #17",
+      "division": "Makuuchi",
+      "rank": "Maegashira #17",
       "record": "7-8",
       "achievements": []
     },
     {
       "year": 2026,
       "tournament": "January",
-      "division": "",
-      "rank": "East Juryo #3",
+      "division": "Juryo",
+      "rank": "Juryo #3",
       "record": "9-6",
       "achievements": []
     },
     {
       "year": 2025,
       "tournament": "November",
-      "division": "",
-      "rank": "West Juryo #13",
+      "division": "Juryo",
+      "rank": "Juryo #13",
       "record": "13-2",
       "achievements": [
         "🏆 Yusho"
@@ -79,31 +79,31 @@
     {
       "year": 2025,
       "tournament": "September",
-      "division": "",
-      "rank": "West Makushita #5",
+      "division": "Makushita",
+      "rank": "Makushita #5",
       "record": "6-1",
       "achievements": []
     },
     {
       "year": 2025,
       "tournament": "July",
-      "division": "",
-      "rank": "East Makushita #9",
+      "division": "Makushita",
+      "rank": "Makushita #9",
       "record": "4-3",
       "achievements": []
     },
     {
       "year": 2025,
       "tournament": "May",
-      "division": "",
-      "rank": "East Makushita #28",
+      "division": "Makushita",
+      "rank": "Makushita #28",
       "record": "6-1",
       "achievements": []
     },
     {
       "year": 2025,
       "tournament": "March",
-      "division": "",
+      "division": "Makushita",
       "rank": "Makushita #60",
       "record": "6-1",
       "achievements": []

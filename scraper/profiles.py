@@ -122,11 +122,13 @@ def _records(soup: BeautifulSoup) -> list[dict]:
         ym = spans[0].split()  # "2026\xa0September" -> ["2026", "September"]
         if not ym or not ym[0].isdigit():
             continue
-        rank = spans[1]
         rec_i = next((i for i, s in enumerate(spans) if re.fullmatch(r"\d+-\d+(?:-\d+)?", s)), None)
         if rec_i is None:
             continue
-        rank_word = rank.split()[-1].split("#")[0].strip() if rank else ""
+        # "West Maegashira #5" -> drop the East/West side (the table doesn't need it); the division
+        # is named by the first remaining word ("Maegashira" -> Makuuchi, "Juryo" -> Juryo, ...).
+        rank = re.sub(r"^(East|West)\s+", "", spans[1])
+        rank_word = rank.split()[0] if rank.split() else ""
         out.append({
             "year": int(ym[0]),
             "tournament": ym[1] if len(ym) > 1 else "",
