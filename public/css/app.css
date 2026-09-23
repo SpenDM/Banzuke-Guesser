@@ -155,9 +155,12 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 #account-in { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
 .form-error { display: block; min-height: 1.4em; margin-top: 4px; color: var(--down); font-size: 12px; font-weight: 600; }
 .form-error.ok { color: var(--muted); }
+.form-error[hidden] { display: none; }
 
 /* About view: four text+image sections stacked vertically. */
 .about { grid-column: 2 / -1; }
+/* The Fill GTB Form bookmarklet: styled as a pill so it reads as something to drag. */
+.bookmarklet { display: inline-block; padding: 1px 10px; border: 1px dashed var(--line); border-radius: 999px; font-weight: 600; cursor: grab; }
 .about-section { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; margin-bottom: 32px; }
 .about-section:last-child { margin-bottom: 0; }
 .about-text h2 { margin: 0 0 8px; }

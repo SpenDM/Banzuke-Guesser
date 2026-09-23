@@ -5,6 +5,7 @@ import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, loadSubmission, saveGuesses } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
 import { SubmitController } from './submit.js';
+import { bookmarkletHref, gtbLink } from './gtb.js';
 import { RegisterController } from './register.js';
 import { ResultsView } from './results.js';
 import { reopenDate, rounds } from './rounds.js';
@@ -125,8 +126,12 @@ async function showBasho(id) {
   };
   state.addEventListener('change', render);
   state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));
+  // "Submit Guess to GTB" carries the picks for the Fill GTB Form bookmarklet (gtb.js).
+  const syncGtbLink = () => { $('#submit-guess').href = gtbLink(state.makuuchiPlacements()); };
+  state.addEventListener('change', syncGtbLink);
   renderHeader(basho);
   render();
+  syncGtbLink();
 
   installDragAndDrop(app, state);
   app.addEventListener('click', (e) => {
@@ -164,6 +169,19 @@ function installProfileOpeners() {
     const chip = e.target.closest('.chip.placed[data-rikishi-id]');
     if (chip && chip.closest('#previous')) openFor(chip);
   });
+}
+
+/**
+ * The Fill GTB Form bookmarklet link on the About page: meant to be dragged to the bookmarks bar,
+ * so a plain click only explains that.
+ */
+function installGtbBookmarklet() {
+  const link = $('#gtb-bookmarklet');
+  link.href = bookmarkletHref();
+  link.onclick = (e) => {
+    e.preventDefault();
+    $('#gtb-bookmarklet-hint').hidden = false;
+  };
 }
 
 /** The Register button and popover (register.js), created once for the page. */
@@ -229,6 +247,7 @@ async function main() {
   installPastBanzuke(index);
   installRegister();
   installProfileOpeners();
+  installGtbBookmarklet();
   const basho = await showBasho(index.latest);
   results = new ResultsView(basho);
   setView(defaultView(basho));
