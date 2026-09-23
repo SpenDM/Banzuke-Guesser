@@ -33,7 +33,6 @@
   --bronze: #cd7f32;
   --bronze-dark: #a5641f;
   --over: #ffe9a8;
-  --joi-bg: #f5f5f5;
   --candidates-bg: #eef3f7;
   --demotion-bg: #fbeeed;
   --chip: #fbfaf7;
@@ -68,7 +67,6 @@
   --bronze: #cd7f32;
   --bronze-dark: #b56a26;
   --over: #4a3d16;
-  --joi-bg: #26292e;
   --candidates-bg: #1d2b36;
   --demotion-bg: #35211f;
   --chip: #2a2e33;
@@ -259,8 +257,6 @@ tr.sanyaku-gold td.rank { background: var(--gold-bg); }
 tr.sanyaku-bronze td.rank { background: var(--bronze-bg); }
 tr.sanyaku-gold td.slot.empty { background: var(--gold-bg); }
 tr.sanyaku-bronze td.slot.empty { background: var(--bronze-bg); }
-tr.joi td { background: var(--joi-bg); }
-tr.joi td.rank { background: var(--joi-bg); }
 /* Temporary candidates row (see candidatesRow in banzuke.js): promotion half blue, demotion half red. */
 tr.candidates td { background: var(--candidates-bg); border-top: 1px dashed var(--up); border-bottom: 1px dashed var(--up); }
 tr.candidates td.demotion { background: var(--demotion-bg); border-top-color: var(--down); border-bottom-color: var(--down); }
@@ -272,6 +268,7 @@ tr.candidates .placeholder { color: var(--muted); font-size: 12px; }
 
 .line, .banzuke.previous td { height: var(--line-h); line-height: 22px; }
 .banzuke.previous td { padding-top: 2px; padding-bottom: 2px; }
+.banzuke.previous tr.division td { height: auto; }
 .stack { display: flex; flex-direction: column; min-height: var(--line-h); }
 .line { display: flex; align-items: center; justify-content: center; }
 td.rikishi .line { justify-content: flex-start; }

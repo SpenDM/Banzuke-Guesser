@@ -1,7 +1,7 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
 import {
   RANK_NAMES, DIVISION_OF, DIVISION_NAMES, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
-  DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName, isJoi,
+  DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName,
 } from './rank.js';
 import {
   KACHI_KOSHI, KOMUSUBI_FORCE_WINS, M1_FORCE_WINS, M2_FORCE_WINS, OZEKI_RETURN_WINS, OZEKI_TARGET,
@@ -13,7 +13,6 @@ const formatNetWins = (n) => (n > 0 ? `+${n}` : `${n}`);
 
 const rankRowClass = (rank, num) => {
   if (SANYAKU_TINT[rank]) return `sanyaku-${SANYAKU_TINT[rank]}`;
-  if (isJoi(rank, num)) return 'joi';
   return null;
 };
 
