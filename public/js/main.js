@@ -107,7 +107,6 @@ function renderHeader(basho) {
   $('#subtitle').textContent = next
     ? `Predict the ${next.name} Banzuke!`
     : `Predict the next Banzuke from the ${basho.name} results.`;
-  $('#source').textContent = `Data: ${basho.source}, fetched ${basho.fetched_at.slice(0, 10)}`;
 }
 
 async function showBasho(id) {
