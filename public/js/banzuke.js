@@ -1,7 +1,7 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
 import {
   RANK_NAMES, DIVISION_OF, DIVISION_NAMES, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
-  DEMOTION_SLOT, buildLadder, candidateSlotId, parseSlot, rankChange, slotId, slotName,
+  DEMOTION_SLOT, buildLadder, candidateSlotId, compareSlots, parseSlot, rankChange, slotId, slotName,
 } from './rank.js';
 import {
   KACHI_KOSHI, KOMUSUBI_FORCE_WINS, M1_FORCE_WINS, M2_FORCE_WINS, OZEKI_RETURN_WINS, OZEKI_TARGET,
@@ -175,7 +175,7 @@ export function renderGuess(table, state) {
  * Rank Change. `placeholder` is muted text shown in the rikishi cell while the slot is empty.
  */
 function sideCells(state, id, to, ladder, { extraClass = '', title = null, placeholder = null } = {}) {
-  const occupants = state.occupants(id);
+  const occupants = [...state.occupants(id)].sort(compareSlots);
   const cls = `slot${extraClass}${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[to.rank] === 'makuuchi' ? ' empty' : ''}`;
   const stack = (fn) => h('div', { class: 'stack' }, occupants.map((r) => h('div', { class: 'line' }, fn(r))));
   const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to, ladder);
