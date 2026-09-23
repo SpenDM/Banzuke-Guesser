@@ -166,7 +166,7 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 #my-results-section[hidden] + h3 { margin-top: 0; }
 .chip.correct { background: var(--up-bg); border-color: var(--up-border); color: var(--up); cursor: default; }
 .chip.wrong { background: var(--down-bg); border-color: var(--down-border); color: var(--down); cursor: default; }
-.banzuke.compare td { height: var(--line-h); }
+.banzuke.compare td { height: calc(var(--line-h) + 4px); }
 .score { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; align-items: baseline; }
 .score dt { font-weight: 600; color: var(--muted); }
 .score dd { margin: 0; font-variant-numeric: tabular-nums; }
@@ -239,7 +239,7 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
    at this width, making its header row taller than the previous table's single-line one.
    Thickening the previous table's header row to match keeps every row below it lined up between
    the two side-by-side tables in the Predict view. */
-.banzuke.previous th { height: 46px; }
+.banzuke th { height: 46px; }
 .banzuke td { border: 1px solid var(--line); padding: 2px 6px; vertical-align: top; }
 .banzuke td.rank { position: relative; text-align: center; font-weight: 700; white-space: nowrap; background: #faf8f3; width: 1%; }
 .dark .banzuke td.rank { background: #23262b; } /* dark: rank cell */
@@ -266,8 +266,8 @@ tr.candidates td.rank .down { color: var(--down); margin-left: 2px; }
 tr.candidates td.note { color: var(--muted); font-size: 12px; vertical-align: middle; }
 tr.candidates .placeholder { color: var(--muted); font-size: 12px; }
 
-.line, .banzuke.previous td { height: var(--line-h); line-height: 22px; }
-.banzuke.previous td { padding-top: 2px; padding-bottom: 2px; }
+.line { height: var(--line-h); line-height: 22px; }
+.banzuke.previous td { height: calc(var(--line-h) + 4px); line-height: 22px; padding-top: 2px; padding-bottom: 2px; }
 .banzuke.previous tr.division td { height: auto; }
 .stack { display: flex; flex-direction: column; min-height: var(--line-h); }
 .line { display: flex; align-items: center; justify-content: center; }
