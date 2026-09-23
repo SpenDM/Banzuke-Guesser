@@ -12,7 +12,7 @@ const MAKUUCHI_RANKS = RANK_ORDER.filter((rank) => DIVISION_OF[rank] === 'makuuc
  * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
  * the Makuuchi headcount (rikishi in numbered Makuuchi slots or still in a ↑ candidates row),
  * slots holding more than one rikishi (and candidates left in a ↑ row), then gaps: an empty slot
- * above a filled one of the same rank type.
+ * above a filled one of the same rank type (except the East side of a sanyaku rank's last row).
  */
 export function validateGuess(state) {
   const { spots } = state.counts();
@@ -38,12 +38,23 @@ export function validateGuess(state) {
   }
 
   for (const rank of MAKUUCHI_RANKS) {
+    // A sanyaku rank's lowest filled row may have either side empty (e.g. Nagoya 2025: S2W with
+    // no S2E), so for those only the rows above it must be full.
+    const sanyaku = rank !== 'M';
+    let lastFilledRow = 0;
+    if (sanyaku) {
+      for (let num = 1; num <= state.rowCounts[rank]; num++) {
+        if (perSlot.has(slotId(rank, num, 'E')) || perSlot.has(slotId(rank, num, 'W'))) lastFilledRow = num;
+      }
+    }
     let firstEmpty = null;
     for (let num = 1; num <= state.rowCounts[rank]; num++) {
       for (const side of ['E', 'W']) {
         const slot = slotId(rank, num, side);
         if (!perSlot.has(slot)) firstEmpty ??= slot;
-        else if (firstEmpty) return `Gap at ${firstEmpty}`;
+        else if (firstEmpty && !(sanyaku && num === lastFilledRow && parseSlot(firstEmpty).num === num)) {
+          return `Gap at ${firstEmpty}`;
+        }
       }
     }
   }

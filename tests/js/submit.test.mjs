@@ -62,6 +62,21 @@ test('a gap is an empty slot above a filled one of the same rank type', () => {
   assert.equal(validateGuess(s), 'Gap at S1W');
 });
 
+test('a sanyaku rank may leave the East side of its last filled row empty', () => {
+  const s = filled();
+  s.place('d', 'S1W');
+  s.addRow('S');
+  s.place('e', 'S2W');                        // Nagoya 2025: S2W filled, S2E empty
+  s.place('f', 'M1E');
+  assert.equal(validateGuess(s), null);
+  s.addRow('S');
+  s.place('e', 'S3W');                        // ...but not once a lower row is filled
+  assert.equal(validateGuess(s), 'Gap at S2E');
+  s.place('e', 'S2W');
+  s.place('a', 'Y1W');                        // same for Yokozuna/Ozeki
+  assert.equal(validateGuess(s), null);
+});
+
 test('makuuchiPlacements lists numbered Makuuchi slots in banzuke order with ids', () => {
   const s = filled();
   s.place('j', 'vJ');
