@@ -21,6 +21,14 @@ let submit = null;    // the Submit Guess button of the basho shown
 
 let buffered = false;   // the first view change gets a buffering pause (see setView)
 
+function sizeAboutImages() {
+  for (const section of document.querySelectorAll('.about-section')) {
+    const text = section.querySelector('.about-text');
+    const img = section.querySelector('.about-media img');
+    if (text && img) img.style.maxHeight = `${Math.round(text.offsetHeight * 1.5)}px`;
+  }
+}
+
 /** Shows the Predict or Results page (each with its own sidebar boxes); Results loads its data on first open. */
 function setView(name) {
   const isChange = view !== null && view !== name;
@@ -31,6 +39,7 @@ function setView(name) {
   }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.classList.toggle('active', btn.dataset.viewButton === name);
   setBanner(BANNER[name]);
+  if (name === 'about') sizeAboutImages();
   const ready = name === 'results' && results ? results.load().catch(showError) : Promise.resolve();
   // The first view change reveals a page that still has async work to do (Results fetches
   // submissions, then re-renders and hides sections), so its panels would otherwise flash in
@@ -253,4 +262,5 @@ function showError(err) {
 }
 
 installThemeToggle();
+window.addEventListener('resize', () => { if (view === 'about') sizeAboutImages(); });
 main().catch(showError).finally(() => document.documentElement.classList.remove('loading'));
