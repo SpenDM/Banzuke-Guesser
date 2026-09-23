@@ -26,7 +26,8 @@ function sizeAboutImages() {
   for (const section of document.querySelectorAll('.about-section')) {
     const text = section.querySelector('.about-text');
     const img = section.querySelector('.about-media img');
-    if (text && img) img.style.maxHeight = `${Math.round(text.offsetHeight * 1.5)}px`;
+    // Images may be up to 1.5× their text's height, unless they set their own ratio (data-height).
+    if (text && img) img.style.maxHeight = `${Math.round(text.offsetHeight * Number(img.dataset.height || 1.5))}px`;
   }
 }
 
