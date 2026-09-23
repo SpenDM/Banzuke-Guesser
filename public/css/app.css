@@ -156,6 +156,21 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 .form-error { display: block; min-height: 1.4em; margin-top: 4px; color: var(--down); font-size: 12px; font-weight: 600; }
 .form-error.ok { color: var(--muted); }
 
+/* About view: four text+image sections stacked vertically. */
+.about { grid-column: 2 / -1; }
+.about-section { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 32px; }
+.about-section:last-child { margin-bottom: 0; }
+.about-text { flex: 1; }
+.about-text h2 { margin: 0 0 8px; }
+.about-text p { margin: 0 0 8px; }
+.about-text p:last-child { margin-bottom: 0; }
+.about-text ul { margin: 8px 0 0; padding-left: 20px; }
+.about-text li { margin-bottom: 6px; line-height: 1.5; }
+.about-media { flex: none; width: 260px; margin: 0; }
+.about-media img { width: 100%; border-radius: 4px; border: 1px solid var(--line); display: block; }
+.about-media figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: center; }
+@media (max-width: 800px) { .about-section { flex-direction: column; } .about-media { width: 100%; } }
+
 /* Results view: prediction vs banzuke on top, my score + leaderboard and a clicked prediction below. */
 .results { grid-column: 2 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
 .results[hidden] { display: none; }

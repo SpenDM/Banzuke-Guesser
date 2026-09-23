@@ -73,6 +73,7 @@
       </div>
       <div class="panel pages">
         <h2>Pages</h2>
+        <button id="view-about" type="button" data-view-button="about">What is This?</button>
         <button id="view-predict" type="button" data-view-button="predict">Prediction</button>
         <button id="view-results" type="button" data-view-button="results">Results</button>
       </div>
@@ -123,6 +124,59 @@
     <section class="panel" data-view="predict">
       <h2><span id="guess-name">Next</span> Banzuke Prediction <span id="release-note" class="release-note"></span></h2>
       <div class="table-wrap"><table id="guess" class="banzuke guess"></table></div>
+    </section>
+    <section class="panel about" data-view="about" hidden>
+      <div class="about-section">
+        <div class="about-text">
+          <h2>What is this Site?</h2>
+          <p>This site is a tool to assist sumo fans playing a game where we guess what the new wrestler rankings will be after a tournament finishes.</p>
+          <p>The rankings are ultimately subjective, decided by the Japanese Sumo Association. There are some general rules used however, and this app assists with calculations and highlighting information relevant to these rules, in addition to providing a nice clean interface for organizing picks.</p>
+        </div>
+        <figure class="about-media">
+          <img src="resources/images/Banzuke.jpg" alt="An official banzuke">
+          <figcaption>An official banzuke</figcaption>
+        </figure>
+      </div>
+      <div class="about-section">
+        <div class="about-text">
+          <h2>Sumo Rankings Explained</h2>
+          <p>The official ranking of wrestlers (rikishi) going into a tournament of professional sumo is called a banzuke.</p>
+          <p>There are 7 divisions in sumo, with most fan focus on the top division: Makuuchi. The ranks at the top of makuuchi have special names (yokozuna, ozeki, sekiwake, komusubi) and are called "titled ranks". The rest of the slots are the standard rank-and-file ranks, called maegashira, which forms the bulk of the division.</p>
+          <p>Each row of the banzuke has two rikishi slots: East and West. The East slot is considered a half step up from its West slot, otherwise there's not much major significance. Example: Maegashira 1 East &gt; Maegashira 1 West &gt; Maegashira 2 East.</p>
+          <p>A new banzuke is created after each tournament based on the performances of each rikishi.</p>
+        </div>
+        <figure class="about-media">
+          <img src="resources/images/sumo_ranks.jpeg" alt="Sumo ranks diagram">
+        </figure>
+      </div>
+      <div class="about-section">
+        <div class="about-text">
+          <h2>The Main Rule of Rank Change</h2>
+          <p>The main principle of forming the new banzuke is that if a rikishi wins more than they lose they should move up the banzuke, and if they lose more than they win they should move down the banzuke. Each rikishi has 15 bouts in a tournament, so there aren't ties (absences are treated as losses). Furthermore, the more winning you do the more you should move up, and vice versa.</p>
+          <p>So, the general calculation is that you take a rikishi's net wins in the past tournament and should ideally move up or down by that number of rows. Moving west to east / east to west is considered half a row, so a 8-7 rikishi (+1 net wins) at Maegashira #4 East (M4E) should move to Maegashira #3 East (M3E). A 5-10 rikishi (-5 net wins) at M2W should move to M7W.</p>
+          <p>However, using this system there are constantly gaps and conflicts. For example, if there's a 8-7 rikishi at M4E and a 9-6 rikishi at M5E, both of these rikishi are supposed to land at M3E. Only one rikishi can hold that slot, so it's up to the Association to decide which of them gets it and what to do with the other guy — it could be under-promotion, over-promotion, and in some cases rikishi simply stay where they already are.</p>
+        </div>
+        <figure class="about-media">
+          <img src="resources/images/banzuke_collision.png" alt="Rank change conflict">
+          <figcaption>Rank change conflict</figcaption>
+        </figure>
+      </div>
+      <div class="about-section">
+        <div class="about-text">
+          <h2>Special Rules</h2>
+          <p>The more you move up the titled ranks (sanyaku) the more the normal rules start to go out the window. Below are a few of the main rules, but remember that most "rules" aren't concrete, more like guidelines, and this isn't a comprehensive list:</p>
+          <ul>
+            <li>Makuuchi always contains 42 rikishi. Each tournament an equal number of rikishi join from and drop down to the second highest division, juryo.</li>
+            <li>There must be at least 2 komusubi and 2 sekiwake. If these slots get vacated, lower rank rikishi may move up into them like normal. If these slots aren't vacated, rikishi hoping for promotion here may need to achieve a higher level of performance to force a new slot open.</li>
+            <li>In order to reach ozeki, a rikishi generally needs 33 wins across 3 consecutive tournaments at the rank of sekiwake or komusubi.</li>
+            <li>In order to reach yokozuna, a rikishi generally needs back-to-back tournament wins at the rank of ozeki. A "win-equivalent" performance is generally accepted to count as one of the two required wins.</li>
+          </ul>
+        </div>
+        <figure class="about-media">
+          <img src="resources/images/ozeki_promotion.png" alt="Ozeki promotion ceremony">
+          <figcaption>Ozeki promotion ceremony with classic sea bream</figcaption>
+        </figure>
+      </div>
     </section>
     <section class="results" data-view="results" hidden>
       <div class="panel" id="my-panel">

@@ -12,7 +12,7 @@ import { installProfilePopup } from './profile.js';
 
 const $ = (sel) => document.querySelector(sel);
 
-const BANNER = { predict: 'resources/images/atami_banzuke.png', results: 'resources/images/onosato_win_2.png' };
+const BANNER = { about: 'resources/images/atami_banzuke.png', predict: 'resources/images/atami_banzuke.png', results: 'resources/images/onosato_win_2.png' };
 let results = null;   // the ResultsView of the round picked in the Past Banzuke box
 let view = null;
 let schedule = [];
