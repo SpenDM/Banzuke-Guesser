@@ -140,7 +140,7 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
    button matches its neighbours' height. */
 .register-wrap { position: relative; align-self: stretch; display: flex; }
 #register { flex: 1; }
-/* Bold once the button shows the user's shikona rather than the plain "Register" label. */
+/* Bold once the button shows the user's shikona rather than the plain "Login" label. */
 #register.has-shikona { font-weight: 700; }
 .popover { position: absolute; right: 0; top: calc(100% + 6px); z-index: 20; width: 300px; box-shadow: 0 4px 12px rgba(0, 0, 0, .15); }
 .popover label { display: block; font-weight: 600; margin-bottom: 6px; }
@@ -443,6 +443,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
   .controls { flex-basis: 100%; margin-left: 0; flex-wrap: wrap; gap: 6px; position: relative; align-items: stretch; }
   #basho-select, .summary, .submitted-note { flex-basis: 100%; max-width: none; text-align: center; }
   .summary:empty { display: none; }
+  .summary { order: 1; } /* below the buttons */
   #issues-toggle, #submit, .gtb-wrap, #theme-toggle, .register-wrap { flex: 1 1 0; }
   .controls button { font-size: 12px; padding: 5px 4px; }
   .gtb-wrap, .register-wrap { position: static; }
@@ -451,6 +452,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
 
   /* Sidebar boxes join the main grid so the Legend can drop below the tables; Tools and Pages
      (or Pages and Past Banzuke on Results) sit side by side at equal height. */
+  .release-note { display: block; }
   .panels { grid-template-columns: 1fr 1fr; padding: 12px 12px 20px; gap: 12px; }
   .sidebar { display: contents; }
   .panels > *, .legend { grid-column: 1 / -1; }
