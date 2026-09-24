@@ -295,8 +295,6 @@ tr.candidates td.demotion { background: var(--demotion-bg); border-top-color: va
 tr.candidates td.rank { background: var(--candidates-bg); font-size: 16px; }
 tr.candidates td.rank .up { color: var(--up); }
 tr.candidates td.rank .down { color: var(--down); margin-left: 2px; }
-tr.candidates td.note { color: var(--muted); font-size: 12px; vertical-align: middle; }
-tr.candidates .placeholder { color: var(--muted); font-size: 12px; }
 
 .line { height: var(--line-h); line-height: 22px; }
 .banzuke.previous td { height: calc(var(--line-h) + 4px); line-height: 22px; padding-top: 2px; padding-bottom: 2px; }

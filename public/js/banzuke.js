@@ -172,15 +172,14 @@ export function renderGuess(table, state) {
 
 /**
  * The four cells of one side (or one half of a candidates row): Cur Rank | East/West | Net Wins |
- * Rank Change. `placeholder` is muted text shown in the rikishi cell while the slot is empty.
+ * Rank Change.
  */
-function sideCells(state, id, to, ladder, { extraClass = '', title = null, placeholder = null } = {}) {
+function sideCells(state, id, to, ladder, { extraClass = '', title = null } = {}) {
   const occupants = [...state.occupants(id)].sort(compareSlots);
   const cls = `slot${extraClass}${occupants.length > 1 ? ' multi' : ''}${occupants.length === 0 && DIVISION_OF[to.rank] === 'makuuchi' ? ' empty' : ''}`;
   const stack = (fn) => h('div', { class: 'stack' }, occupants.map((r) => h('div', { class: 'line' }, fn(r))));
   const changeOf = (r) => rankChange({ rank: r.rank, num: r.num, side: r.side }, to, ladder);
   const rikishiStack = stack((r) => chip(r, { kind: changeOf(r).kind }));
-  if (!occupants.length && placeholder) rikishiStack.append(h('div', { class: 'line placeholder', text: placeholder }));
   return [
     h('td', { class: `${cls} cur-rank`, dataSlot: id, title }, stack((r) => h('span', { text: `${r.rank}${r.num}${r.side}` }))),
     h('td', { class: `${cls} rikishi`, dataSlot: id, title }, rikishiStack),
@@ -191,15 +190,15 @@ function sideCells(state, id, to, ladder, { extraClass = '', title = null, place
 
 /**
  * The temporary "↑" row below a rank type. Its left half (blue) holds rikishi whose result
- * would carry them up into that type. On the Sekiwake/Komusubi rows the right half just says
- * what the row is; on the Maegashira row it is a second drop target (red) for Makuuchi rikishi
- * whose result would drop them into Juryo.
+ * would carry them up into that type. On the Sekiwake/Komusubi rows the right half is blank; on
+ * the Maegashira row it is a second drop target (red) for Makuuchi rikishi whose result would drop
+ * them into Juryo. Empty halves show no text; what the row is is in the cells' tooltips.
  */
 function candidatesRow(state, rank, ladder) {
   const upId = candidateSlotId(rank);
   const upTitle = `Promotion candidates for ${RANK_NAMES[rank]}`;
   const left = sideCells(state, upId, { rank, candidates: 'up' }, ladder, {
-    extraClass: ' candidates promotion', title: upTitle, placeholder: upTitle,
+    extraClass: ' candidates promotion', title: upTitle,
   });
   const rankCell = h('td', { class: 'rank' }, h('span', { class: 'up', title: upTitle, text: '↑' }));
   let right;
@@ -207,10 +206,10 @@ function candidatesRow(state, rank, ladder) {
     const downTitle = `Demotion candidates for ${RANK_NAMES.J}`;
     rankCell.append(h('span', { class: 'down', title: downTitle, text: '↓' }));
     right = sideCells(state, DEMOTION_SLOT, { rank: 'J', candidates: 'down' }, ladder, {
-      extraClass: ' candidates demotion', title: downTitle, placeholder: downTitle,
+      extraClass: ' candidates demotion', title: downTitle,
     });
   } else {
-    right = [h('td', { class: 'slot candidates promotion note', colspan: 4, dataSlot: upId }, h('span', { text: upTitle }))];
+    right = [h('td', { class: 'slot candidates promotion', colspan: 4, dataSlot: upId, title: upTitle })];
   }
   return h('tr', { class: 'candidates' }, ...left, rankCell, ...right);
 }
