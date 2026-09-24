@@ -328,6 +328,13 @@ td.rikishi .line { justify-content: flex-start; }
 .dark .tag-missed { background: var(--down-bg); color: var(--down); border-color: var(--down-border); }
 
 td.slot.over, tbody.over td { background: var(--over) !important; }
+/* Show Issues: a slot breaking the save rules gets a red outline round its four cells (Cur Rank,
+   rikishi, Net Wins, Rank Change) as one box; the count turns blue when full, red otherwise. */
+.banzuke td.slot.issue { box-shadow: inset 0 2px 0 var(--down), inset 0 -2px 0 var(--down); }
+.banzuke td.slot.issue.cur-rank { box-shadow: inset 2px 0 0 var(--down), inset 0 2px 0 var(--down), inset 0 -2px 0 var(--down); }
+.banzuke td.slot.issue.change-cell { box-shadow: inset -2px 0 0 var(--down), inset 0 2px 0 var(--down), inset 0 -2px 0 var(--down); }
+.summary.complete { color: var(--up); font-weight: 600; }
+.summary.incomplete { color: var(--down); font-weight: 600; }
 .drag-active td.slot, .selecting td.slot { cursor: copy; }
 .selecting tbody[data-dropzone="previous"] { outline: 2px dashed #60a5fa; outline-offset: -2px; }
 

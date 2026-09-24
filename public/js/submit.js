@@ -8,16 +8,19 @@ import { api } from './auth.js';
 
 const MAKUUCHI_RANKS = RANK_ORDER.filter((rank) => DIVISION_OF[rank] === 'makuuchi');
 
-/**
- * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
- * the Makuuchi headcount (rikishi in numbered Makuuchi slots or still in a ↑ candidates row),
- * slots holding more than one rikishi (and candidates left in a ↑ row), then gaps: an empty slot
- * above a filled one of the same rank type (except the East side of a sanyaku rank's last row).
- */
-export function validateGuess(state) {
-  const { spots } = state.counts();
+/** How many rikishi each slot holds, from the guess state. */
+function occupancy(state) {
   const perSlot = new Map();
   for (const slot of state.guesses.values()) perSlot.set(slot, (perSlot.get(slot) || 0) + 1);
+  return perSlot;
+}
+
+/**
+ * The rikishi counted toward the Makuuchi headcount: `numbered` lists the numbered Makuuchi slots
+ * in use, `unplaced` the ↑ candidates rows holding rikishi (both in banzuke order), `total` how
+ * many rikishi those hold.
+ */
+function headcount(perSlot) {
   const numbered = [];
   const unplaced = [];
   let total = 0;
@@ -26,39 +29,87 @@ export function validateGuess(state) {
     if (s.candidates === 'up') { unplaced.push(slot); total += n; }
     else if (!s.candidates && DIVISION_OF[s.rank] === 'makuuchi') { numbered.push(slot); total += n; }
   }
+  const order = (a, b) => compareSlots(parseSlot(a), parseSlot(b));
+  return { numbered: numbered.sort(order), unplaced: unplaced.sort(order), total };
+}
+
+/** A rank type's numbered slots, top-down: rank num E, rank num W, … */
+function slotsOf(state, rank) {
+  const out = [];
+  for (let num = 1; num <= state.rowCounts[rank]; num++) out.push(slotId(rank, num, 'E'), slotId(rank, num, 'W'));
+  return out;
+}
+
+/**
+ * The gaps, top-down: empty slots above a filled one of the same rank type. A sanyaku rank's
+ * lowest filled row may have either side empty (e.g. Nagoya 2025: S2W with no S2E), so for those
+ * only the rows above it must be full.
+ */
+function gapSlots(state, perSlot) {
+  const gaps = [];
+  for (const rank of MAKUUCHI_RANKS) {
+    const slots = slotsOf(state, rank);
+    const lastFilled = slots.findLastIndex((slot) => perSlot.has(slot));
+    const lastFilledRow = lastFilled >= 0 ? parseSlot(slots[lastFilled]).num : 0;
+    for (const slot of slots.slice(0, Math.max(lastFilled, 0))) {
+      if (perSlot.has(slot) || (rank !== 'M' && parseSlot(slot).num === lastFilledRow)) continue;
+      gaps.push(slot);
+    }
+  }
+  return gaps;
+}
+
+/**
+ * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
+ * the Makuuchi headcount (rikishi in numbered Makuuchi slots or still in a ↑ candidates row),
+ * slots holding more than one rikishi (and candidates left in a ↑ row), then gaps (gapSlots).
+ */
+export function validateGuess(state) {
+  const { spots } = state.counts();
+  const perSlot = occupancy(state);
+  const { numbered, unplaced, total } = headcount(perSlot);
   if (total < spots) return 'Not enough rikishi!';
   if (total > spots) return 'Too many rikishi!';
 
-  numbered.sort((a, b) => compareSlots(parseSlot(a), parseSlot(b)));
   const multi = numbered.find((slot) => perSlot.get(slot) > 1);
   if (multi) return `Multiple at ${multi}`;
-  if (unplaced.length) {
-    unplaced.sort((a, b) => compareSlots(parseSlot(a), parseSlot(b)));
-    return `Unplaced at ${slotName(unplaced[0])}`;
-  }
+  if (unplaced.length) return `Unplaced at ${slotName(unplaced[0])}`;
 
-  for (const rank of MAKUUCHI_RANKS) {
-    // A sanyaku rank's lowest filled row may have either side empty (e.g. Nagoya 2025: S2W with
-    // no S2E), so for those only the rows above it must be full.
-    const sanyaku = rank !== 'M';
-    let lastFilledRow = 0;
-    if (sanyaku) {
-      for (let num = 1; num <= state.rowCounts[rank]; num++) {
-        if (perSlot.has(slotId(rank, num, 'E')) || perSlot.has(slotId(rank, num, 'W'))) lastFilledRow = num;
-      }
-    }
-    let firstEmpty = null;
-    for (let num = 1; num <= state.rowCounts[rank]; num++) {
-      for (const side of ['E', 'W']) {
-        const slot = slotId(rank, num, side);
-        if (!perSlot.has(slot)) firstEmpty ??= slot;
-        else if (firstEmpty && !(sanyaku && num === lastFilledRow && parseSlot(firstEmpty).num === num)) {
-          return `Gap at ${firstEmpty}`;
-        }
-      }
+  const [gap] = gapSlots(state, perSlot);
+  return gap ? `Gap at ${gap}` : null;
+}
+
+/**
+ * Every slot breaking the rules validateGuess checks, for Show Issues to outline: slots holding
+ * more than one rikishi, ↑ candidates rows still holding rikishi, gaps, and the Maegashira slots
+ * at the end where the headcount is off. The headcount counts every rikishi however they are
+ * placed (a shared slot counts each of its rikishi), so the end is judged by how many rikishi the
+ * banzuke has: short by n, with g gaps already marked (each a missing rikishi), the n - g empty
+ * slots after the last filled Maegashira slot are marked; over by n, the last filled Maegashira
+ * slots holding those n rikishi are.
+ */
+export function guessIssues(state) {
+  const { spots } = state.counts();
+  const perSlot = occupancy(state);
+  const { numbered, unplaced, total } = headcount(perSlot);
+  const gaps = gapSlots(state, perSlot);
+  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...gaps]);
+
+  const maegashira = slotsOf(state, 'M');
+  const lastFilled = maegashira.findLastIndex((slot) => perSlot.has(slot));
+  const missing = spots - total - gaps.length;
+  if (missing > 0) {
+    for (const slot of maegashira.slice(lastFilled + 1, lastFilled + 1 + missing)) issues.add(slot);
+  } else if (total > spots) {
+    let excess = total - spots;
+    for (let i = lastFilled; i >= 0 && excess > 0; i--) {
+      const n = perSlot.get(maegashira[i]) || 0;
+      if (!n) continue;
+      issues.add(maegashira[i]);
+      excess -= n;
     }
   }
-  return null;
+  return issues;
 }
 
 const samePlacements = (a, b) => JSON.stringify(a) === JSON.stringify(b);

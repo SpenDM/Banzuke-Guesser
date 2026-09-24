@@ -1,7 +1,7 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
 import { GuessState } from '../../public/js/state.js';
-import { validateGuess } from '../../public/js/submit.js';
+import { guessIssues, validateGuess } from '../../public/js/submit.js';
 
 // A six-man Makuuchi (plus one Juryo) keeps the examples short; `spots` follows the headcount.
 const basho = {
@@ -84,4 +84,47 @@ test('makuuchiPlacements lists numbered Makuuchi slots in banzuke order with ids
   assert.deepEqual(p.map((x) => x.slot), ['Y1E', 'O1E', 'S1E', 'K1E', 'M1E', 'M1W']);
   assert.deepEqual(p[0], { slot: 'Y1E', key: 'a', rikishi_id: 10, name: 'A' });
   assert.equal(p[5].rikishi_id, null);
+});
+
+const issues = (s) => [...guessIssues(s)].sort();
+
+test('guessIssues: none for a complete, conflict-free Makuuchi', () => {
+  assert.deepEqual(issues(filled()), []);
+});
+
+test('guessIssues marks shared slots, filled ↑ rows and gaps', () => {
+  const s = filled();
+  s.place('f', 'M1E');                        // shares M1E with e
+  assert.deepEqual(issues(s), ['M1E']);       // still six rikishi, so no missing slot at the end
+  s.place('f', '^M');                         // unplaced candidate, headcount still 6
+  assert.deepEqual(issues(s), ['^M']);
+  s.place('f', 'M2E');                        // M1W left empty above M2E
+  assert.deepEqual(issues(s), ['M1W']);
+});
+
+test('guessIssues marks the end of the Maegashira when the headcount is off', () => {
+  const s = filled();
+  s.remove('f');
+  s.remove('e');                              // two short: the next two slots
+  assert.deepEqual(issues(s), ['M1E', 'M1W']);
+  s.place('e', 'M1E');
+  s.place('f', 'M2E');                        // back to six, but M1W is a gap
+  assert.deepEqual(issues(s), ['M1W']);
+  s.place('j', 'M2W');                        // one too many: the last filled slot
+  assert.deepEqual(issues(s), ['M1W', 'M2W']);
+});
+
+test('guessIssues counts a gap as a missing rikishi, not also marking the end', () => {
+  const s = filled();
+  s.remove('f');
+  s.place('e', 'M1W');                        // one short, with M1E a gap: only the gap
+  assert.deepEqual(issues(s), ['M1E']);
+  s.remove('d');                              // two short (an empty rank is no gap): the gap and one end slot
+  assert.deepEqual(issues(s), ['M1E', 'M2E']);
+});
+
+test('guessIssues counts every rikishi in a shared slot toward the headcount', () => {
+  const s = filled();
+  s.place('j', 'M1W');                        // M1W holds f and j: 7 rikishi for 6 spots
+  assert.deepEqual(issues(s), ['M1W']);
 });

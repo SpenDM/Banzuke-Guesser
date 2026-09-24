@@ -4,7 +4,7 @@ import { renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, loadSubmission, loadView, saveGuesses, saveView } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
-import { SubmitController } from './submit.js';
+import { SubmitController, guessIssues } from './submit.js';
 import { bookmarkletHref, gtbLink } from './gtb.js';
 import { RegisterController } from './register.js';
 import { ResultsView } from './results.js';
@@ -19,6 +19,8 @@ let view = null;
 let schedule = [];
 let register = null;  // the Register button, shared by every basho shown
 let submit = null;    // the Save Guess button of the basho shown
+let showIssues = false;     // the Show Issues toggle (installIssuesToggle)
+let renderIssues = () => {}; // redraws the Show Issues marks for the basho shown
 
 let buffered = false;   // the first view change gets a buffering pause (see setView)
 
@@ -128,10 +130,20 @@ async function showBasho(id) {
   const guessTable = $('#guess');
   const summary = $('#summary');
 
+  // Show Issues: outlines the prediction's slots that break the save rules (guessIssues) and
+  // colours the count blue when every spot is filled, red otherwise.
+  renderIssues = () => {
+    const issues = showIssues ? guessIssues(state) : new Set();
+    for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('issue', issues.has(td.dataset.slot));
+    const { spots, filled } = state.counts();
+    summary.classList.toggle('complete', showIssues && filled === spots);
+    summary.classList.toggle('incomplete', showIssues && filled !== spots);
+  };
   const render = () => {
     renderPrevious(prevTable, state);
     renderGuess(guessTable, state);
     renderSummary(summary, state);
+    renderIssues();
   };
   state.addEventListener('change', render);
   state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));
@@ -301,11 +313,23 @@ function installThemeToggle() {
   sync();
 }
 
+/** The Show Issues / Hide Issues toggle: turns the prediction's issue marks on and off. */
+function installIssuesToggle() {
+  const btn = $('#issues-toggle');
+  btn.onclick = () => {
+    showIssues = !showIssues;
+    btn.textContent = showIssues ? 'Hide Issues' : 'Show Issues';
+    btn.setAttribute('aria-pressed', String(showIssues));
+    renderIssues();
+  };
+}
+
 function showError(err) {
   console.error(err);
   $('#subtitle').textContent = `Could not load data: ${err.message}`;
 }
 
 installThemeToggle();
+installIssuesToggle();
 window.addEventListener('resize', () => { if (view === 'about') sizeAboutImages(); });
 main().catch(showError).finally(() => document.documentElement.classList.remove('loading'));
