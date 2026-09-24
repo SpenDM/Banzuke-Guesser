@@ -157,6 +157,17 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 .form-error.ok { color: var(--muted); }
 .form-error[hidden] { display: none; }
 
+/* Submit Guess to GTB: the link stays highlighted while its drop-down of auto-fill steps is open. */
+.gtb-wrap { position: relative; display: flex; }
+#submit-guess.open { background: #f0ede6; }
+.dark #submit-guess.open { background: #2f343a; } /* dark: matches hover */
+#gtb-box p { margin: 0 0 6px; }
+#gtb-box .gtb-opened { font-weight: 600; }
+.gtb-steps { margin: 0; padding-left: 24px; }
+.gtb-steps li { margin-bottom: 4px; }
+.gtb-steps li::marker { content: counter(list-item) ") "; }
+.gtb-bookmarklet-line { margin: 4px 0 0 16px; }
+
 /* About view: four text+image sections stacked vertically. */
 .about { grid-column: 2 / -1; }
 /* The Fill GTB Form bookmarklet: styled as a pill so it reads as something to drag. */

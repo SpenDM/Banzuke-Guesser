@@ -173,15 +173,31 @@ function installProfileOpeners() {
 }
 
 /**
- * The Fill GTB Form bookmarklet link on the About page: meant to be dragged to the bookmarks bar,
- * so a plain click only explains that.
+ * "Submit Guess to GTB": the link opens the entry form in a new tab (its default action) and drops
+ * down the auto-fill steps, with the Fill GTB Form bookmarklet to drag to the bookmarks bar (a
+ * plain click on it only explains that). Clicking off the box or Escape dismisses it.
  */
-function installGtbBookmarklet() {
-  const link = $('#gtb-bookmarklet');
-  link.href = bookmarkletHref();
-  link.onclick = (e) => {
+function installGtbHandOff() {
+  const button = $('#submit-guess');
+  const box = $('#gtb-box');
+  const hint = $('#gtb-bookmarklet-hint');
+  const setOpen = (open) => {
+    box.hidden = !open;
+    button.classList.toggle('open', open);
+    button.setAttribute('aria-expanded', String(open));
+    if (!open) hint.hidden = true;
+  };
+  button.addEventListener('click', () => setOpen(true));
+  document.addEventListener('click', (e) => {
+    if (!box.hidden && !e.target.closest('.gtb-wrap')) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+
+  const bookmarklet = $('#gtb-bookmarklet');
+  bookmarklet.href = bookmarkletHref();
+  bookmarklet.onclick = (e) => {
     e.preventDefault();
-    $('#gtb-bookmarklet-hint').hidden = false;
+    hint.hidden = false;
   };
 }
 
@@ -248,7 +264,7 @@ async function main() {
   installPastBanzuke(index);
   installRegister();
   installProfileOpeners();
-  installGtbBookmarklet();
+  installGtbHandOff();
   const basho = await showBasho(index.latest);
   results = new ResultsView(basho);
   setView(defaultView(basho));
