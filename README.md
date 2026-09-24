@@ -5,7 +5,7 @@ Makuuchi and Juryo banzuke (with each rikishi's result) is shown on the left, an
 drag each rikishi into the slot you think they'll occupy on the next banzuke on the right.
 The app fills in current rank, result and the rank change (`+0.5`, `-4.5`, `↑K`, `↓J`)
 for you. Several rikishi can share a slot while you resolve conflicts.
-
+ 
 Finished predictions can be submitted to the app itself under a registered shikona — optionally
 tied to a Google or email sign-in so it follows you across devices; once the real banzuke is
 announced the *Results* page scores every submission against it and shows a leaderboard
