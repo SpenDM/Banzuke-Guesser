@@ -205,6 +205,10 @@ table.leaderboard { border-collapse: collapse; width: 100%; font-variant-numeric
 .leaderboard td:nth-child(2) { text-align: left; }
 .leaderboard tr.me td { background: var(--up-bg); }
 .leaderboard td.total { font-weight: 700; }
+/* Total Score / GTB Score headers: buttons that sort by that column, the active one arrowed. */
+.leaderboard th button.sort { border: 0; background: none; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+.leaderboard th button.sort:hover { background: none; text-decoration: underline; }
+.leaderboard th button.sort.active::after { content: " ▼"; }
 .leaderboard caption { caption-side: bottom; padding: 8px; color: var(--muted); font-size: 12px; }
 .leaderboard button.link { border: 0; background: none; padding: 0; color: var(--accent); font-weight: 600; text-decoration: underline; cursor: pointer; }
 @media (max-width: 1200px) { .results { grid-column: 1 / -1; } }

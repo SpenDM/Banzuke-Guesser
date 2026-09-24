@@ -174,6 +174,11 @@ each other, in that order, in the prediction. This rewards getting the order rig
 wrong placement shifts a whole group by a slot: for the real order ABCD, DABC scores 2 (no slots,
 but AB and BC are paired), ABDC 3 (A and B placed, AB paired), DACB 1 (only C placed) and ABCD
 itself 4 + 3 = 7. A full Makuuchi tops out at 42 + 41 = 83. Ties share a position (`T-3`).
+The leaderboard also shows each prediction's *GTB Score*, by Guess the Banzuke's rules: 2 points
+for a rikishi on the right rank and side, 1 for the right rank on the other side (sanyaku ranks
+numbered, so S2E is not S1E), up to 84. Its *Total Score* and *GTB Score* headers sort the table;
+by GTB, ties go to the most right-rank guesses (GTB's first tiebreaker; its later ones, points
+counted up from the bottom of the banzuke, are not applied).
 Rikishi are matched by `rikishi_id`, so a shikona change between the two banzuke does not cost
 points. Scoring runs in the browser (`public/js/score.js`) over `data/banzuke/YYYYMM.json` and the
 submissions the API returns — which it only does once that file exists, so nobody can read the

@@ -1,6 +1,6 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
-import { linearize, rankSubmissions, scoreGuess } from '../../public/js/score.js';
+import { linearize, rankSubmissions, scoreGtb, scoreGuess } from '../../public/js/score.js';
 
 // Four rikishi A-D on a tiny banzuke; `order` lists them top to bottom.
 const SLOTS = ['M1E', 'M1W', 'M2E', 'M2W'];
@@ -61,4 +61,30 @@ test('rankSubmissions shares positions between ties and labels them T-n', () => 
     { shikona: 'd', placements: 0, neighbors: 1, total: 1 },
   ]);
   assert.deepEqual(ranked.map((r) => [r.shikona, r.label]), [['c', '1'], ['a', 'T-2'], ['b', 'T-2'], ['d', '4']]);
+});
+
+test('GTB: 2 points for rank and side, 1 for the rank on the other side, 0 otherwise', () => {
+  // Real ABCD in M1E M1W M2E M2W. BADC: all four on the right rank, wrong side.
+  assert.deepEqual(scoreGtb(lineup('BADC'), lineup('ABCD')), { gtb: 4, gtbHits: 4 });
+  assert.deepEqual(scoreGtb(lineup('ABCD'), lineup('ABCD')), { gtb: 8, gtbHits: 4 });
+  // CDAB: everyone a rank off.
+  assert.deepEqual(scoreGtb(lineup('CDAB'), lineup('ABCD')), { gtb: 0, gtbHits: 0 });
+  // ABDC: A, B bulls-eyes, C and D swapped sides within M2.
+  const s = scoreGuess(lineup('ABDC'), lineup('ABCD'));
+  assert.deepEqual([s.gtb, s.gtbHits], [6, 4]);
+});
+
+test('GTB: sanyaku ranks are numbered, and candidate rows score nothing', () => {
+  const actual = [{ slot: 'S1E', key: 'a', rikishi_id: 1 }, { slot: 'S2E', key: 'b', rikishi_id: 2 }];
+  const guess = [{ slot: 'S2W', key: 'a', rikishi_id: 1 }, { slot: '^S', key: 'b', rikishi_id: 2 }];
+  assert.deepEqual(scoreGtb(guess, actual), { gtb: 0, gtbHits: 0 });
+});
+
+test('rankSubmissions by GTB orders by GTB score, then hits', () => {
+  const ranked = rankSubmissions([
+    { shikona: 'a', placements: 9, total: 20, gtb: 10, gtbHits: 6 },
+    { shikona: 'b', placements: 1, total: 5, gtb: 12, gtbHits: 7 },
+    { shikona: 'c', placements: 1, total: 5, gtb: 10, gtbHits: 8 },
+  ], 'gtb');
+  assert.deepEqual(ranked.map((r) => [r.shikona, r.label]), [['b', '1'], ['c', '2'], ['a', '3']]);
 });

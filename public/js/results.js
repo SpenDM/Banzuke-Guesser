@@ -38,7 +38,10 @@ export class ResultsView {
     this.basho = basho;
     this.round = basho.next;
     this.loaded = null;
+    this.order = 'total';
     $('#leaderboard').onclick = (e) => {
+      const sort = e.target.closest('button[data-order]');
+      if (sort) { this.sortLeaderboard(sort.dataset.order); return; }
       const btn = e.target.closest('button[data-shikona]');
       if (btn) this.showOther(btn.dataset.shikona);
     };
@@ -72,7 +75,10 @@ export class ResultsView {
     const actualRows = actual.rikishi.map((r) => ({ slot: `${r.rank}${r.num}${r.side}`, key: r.key, name: r.name, rikishi_id: r.rikishi_id }));
     this.actual = actualRows;
     const scored = (api.submissions || []).map((s) => ({ ...s, ...scoreGuess(s.placements, actualRows) }));
+    this.scored = scored;
     this.ranked = rankSubmissions(scored);
+    this.mine = mine;
+    this.apiError = api.error;
 
     const myScore = mine ? scoreGuess(mine.placements, actualRows) : null;
     this.setSubmittedSections(!!mine);
@@ -88,7 +94,7 @@ export class ResultsView {
       $('#my-empty').hidden = false;
     }
     this.renderScore(mine, myScore, api);
-    this.renderLeaderboard(mine, api);
+    this.renderLeaderboard();
     $('#other-title').textContent = 'Community Prediction';
     $('#other-banzuke').replaceChildren();
     $('#other-hint').hidden = false;
@@ -130,23 +136,38 @@ export class ResultsView {
     );
   }
 
-  renderLeaderboard(mine, api) {
+  /** Re-orders the leaderboard by Total Score or GTB Score (LEADERBOARD_ORDERS); positions follow. */
+  sortLeaderboard(order) {
+    if (order === this.order || !this.scored) return;
+    this.order = order;
+    this.renderLeaderboard();
+  }
+
+  renderLeaderboard() {
     const table = $('#leaderboard');
-    if (api.error) {
+    if (this.apiError) {
       table.replaceChildren(h('caption', { text: 'Leaderboard unavailable (could not reach the API).' }));
       return;
     }
+    const mine = this.mine;
+    const rows = this.order === 'total' ? this.ranked : rankSubmissions(this.scored, this.order);
+    // The two score headers are buttons choosing the order; the active one is marked.
+    const sortable = (text, order) => h('th', { 'aria-sort': this.order === order ? 'descending' : 'none' },
+      h('button', { type: 'button', class: `sort${this.order === order ? ' active' : ''}`, dataOrder: order, text }));
     const head = h('thead', {}, h('tr', {},
-      ...['Position', 'Shikona', 'Correct Placements', 'Correct Neighbors', 'Total'].map((t) => h('th', { text: t }))));
-    const body = h('tbody', {}, ...this.ranked.map((r) => h('tr', { class: mine && r.shikona === mine.shikona ? 'me' : null },
+      ...['Position', 'Shikona', 'Correct Placements', 'Correct Neighbors'].map((t) => h('th', { text: t })),
+      sortable('Total Score', 'total'),
+      sortable('GTB Score', 'gtb')));
+    const body = h('tbody', {}, ...rows.map((r) => h('tr', { class: mine && r.shikona === mine.shikona ? 'me' : null },
       h('td', { text: r.label }),
       h('td', {}, h('button', { type: 'button', class: 'link', dataShikona: r.shikona, text: r.shikona })),
       h('td', { text: String(r.placements) }),
       h('td', { text: String(r.neighbors) }),
-      h('td', { class: 'total', text: String(r.total) }),
+      h('td', { class: this.order === 'total' ? 'total' : null, text: String(r.total) }),
+      h('td', { class: this.order === 'gtb' ? 'total' : null, text: String(r.gtb) }),
     )));
     table.replaceChildren(head, body);
-    if (!this.ranked.length) table.append(h('caption', { text: 'No predictions were submitted for this tournament.' }));
+    if (!rows.length) table.append(h('caption', { text: 'No predictions were submitted for this tournament.' }));
   }
 
   showOther(shikona) {

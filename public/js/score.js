@@ -28,7 +28,7 @@ function matcher(actual) {
 }
 
 /**
- * { placements, neighbors, total, correctSlots } — `correctSlots` names the slots (shared by both
+ * { placements, neighbors, total, correctSlots, gtb, gtbHits } — `correctSlots` names the slots (shared by both
  * tables) where the prediction has the right rikishi. `guess` and `actual` are lists of
  * {slot, key, rikishi_id, name}.
  */
@@ -47,12 +47,43 @@ export function scoreGuess(guess, actual) {
     if (i >= 0 && prev >= 0 && i === prev + 1) neighbors++;
     prev = i;
   }
-  return { placements, neighbors, total: placements + neighbors, correctSlots };
+  return { placements, neighbors, total: placements + neighbors, correctSlots, ...scoreGtb(guess, actual) };
 }
 
-/** Leaderboard order: total, then correct placements, then shikona; equal scores share a position. */
-export function rankSubmissions(scored) {
-  const better = (a, b) => b.total - a.total || b.placements - a.placements;
+/**
+ * The Guess the Banzuke (GTB) score, { gtb, gtbHits }: 2 points for a rikishi on the right rank and
+ * side (a bulls-eye, e.g. M5E), 1 point for the right rank on the other side (M5W). `gtbHits`
+ * counts both kinds, GTB's first tiebreaker ("most total guesses"). Sanyaku ranks are numbered like
+ * the rest (S2E is its own rank), and candidate-row placements have no rank, so they score nothing.
+ */
+export function scoreGtb(guess, actual) {
+  const find = matcher(actual);
+  let gtb = 0;
+  let gtbHits = 0;
+  for (const p of guess) {
+    const i = find(p);
+    if (i < 0) continue;
+    const mine = parseSlot(p.slot);
+    const real = parseSlot(actual[i].slot);
+    if (mine.num == null || mine.rank !== real.rank || mine.num !== real.num) continue;
+    gtb += mine.side === real.side ? 2 : 1;
+    gtbHits++;
+  }
+  return { gtb, gtbHits };
+}
+
+/** How the leaderboard can be ordered: by this app's total, or by the GTB score. */
+export const LEADERBOARD_ORDERS = {
+  total: (a, b) => b.total - a.total || b.placements - a.placements,
+  gtb: (a, b) => b.gtb - a.gtb || b.gtbHits - a.gtbHits,
+};
+
+/**
+ * Leaderboard order: by `order` (see LEADERBOARD_ORDERS; total, then correct placements by
+ * default), then shikona; equal scores share a position.
+ */
+export function rankSubmissions(scored, order = 'total') {
+  const better = LEADERBOARD_ORDERS[order];
   const out = [...scored].sort((a, b) => better(a, b) || a.shikona.localeCompare(b.shikona));
   return out.map((s) => {
     const position = 1 + out.filter((o) => better(o, s) < 0).length;
