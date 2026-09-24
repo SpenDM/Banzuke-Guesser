@@ -459,6 +459,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
   .tools, .pages, .past { grid-column: auto; align-self: stretch; flex-direction: column; align-items: stretch; gap: 8px; }
   .tools button, .pages button { width: 100%; }
   .panels:has(.tools[hidden]):has(.past[hidden]) .pages { grid-column: 1 / -1; }
+  .past { order: -1; } /* Results: Past Banzuke to the left of Pages */
   .legend { order: 1; flex: none; }
   .legend dl { grid-template-columns: auto 1fr; }
 
