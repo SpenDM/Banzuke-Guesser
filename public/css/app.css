@@ -26,12 +26,12 @@
   --down-bg: #fbe6e4;
   --up-border: #9db7c9;
   --down-border: #e2a9a4;
-  --gold-bg: #faf1c8;
-  --bronze-bg: #efdfa3; /* a darker shade of --gold-bg, no longer an orange bronze */
-  --gold: #d4af37;
-  --gold-dark: #a8842a;
-  --bronze: #b8962a;
-  --bronze-dark: #9a7b1e;
+  --gold-bg: #efdfa3; /* a darker shade of --bronze-bg */
+  --bronze-bg: #faf1c8; /* a lighter shade of --gold-bg, no longer an orange bronze */
+  --gold: #b8962a;
+  --gold-dark: #9a7b1e;
+  --bronze: #d4af37;
+  --bronze-dark: #a8842a;
   --over: #ffe9a8;
   --candidates-bg: #eef3f7;
   --demotion-bg: #fbeeed;
@@ -60,12 +60,12 @@
   --down-bg: #3a201e;
   --up-border: #365167;
   --down-border: #6e3a35;
-  --gold-bg: #3a3318;
-  --bronze-bg: #2e2811;
-  --gold: #d4af37;
-  --gold-dark: #b8912f;
-  --bronze: #b8962a;
-  --bronze-dark: #9c7d22;
+  --gold-bg: #2e2811;
+  --bronze-bg: #3a3318;
+  --gold: #b8962a;
+  --gold-dark: #9c7d22;
+  --bronze: #d4af37;
+  --bronze-dark: #b8912f;
   --over: #4a3d16;
   --candidates-bg: #1d2b36;
   --demotion-bg: #35211f;
