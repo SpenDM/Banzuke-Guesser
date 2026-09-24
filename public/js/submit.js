@@ -1,4 +1,4 @@
-// "Submit Guess": checks the prediction is a complete Makuuchi banzuke and saves it through the
+// "Save Guess": checks the prediction is a complete Makuuchi banzuke and saves it through the
 // API (functions/api/submit.js) under the shikona the user registered (register.js). Owns the
 // button's text/enabled state.
 import { DIVISION_OF, RANK_ORDER, compareSlots, parseSlot, slotId, slotName } from './rank.js';
@@ -154,10 +154,10 @@ export class SubmitController {
     if (this.closed) {
       return { text: this.round.reopens ? `Submissions closed\nuntil ${this.round.reopens}` : 'Submissions closed', enabled: false };
     }
-    if (this.sending) return { text: 'Submitting…', enabled: false };
+    if (this.sending) return { text: 'Saving…', enabled: false };
     if (this.message) return { text: this.message, enabled: false, error: true };
-    if (this.submitted) return { text: 'Submitted', enabled: false };
-    return { text: this.submission ? 'Resubmit Guess' : 'Submit Guess', enabled: true };
+    if (this.submitted) return { text: 'Saved', enabled: false };
+    return { text: 'Save Guess', enabled: true };
   }
 
   render() {
@@ -167,7 +167,7 @@ export class SubmitController {
     button.disabled = !s.enabled;
     button.classList.toggle('button-error', !!s.error);
     if (this.submission && this.round) {
-      note.textContent = `Submitted, come back ${formatDate(this.round.banzuke_date)}`;
+      note.textContent = `Saved, come back ${formatDate(this.round.banzuke_date)}`;
       note.hidden = false;
     } else {
       note.hidden = true;

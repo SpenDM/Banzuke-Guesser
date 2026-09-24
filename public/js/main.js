@@ -18,7 +18,7 @@ let results = null;   // the ResultsView of the round picked in the Past Banzuke
 let view = null;
 let schedule = [];
 let register = null;  // the Register button, shared by every basho shown
-let submit = null;    // the Submit Guess button of the basho shown
+let submit = null;    // the Save Guess button of the basho shown
 
 let buffered = false;   // the first view change gets a buffering pause (see setView)
 

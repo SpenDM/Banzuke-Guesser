@@ -57,8 +57,8 @@ export const wasSignedIn = () => read(SIGNED_IN_KEY) === true;
 export const setSignedIn = (yes) => write(SIGNED_IN_KEY, yes || null);
 
 // The last known submission for a round (the basho being predicted): { shikona, placements,
-// submitted_at }, or null once the server says there is none. Lets the page say "Submitted" vs
-// "Resubmit Guess" after a reload.
+// submitted_at }, or null once the server says there is none. Lets the page say "Saved" vs
+// "Save Guess" after a reload.
 const submissionKey = (roundId) => `${PREFIX}submission:${roundId}`;
 export const loadSubmission = (roundId) => read(submissionKey(roundId));
 export const saveSubmission = (roundId, submission) => write(submissionKey(roundId), submission);

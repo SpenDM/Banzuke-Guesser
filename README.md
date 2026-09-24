@@ -35,7 +35,7 @@ sumo-api.com ┘                                                                
   - `js/register.js` — the Register button and popover: shikona, Google / email sign-in.
   - `js/auth.js` — the identity sent to the API (browser token + Firebase ID token when signed in);
     loads the Firebase SDK lazily. `js/firebase-config.js` holds the project's web config.
-  - `js/submit.js` — the Submit Guess button: validation and the API call.
+  - `js/submit.js` — the Save Guess button: validation and the API call.
   - `js/score.js` — scores a prediction against the announced banzuke and ranks the leaderboard.
   - `js/results.js` — the Results page; `js/rounds.js` names the rounds the Past Banzuke box lists.
   - `js/profile.js` — the rikishi profile popup (photo, fact sheet, tournament history), opened by
@@ -146,15 +146,15 @@ identity into the account: its registration moves over unless the account alread
 (the account's wins), and so do its submissions, except for rounds the account already submitted.
 Signing out returns the browser to its (now empty) anonymous identity.
 
-**Submit Guess** (next to the *Submit Guess to GTB* link, which still opens sumodb's game) saves the
+**Save Guess** (next to the *Submit Guess to GTB* link, which still opens sumodb's game) saves the
 Makuuchi half of the prediction in this app. It first checks, in this order, that the Makuuchi
 headcount is right (rikishi in numbered Makuuchi slots or left in a ↑ candidates row; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
 *Unplaced at ↑K* for a candidates row), and that there is no empty slot above a filled one of the
 same rank type (*Gap at M7W*); then that the user is registered (*Register first*, opening the
 popover). A message stays on the (disabled) button until the prediction changes. Then it posts to
-`/api/submit`; the button reads *Submitted* and a note says when to come back (the announcement
-date), turning into *Resubmit Guess* as soon as the prediction changes again. One submission per
+`/api/submit`; the button reads *Saved* and a note says when to come back (the announcement
+date), turning into *Save Guess* as soon as the prediction changes again. One submission per
 user per tournament. Submissions close on the announcement day (*Submissions closed until <date>*,
 the day after that tournament ends, when the next round opens).
 

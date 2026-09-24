@@ -130,7 +130,7 @@ button:disabled { cursor: default; color: var(--muted); background: var(--chip);
 button.button-error:disabled { color: var(--down); font-weight: 600; }
 .button-link { display: inline-block; color: inherit; text-decoration: none; line-height: 1.4; text-align: center; }
 
-/* Submit Guess: the "Submitted, come back <date>" note. Register: the button (showing the shikona
+/* Save Guess: the "Saved, come back <date>" note. Register: the button (showing the shikona
    once registered) and the popover under it with the shikona field and the sign-in forms. */
 .submitted-note { color: var(--muted); font-size: 12px; max-width: 220px; text-align: right; }
 /* align-self: stretch makes the wrap as tall as the tallest control in the row (the two-line
