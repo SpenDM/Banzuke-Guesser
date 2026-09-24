@@ -1,7 +1,8 @@
 // Guess the Banzuke (GTB) hand-off. The GTB entry form lives on another site, so this page can't
-// fill it in directly: the "Submit Guess to GTB" link carries the prediction in the URL fragment
-// (#bg=..., never sent to their server), and the "Fill GTB Form" bookmarklet, clicked while on
-// the entry form, reads it back and sets the dropdowns. The user then checks and sends the entry.
+// fill it in directly: the "Open GTB form" link (under "Submit Guess to GTB") carries the
+// prediction in the URL fragment (#bg=..., never sent to their server), and the "Fill GTB Form"
+// bookmarklet, clicked while on the entry form, reads it back and sets the dropdowns. The user
+// then checks and sends the entry.
 
 export const GTB_URL = 'https://sumodb.sumogames.de/gtb/GTBEntry.aspx';
 
@@ -24,7 +25,7 @@ export function gtbLink(placements) {
 export function fillGtbForm(doc, hash, notify) {
   const m = /[#&]bg=([^&]*)/.exec(hash || '');
   if (!m) {
-    notify('No Sumo Ranker picks found. Open this page with the "Submit Guess to GTB" button on Sumo Ranker, then click this bookmark again.');
+    notify('No Sumo Ranker picks found. Open this page with the "Open GTB form" link under "Submit Guess to GTB" on Sumo Ranker, then click this bookmark again.');
     return null;
   }
   let picks;

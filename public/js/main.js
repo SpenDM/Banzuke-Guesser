@@ -127,8 +127,8 @@ async function showBasho(id) {
   };
   state.addEventListener('change', render);
   state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));
-  // "Submit Guess to GTB" carries the picks for the Fill GTB Form bookmarklet (gtb.js).
-  const syncGtbLink = () => { $('#submit-guess').href = gtbLink(state.makuuchiPlacements()); };
+  // The "Open GTB form" link carries the picks for the Fill GTB Form bookmarklet (gtb.js).
+  const syncGtbLink = () => { $('#gtb-open').href = gtbLink(state.makuuchiPlacements()); };
   state.addEventListener('change', syncGtbLink);
   renderHeader(basho);
   render();
@@ -173,9 +173,11 @@ function installProfileOpeners() {
 }
 
 /**
- * "Submit Guess to GTB": the link opens the entry form in a new tab (its default action) and drops
- * down the auto-fill steps, with the Fill GTB Form bookmarklet to drag to the bookmarks bar (a
- * plain click on it only explains that). Clicking off the box or Escape dismisses it.
+ * "Submit Guess to GTB": the button drops down the auto-fill steps: the Fill GTB Form bookmarklet
+ * to drag to the bookmarks bar (a plain click on it only explains that), then the link opening the
+ * entry form in a new tab. The form isn't opened on the button click itself because browsers always
+ * switch to a tab a page opens, and the bookmarklet has to be dragged from this one first.
+ * Clicking the button again, clicking off the box or Escape dismisses it.
  */
 function installGtbHandOff() {
   const button = $('#submit-guess');
@@ -187,7 +189,7 @@ function installGtbHandOff() {
     button.setAttribute('aria-expanded', String(open));
     if (!open) hint.hidden = true;
   };
-  button.addEventListener('click', () => setOpen(true));
+  button.addEventListener('click', () => setOpen(box.hidden));
   document.addEventListener('click', (e) => {
     if (!box.hidden && !e.target.closest('.gtb-wrap')) setOpen(false);
   });

@@ -146,7 +146,7 @@ identity into the account: its registration moves over unless the account alread
 (the account's wins), and so do its submissions, except for rounds the account already submitted.
 Signing out returns the browser to its (now empty) anonymous identity.
 
-**Save Guess** (next to the *Submit Guess to GTB* link, which still opens sumodb's game) saves the
+**Save Guess** (next to *Submit Guess to GTB*, whose drop-down has the Fill GTB Form bookmarklet and a link to sumodb's game) saves the
 Makuuchi half of the prediction in this app. It first checks, in this order, that the Makuuchi
 headcount is right (rikishi in numbered Makuuchi slots or left in a ↑ candidates row; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
