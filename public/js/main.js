@@ -313,15 +313,24 @@ function installThemeToggle() {
   sync();
 }
 
-/** The Show Issues / Hide Issues toggle: turns the prediction's issue marks on and off. */
-function installIssuesToggle() {
+/** Turns the prediction's issue marks on or off, keeping the Show/Hide Issues button in step. */
+function setShowIssues(on) {
   const btn = $('#issues-toggle');
-  btn.onclick = () => {
-    showIssues = !showIssues;
-    btn.innerHTML = showIssues ? 'Hide<br>Issues' : 'Show<br>Issues';
-    btn.setAttribute('aria-pressed', String(showIssues));
-    renderIssues();
-  };
+  showIssues = on;
+  btn.innerHTML = on ? 'Hide<br>Issues' : 'Show<br>Issues';
+  btn.setAttribute('aria-pressed', String(on));
+  renderIssues();
+}
+
+/**
+ * The Show Issues / Hide Issues toggle. Save Guess and Submit Guess to GTB also turn it on (never
+ * off), so the prediction's problems are in view whenever it is being sent somewhere.
+ */
+function installIssuesToggle() {
+  $('#issues-toggle').onclick = () => setShowIssues(!showIssues);
+  for (const id of ['#submit', '#submit-guess']) {
+    $(id).addEventListener('click', () => { if (!showIssues) setShowIssues(true); });
+  }
 }
 
 function showError(err) {
