@@ -148,9 +148,10 @@ Signing out returns the browser to its (now empty) anonymous identity.
 
 **Save Guess** (next to *Submit Guess to GTB*, whose drop-down has the Fill GTB Form bookmarklet and a link to sumodb's game) saves the
 Makuuchi half of the prediction in this app. It first checks, in this order, that the Makuuchi
-headcount is right (rikishi in numbered Makuuchi slots or left in a ↑ candidates row; otherwise
+headcount is right (rikishi in numbered Makuuchi slots or left in the ↑S/↑K candidates rows; the
+Maegashira candidates row is outside Makuuchi, so rikishi may be left there; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
-*Unplaced at ↑K* for a candidates row), and that there is no empty slot above a filled one of the
+*Unplaced at ↑K* for a Sekiwake/Komusubi candidates row), and that there is no empty slot above a filled one of the
 same rank type (*Gap at M7W*); then that the user is registered (*Register first*, opening the
 popover). A message stays on the (disabled) button until the prediction changes. Then it posts to
 `/api/submit`; the button reads *Saved* and a note says when to come back (the announcement

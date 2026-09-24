@@ -26,6 +26,7 @@
   --down-bg: #fbe6e4;
   --up-border: #9db7c9;
   --down-border: #e2a9a4;
+  --issue: #e0605a; /* Show Issues outline: a lighter red than --down */
   --gold-bg: #efdfa3; /* a darker shade of --bronze-bg */
   --bronze-bg: #faf1c8; /* a lighter shade of --gold-bg, no longer an orange bronze */
   --gold: #b8962a;
@@ -60,6 +61,7 @@
   --down-bg: #3a201e;
   --up-border: #365167;
   --down-border: #6e3a35;
+  --issue: #f2a09a;
   --gold-bg: #2e2811;
   --bronze-bg: #3a3318;
   --gold: #b8962a;
@@ -330,9 +332,9 @@ td.rikishi .line { justify-content: flex-start; }
 td.slot.over, tbody.over td { background: var(--over) !important; }
 /* Show Issues: a slot breaking the save rules gets a red outline round its four cells (Cur Rank,
    rikishi, Net Wins, Rank Change) as one box; the count turns blue when full, red otherwise. */
-.banzuke td.slot.issue { box-shadow: inset 0 2px 0 var(--down), inset 0 -2px 0 var(--down); }
-.banzuke td.slot.issue.cur-rank { box-shadow: inset 2px 0 0 var(--down), inset 0 2px 0 var(--down), inset 0 -2px 0 var(--down); }
-.banzuke td.slot.issue.change-cell { box-shadow: inset -2px 0 0 var(--down), inset 0 2px 0 var(--down), inset 0 -2px 0 var(--down); }
+.banzuke td.slot.issue { box-shadow: inset 0 2px 0 var(--issue), inset 0 -2px 0 var(--issue); }
+.banzuke td.slot.issue.cur-rank { box-shadow: inset 2px 0 0 var(--issue), inset 0 2px 0 var(--issue), inset 0 -2px 0 var(--issue); }
+.banzuke td.slot.issue.change-cell { box-shadow: inset -2px 0 0 var(--issue), inset 0 2px 0 var(--issue), inset 0 -2px 0 var(--issue); }
 .summary.complete { color: var(--up); font-weight: 600; }
 .summary.incomplete { color: var(--down); font-weight: 600; }
 .drag-active td.slot, .selecting td.slot { cursor: copy; }

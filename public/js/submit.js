@@ -17,8 +17,9 @@ function occupancy(state) {
 
 /**
  * The rikishi counted toward the Makuuchi headcount: `numbered` lists the numbered Makuuchi slots
- * in use, `unplaced` the ↑ candidates rows holding rikishi (both in banzuke order), `total` how
- * many rikishi those hold.
+ * in use, `unplaced` the ↑ Sekiwake/Komusubi candidates rows holding rikishi (both in banzuke
+ * order), `total` how many rikishi those hold. The Maegashira candidates row (↑M and ↓J) is a
+ * holding area: rikishi may be left there, outside Makuuchi.
  */
 function headcount(perSlot) {
   const numbered = [];
@@ -26,7 +27,7 @@ function headcount(perSlot) {
   let total = 0;
   for (const [slot, n] of perSlot) {
     const s = parseSlot(slot);
-    if (s.candidates === 'up') { unplaced.push(slot); total += n; }
+    if (s.candidates === 'up' && s.rank !== 'M') { unplaced.push(slot); total += n; }
     else if (!s.candidates && DIVISION_OF[s.rank] === 'makuuchi') { numbered.push(slot); total += n; }
   }
   const order = (a, b) => compareSlots(parseSlot(a), parseSlot(b));
@@ -61,8 +62,8 @@ function gapSlots(state, perSlot) {
 
 /**
  * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
- * the Makuuchi headcount (rikishi in numbered Makuuchi slots or still in a ↑ candidates row),
- * slots holding more than one rikishi (and candidates left in a ↑ row), then gaps (gapSlots).
+ * the Makuuchi headcount (see headcount), slots holding more than one rikishi (and candidates
+ * left in a ↑ Sekiwake/Komusubi row), then gaps (gapSlots).
  */
 export function validateGuess(state) {
   const { spots } = state.counts();
@@ -81,7 +82,7 @@ export function validateGuess(state) {
 
 /**
  * Every slot breaking the rules validateGuess checks, for Show Issues to outline: slots holding
- * more than one rikishi, ↑ candidates rows still holding rikishi, gaps, and the Maegashira slots
+ * more than one rikishi, ↑ Sekiwake/Komusubi rows still holding rikishi, gaps, and the Maegashira slots
  * at the end where the headcount is off. The headcount counts every rikishi however they are
  * placed (a shared slot counts each of its rikishi), so the end is judged by how many rikishi the
  * banzuke has: short by n, with g gaps already marked (each a missing rikishi), the n - g empty

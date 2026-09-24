@@ -318,7 +318,7 @@ function installIssuesToggle() {
   const btn = $('#issues-toggle');
   btn.onclick = () => {
     showIssues = !showIssues;
-    btn.textContent = showIssues ? 'Hide Issues' : 'Show Issues';
+    btn.innerHTML = showIssues ? 'Hide<br>Issues' : 'Show<br>Issues';
     btn.setAttribute('aria-pressed', String(showIssues));
     renderIssues();
   };

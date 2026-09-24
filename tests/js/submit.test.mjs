@@ -24,14 +24,16 @@ test('a complete, conflict-free Makuuchi passes', () => {
   assert.equal(validateGuess(filled()), null);
 });
 
-test('headcount comes first: too few or too many, counting ↑ candidates but not Juryo', () => {
+test('headcount comes first: too few or too many, counting ↑S/↑K candidates but not ↑M or Juryo', () => {
   const s = filled();
   s.remove('f');
   assert.equal(validateGuess(s), 'Not enough rikishi!');
   s.place('f', 'vJ');                         // demotion candidates: Juryo-bound, still missing
   assert.equal(validateGuess(s), 'Not enough rikishi!');
-  s.place('f', '^M');                         // promotion candidates count toward Makuuchi
-  assert.equal(validateGuess(s), 'Unplaced at ↑M');
+  s.place('f', '^M');                         // the Maegashira candidates row is outside Makuuchi
+  assert.equal(validateGuess(s), 'Not enough rikishi!');
+  s.place('f', '^K');                         // Komusubi candidates count toward Makuuchi
+  assert.equal(validateGuess(s), 'Unplaced at ↑K');
   s.place('f', 'M1W');
   s.place('j', 'M2E');
   assert.equal(validateGuess(s), 'Too many rikishi!');
@@ -96,8 +98,8 @@ test('guessIssues marks shared slots, filled ↑ rows and gaps', () => {
   const s = filled();
   s.place('f', 'M1E');                        // shares M1E with e
   assert.deepEqual(issues(s), ['M1E']);       // still six rikishi, so no missing slot at the end
-  s.place('f', '^M');                         // unplaced candidate, headcount still 6
-  assert.deepEqual(issues(s), ['^M']);
+  s.place('f', '^K');                         // unplaced candidate, headcount still 6
+  assert.deepEqual(issues(s), ['^K']);
   s.place('f', 'M2E');                        // M1W left empty above M2E
   assert.deepEqual(issues(s), ['M1W']);
 });
@@ -127,4 +129,11 @@ test('guessIssues counts every rikishi in a shared slot toward the headcount', (
   const s = filled();
   s.place('j', 'M1W');                        // M1W holds f and j: 7 rikishi for 6 spots
   assert.deepEqual(issues(s), ['M1W']);
+});
+
+test('rikishi may be left in the Maegashira candidates row of a full banzuke', () => {
+  const s = filled();
+  s.place('j', '^M');                         // Juryo rikishi considered for promotion, left out
+  assert.equal(validateGuess(s), null);
+  assert.deepEqual(issues(s), []);
 });
