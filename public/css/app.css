@@ -118,7 +118,7 @@ a { color: var(--accent); }
 .banner-photo.banner-photo--sliding { transform: translateY(100%); }
 .banner-photo.banner-photo--jump { transition: none; }
 .controls { display: flex; gap: 12px; align-items: center; margin-left: auto; }
-.summary { color: var(--muted); }
+.summary { color: var(--muted); text-align: right; }
 button, select, .button-link {
   font: inherit; padding: 6px 12px; border: 1px solid var(--chip-border); border-radius: 6px;
   background: var(--chip); cursor: pointer; white-space: pre-line;
