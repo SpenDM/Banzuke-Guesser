@@ -130,19 +130,22 @@ async function showBasho(id) {
   const guessTable = $('#guess');
   const summary = $('#summary');
 
-  // Show Issues: outlines the prediction's slots that break the save rules (guessIssues) and
-  // colours the count blue when every spot is filled, red otherwise.
+  // The count (with its order-issues line once full) and Show Issues: outlines the prediction's
+  // slots that break the save rules (guessIssues) and colours the count blue when every spot is
+  // filled with no issues, red otherwise.
   renderIssues = () => {
-    const issues = showIssues ? guessIssues(state) : new Set();
-    for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('issue', issues.has(td.dataset.slot));
+    const issues = guessIssues(state);
+    const marked = showIssues ? issues : new Set();
+    for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('issue', marked.has(td.dataset.slot));
+    renderSummary(summary, state, issues.size > 0);
     const { spots, filled } = state.counts();
-    summary.classList.toggle('complete', showIssues && filled === spots);
-    summary.classList.toggle('incomplete', showIssues && filled !== spots);
+    const ok = filled === spots && issues.size === 0;
+    summary.classList.toggle('complete', showIssues && ok);
+    summary.classList.toggle('incomplete', showIssues && !ok);
   };
   const render = () => {
     renderPrevious(prevTable, state);
     renderGuess(guessTable, state);
-    renderSummary(summary, state);
     renderIssues();
   };
   state.addEventListener('change', render);

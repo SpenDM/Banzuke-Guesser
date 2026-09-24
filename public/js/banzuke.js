@@ -248,9 +248,14 @@ export function renderComparison(table, placements, correctSlots) {
   );
 }
 
-export function renderSummary(el, state) {
+/**
+ * The "X/42 Makuuchi spots filled" count; once every spot is filled, a second line says whether
+ * the order has issues (`orderIssues`: whether guessIssues found any).
+ */
+export function renderSummary(el, state, orderIssues) {
   const c = state.counts();
   el.textContent = `${c.filled}/${c.spots} Makuuchi spots filled`;
+  if (c.filled === c.spots) el.append(h('br'), orderIssues ? 'Order issues detected' : 'No order issues detected');
 }
 
 export { parseSlot };
