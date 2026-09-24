@@ -127,7 +127,7 @@ async function showBasho(id) {
   };
   state.addEventListener('change', render);
   state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));
-  // The "Open GTB form" link carries the picks for the Fill GTB Form bookmarklet (gtb.js).
+  // The "GTB Form" link carries the picks for the Fill GTB Form bookmarklet (gtb.js).
   const syncGtbLink = () => { $('#gtb-open').href = gtbLink(state.makuuchiPlacements()); };
   state.addEventListener('change', syncGtbLink);
   renderHeader(basho);
