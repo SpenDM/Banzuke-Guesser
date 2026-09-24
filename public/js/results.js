@@ -6,6 +6,7 @@ import { renderComparison } from './banzuke.js';
 import { rankSubmissions, scoreGuess } from './score.js';
 import { formatDate } from './dates.js';
 import { loadSubmission } from './storage.js';
+import { fitTables } from './fit.js';
 import { api } from './auth.js';
 
 const $ = (sel) => document.querySelector(sel);
@@ -48,7 +49,7 @@ export class ResultsView {
   }
 
   load() {
-    this.loaded ||= this.render().catch((err) => { this.loaded = null; throw err; });
+    this.loaded ||= this.render().then(fitTables).catch((err) => { this.loaded = null; throw err; });
     return this.loaded;
   }
 
@@ -128,6 +129,7 @@ export class ResultsView {
     if (order === this.order || !this.scored) return;
     this.order = order;
     this.renderLeaderboard();
+    fitTables();
   }
 
   renderLeaderboard() {
@@ -163,6 +165,7 @@ export class ResultsView {
     $('#other-title').textContent = `${s.shikona}'s Prediction — ${s.total} pts (${s.placements} + ${s.neighbors})`;
     $('#other-hint').hidden = true;
     renderComparison($('#other-banzuke'), s.placements, s.correctSlots);
+    fitTables();
     $('#other-banzuke').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }

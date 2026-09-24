@@ -10,6 +10,7 @@ import { RegisterController } from './register.js';
 import { ResultsView } from './results.js';
 import { reopenDate, rounds } from './rounds.js';
 import { installProfilePopup } from './profile.js';
+import { fitTables } from './fit.js';
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -46,6 +47,7 @@ function setView(name) {
   setBanner(BANNER[name]);
   if (name === 'about') sizeAboutImages();
   const ready = name === 'results' && results ? results.load().catch(showError) : Promise.resolve();
+  fitTables(); // tables in a hidden view have no width to fit to until it is shown
   // The first view change reveals a page that still has async work to do (Results fetches
   // submissions, then re-renders and hides sections), so its panels would otherwise flash in
   // half-built. Mirror the initial page-load pause (html.loading body): hold the content area
@@ -147,6 +149,7 @@ async function showBasho(id) {
     renderPrevious(prevTable, state);
     renderGuess(guessTable, state);
     renderIssues();
+    fitTables();
   };
   state.addEventListener('change', render);
   state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));

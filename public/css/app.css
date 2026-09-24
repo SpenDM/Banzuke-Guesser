@@ -424,3 +424,47 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
   .profile-photo { width: 96px; height: 168px; }
   .profile-name { font-size: 18px; }
 }
+
+/* ---- Phones -------------------------------------------------------------------------------
+   Everything below applies only at phone width, so desktop and tablet are untouched. The page
+   reads top to bottom: title + banner, header buttons, Tools | Pages, the previous banzuke, the
+   prediction, then the Legend. Tables too wide for the screen are scaled down by fitTables
+   (js/fit.js) rather than scrolled sideways. */
+@media (max-width: 640px) {
+  .topbar { padding: 6px 12px 10px; gap: 8px 0; align-items: center; }
+  .topbar > div:first-child { flex: 1; min-width: 0; }
+  h1 { font-size: 30px; }
+  /* Negative top margin matches the topbar's top padding so the photo stays flush with the top edge. */
+  .banner-wrap { height: 64px; margin: -6px 0 0 12px; align-self: flex-start; }
+  .banner-photo { height: 64px; }
+
+  /* Header controls on their own row: status text on a full-width line, then the five buttons
+     sharing the row equally. The popovers anchor to this row so they span the screen. */
+  .controls { flex-basis: 100%; margin-left: 0; flex-wrap: wrap; gap: 6px; position: relative; align-items: stretch; }
+  #basho-select, .summary, .submitted-note { flex-basis: 100%; max-width: none; text-align: center; }
+  .summary:empty { display: none; }
+  #issues-toggle, #submit, .gtb-wrap, #theme-toggle, .register-wrap { flex: 1 1 0; }
+  .controls button { font-size: 12px; padding: 5px 4px; }
+  .gtb-wrap, .register-wrap { position: static; }
+  #submit-guess { flex: 1; }
+  .popover { left: 0; right: 0; width: auto; }
+
+  /* Sidebar boxes join the main grid so the Legend can drop below the tables; Tools and Pages
+     (or Pages and Past Banzuke on Results) sit side by side at equal height. */
+  .panels { grid-template-columns: 1fr 1fr; padding: 12px 12px 20px; gap: 12px; }
+  .sidebar { display: contents; }
+  .panels > *, .legend { grid-column: 1 / -1; }
+  .tools, .pages, .past { grid-column: auto; align-self: stretch; flex-direction: column; align-items: stretch; gap: 8px; }
+  .tools button, .pages button { width: 100%; }
+  .panels:has(.tools[hidden]):has(.past[hidden]) .pages { grid-column: 1 / -1; }
+  .legend { order: 1; flex: none; }
+  .legend dl { grid-template-columns: auto 1fr; }
+
+  /* Compact tables. The header height that lines the two tables up side by side isn't needed here. */
+  .banzuke th { height: auto; font-size: 10px; padding: 4px 2px; }
+  .banzuke td { padding: 2px 3px; }
+  .banzuke td.rikishi { min-width: 0; }
+  .banzuke .chip { font-size: 12px; padding: 1px 6px; gap: 4px; }
+  .leaderboard th { padding: 4px 3px; }
+  .leaderboard td { padding: 3px 4px; }
+}
