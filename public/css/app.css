@@ -184,14 +184,10 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 .about-media figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; text-align: center; }
 @media (max-width: 800px) { .about-section { grid-template-columns: 1fr; } }
 
-/* Results view: prediction vs banzuke on top, my score + leaderboard and a clicked prediction below. */
+/* Results view: banzuke vs prediction on top, my score + leaderboard and a clicked prediction below. */
 .results { grid-column: 2 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
 .results[hidden] { display: none; }
 .results h3 { margin: 14px 0 6px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
-/* Without a submission, #my-results-section is hidden and "Leaderboard" becomes the panel's
-   first visible child; its usual top margin (there to separate it from "My Results" above)
-   would otherwise leave a gap where that section used to be. */
-#my-results-section[hidden] + h3 { margin-top: 0; }
 .chip.correct { background: var(--up-bg); border-color: var(--up-border); color: var(--up); cursor: default; }
 .chip.wrong { background: var(--down-bg); border-color: var(--down-border); color: var(--down); cursor: default; }
 .banzuke.compare td { height: calc(var(--line-h) + 4px); }

@@ -56,7 +56,6 @@ export class ResultsView {
     const round = this.round;
     $('#actual-title').textContent = round ? `${round.name} Banzuke` : 'Banzuke';
     $('#my-title').textContent = 'My Prediction';
-    this.setSubmittedSections(true);
     if (!round) { this.empty('No upcoming tournament in the schedule.'); return; }
 
     const [actual, api] = await Promise.all([
@@ -81,7 +80,6 @@ export class ResultsView {
     this.apiError = api.error;
 
     const myScore = mine ? scoreGuess(mine.placements, actualRows) : null;
-    this.setSubmittedSections(!!mine);
     $('#actual-empty').hidden = true;
     if (mine) {
       renderComparison($('#my-banzuke'), mine.placements, myScore.correctSlots);
@@ -98,17 +96,6 @@ export class ResultsView {
     $('#other-title').textContent = 'Community Prediction';
     $('#other-banzuke').replaceChildren();
     $('#other-hint').hidden = false;
-  }
-
-  /**
-   * Without a submission of their own there's nothing to put in "My Prediction", the official
-   * banzuke comparison, or "My Results" — so those stay hidden and only the leaderboard and
-   * community-prediction panels show.
-   */
-  setSubmittedSections(visible) {
-    $('#my-panel').hidden = !visible;
-    $('#actual-panel').hidden = !visible;
-    $('#my-results-section').hidden = !visible;
   }
 
   empty(message) {
