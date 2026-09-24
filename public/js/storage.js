@@ -1,5 +1,5 @@
 // Persists the guess state in the browser (localStorage), one entry per basho, plus the browser
-// token, the registered profile and the last submission.
+// token, the registered profile and the last submission; and, per tab, the page on screen.
 const PREFIX = 'banzuke-guesser:';
 
 function read(key) {
@@ -62,3 +62,12 @@ export const setSignedIn = (yes) => write(SIGNED_IN_KEY, yes || null);
 const submissionKey = (roundId) => `${PREFIX}submission:${roundId}`;
 export const loadSubmission = (roundId) => read(submissionKey(roundId));
 export const saveSubmission = (roundId, submission) => write(submissionKey(roundId), submission);
+
+// The page (view) on screen, per tab (sessionStorage), so a refresh can come back to it.
+const VIEW_KEY = PREFIX + 'view';
+export function loadView() {
+  try { return sessionStorage.getItem(VIEW_KEY); } catch { return null; }
+}
+export function saveView(name) {
+  try { sessionStorage.setItem(VIEW_KEY, name); } catch { /* the default page is shown instead */ }
+}

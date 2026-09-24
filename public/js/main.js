@@ -2,7 +2,7 @@ import { loadBasho, loadIndex, loadSchedule } from './data.js';
 import { GuessState } from './state.js';
 import { renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
-import { loadGuesses, loadSubmission, saveGuesses } from './storage.js';
+import { loadGuesses, loadSubmission, loadView, saveGuesses, saveView } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
 import { SubmitController } from './submit.js';
 import { bookmarkletHref, gtbLink } from './gtb.js';
@@ -35,6 +35,7 @@ function sizeAboutImages() {
 function setView(name) {
   const isChange = view !== null && view !== name;
   view = name;
+  saveView(name);
   for (const el of document.querySelectorAll('[data-view]')) {
     // The header's basho select is only shown when there is more than one results file.
     el.hidden = el.dataset.view !== name || (el.id === 'basho-select' && el.options.length < 2);
@@ -93,6 +94,13 @@ function setBanner(src) {
 const defaultView = (basho) => (
   basho.next && loadSubmission(basho.next.id) && todayJST() > basho.next.banzuke_date ? 'results' : 'predict'
 );
+
+/** The page to open on: the one on screen before a refresh, else the default (defaultView). */
+function initialView(basho) {
+  const reload = performance.getEntriesByType?.('navigation')?.[0]?.type === 'reload';
+  const saved = reload && loadView();
+  return saved && document.querySelector(`[data-view-button="${saved}"]`) ? saved : defaultView(basho);
+}
 
 /** The round being predicted, with the day submissions reopen (after the tournament ends). */
 function roundOf(basho) {
@@ -269,7 +277,7 @@ async function main() {
   installGtbHandOff();
   const basho = await showBasho(index.latest);
   results = new ResultsView(basho);
-  setView(defaultView(basho));
+  setView(initialView(basho));
   // Who the user is, from the API (a persisted sign-in first): updates the Register button and
   // the submission state once known, without holding up the page.
   register.init();
