@@ -234,7 +234,7 @@ function installApplyIdeal(basho, state) {
 function installModeBar() {
   const round = closed = closedRound(latest);
   if (!round) return;
-  $('#mode-text').textContent = `Submissions are closed until ${round.reopens} when the ${round.name} tournament is finished. Until then, preview the next banzuke or demo the previous one:`;
+  $('#mode-text').textContent = `Submissions are closed until ${round.reopens} when the ${round.name} tournament is finished. Until then, preview the next banzuke or demo prediction of the current one:`;
   const current = $('[data-mode="current"]');
   const next = $('[data-mode="next"]');
   current.title = `Predict the ${round.name} banzuke from the ${latest.name} results (submissions closed)`;
