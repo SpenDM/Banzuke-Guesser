@@ -179,11 +179,7 @@ async function showBasho(id) {
   return basho;
 }
 
-/**
- * Opens the rikishi profile popup on a double-click of any name, or a single click of a name in
- * the previous banzuke once that rikishi has been moved to the prediction (those chips aren't
- * draggable, so a single click is otherwise unused; draggable chips still use click to select).
- */
+/** Opens the rikishi profile popup on a double-click of any name (a single click selects a chip for placing). */
 function installProfileOpeners() {
   const app = $('#app');
   const popup = installProfilePopup();
@@ -192,10 +188,6 @@ function installProfileOpeners() {
     if (id) popup.open(Number(id), chip);
   };
   app.addEventListener('dblclick', (e) => openFor(e.target.closest('.chip[data-rikishi-id]')));
-  app.addEventListener('click', (e) => {
-    const chip = e.target.closest('.chip.placed[data-rikishi-id]');
-    if (chip && chip.closest('#previous')) openFor(chip);
-  });
 }
 
 /**

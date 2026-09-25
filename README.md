@@ -39,7 +39,7 @@ sumo-api.com ┘                                                                
   - `js/score.js` — scores a prediction against the announced banzuke and ranks the leaderboard.
   - `js/results.js` — the Results page; `js/rounds.js` names the rounds the Past Banzuke box lists.
   - `js/profile.js` — the rikishi profile popup (photo, fact sheet, tournament history), opened by
-    double-clicking a name (or single-clicking a name already moved to the prediction banzuke).
+    double-clicking a name.
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json` (results),
     `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against),
     `profiles/{rikishi_id}.json` (one per rikishi, for the profile popup), plus optional

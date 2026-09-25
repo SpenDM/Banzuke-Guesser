@@ -1,6 +1,6 @@
 // Rikishi profile popup: photo + fact sheet + tournament history, loaded on demand from
-// data/profiles/{rikishi_id}.json. Opened by main.js (double-click a name, or single-click a
-// placed name in the previous table); covers the opposite banzuke and dismisses on X / click-off / Escape.
+// data/profiles/{rikishi_id}.json. Opened by main.js (double-click a name); covers the opposite
+// banzuke and dismisses on X / click-off / Escape.
 import { loadProfile } from './data.js';
 
 const h = (tag, attrs = {}, ...children) => {
