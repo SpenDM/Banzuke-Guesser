@@ -1,12 +1,14 @@
 // "Save Guess": checks the prediction is a complete Makuuchi banzuke and saves it through the
 // API (functions/api/submit.js) under the shikona the user registered (register.js). Owns the
 // button's text/enabled state.
-import { DIVISION_OF, RANK_ORDER, compareSlots, parseSlot, slotId, slotName } from './rank.js';
+import { DIVISION_OF, RANK_NAMES, RANK_ORDER, compareSlots, parseSlot, slotId, slotName } from './rank.js';
 import { formatDate, todayJST } from './dates.js';
 import { loadSubmission, saveSubmission } from './storage.js';
 import { api } from './auth.js';
 
 const MAKUUCHI_RANKS = RANK_ORDER.filter((rank) => DIVISION_OF[rank] === 'makuuchi');
+// The fewest filled slots these sanyaku ranks may have: a banzuke always has two of each.
+const MIN_SANYAKU = { S: 2, K: 2 };
 
 /** How many rikishi each slot holds, from the guess state. */
 function occupancy(state) {
@@ -61,9 +63,24 @@ function gapSlots(state, perSlot) {
 }
 
 /**
+ * The empty slots, top-down, that would bring each rank in MIN_SANYAKU up to its minimum: a
+ * rank with one filled slot gets its first empty slot, an empty rank its first two.
+ */
+function sanyakuShortfall(state, perSlot) {
+  const short = [];
+  for (const [rank, min] of Object.entries(MIN_SANYAKU)) {
+    const slots = slotsOf(state, rank);
+    const missing = min - slots.filter((slot) => perSlot.has(slot)).length;
+    if (missing > 0) short.push(...slots.filter((slot) => !perSlot.has(slot)).slice(0, missing));
+  }
+  return short;
+}
+
+/**
  * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
  * the Makuuchi headcount (see headcount), slots holding more than one rikishi (and candidates
- * left in a ↑ Sekiwake/Komusubi row), then gaps (gapSlots).
+ * left in a ↑ Sekiwake/Komusubi row), then gaps (gapSlots), then too few Sekiwake or Komusubi
+ * (sanyakuShortfall).
  */
 export function validateGuess(state) {
   const { spots } = state.counts();
@@ -77,15 +94,21 @@ export function validateGuess(state) {
   if (unplaced.length) return `Unplaced at ${slotName(unplaced[0])}`;
 
   const [gap] = gapSlots(state, perSlot);
-  return gap ? `Gap at ${gap}` : null;
+  if (gap) return `Gap at ${gap}`;
+
+  const [short] = sanyakuShortfall(state, perSlot);
+  if (!short) return null;
+  const { rank } = parseSlot(short);
+  return `Need ${MIN_SANYAKU[rank]} ${RANK_NAMES[rank]}`;
 }
 
 /**
  * Every slot breaking the rules validateGuess checks, for Show Issues to outline: slots holding
- * more than one rikishi, ↑ Sekiwake/Komusubi rows still holding rikishi, gaps, and the Maegashira slots
- * at the end where the headcount is off. The headcount counts every rikishi however they are
- * placed (a shared slot counts each of its rikishi), so the end is judged by how many rikishi the
- * banzuke has: short by n, with g gaps already marked (each a missing rikishi), the n - g empty
+ * more than one rikishi, ↑ Sekiwake/Komusubi rows still holding rikishi, gaps, the empty Sekiwake/
+ * Komusubi slots short of the minimum, and the Maegashira slots at the end where the headcount is
+ * off. The headcount counts every rikishi however they are placed (a shared slot counts each of
+ * its rikishi), so the end is judged by how many rikishi the banzuke has: short by n, with g empty
+ * slots already marked as gaps or sanyaku shortfall (each a missing rikishi), the n - g empty
  * slots after the last filled Maegashira slot are marked; over by n, the last filled Maegashira
  * slots holding those n rikishi are.
  */
@@ -93,12 +116,12 @@ export function guessIssues(state) {
   const { spots } = state.counts();
   const perSlot = occupancy(state);
   const { numbered, unplaced, total } = headcount(perSlot);
-  const gaps = gapSlots(state, perSlot);
-  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...gaps]);
+  const empties = new Set([...gapSlots(state, perSlot), ...sanyakuShortfall(state, perSlot)]);
+  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...empties]);
 
   const maegashira = slotsOf(state, 'M');
   const lastFilled = maegashira.findLastIndex((slot) => perSlot.has(slot));
-  const missing = spots - total - gaps.length;
+  const missing = spots - total - empties.size;
   if (missing > 0) {
     for (const slot of maegashira.slice(lastFilled + 1, lastFilled + 1 + missing)) issues.add(slot);
   } else if (total > spots) {
