@@ -65,7 +65,8 @@ def annotate(basho: Basho, prev1: list[RikishiRow] | None, prev2: list[RikishiRo
     p1 = match_previous(basho.rikishi, prev1)
     p2 = match_previous(basho.rikishi, prev2)
     p1_jun = jun_yusho_keys(prev1, prev1_yusho_keys) if prev1 else set()
-    this_jun = jun_yusho_keys(basho.rikishi, yusho_keys)
+    # Mid-tournament there is no runner-up yet, whatever the records so far.
+    this_jun = set() if basho.in_progress else jun_yusho_keys(basho.rikishi, yusho_keys)
     for r in basho.rikishi:
         r.yusho = r.key in yusho_keys
         r.jun_yusho = r.key in this_jun
@@ -140,8 +141,10 @@ def apply(basho: Basho, data_dir: Path) -> None:
 
     prev1 = fetch(f"{prev1_id} banzuke", _rows_for, prev1_id, data_dir)
     prev2 = fetch(f"{prev2_id} banzuke", _rows_for, prev2_id, data_dir)
-    yusho = yusho_keys_in(basho.rikishi, fetch(f"{basho.id} yusho", _yusho_for, basho.id))
+    yusho = set()  # none yet for a tournament still under way
+    if not basho.in_progress:
+        yusho = yusho_keys_in(basho.rikishi, fetch(f"{basho.id} yusho", _yusho_for, basho.id))
     prev1_yusho = yusho_keys_in(prev1, fetch(f"{prev1_id} yusho", _yusho_for, prev1_id))
-    if not yusho:
+    if not yusho and not basho.in_progress:
         log(f"warning: {basho.id} has no yusho recorded; run `annotate --basho {basho.id}` later")
     annotate(basho, prev1, prev2, yusho, prev1_yusho)

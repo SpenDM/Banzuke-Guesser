@@ -9,8 +9,8 @@
   "birthplace": {
     "flag": "🇨🇳",
     "country": "China",
-    "province": "Inner Mongolia",
-    "city": "Hohhot"
+    "province": null,
+    "city": "Inner Mongolia"
   },
   "current_rank": "Juryo #2",
   "highest_rank": "Maegashira #16",
@@ -32,7 +32,7 @@
       "tournament": "September",
       "division": "Juryo",
       "rank": "Juryo #2",
-      "record": "6-2",
+      "record": "8-4",
       "achievements": []
     },
     {

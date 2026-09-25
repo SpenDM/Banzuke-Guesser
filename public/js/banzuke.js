@@ -37,7 +37,8 @@ function chip(r, { placed = false, dest = null, draggable = true, kind = null, m
     dataRikishiId: r.rikishi_id ?? null,
     title: r.retired ? `${r.name} (retired)` : r.name,
   }, h('span', { class: 'name', text: r.name }));
-  if (r.note) el.append(h('span', { class: 'tag', text: r.note }));
+  // sumo.or.jp's notes are Japanese rank labels (新小結, 再入幕, …), which aren't shown.
+  if (r.note && !/[\u3000-\u9fff]/.test(r.note)) el.append(h('span', { class: 'tag', text: r.note }));
   el.append(...badges(r));
   if (dest) el.append(h('span', { class: 'dest', text: `→ ${slotName(dest)}` }));
   return el;
@@ -53,17 +54,21 @@ function badges(r) {
   const tag = (cls, text, title, met) => out.push(h('span', {
     class: `tag ${cls}${met == null ? '' : met ? ' tag-met' : ' tag-missed'}`, text, title,
   }));
-  if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban Ozeki: a losing record this tournament results in demotion`, !kadobanFailed(r));
+  // Mid-tournament (`remaining` bouts left, see loadLive) a target stays neutral until it is
+  // settled: reached, or out of reach even by winning every remaining bout.
+  const live = r.remaining != null;
+  const settled = (met, need) => (met || !live || r.wins + r.remaining < need ? met : null);
+  if (r.kadoban) tag('tag-kadoban', 'KB', `Kadoban Ozeki: a losing record this tournament results in demotion`, settled(!kadobanFailed(r), KACHI_KOSHI));
   if (r.tsunatori) {
     const title = r.tsunatori_needs_yusho
       ? 'Yokozuna run: won or tied for the title as ozeki in the previous basho; since that was a tie, only an outright win this tournament completes it (a second straight tie doesn’t)'
       : 'Yokozuna run: won or tied for the title as ozeki in the previous basho; a win or another tie this tournament completes it';
-    tag('tag-tsunatori', '→Y', title, tsunatoriMet(r));
+    tag('tag-tsunatori', '→Y', title, live ? null : tsunatoriMet(r)); // no yusho until the tournament ends
   }
-  if (r.ozeki_return) tag('tag-ozeki-return', `↪O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, ozekiReturnMet(r));
+  if (r.ozeki_return) tag('tag-ozeki-return', `↪O ${OZEKI_RETURN_WINS}`, `Ozeki demoted due to injury can obtain ozeki re-promotion with ${OZEKI_RETURN_WINS} wins`, settled(ozekiReturnMet(r), OZEKI_RETURN_WINS));
   if (r.ozeki_run != null) {
     const need = ozekiRunNeeded(r);
-    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} wins this basho reaches the target ${OZEKI_TARGET} wins over three basho at sanyaku typically required for promotion`, ozekiRunMet(r));
+    tag('tag-ozeki-run', `→O ${need}`, `Ozeki run: ${need} wins this basho reaches the target ${OZEKI_TARGET} wins over three basho at sanyaku typically required for promotion`, settled(ozekiRunMet(r), need));
   }
   // Unlike the indicators above (carried into the basho, shown met or missed), these two only
   // ever appear once already true: a Komusubi/M1/M2 either force-promotes or it doesn't.

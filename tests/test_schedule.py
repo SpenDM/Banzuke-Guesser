@@ -1,6 +1,6 @@
 from datetime import date
 
-from scraper.schedule import latest_announced, latest_finished, parse_schedule
+from scraper.schedule import latest_announced, latest_finished, parse_schedule, under_way
 
 
 def test_parse_schedule_extracts_every_tournament(fixture_text):
@@ -33,3 +33,12 @@ def test_latest_announced_includes_the_announcement_day(fixture_text):
     assert latest_announced(sched, date(2026, 10, 25)).id == "202609"
     assert latest_announced(sched, date(2026, 10, 26)).id == "202611"
     assert latest_announced(sched, date(2025, 1, 1)) is None
+
+
+def test_under_way_runs_from_the_announcement_to_the_final_day(fixture_text):
+    sched = parse_schedule(fixture_text("year_schedule.html"))
+    assert under_way(sched, date(2026, 8, 30)) is None               # 202607 over, 202609 not announced
+    assert under_way(sched, date(2026, 8, 31)).id == "202609"        # announcement day
+    assert under_way(sched, date(2026, 9, 20)).id == "202609"        # mid-tournament
+    assert under_way(sched, date(2026, 9, 27)).id == "202609"        # final day
+    assert under_way(sched, date(2026, 9, 28)) is None

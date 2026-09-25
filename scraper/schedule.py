@@ -63,3 +63,9 @@ def latest_announced(schedule: list[Tournament], today: date) -> Tournament | No
     """Most recent tournament whose banzuke has been announced (announcement day included)."""
     out = [t for t in schedule if date.fromisoformat(t.banzuke_date) <= today]
     return max(out, key=lambda t: t.id) if out else None
+
+
+def under_way(schedule: list[Tournament], today: date) -> Tournament | None:
+    """The tournament whose banzuke is out but whose final day has not passed (both days included)."""
+    t = latest_announced(schedule, today)
+    return t if t and today <= date.fromisoformat(t.end_date) else None

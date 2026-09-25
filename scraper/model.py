@@ -104,6 +104,8 @@ class Basho:
     source: str
     rikishi: list[RikishiRow]
     next: dict | None = None
+    # A tournament still being fought (data/live.json): records so far, no yusho yet.
+    in_progress: bool = False
     fetched_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat(timespec="seconds"))
 
     def sorted_rikishi(self) -> list[RikishiRow]:
@@ -116,7 +118,7 @@ class Basho:
             d["division"] = r.division
             d["record"] = r.record
             rows.append(d)
-        return {
+        out = {
             "id": self.id,
             "name": self.name,
             "start_date": self.start_date,
@@ -126,6 +128,9 @@ class Basho:
             "fetched_at": self.fetched_at,
             "rikishi": rows,
         }
+        if self.in_progress:
+            out["in_progress"] = True
+        return out
 
     @classmethod
     def from_dict(cls, d: dict) -> "Basho":
@@ -133,7 +138,7 @@ class Basho:
         fields = {f for f in RikishiRow.__dataclass_fields__}
         rows = [RikishiRow(**{k: v for k, v in r.items() if k in fields}) for r in d["rikishi"]]
         return cls(id=d["id"], name=d["name"], start_date=d["start_date"], end_date=d["end_date"],
-                   source=d["source"], rikishi=rows, next=d.get("next"),
+                   source=d["source"], rikishi=rows, next=d.get("next"), in_progress=bool(d.get("in_progress")),
                    fetched_at=d.get("fetched_at") or cls.__dataclass_fields__["fetched_at"].default_factory())
 
     def to_banzuke_dict(self, banzuke_date: str) -> dict:
@@ -212,6 +217,22 @@ def banzuke_exists(data_dir: Path, basho_id: str) -> bool:
 def write_banzuke(data_dir: Path, basho: Basho, banzuke_date: str) -> Path:
     path = banzuke_path(data_dir, basho.id)
     write_json(path, basho.to_banzuke_dict(banzuke_date))
+    return path
+
+
+def live_path(data_dir: Path) -> Path:
+    """The tournament under way (announced, not yet finished), with its records so far."""
+    return data_dir / "live.json"
+
+
+def read_live(data_dir: Path) -> dict | None:
+    path = live_path(data_dir)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+
+
+def write_live(data_dir: Path, basho: Basho) -> Path:
+    path = live_path(data_dir)
+    write_json(path, basho.to_dict())
     return path
 
 

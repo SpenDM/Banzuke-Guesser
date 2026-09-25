@@ -122,6 +122,21 @@ def test_annotate_resets_stale_flags_and_survives_missing_history():
         False, False, False, None, False, False)
 
 
+def test_in_progress_basho_has_no_jun_yusho_yet():
+    b = basho([row("a", "O", wins=10, losses=2), row("b", "M", wins=9, losses=3)])
+    b.in_progress = True
+    annotate(b, None, None, set(), set())
+    assert not any(r.jun_yusho or r.yusho for r in b.rikishi)
+
+
+def test_in_progress_round_trips_and_is_left_out_of_finished_basho():
+    b = basho([row("a", "M", wins=3, losses=2)])
+    assert "in_progress" not in b.to_dict()
+    b.in_progress = True
+    d = b.to_dict()
+    assert d["in_progress"] is True and Basho.from_dict(d).in_progress
+
+
 def test_basho_round_trips_through_to_dict_and_from_dict():
     r = row("a", "S", wins=12)
     r.ozeki_run = 21

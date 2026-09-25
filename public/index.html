@@ -90,6 +90,7 @@
       <div class="panel tools" data-view="predict">
         <h2>Tools</h2>
         <button id="apply-ideal" type="button">Apply&nbsp;Ideal<br>Rank&nbsp;Changes</button>
+        <span id="apply-ideal-note" class="form-error" role="status" hidden></span>
         <button id="reset" type="button">Reset Guesses</button>
         <button id="tips" type="button" aria-expanded="false" aria-controls="tips-box">Tips</button>
       </div>
@@ -139,8 +140,15 @@
         </dl>
       </div>
     </aside>
+    <div id="mode-bar" class="panel mode-bar" data-view="predict" hidden>
+      <p id="mode-text"></p>
+      <div class="mode-buttons" role="group" aria-label="Prediction mode">
+        <button type="button" data-mode="current" aria-pressed="true" class="active">Current Banzuke</button>
+        <button type="button" data-mode="next" aria-pressed="false">Next Banzuke</button>
+      </div>
+    </div>
     <section class="panel" data-view="predict">
-      <h2><span id="basho-name">Previous</span> Results</h2>
+      <h2><span id="basho-name">Previous</span> <span id="basho-label">Results</span> <span id="records-note" class="release-note"></span></h2>
       <div class="table-wrap"><table id="previous" class="banzuke previous"></table></div>
     </section>
     <section class="panel" data-view="predict">
@@ -239,7 +247,7 @@
     </ul>
     <h2>Tool Buttons</h2>
     <ul>
-      <li><b>Apply Ideal Rank Changes:</b> places every unplaced rikishi by their net wins, leaving conflicts for you. Already placed rikishi aren't moved.</li>
+      <li><b>Apply Ideal Rank Changes:</b> places every unplaced rikishi by their net wins, leaving conflicts for you. Already placed rikishi aren't moved. Unavailable in Next Banzuke mode, since records aren't final.</li>
       <li><b>Reset Guesses:</b> clears every placement.</li>
     </ul>
     <h2>Banner Buttons</h2>

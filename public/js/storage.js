@@ -71,3 +71,8 @@ export function loadView() {
 export function saveView(name) {
   try { sessionStorage.setItem(VIEW_KEY, name); } catch { /* the default page is shown instead */ }
 }
+
+// The Prediction page's mode while submissions are closed ('current' or 'next'), per browser.
+const MODE_KEY = PREFIX + 'mode';
+export const loadMode = () => read(MODE_KEY);
+export const saveMode = (mode) => write(MODE_KEY, mode);

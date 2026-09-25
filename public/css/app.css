@@ -248,6 +248,16 @@ table.leaderboard { border-collapse: collapse; width: 100%; font-variant-numeric
 .tools h2, .pages h2 { margin-bottom: 0; }
 .tools button, .pages button { width: 100%; }
 .pages button.active { background: var(--head); color: #fff; border-color: var(--head); }
+/* Apply Ideal Rank Changes in Next Banzuke mode: looks disabled but stays clickable, to say why. */
+.tools button.unavailable { color: var(--muted); background: var(--chip); cursor: help; }
+.tools .form-error { margin-top: 0; min-height: 0; font-weight: 400; }
+/* While submissions are closed: a bar above both banzuke picking the Current / Next Banzuke mode.
+   It takes the first row beside the sidebar, which then spans both rows so the tables stay beside it. */
+.mode-bar { grid-column: 2 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.mode-bar p { margin: 0; flex: 1 1 320px; }
+.mode-buttons { display: flex; gap: 8px; }
+.mode-buttons button.active { background: var(--head); color: #fff; border-color: var(--head); }
+.panels:has(> .mode-bar:not([hidden])) > .sidebar { grid-row: span 2; }
 .past { display: flex; flex-direction: column; gap: 8px; }
 .past h2 { margin-bottom: 0; }
 .past select { width: 100%; }
@@ -267,6 +277,8 @@ table.leaderboard { border-collapse: collapse; width: 100%; font-variant-numeric
   .legend { flex: 1 1 360px; }
   .legend h3 { margin-top: 14px; }
   .legend dl { grid-template-columns: auto 1fr auto 1fr; }
+  .mode-bar { grid-column: 1 / -1; }
+  .panels:has(> .mode-bar:not([hidden])) > .sidebar { grid-row: auto; }
 }
 @media (max-width: 700px) { .legend dl { grid-template-columns: auto 1fr; } }
 @media (max-width: 1000px) { .panels { grid-template-columns: 1fr; } }

@@ -63,3 +63,28 @@ export async function loadBasho(id) {
   const [basho, overrides] = await Promise.all([getJson(`data/basho/${id}.json`), loadOverrides(id)]);
   return applyOverrides(basho, overrides);
 }
+
+export const BOUTS = 15;
+
+/**
+ * The tournament under way (data/live.json, written by the scraper from its banzuke announcement
+ * to its final day): its banzuke with the records so far, `in_progress` set. Each rikishi gets
+ * `remaining` (bouts left to fight), and a blank record until their first bout. Null outside a
+ * tournament or when the file cannot be read: the Next Banzuke mode is then unavailable.
+ */
+export async function loadLive() {
+  try {
+    const res = await fetch('data/live.json', { cache: 'no-cache' });
+    // Unknown asset paths may be answered with index.html and a 200, so check what came back.
+    if (!res.ok || !(res.headers.get('content-type') || '').includes('json')) return null;
+    const basho = await res.json();
+    for (const r of basho.rikishi) {
+      const played = r.wins + r.losses + (r.absences || 0);
+      r.remaining = Math.max(0, BOUTS - played);
+      if (!played) r.record = '';
+    }
+    return applyOverrides(basho, await loadOverrides(basho.id));
+  } catch {
+    return null;
+  }
+}

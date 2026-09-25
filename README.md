@@ -42,7 +42,8 @@ sumo-api.com ┘                                                                
     double-clicking a name.
   - `data/` — generated JSON: `schedule.json`, `index.json`, `basho/YYYYMM.json` (results),
     `banzuke/YYYYMM.json` (the announced banzuke predictions are scored against),
-    `profiles/{rikishi_id}.json` (one per rikishi, for the profile popup), plus optional
+    `profiles/{rikishi_id}.json` (one per rikishi, for the profile popup), `live.json` (the tournament
+    under way, see *Next Banzuke mode*), plus optional
     hand-edited `overrides/YYYYMM.json` (see *Special Statuses*).
 - `worker.js` + `functions/api/` — the Cloudflare Worker: `/api/register`, `/api/me`, `/api/submit`
   and `/api/submissions` keep users and submissions in a D1 database (`functions/firebase.js`
@@ -60,12 +61,13 @@ sumo-api.com ┘                                                                
     keyed by sumo.or.jp id; anyone uncurated falls back to a guess from their signature maneuvers).
     Refreshed automatically whenever a basho's results are written.
   - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `annotate --basho YYYYMM`,
-    `banzuke --basho YYYYMM`, `profiles --basho YYYYMM`, `schedule`.
+    `banzuke --basho YYYYMM`, `profiles --basho YYYYMM`, `live`, `schedule`.
 - `.github/workflows/update-data.yml` — runs `scraper.cli update` at 00:10 and 12:10 JST.
   It refreshes the schedule; if a tournament finished the day before and its data is not yet in
   the repo, fetches it (sumo.or.jp first, sumo-api.com if the official site has already moved on);
   and if a banzuke has been announced (mid-morning JST, hence the noon run) and `data/banzuke/`
-  lacks it, fetches that. Changes are committed; the push triggers a Cloudflare deploy.
+  lacks it, fetches that; and from a banzuke announcement to that tournament's final day, refreshes
+  `data/live.json` with the records so far. Changes are committed; the push triggers a Cloudflare deploy.
 
 ## Local development
 
@@ -85,6 +87,7 @@ python -m scraper.cli update --force --source official   # re-fetch from sumo.or
 python -m scraper.cli annotate --basho 202607     # recompute the indicators of an existing file
 python -m scraper.cli banzuke --basho 202609      # fetch an announced banzuke into data/banzuke/
 python -m scraper.cli profiles --basho 202607     # (re)build the rikishi profile pages for a basho
+python -m scraper.cli live                        # refresh data/live.json (the tournament under way)
 ```
 
 To run the submission API locally as well (Node 22+):
@@ -158,6 +161,28 @@ popover). A message stays on the (disabled) button until the prediction changes.
 date), turning into *Save Guess* as soon as the prediction changes again. One submission per
 user per tournament. Submissions close on the announcement day (*Submissions closed until <date>*,
 the day after that tournament ends, when the next round opens).
+
+## Next Banzuke mode
+
+From a banzuke announcement until the day after that tournament ends, the round it closes can no
+longer be saved. During that time a bar above the two banzuke says so ("Submissions are closed until
+<date> when the <tournament> tournament is finished") and switches the Prediction page between:
+
+- **Current Banzuke** — as usual: the announced tournament's banzuke predicted from the latest
+  results file. Save Guess stays closed.
+- **Next Banzuke** — the tournament under way on the left (`data/live.json`: its banzuke with the
+  records so far, blank before day 1) and the banzuke of the tournament *after* it on the right.
+  Save Guess is open for that later round. Apply Ideal Rank Changes is off, since the records
+  aren't final yet; clicking it says so. Special-status badges stay neutral until a target is
+  settled, either reached or out of reach even by winning every remaining bout, and →Y stays neutral
+  throughout, because the yusho isn't known until the end.
+
+The choice is remembered per browser. The guess is stored under the tournament under way, which is the
+same key its results file uses once it finishes, so a Next Banzuke prediction carries over into the
+regular round when it opens. The scraper writes `live.json` on every run between the announcement and
+the final day (annotated like a results file, minus the yusho and jun-yusho), refreshes the profile
+pages the first time a tournament's file is written (for new Juryo promotees), and removes the file
+once that tournament's results file exists.
 
 ## Scoring
 

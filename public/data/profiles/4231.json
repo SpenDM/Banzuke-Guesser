@@ -9,8 +9,8 @@
   "birthplace": {
     "flag": "🇲🇳",
     "country": "Mongolia",
-    "province": "Uvs",
-    "city": null
+    "province": null,
+    "city": "Uvs"
   },
   "current_rank": "Juryo #3",
   "highest_rank": "Maegashira #3",
@@ -22,7 +22,7 @@
     "yori"
   ],
   "style": {
-    "weight_class": "Heavy",
+    "weight_class": "Mid-weight",
     "primary": "Grappler"
   },
   "history": [
@@ -31,7 +31,7 @@
       "tournament": "September",
       "division": "Juryo",
       "rank": "Juryo #3",
-      "record": "4-4",
+      "record": "6-6",
       "achievements": []
     },
     {

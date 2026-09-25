@@ -4,6 +4,7 @@
     python -m scraper.cli bootstrap --basho 202607     # seed a specific basho (sumo-api.com by default)
     python -m scraper.cli annotate --basho 202607      # recompute the indicators of an existing file
     python -m scraper.cli banzuke --basho 202609       # fetch an announced banzuke (what guesses are scored on)
+    python -m scraper.cli live                         # refresh data/live.json (the tournament under way)
     python -m scraper.cli profiles --basho 202607      # (re)build the rikishi profile pages for a basho
     python -m scraper.cli schedule                     # refresh schedule.json only
 """
@@ -16,9 +17,9 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from . import annotate, official, profiles, sumoapi
-from .model import (Basho, NotAvailable, Tournament, banzuke_exists, basho_exists, next_tournament,
-                    read_basho, update_index, write_banzuke, write_basho, write_schedule)
-from .schedule import fetch_schedule, latest_announced, latest_finished
+from .model import (Basho, NotAvailable, Tournament, banzuke_exists, basho_exists, live_path, next_tournament,
+                    read_basho, read_live, update_index, write_banzuke, write_basho, write_live, write_schedule)
+from .schedule import fetch_schedule, latest_announced, latest_finished, under_way
 
 JST = ZoneInfo("Asia/Tokyo")
 DEFAULT_DATA_DIR = Path(__file__).resolve().parent.parent / "public" / "data"
@@ -79,6 +80,34 @@ def save_banzuke(data_dir: Path, tournament: Tournament, source: str) -> int:
     return 0
 
 
+def save_live(data_dir: Path, schedule: list[Tournament], tournament: Tournament, source: str) -> int:
+    """Write data/live.json: `tournament`'s banzuke with the records so far (all zero before day 1),
+    annotated like a finished basho minus the yusho. What the Next Banzuke mode predicts from while
+    submissions for `tournament` are closed. 1 if no source has it."""
+    try:
+        basho = fetch_with_fallback(tournament, source, require_results=False)
+    except NotAvailable as e:
+        log(f"could not fetch the {tournament.id} records so far: {e}")
+        return 1
+    basho.next = next_tournament(schedule, basho.id)
+    basho.in_progress = True
+    annotate.apply(basho, data_dir)
+    previous = read_live(data_dir)
+    payload = basho.to_dict()
+    if previous and {**previous, "fetched_at": None} == {**payload, "fetched_at": None}:
+        log(f"{tournament.id} records unchanged")
+        return 0
+    path = write_live(data_dir, basho)
+    log(f"wrote {path} ({len(basho.rikishi)} rikishi)")
+    if not previous or previous.get("id") != basho.id:
+        # Once per tournament: rikishi new to the banzuke (Juryo promotees) need profile pages too.
+        try:
+            profiles.write_profiles(data_dir, basho)
+        except Exception as e:
+            log(f"warning: could not refresh rikishi profiles: {e}")
+    return 0
+
+
 def cmd_update(args) -> int:
     schedule = fetch_schedule()
     write_schedule(args.data_dir, schedule)
@@ -106,6 +135,16 @@ def cmd_update(args) -> int:
         log(f"{announced.id} banzuke already present")
     else:
         status = save_banzuke(args.data_dir, announced, args.source) or status
+
+    # 3. The tournament under way, from its banzuke announcement to its final day, refreshed every
+    # run for the records so far. Dropped once that tournament's results file has replaced it.
+    current = under_way(schedule, today)
+    live = read_live(args.data_dir)
+    if current is not None:
+        status = save_live(args.data_dir, schedule, current, args.source) or status
+    elif live and basho_exists(args.data_dir, live["id"]):
+        live_path(args.data_dir).unlink()
+        log(f"removed the {live['id']} live file")
     return status
 
 
@@ -117,6 +156,16 @@ def cmd_banzuke(args) -> int:
         log(f"{args.basho} is not in the published schedule")
         return 1
     return save_banzuke(args.data_dir, target, args.source)
+
+
+def cmd_live(args) -> int:
+    schedule = fetch_schedule()
+    write_schedule(args.data_dir, schedule)
+    current = under_way(schedule, datetime.now(JST).date())
+    if current is None:
+        log("no tournament under way (between its banzuke announcement and its final day)")
+        return 1
+    return save_live(args.data_dir, schedule, current, args.source)
 
 
 def cmd_bootstrap(args) -> int:
@@ -187,6 +236,10 @@ def main(argv: list[str] | None = None) -> int:
     bz.add_argument("--basho", required=True, help="YYYYMM")
     bz.add_argument("--source", choices=["auto", "official", "sumoapi"], default="auto")
     bz.set_defaults(func=cmd_banzuke)
+
+    lv = sub.add_parser("live")
+    lv.add_argument("--source", choices=["auto", "official", "sumoapi"], default="auto")
+    lv.set_defaults(func=cmd_live)
 
     args = p.parse_args(argv)
     return args.func(args)

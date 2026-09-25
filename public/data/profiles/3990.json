@@ -9,8 +9,8 @@
   "birthplace": {
     "flag": "🇺🇦",
     "country": "Ukraine",
-    "province": "Zaporizhzhia Oblast",
-    "city": "Melitopol"
+    "province": null,
+    "city": "Zaporizhia Oblast"
   },
   "current_rank": "Maegashira #9",
   "highest_rank": "Maegashira #9",
@@ -30,7 +30,7 @@
       "tournament": "September",
       "division": "Makuuchi",
       "rank": "Maegashira #9",
-      "record": "3-5",
+      "record": "5-7",
       "achievements": []
     },
     {

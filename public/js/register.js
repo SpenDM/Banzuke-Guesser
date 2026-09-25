@@ -9,8 +9,8 @@ import { loadProfile, saveProfile } from './storage.js';
 /**
  * `els`: {button, box, form, input, error, account, out, in: signedIn, google, emailForm, email,
  * password, create, reset, who, signout, accountMsg}. Fires 'change' with detail
- * { profile, submission } after every answer from the API (`submission` is the user's prediction
- * for the current round, or null); `shikona` is the registered shikona or null.
+ * { profile, submission, roundId } after every answer from the API (`submission` is the user's
+ * prediction for round `roundId`, or null); `shikona` is the registered shikona or null.
  */
 export class RegisterController extends EventTarget {
   constructor(els) {
@@ -63,9 +63,10 @@ export class RegisterController extends EventTarget {
   close() { this.els.box.hidden = true; }
 
   async refresh() {
-    const res = await api(`/api/me?basho=${this.roundId || ''}`);
+    const roundId = this.roundId;
+    const res = await api(`/api/me?basho=${roundId || ''}`);
     if (!res.ok) throw new Error(`me: HTTP ${res.status}`);
-    this.apply(await res.json());
+    this.apply(await res.json(), roundId);
   }
 
   /** Registers (or renames to) the shikona in the input. */
@@ -83,9 +84,10 @@ export class RegisterController extends EventTarget {
     this.setError('');
     this.setBusy(true);
     try {
-      const res = await api('/api/register', { method: 'POST', body: { shikona, basho: this.roundId || undefined } });
+      const roundId = this.roundId;
+      const res = await api('/api/register', { method: 'POST', body: { shikona, basho: roundId || undefined } });
       const data = await res.json().catch(() => ({}));
-      if (res.ok) { this.apply(data); return true; }
+      if (res.ok) { this.apply(data, roundId); return true; }
       if (data.error === 'shikona_taken') this.setError('Shikona taken');
       else if (data.error === 'bad_shikona') this.setError('Shikona must be 1–30 characters');
       else if (data.error === 'bad_auth') this.setError('Sign in again');
@@ -145,12 +147,12 @@ export class RegisterController extends EventTarget {
     this.render();
   }
 
-  /** Takes a profile as /api/me and /api/register answer it. */
-  apply(data) {
+  /** Takes a profile as /api/me and /api/register answer it; `roundId` is the round `submission` is for. */
+  apply(data, roundId = this.roundId) {
     this.profile = { shikona: data.shikona ?? null, signed_in: !!data.signed_in, provider: data.provider ?? null };
     saveProfile(this.profile);
     this.render();
-    this.dispatchEvent(new CustomEvent('change', { detail: { profile: this.profile, submission: data.submission ?? null } }));
+    this.dispatchEvent(new CustomEvent('change', { detail: { profile: this.profile, submission: data.submission ?? null, roundId } }));
   }
 
   setBusy(busy) {

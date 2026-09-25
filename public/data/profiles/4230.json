@@ -9,8 +9,8 @@
   "birthplace": {
     "flag": "🇺🇦",
     "country": "Ukraine",
-    "province": "Vinnytsia Oblast",
-    "city": "Vinnytsia"
+    "province": null,
+    "city": "Vinnytsia Oblast"
   },
   "current_rank": "Ozeki",
   "highest_rank": "Ozeki",
@@ -31,7 +31,7 @@
       "tournament": "September",
       "division": "Makuuchi",
       "rank": "Ozeki",
-      "record": "5-3",
+      "record": "9-3",
       "achievements": []
     },
     {

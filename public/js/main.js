@@ -1,8 +1,8 @@
-import { loadBasho, loadIndex, loadSchedule } from './data.js';
+import { loadBasho, loadIndex, loadLive, loadSchedule } from './data.js';
 import { GuessState } from './state.js';
 import { renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
-import { loadGuesses, loadSubmission, loadView, saveGuesses, saveView } from './storage.js';
+import { loadGuesses, loadMode, loadSubmission, loadView, saveGuesses, saveMode, saveView } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
 import { SubmitController, guessIssues } from './submit.js';
 import { bookmarkletHref, gtbLink } from './gtb.js';
@@ -21,6 +21,11 @@ let view = null;
 let schedule = [];
 let register = null;  // the Register button, shared by every basho shown
 let submit = null;    // the Save Guess button of the basho shown
+let prediction = null;      // aborts the listeners of the guess state shown (showPrediction)
+let latest = null;          // the latest results file: the round being predicted, or closed (Current Banzuke)
+let live = null;            // the tournament under way (data/live.json), for the Next Banzuke mode, or null
+let closed = null;          // the round of `latest` while its submissions are closed, else null (installModeBar)
+let mode = 'current';       // the Prediction page's mode while submissions are closed (installModeBar)
 let showIssues = false;     // the Show Issues toggle (installIssuesToggle)
 let renderIssues = () => {}; // redraws the Show Issues marks for the basho shown
 
@@ -41,8 +46,10 @@ function setView(name) {
   view = name;
   saveView(name);
   for (const el of document.querySelectorAll('[data-view]')) {
-    // The header's basho select is only shown when there is more than one results file.
-    el.hidden = el.dataset.view !== name || (el.id === 'basho-select' && el.options.length < 2);
+    // The header's basho select is only shown when there is more than one results file, the
+    // mode bar only while submissions are closed (syncModeBar).
+    el.hidden = el.dataset.view !== name || (el.id === 'basho-select' && el.options.length < 2)
+      || (el.id === 'mode-bar' && !el.dataset.on);
   }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.classList.toggle('active', btn.dataset.viewButton === name);
   setBanner(BANNER[name]);
@@ -114,8 +121,21 @@ function roundOf(basho) {
   return { ...basho.next, reopens: reopenDate(t?.end_date) };
 }
 
+/** The round `basho` predicts when its submissions are closed (announcement day to the next round), else null. */
+function closedRound(basho) {
+  const round = roundOf(basho);
+  return round && todayJST() >= round.banzuke_date ? round : null;
+}
+
+/** The last day any bout of a tournament under way has been recorded for (0 before day 1). */
+const daysRecorded = (basho) => Math.max(0, ...basho.rikishi.map((r) => r.wins + r.losses + (r.absences || 0)));
+
 function renderHeader(basho) {
   $('#basho-name').textContent = basho.name;
+  $('#basho-label').textContent = basho.in_progress ? 'Banzuke' : 'Results';
+  const day = basho.in_progress ? daysRecorded(basho) : 0;
+  $('#records-note').textContent = !basho.in_progress ? ''
+    : day ? `(records through Day ${day})` : `(starts ${formatDate(basho.start_date)})`;
   const next = basho.next;
   $('#guess-name').textContent = next ? next.name : 'Next';
   $('#release-note').textContent = next ? `(Official release: ${formatDate(next.banzuke_date)})` : '';
@@ -124,8 +144,21 @@ function renderHeader(basho) {
     : `Predict the next Banzuke from the ${basho.name} results.`;
 }
 
+/** Shows a past results file picked in the header's basho select (the latest one restores the mode). */
 async function showBasho(id) {
-  const basho = await loadBasho(id);
+  if (id === latest.id) { setMode(mode); return; }
+  syncModeBar(false);
+  showPrediction(await loadBasho(id));
+}
+
+/**
+ * Puts `basho` on the Predict page: its results on the left, the guess banzuke for the tournament
+ * after it on the right, with the tools and Save Guess bound to that guess.
+ */
+function showPrediction(basho) {
+  prediction?.abort();
+  prediction = new AbortController();
+  const { signal } = prediction;
   const state = new GuessState(basho);
   state.load(loadGuesses(basho.id));
   const app = $('#app');
@@ -160,14 +193,14 @@ async function showBasho(id) {
   render();
   syncGtbLink();
 
-  installDragAndDrop(app, state);
+  installDragAndDrop(app, state, { signal });
   app.addEventListener('click', (e) => {
     const addBtn = e.target.closest('button[data-add-row]');
     if (addBtn) { state.addRow(addBtn.dataset.addRow); return; }
     const removeBtn = e.target.closest('button[data-remove-row]');
     if (removeBtn) state.removeRow(removeBtn.dataset.removeRow);
-  });
-  $('#apply-ideal').onclick = () => state.applyIdealPromotions();
+  }, { signal });
+  installApplyIdeal(basho, state);
   $('#reset').onclick = () => {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();
   };
@@ -176,7 +209,75 @@ async function showBasho(id) {
   register.setRound(round?.id ?? null);
   submit?.dispose();
   submit = new SubmitController(state, round, { button: $('#submit'), note: $('#submitted-note') }, register);
-  return basho;
+}
+
+/**
+ * Apply Ideal Rank Changes, bound to `state`. A tournament still under way has no final records to
+ * move anyone by, so there the button is greyed out and a click only says why.
+ */
+function installApplyIdeal(basho, state) {
+  const button = $('#apply-ideal');
+  const note = $('#apply-ideal-note');
+  const off = !!basho.in_progress;
+  button.classList.toggle('unavailable', off);
+  button.setAttribute('aria-disabled', String(off));
+  note.hidden = true;
+  button.onclick = () => {
+    if (!off) { state.applyIdealPromotions(); return; }
+    note.textContent = `Unavailable in Next Banzuke mode: rank changes need final records, so this opens once the ${basho.name} tournament is finished.`;
+    note.hidden = false;
+  };
+  state.addEventListener('change', () => { note.hidden = true; });
+}
+
+/**
+ * The bar above the two banzuke while submissions are closed (announcement day to the day after the
+ * tournament): says until when, and switches the Predict page between Current Banzuke (the round
+ * just closed, predicted from the latest results; Save Guess stays closed) and Next Banzuke (the
+ * round after it, predicted from the tournament under way; Save Guess open). The mode is remembered.
+ */
+function installModeBar() {
+  const round = closed = closedRound(latest);
+  if (!round) return;
+  $('#mode-text').textContent = `Submissions are closed until ${round.reopens} when the ${round.name} tournament is finished. Until then, use the Predict tool for:`;
+  const current = $('[data-mode="current"]');
+  const next = $('[data-mode="next"]');
+  current.title = `Predict the ${round.name} banzuke from the ${latest.name} results (submissions closed)`;
+  const nextOk = live?.id === round.id && !!live.next;
+  next.disabled = !nextOk;
+  next.title = nextOk
+    ? `Predict the ${live.next.name} banzuke from the ${live.name} records so far`
+    : `The ${round.name} records aren't available yet`;
+  for (const btn of document.querySelectorAll('[data-mode]')) {
+    btn.onclick = () => {
+      if (btn.dataset.mode === mode) return;
+      saveMode(btn.dataset.mode);
+      setMode(btn.dataset.mode);
+      register.init(); // the user's submission for the round now predicted
+    };
+  }
+  mode = loadMode() === 'next' && nextOk ? 'next' : 'current';
+}
+
+/** Shows the mode bar with the latest round's prediction while its submissions are closed, hides it otherwise. */
+function syncModeBar(show) {
+  const bar = $('#mode-bar');
+  const on = show && !!closed;
+  if (on) bar.dataset.on = 'true'; else delete bar.dataset.on;
+  bar.hidden = !on || view !== 'predict';
+}
+
+/** Shows the latest round's prediction in the Current Banzuke or Next Banzuke mode (see installModeBar). */
+function setMode(name) {
+  mode = name;
+  for (const btn of document.querySelectorAll('[data-mode]')) {
+    btn.classList.toggle('active', btn.dataset.mode === name);
+    btn.setAttribute('aria-pressed', String(btn.dataset.mode === name));
+  }
+  const select = $('#basho-select');
+  if (select.options.length) select.value = latest.id;
+  syncModeBar(true);
+  showPrediction(name === 'next' ? live : latest);
 }
 
 /** Opens the rikishi profile popup on a double-click of any name (a single click selects a chip for placing). */
@@ -297,8 +398,9 @@ function installPastBanzuke(index) {
 
 async function main() {
   preloadBanners();
-  const [index, sched] = await Promise.all([loadIndex(), loadSchedule().catch(() => [])]);
+  const [index, sched, current] = await Promise.all([loadIndex(), loadSchedule().catch(() => []), loadLive()]);
   schedule = sched;
+  live = current;
   const select = $('#basho-select');
   if (index.basho.length > 1) {
     for (const id of [...index.basho].reverse()) {
@@ -312,9 +414,11 @@ async function main() {
   installProfileOpeners();
   installGtbHandOff();
   installTips();
-  const basho = await showBasho(index.latest);
-  results = new ResultsView(basho);
-  setView(initialView(basho));
+  latest = await loadBasho(index.latest);
+  installModeBar();
+  setMode(mode);
+  results = new ResultsView(latest);
+  setView(initialView(latest));
   // Who the user is, from the API (a persisted sign-in first): updates the Register button and
   // the submission state once known, without holding up the page.
   register.init();

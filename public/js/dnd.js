@@ -24,10 +24,12 @@ function createGhost() {
   };
 }
 
-export function installDragAndDrop(root, state) {
+/** `signal` removes the listeners (and the ghost) once the page moves on to another guess state. */
+export function installDragAndDrop(root, state, { signal } = {}) {
   let selectedKey = null;
   let draggingKey = null;
   const ghost = createGhost();
+  signal?.addEventListener('abort', () => { ghost.el.remove(); root.classList.remove('selecting', 'drag-active'); });
   const ladder = buildLadder(state.basho.rikishi);
 
   const positionGhost = (x, y) => {
@@ -81,7 +83,7 @@ export function installDragAndDrop(root, state) {
     chip.classList.add('dragging');
     root.classList.add('drag-active');
     select(null);
-  });
+  }, { signal });
 
   root.addEventListener('dragend', () => {
     for (const c of root.querySelectorAll('.dragging')) c.classList.remove('dragging');
@@ -89,7 +91,7 @@ export function installDragAndDrop(root, state) {
     clearHighlights();
     draggingKey = null;
     ghost.el.hidden = true;
-  });
+  }, { signal });
 
   root.addEventListener('dragover', (e) => {
     const slot = e.target.closest?.('[data-slot]');
@@ -104,12 +106,12 @@ export function installDragAndDrop(root, state) {
     clearHighlights();
     if (slot) highlight(slot.dataset.slot, true);
     else prev.classList.add('over');
-  });
+  }, { signal });
 
   root.addEventListener('dragleave', (e) => {
     const slot = e.target.closest?.('[data-slot]');
     if (slot && !slot.contains(e.relatedTarget)) highlight(slot.dataset.slot, false);
-  });
+  }, { signal });
 
   root.addEventListener('drop', (e) => {
     const key = e.dataTransfer.getData('text/plain');
@@ -122,7 +124,7 @@ export function installDragAndDrop(root, state) {
     ghost.el.hidden = true;
     if (slot) state.place(key, slot.dataset.slot);
     else state.remove(key);
-  });
+  }, { signal });
 
   // Click fallback: tap a chip, then tap a destination slot (or the left table to unplace).
   root.addEventListener('click', (e) => {
@@ -137,7 +139,7 @@ export function installDragAndDrop(root, state) {
     const prev = e.target.closest?.('[data-dropzone="previous"]');
     if (slot) { state.place(selectedKey, slot.dataset.slot); select(null); }
     else if (prev) { state.remove(selectedKey); select(null); }
-  });
+  }, { signal });
 
-  root.addEventListener('keydown', (e) => { if (e.key === 'Escape') select(null); });
+  root.addEventListener('keydown', (e) => { if (e.key === 'Escape') select(null); }, { signal });
 }

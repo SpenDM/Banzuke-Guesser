@@ -154,8 +154,9 @@ export class SubmitController {
   }
 
   /** The server's word on the user's submission for this round, after registering or signing in/out. */
-  onProfile({ profile, submission }) {
-    if (this.round) {
+  onProfile({ profile, submission, roundId }) {
+    // An answer asked for another round (the Prediction mode changed while it was in flight) says nothing about this one.
+    if (this.round && (roundId === undefined || roundId === this.round.id)) {
       this.submission = submission ? { shikona: profile.shikona, ...submission } : null;
       saveSubmission(this.round.id, this.submission);
     }

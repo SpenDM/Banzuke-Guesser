@@ -9,8 +9,8 @@
   "birthplace": {
     "flag": "🇲🇳",
     "country": "Mongolia",
-    "province": "Töv",
-    "city": null
+    "province": null,
+    "city": "Töv"
   },
   "current_rank": "Maegashira #5",
   "highest_rank": "Komusubi",
@@ -31,7 +31,7 @@
       "tournament": "September",
       "division": "Makuuchi",
       "rank": "Maegashira #5",
-      "record": "4-4",
+      "record": "6-6",
       "achievements": []
     },
     {

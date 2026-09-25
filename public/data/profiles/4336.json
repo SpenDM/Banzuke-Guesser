@@ -7,10 +7,10 @@
   "real_name": "Masaharu Goshima",
   "stable": "Fujishima",
   "birthplace": {
-    "flag": "🇯🇵",
-    "country": "Japan",
-    "province": "Aichi",
-    "city": "Kasugai"
+    "flag": null,
+    "country": "Aichi",
+    "province": null,
+    "city": null
   },
   "current_rank": "Maegashira #4",
   "highest_rank": "Maegashira #4",
@@ -30,7 +30,7 @@
       "tournament": "September",
       "division": "Makuuchi",
       "rank": "Maegashira #4",
-      "record": "3-5",
+      "record": "6-6",
       "achievements": []
     },
     {

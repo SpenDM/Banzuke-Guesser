@@ -1,7 +1,7 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
 import { GuessState } from '../../public/js/state.js';
-import { guessIssues, validateGuess } from '../../public/js/submit.js';
+import { SubmitController, guessIssues, validateGuess } from '../../public/js/submit.js';
 
 // A six-man Makuuchi (plus one Juryo) keeps the examples short; `spots` follows the headcount.
 const basho = {
@@ -136,4 +136,33 @@ test('rikishi may be left in the Maegashira candidates row of a full banzuke', (
   s.place('j', '^M');                         // Juryo rikishi considered for promotion, left out
   assert.equal(validateGuess(s), null);
   assert.deepEqual(issues(s), []);
+});
+
+// A stand-in for the button and note elements, and the RegisterController's event source.
+const fakeEl = () => Object.assign(new EventTarget(), { textContent: '', disabled: false, hidden: false, classList: { toggle() {} } });
+const controller = (round, now = '2026-09-24') => {
+  const register = Object.assign(new EventTarget(), { shikona: 'Tester' });
+  const els = { button: fakeEl(), note: fakeEl() };
+  return { c: new SubmitController(filled(), round, els, register, { now: () => now }), els, register };
+};
+const profileEvent = (roundId, submission) => new CustomEvent('change', {
+  detail: { profile: { shikona: 'Tester' }, submission, roundId },
+});
+
+test('Save Guess is closed from the announcement day and open for the round after it', () => {
+  const current = controller({ id: '202609', banzuke_date: '2026-08-31', reopens: 'Sep 28' });
+  assert.equal(current.els.button.disabled, true);
+  assert.equal(current.els.button.textContent, 'Submissions closed\nuntil Sep 28');
+  const next = controller({ id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 23' });
+  assert.equal(next.els.button.disabled, false);
+  assert.equal(next.els.button.textContent, 'Save Guess');
+});
+
+test('a profile answer for another round leaves the submission alone', () => {
+  const { c, els, register } = controller({ id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 23' });
+  const submission = { placements: c.state.makuuchiPlacements(), submitted_at: 'x' };
+  register.dispatchEvent(profileEvent('202609', submission));
+  assert.equal(els.button.textContent, 'Save Guess');
+  register.dispatchEvent(profileEvent('202611', submission));
+  assert.equal(els.button.textContent, 'Saved');
 });
