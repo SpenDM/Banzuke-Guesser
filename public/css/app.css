@@ -165,6 +165,7 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 .dark #submit-guess.open { background: #2f343a; } /* dark: matches hover */
 #gtb-box p { margin: 0 0 6px; color: var(--ink); } /* not the muted .topbar p subtitle style */
 #gtb-box .gtb-title { font-weight: 600; }
+#gtb-box .or { margin: 8px 0; text-align: center; color: var(--muted); }
 .gtb-steps { margin: 0; padding-left: 24px; }
 .gtb-steps li { margin-bottom: 4px; }
 .gtb-steps li::marker { content: counter(list-item) ") "; }
