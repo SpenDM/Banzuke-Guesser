@@ -229,6 +229,21 @@ function installGtbHandOff() {
   };
 }
 
+/** Tools > Tips: a box of notes on the Prediction page's controls; clicking off it or Escape closes it. */
+function installTips() {
+  const button = $('#tips');
+  const box = $('#tips-box');
+  const setOpen = (open) => {
+    box.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+  };
+  button.addEventListener('click', () => setOpen(box.hidden));
+  document.addEventListener('click', (e) => {
+    if (!box.hidden && !box.contains(e.target) && e.target !== button) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+}
+
 /** The Register button and popover (register.js), created once for the page. */
 function installRegister() {
   register = new RegisterController({
@@ -293,6 +308,7 @@ async function main() {
   installRegister();
   installProfileOpeners();
   installGtbHandOff();
+  installTips();
   const basho = await showBasho(index.latest);
   results = new ResultsView(basho);
   setView(initialView(basho));

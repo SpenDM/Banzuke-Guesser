@@ -170,6 +170,17 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
 .gtb-steps li::marker { content: counter(list-item) ") "; }
 .gtb-bookmarklet-line { margin: 4px 0 0 16px; }
 
+/* Tools > Tips: a box centred over the page. It lives outside #app, clear of the sticky sidebar
+   and table headers, so nothing paints over it. */
+.tips-box {
+  position: fixed; z-index: 30; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: min(480px, calc(100vw - 24px)); max-height: calc(100vh - 48px); overflow-y: auto;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, .3);
+}
+.tips-box ul { margin: 0; padding-left: 20px; }
+.tips-box li { margin-bottom: 6px; line-height: 1.45; }
+.tips-box li:last-child { margin-bottom: 0; }
+
 /* About view: four text+image sections stacked vertically. */
 .about { grid-column: 2 / -1; }
 /* The Fill GTB Form bookmarklet: styled as a pill so it reads as something to drag. */
