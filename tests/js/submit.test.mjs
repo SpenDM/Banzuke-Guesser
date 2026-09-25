@@ -155,14 +155,14 @@ test('Save Guess is closed from the announcement day and open for the round afte
   assert.equal(current.els.button.textContent, 'Submissions closed\nuntil Sep 28');
   const next = controller({ id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 23' });
   assert.equal(next.els.button.disabled, false);
-  assert.equal(next.els.button.textContent, 'Save Guess');
+  assert.equal(next.els.button.textContent, 'Save\nGuess');
 });
 
 test('a profile answer for another round leaves the submission alone', () => {
   const { c, els, register } = controller({ id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 23' });
   const submission = { placements: c.state.makuuchiPlacements(), submitted_at: 'x' };
   register.dispatchEvent(profileEvent('202609', submission));
-  assert.equal(els.button.textContent, 'Save Guess');
+  assert.equal(els.button.textContent, 'Save\nGuess');
   register.dispatchEvent(profileEvent('202611', submission));
   assert.equal(els.button.textContent, 'Saved');
 });

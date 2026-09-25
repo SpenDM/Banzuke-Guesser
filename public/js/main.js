@@ -213,21 +213,16 @@ function showPrediction(basho) {
 
 /**
  * Apply Ideal Rank Changes, bound to `state`. A tournament still under way has no final records to
- * move anyone by, so there the button is greyed out and a click only says why.
+ * move anyone by, so there the button is greyed out, does nothing, and its tooltip says why.
  */
 function installApplyIdeal(basho, state) {
   const button = $('#apply-ideal');
-  const note = $('#apply-ideal-note');
   const off = !!basho.in_progress;
   button.classList.toggle('unavailable', off);
   button.setAttribute('aria-disabled', String(off));
-  note.hidden = true;
-  button.onclick = () => {
-    if (!off) { state.applyIdealPromotions(); return; }
-    note.textContent = `Unavailable in Next Banzuke mode: rank changes need final records, so this opens once the ${basho.name} tournament is finished.`;
-    note.hidden = false;
-  };
-  state.addEventListener('change', () => { note.hidden = true; });
+  if (off) button.title = 'Unavailable until final tournament results are in place';
+  else button.removeAttribute('title');
+  button.onclick = () => { if (!off) state.applyIdealPromotions(); };
 }
 
 /**
@@ -239,7 +234,7 @@ function installApplyIdeal(basho, state) {
 function installModeBar() {
   const round = closed = closedRound(latest);
   if (!round) return;
-  $('#mode-text').textContent = `Submissions are closed until ${round.reopens} when the ${round.name} tournament is finished. Until then, use the Predict tool for:`;
+  $('#mode-text').textContent = `Submissions are closed until ${round.reopens} when the ${round.name} tournament is finished. Until then, preview the next banzuke or demo the previous one:`;
   const current = $('[data-mode="current"]');
   const next = $('[data-mode="next"]');
   current.title = `Predict the ${round.name} banzuke from the ${latest.name} results (submissions closed)`;

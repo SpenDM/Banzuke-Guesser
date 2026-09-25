@@ -166,14 +166,15 @@ the day after that tournament ends, when the next round opens).
 
 From a banzuke announcement until the day after that tournament ends, the round it closes can no
 longer be saved. During that time a bar above the two banzuke says so ("Submissions are closed until
-<date> when the <tournament> tournament is finished") and switches the Prediction page between:
+<date> when the <tournament> tournament is finished. Until then, preview the next banzuke or demo
+the previous one") and switches the Prediction page between:
 
 - **Current Banzuke** — as usual: the announced tournament's banzuke predicted from the latest
   results file. Save Guess stays closed.
 - **Next Banzuke** — the tournament under way on the left (`data/live.json`: its banzuke with the
   records so far, blank before day 1) and the banzuke of the tournament *after* it on the right.
   Save Guess is open for that later round. Apply Ideal Rank Changes is off, since the records
-  aren't final yet; clicking it says so. Special-status badges stay neutral until a target is
+  aren't final yet; its tooltip says so. Special-status badges stay neutral until a target is
   settled, either reached or out of reach even by winning every remaining bout, and →Y stays neutral
   throughout, because the yusho isn't known until the end.
 

@@ -210,7 +210,7 @@ export class SubmitController {
     if (this.sending) return { text: 'Saving…', enabled: false };
     if (this.message) return { text: this.message, enabled: false, error: true };
     if (this.submitted) return { text: 'Saved', enabled: false };
-    return { text: 'Save Guess', enabled: true };
+    return { text: 'Save\nGuess', enabled: true };
   }
 
   render() {
