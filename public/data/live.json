@@ -10,7 +10,7 @@
     "start_date": "2026-11-08"
   },
   "source": "sumo.or.jp",
-  "fetched_at": "2026-09-25T08:44:24+00:00",
+  "fetched_at": "2026-09-25T19:14:37+00:00",
   "rikishi": [
     {
       "key": "onosato",
@@ -19,7 +19,7 @@
       "num": 1,
       "side": "E",
       "wins": 11,
-      "losses": 1,
+      "losses": 2,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -34,7 +34,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "11-1"
+      "record": "11-2"
     },
     {
       "key": "hoshoryu",
@@ -44,7 +44,7 @@
       "side": "W",
       "wins": 0,
       "losses": 0,
-      "absences": 13,
+      "absences": 14,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -58,7 +58,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "0-0-13"
+      "record": "0-0-14"
     },
     {
       "key": "kirishima",
@@ -66,7 +66,7 @@
       "rank": "O",
       "num": 1,
       "side": "E",
-      "wins": 6,
+      "wins": 7,
       "losses": 6,
       "absences": 0,
       "retired": false,
@@ -82,7 +82,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "6-6"
+      "record": "7-6"
     },
     {
       "key": "kotozakura",
@@ -91,7 +91,7 @@
       "num": 1,
       "side": "W",
       "wins": 8,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -106,7 +106,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "8-4"
+      "record": "8-5"
     },
     {
       "key": "aonishiki",
@@ -114,7 +114,7 @@
       "rank": "O",
       "num": 2,
       "side": "E",
-      "wins": 9,
+      "wins": 10,
       "losses": 3,
       "absences": 0,
       "retired": false,
@@ -130,7 +130,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "9-3"
+      "record": "10-3"
     },
     {
       "key": "atamifuji",
@@ -236,7 +236,7 @@
       "side": "E",
       "wins": 5,
       "losses": 7,
-      "absences": 1,
+      "absences": 2,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -250,7 +250,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "5-7-1"
+      "record": "5-7-2"
     },
     {
       "key": "kotoeiho",
@@ -380,7 +380,7 @@
       "side": "E",
       "wins": 4,
       "losses": 9,
-      "absences": 0,
+      "absences": 1,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -394,7 +394,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "4-9"
+      "record": "4-9-1"
     },
     {
       "key": "fujiryoga",
@@ -764,7 +764,7 @@
       "side": "E",
       "wins": 0,
       "losses": 0,
-      "absences": 13,
+      "absences": 14,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -778,7 +778,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "0-0-13"
+      "record": "0-0-14"
     },
     {
       "key": "asahakuryu",
@@ -956,7 +956,7 @@
       "side": "E",
       "wins": 0,
       "losses": 0,
-      "absences": 13,
+      "absences": 14,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -970,7 +970,7 @@
       "ozeki_run": null,
       "ozeki_return": false,
       "division": "makuuchi",
-      "record": "0-0-13"
+      "record": "0-0-14"
     },
     {
       "key": "toshinofuji",
