@@ -30,7 +30,7 @@ test('fillGtbForm maps labels to slots, matches shikona, and sets empty slots to
   ]);
   const notes = [];
   const out = fillGtbForm(doc, hash, (m) => notes.push(m));
-  assert.deepEqual(out, { filled: ['Y1E', 'Y1W', 'S2W', 'M9W'], missing: [] });
+  assert.deepEqual(out, { filled: ['Y1E', 'Y1W', 'S2W', 'M9W'], missing: [], contact: [] });
   assert.equal(chosen('Yokozuna E'), 'Hoshoryu');
   assert.equal(chosen('Yokozuna W'), 'Kotosho');                  // not the longer Kotoshoho
   assert.equal(chosen('Sekiwake W2'), 'Ōhō (Oho)');               // accents ignored, extra detail allowed
@@ -44,7 +44,7 @@ test('fillGtbForm outlines and reports rikishi missing from the dropdowns', () =
   const { doc, selects, chosen } = fakeDoc(['Ozeki E', 'Ozeki W']);
   const notes = [];
   const out = fillGtbForm(doc, hashFor([{ slot: 'O1E', name: 'Onosato' }, { slot: 'O1W', name: 'Kotozakura' }]), (m) => notes.push(m));
-  assert.deepEqual(out, { filled: ['O1E'], missing: ['O1W Kotozakura'] });
+  assert.deepEqual(out, { filled: ['O1E'], missing: ['O1W Kotozakura'], contact: [] });
   assert.equal(chosen('Ozeki W'), 'Ozeki W');                     // left untouched
   assert.equal(selects[1].style.outline, '3px solid red');
   assert.match(notes[0], /O1W Kotozakura/);
@@ -69,4 +69,45 @@ test('the bookmarklet URL runs fillGtbForm standalone against document/location/
   new Function('document', 'location', 'alert', code)(doc, { hash: hashFor([{ slot: 'K1E', name: 'Takayasu' }]) }, (m) => alerts.push(m));
   assert.equal(chosen('Komusubi E'), 'Takayasu');
   assert.equal(alerts.length, 1);
+});
+
+// The form's "Your Shikona" (mailsubj) and "E-mail Address" (mailfrom) text fields.
+function withContactFields(doc) {
+  const inputs = {};
+  for (const name of ['mailsubj', 'mailfrom']) inputs[name] = { value: '', events: [], dispatchEvent(e) { this.events.push(e.type); } };
+  doc.querySelector = (sel) => inputs[/name="(\w+)"/.exec(sel)?.[1]] || null;
+  return inputs;
+}
+
+test('gtbLink adds the shikona and e-mail to the fragment only when given', () => {
+  const placements = [{ slot: 'Y1E', name: 'Hoshoryu' }];
+  assert.equal(gtbLink(placements), gtbLink(placements, {}));
+  assert.ok(!gtbLink(placements, { shikona: null, email: undefined }).includes('&'));
+  const hash = new URL(gtbLink(placements, { shikona: 'Testzan & co', email: 'a+b@example.com' })).hash;
+  assert.match(hash, /&sn=Testzan%20%26%20co&em=a%2Bb%40example\.com$/);
+});
+
+test('fillGtbForm fills the shikona and e-mail fields from the fragment', () => {
+  const { doc, chosen } = fakeDoc(['Yokozuna E']);
+  const inputs = withContactFields(doc);
+  const notes = [];
+  const hash = new URL(gtbLink([{ slot: 'Y1E', name: 'Hoshoryu' }], { shikona: 'Testzan & co', email: 'a+b@example.com' })).hash;
+  const out = fillGtbForm(doc, hash, (m) => notes.push(m));
+  assert.equal(chosen('Yokozuna E'), 'Hoshoryu');
+  assert.equal(inputs.mailsubj.value, 'Testzan & co');
+  assert.equal(inputs.mailfrom.value, 'a+b@example.com');
+  assert.deepEqual(inputs.mailsubj.events, ['input', 'change']);
+  assert.deepEqual(out.contact, ['shikona', 'email']);
+  assert.match(notes[0], /then send the entry\.$/);
+});
+
+test('fillGtbForm without an e-mail leaves that field alone and asks for it', () => {
+  const { doc } = fakeDoc(['Yokozuna E']);
+  const inputs = withContactFields(doc);
+  const notes = [];
+  const out = fillGtbForm(doc, new URL(gtbLink([], { shikona: 'Testzan' })).hash, (m) => notes.push(m));
+  assert.equal(inputs.mailsubj.value, 'Testzan');
+  assert.equal(inputs.mailfrom.value, '');
+  assert.deepEqual(out.contact, ['shikona']);
+  assert.match(notes[0], /enter your e-mail and send the entry\.$/);
 });

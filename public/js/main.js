@@ -7,6 +7,7 @@ import { formatDate, todayJST } from './dates.js';
 import { SubmitController, guessIssues } from './submit.js';
 import { bookmarkletHref, gtbLink } from './gtb.js';
 import { RegisterController } from './register.js';
+import { auth } from './auth.js';
 import { ResultsView } from './results.js';
 import { reopenDate, rounds } from './rounds.js';
 import { installProfilePopup } from './profile.js';
@@ -153,8 +154,7 @@ async function showBasho(id) {
   };
   state.addEventListener('change', render);
   state.addEventListener('change', () => saveGuesses(basho.id, state.toJSON()));
-  // The "GTB Form" link carries the picks for the Fill GTB Form bookmarklet (gtb.js).
-  const syncGtbLink = () => { $('#gtb-open').href = gtbLink(state.makuuchiPlacements()); };
+  gtbPlacements = () => state.makuuchiPlacements();
   state.addEventListener('change', syncGtbLink);
   renderHeader(basho);
   render();
@@ -199,6 +199,16 @@ function installProfileOpeners() {
 }
 
 /**
+ * The "GTB Form" link carries the picks, plus the logged-in shikona and e-mail when known, for the
+ * Fill GTB Form bookmarklet (gtb.js). Refreshed on every guess change and whenever the Submit Guess
+ * to GTB box opens, so a login since the last change is picked up too.
+ */
+let gtbPlacements = () => [];
+function syncGtbLink() {
+  $('#gtb-open').href = gtbLink(gtbPlacements(), { shikona: register?.shikona, email: auth.user?.email });
+}
+
+/**
  * "Submit Guess to GTB": the button drops down the auto-fill steps: the Fill GTB Form bookmarklet
  * to drag to the bookmarks bar (a plain click on it only explains that), then the link opening the
  * entry form in a new tab. The form isn't opened on the button click itself because browsers always
@@ -213,6 +223,7 @@ function installGtbHandOff() {
     box.hidden = !open;
     button.classList.toggle('open', open);
     button.setAttribute('aria-expanded', String(open));
+    if (open) syncGtbLink();
     if (!open) hint.hidden = true;
   };
   button.addEventListener('click', () => setOpen(box.hidden));
