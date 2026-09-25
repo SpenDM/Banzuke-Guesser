@@ -179,7 +179,8 @@ button.button-error:disabled { color: var(--down); font-weight: 600; }
   box-shadow: 0 8px 28px rgba(0, 0, 0, .3);
 }
 .tips-box ul { margin: 0; padding-left: 20px; }
-.tips-box li { margin-bottom: 6px; line-height: 1.45; }
+.tips-box h2 { margin-bottom: 12px; }
+.tips-box li { margin-bottom: 12px; line-height: 1.45; }
 .tips-box li:last-child { margin-bottom: 0; }
 
 /* About view: four text+image sections stacked vertically. */
