@@ -68,3 +68,11 @@ test('counts() tracks Makuuchi slots holding exactly one rikishi', () => {
   s.place('aonishiki', '^K');   // nor do candidates rows
   assert.equal(s.counts().filled, 1);
 });
+
+test('restore replaces every guess with the saved placements, adding the rows they use', () => {
+  const s = new GuessState(basho);
+  s.place('aonishiki', 'M3E');
+  s.restore([{ slot: 'Y2E', key: 'onosato' }, { slot: 'X9Q', key: 'aonishiki' }, { slot: 'O1E', key: 'gone' }]);
+  assert.deepEqual(Object.fromEntries(s.guesses), { onosato: 'Y2E' });
+  assert.equal(s.rowCounts.Y, 2);
+});

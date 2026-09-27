@@ -27,6 +27,7 @@
   --up-border: #9db7c9;
   --down-border: #e2a9a4;
   --issue: #e0605a; /* Show Issues outline: a lighter red than --down */
+  --diff: #3b82f6; /* View Saved Prediction outline */
   --gold-bg: #efdfa3; /* a darker shade of --bronze-bg */
   --bronze-bg: #faf1c8; /* a lighter shade of --gold-bg, no longer an orange bronze */
   --gold: #b8962a;
@@ -62,6 +63,7 @@
   --up-border: #365167;
   --down-border: #6e3a35;
   --issue: #f2a09a;
+  --diff: #60a5fa;
   --gold-bg: #2e2811;
   --bronze-bg: #3a3318;
   --gold: #b8962a;
@@ -354,6 +356,12 @@ td.rikishi .line { justify-content: flex-start; }
 .dark .tag-missed { background: var(--down-bg); color: var(--down); border-color: var(--down-border); }
 
 td.slot.over, tbody.over td { background: var(--over) !important; }
+/* View Saved Prediction: a Makuuchi slot where the saved prediction and the current guesses differ
+   gets a blue outline round its four cells on the prediction (as Show Issues, which wins where
+   both apply). */
+.banzuke td.slot.diff { box-shadow: inset 0 2px 0 var(--diff), inset 0 -2px 0 var(--diff); }
+.banzuke td.slot.diff.cur-rank { box-shadow: inset 2px 0 0 var(--diff), inset 0 2px 0 var(--diff), inset 0 -2px 0 var(--diff); }
+.banzuke td.slot.diff.change-cell { box-shadow: inset -2px 0 0 var(--diff), inset 0 2px 0 var(--diff), inset 0 -2px 0 var(--diff); }
 /* Show Issues: a slot breaking the save rules gets a red outline round its four cells (Cur Rank,
    rikishi, Net Wins, Rank Change) as one box; the count turns blue when full, red otherwise. */
 .banzuke td.slot.issue { box-shadow: inset 0 2px 0 var(--issue), inset 0 -2px 0 var(--issue); }

@@ -144,16 +144,17 @@ const REGISTER_FIRST = 'Register first';
  * `round` is the tournament being predicted ({id, name, banzuke_date, reopens}, `reopens` being
  * the formatted day the next round opens); `els` the elements {button, note}; `register` the
  * RegisterController (its shikona gates submitting, and its 'change' events carry the server's
- * copy of this round's submission).
+ * copy of this round's submission). `onSubmission` is told the submission (or null) on every render.
  */
 export class SubmitController {
-  constructor(state, round, els, register, { fetchImpl = api, now = todayJST } = {}) {
+  constructor(state, round, els, register, { fetchImpl = api, now = todayJST, onSubmission = () => {} } = {}) {
     this.state = state;
     this.round = round;
     this.els = els;
     this.register = register;
     this.fetch = (...args) => fetchImpl(...args);
     this.now = now;
+    this.onSubmission = onSubmission;
     this.submission = round ? loadSubmission(round.id) : null;
     this.message = null;      // a validation/API message shown on the button until the next change
     this.sending = false;
@@ -248,5 +249,6 @@ export class SubmitController {
     } else {
       note.hidden = true;
     }
+    this.onSubmission(this.submission);
   }
 }

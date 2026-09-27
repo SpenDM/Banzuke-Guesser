@@ -1,6 +1,6 @@
 import { loadBasho, loadIndex, loadLive, loadSchedule } from './data.js';
 import { GuessState } from './state.js';
-import { renderGuess, renderPrevious, renderSummary } from './banzuke.js';
+import { renderComparison, renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, loadMode, loadSubmission, loadView, saveGuesses, saveMode, saveView } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
@@ -157,6 +157,48 @@ function showPrediction(basho) {
   const guessTable = $('#guess');
   const summary = $('#summary');
 
+  // View Saved Prediction: the left table shows the saved prediction instead of the results, and
+  // the Makuuchi slots where it and the current guesses differ are outlined blue on the prediction.
+  let saved;             // the saved submission ({shikona, placements, submitted_at}) or null; unset until SubmitController reports it
+  let viewSaved = false;
+  const renderLeft = () => {
+    if (!viewSaved) { renderPrevious(prevTable, state); return; }
+    // The chips carry the rikishi's indicator badges, as on the results table.
+    const placements = saved.placements.map((p) => ({ ...p, ...state.rikishi.get(p.key), slot: p.slot }));
+    renderComparison(prevTable, placements, null);
+  };
+  const diffs = () => (viewSaved ? differingSlots(saved.placements, state.makuuchiPlacements()) : new Set());
+  const renderDiffs = () => {
+    const marked = diffs();
+    for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('diff', marked.has(td.dataset.slot));
+  };
+  const setViewSaved = (on) => {
+    viewSaved = on && !!saved;
+    const btn = $('#view-saved');
+    btn.textContent = viewSaved ? 'View Tournament Results' : 'View Saved Prediction';
+    btn.setAttribute('aria-pressed', String(viewSaved));
+    if (viewSaved) {
+      $('#basho-name').textContent = basho.next?.name ?? '';
+      $('#basho-label').textContent = 'Saved Prediction';
+      $('#records-note').textContent = '';
+    } else {
+      renderHeader(basho);
+    }
+    render();
+  };
+  // Keeps the two saved-prediction buttons in step with the submission SubmitController knows of.
+  const onSubmission = (submission) => {
+    if (submission === saved) return;
+    saved = submission;
+    for (const btn of [$('#view-saved'), $('#revert')]) {
+      btn.classList.toggle('unavailable', !saved);
+      btn.setAttribute('aria-disabled', String(!saved));
+      if (saved) btn.removeAttribute('title');
+      else btn.title = 'No saved prediction for this tournament';
+    }
+    setViewSaved(viewSaved);
+  };
+
   // The count (with its order-issues line once full) and Show Issues: outlines the prediction's
   // slots that break the save rules (guessIssues) and colours the count blue when every spot is
   // filled with no issues, red otherwise.
@@ -171,9 +213,10 @@ function showPrediction(basho) {
     summary.classList.toggle('incomplete', showIssues && !ok);
   };
   const render = () => {
-    renderPrevious(prevTable, state);
+    renderLeft();
     renderGuess(guessTable, state);
     renderIssues();
+    renderDiffs();
     fitTables();
   };
   state.addEventListener('change', render);
@@ -195,11 +238,30 @@ function showPrediction(basho) {
   $('#reset').onclick = () => {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();
   };
+  $('#view-saved').onclick = () => { if (saved) setViewSaved(!viewSaved); };
+  $('#revert').onclick = () => {
+    if (!saved) return;
+    const same = state.guesses.size === saved.placements.length && differingSlots(saved.placements, state.makuuchiPlacements()).size === 0;
+    if (!same && confirm('Replace your current guesses with your saved prediction?')) state.restore(saved.placements);
+  };
 
   const round = roundOf(basho);
   register.setRound(round?.id ?? null);
   submit?.dispose();
-  submit = new SubmitController(state, round, { button: $('#submit'), note: $('#submitted-note') }, register);
+  submit = new SubmitController(state, round, { button: $('#submit'), note: $('#submitted-note') }, register, { onSubmission });
+}
+
+/** The slots whose occupants differ between two lists of {slot, key} placements. */
+function differingSlots(a, b) {
+  const bySlot = (placements) => {
+    const m = new Map();
+    for (const { slot, key } of placements) m.set(slot, [...(m.get(slot) || []), key]);
+    for (const [slot, keys] of m) m.set(slot, keys.sort().join());
+    return m;
+  };
+  const x = bySlot(a);
+  const y = bySlot(b);
+  return new Set([...x.keys(), ...y.keys()].filter((slot) => x.get(slot) !== y.get(slot)));
 }
 
 /**

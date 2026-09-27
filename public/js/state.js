@@ -51,6 +51,22 @@ export class GuessState extends EventTarget {
   }
 
   /**
+   * Replaces every guess with `placements` ({slot, key}, as makuuchiPlacements gives them: a saved
+   * prediction), adding any sanyaku rows they use.
+   */
+  restore(placements) {
+    this.guesses.clear();
+    for (const { slot, key } of placements) {
+      let s;
+      try { s = parseSlot(slot); } catch { continue; }
+      if (!this.rikishi.has(key)) continue;
+      if (!s.candidates && s.rank in this.rowCounts) this.rowCounts[s.rank] = Math.max(this.rowCounts[s.rank], s.num);
+      this.guesses.set(key, slot);
+    }
+    this.#emit();
+  }
+
+  /**
    * Places every unplaced rikishi by their net score and indicators (see promote.js); placed ones
    * are untouched. Adopts any sanyaku rows the placement had to add.
    */
