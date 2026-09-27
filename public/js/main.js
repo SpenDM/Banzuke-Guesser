@@ -175,7 +175,7 @@ function showPrediction(basho) {
   const setViewSaved = (on) => {
     viewSaved = on && !!saved;
     const btn = $('#view-saved');
-    btn.textContent = viewSaved ? 'View Tournament Results' : 'View Saved Prediction';
+    btn.textContent = viewSaved ? 'View Tournament Results' : 'View Saved\nPrediction';
     btn.setAttribute('aria-pressed', String(viewSaved));
     if (viewSaved) {
       $('#basho-name').textContent = basho.next?.name ?? '';
