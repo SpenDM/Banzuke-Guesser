@@ -465,7 +465,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
   /* Header controls on their own row: status text on a full-width line, then the five buttons
      sharing the row equally. The popovers anchor to this row so they span the screen. */
   .controls { flex-basis: 100%; margin-left: 0; flex-wrap: wrap; gap: 6px; position: relative; align-items: stretch; }
-  #basho-select, .summary, .submitted-note { flex-basis: 100%; max-width: none; text-align: center; }
+  .summary, .submitted-note { flex-basis: 100%; max-width: none; text-align: center; }
   .summary:empty { display: none; }
   .summary { order: 1; } /* below the buttons */
   #issues-toggle, #submit, .gtb-wrap, #theme-toggle, .register-wrap { flex: 1 1 0; }

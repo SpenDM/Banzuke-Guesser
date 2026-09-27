@@ -46,10 +46,8 @@ function setView(name) {
   view = name;
   saveView(name);
   for (const el of document.querySelectorAll('[data-view]')) {
-    // The header's basho select is only shown when there is more than one results file, the
-    // mode bar only while submissions are closed (syncModeBar).
-    el.hidden = el.dataset.view !== name || (el.id === 'basho-select' && el.options.length < 2)
-      || (el.id === 'mode-bar' && !el.dataset.on);
+    // The mode bar is only shown while submissions are closed (syncModeBar).
+    el.hidden = el.dataset.view !== name || (el.id === 'mode-bar' && !el.dataset.on);
   }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.classList.toggle('active', btn.dataset.viewButton === name);
   setBanner(BANNER[name]);
@@ -142,13 +140,6 @@ function renderHeader(basho) {
   $('#subtitle').textContent = next
     ? `Predict the ${next.name} Banzuke!`
     : `Predict the next Banzuke from the ${basho.name} results.`;
-}
-
-/** Shows a past results file picked in the header's basho select (the latest one restores the mode). */
-async function showBasho(id) {
-  if (id === latest.id) { setMode(mode); return; }
-  syncModeBar(false);
-  showPrediction(await loadBasho(id));
 }
 
 /**
@@ -269,8 +260,6 @@ function setMode(name) {
     btn.classList.toggle('active', btn.dataset.mode === name);
     btn.setAttribute('aria-pressed', String(btn.dataset.mode === name));
   }
-  const select = $('#basho-select');
-  if (select.options.length) select.value = latest.id;
   syncModeBar(true);
   showPrediction(name === 'next' ? live : latest);
 }
@@ -396,13 +385,6 @@ async function main() {
   const [index, sched, current] = await Promise.all([loadIndex(), loadSchedule().catch(() => []), loadLive()]);
   schedule = sched;
   live = current;
-  const select = $('#basho-select');
-  if (index.basho.length > 1) {
-    for (const id of [...index.basho].reverse()) {
-      select.append(new Option(`${id.slice(0, 4)}-${id.slice(4)}`, id, id === index.latest, id === index.latest));
-    }
-    select.onchange = () => showBasho(select.value).catch(showError);
-  }
   for (const btn of document.querySelectorAll('[data-view-button]')) btn.onclick = () => setView(btn.dataset.viewButton);
   installPastBanzuke(index);
   installRegister();
