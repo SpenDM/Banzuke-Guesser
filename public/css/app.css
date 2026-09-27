@@ -119,7 +119,7 @@ a { color: var(--accent); }
 }
 .banner-photo.banner-photo--sliding { transform: translateY(100%); }
 .banner-photo.banner-photo--jump { transition: none; }
-.controls { display: flex; gap: 12px; align-items: center; margin-left: auto; }
+.controls { display: flex; gap: 12px; align-items: center; margin-left: auto; position: relative; }
 .summary { color: var(--muted); text-align: right; }
 button, select, .button-link {
   font: inherit; padding: 6px 12px; border: 1px solid var(--chip-border); border-radius: 6px;
@@ -134,9 +134,14 @@ button:disabled { cursor: default; color: var(--muted); background: var(--chip);
 button.button-error:disabled { color: var(--down); font-weight: 600; }
 .button-link { display: inline-block; color: inherit; text-decoration: none; line-height: 1.4; text-align: center; }
 
-/* Save Guess: the "Saved, come back <date>" note. Register: the button (showing the shikona
-   once registered) and the popover under it with the shikona field and the sign-in forms. */
-.submitted-note { color: var(--muted); font-size: 12px; max-width: 220px; text-align: right; }
+/* Save Guess: the "Saved! … come back <date>" note, on a line of its own above the banner buttons
+   (out of the flow, in the space the banner photo leaves above them). Register: the button
+   (showing the shikona once registered) and the popover under it with the shikona field and the
+   sign-in forms. */
+.submitted-note {
+  position: absolute; right: 0; bottom: calc(100% + 4px);
+  color: var(--muted); font-size: 12px; white-space: nowrap; text-align: right;
+}
 /* align-self: stretch makes the wrap as tall as the tallest control in the row (the two-line
    Submit buttons); the register button, as a flex child, stretches to fill it, so the login
    button matches its neighbours' height. */
@@ -474,6 +479,7 @@ td.slot.over, tbody.over td { background: var(--over) !important; }
      sharing the row equally. The popovers anchor to this row so they span the screen. */
   .controls { flex-basis: 100%; margin-left: 0; flex-wrap: wrap; gap: 6px; position: relative; align-items: stretch; }
   .summary, .submitted-note { flex-basis: 100%; max-width: none; text-align: center; }
+  .submitted-note { position: static; white-space: normal; } /* its own line above the buttons, in the flow */
   .summary:empty { display: none; }
   .summary { order: 1; } /* below the buttons */
   #issues-toggle, #submit, .gtb-wrap, #theme-toggle, .register-wrap { flex: 1 1 0; }

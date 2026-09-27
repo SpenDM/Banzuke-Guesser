@@ -140,7 +140,7 @@ const samePlacements = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const REGISTER_FIRST = 'Register first';
 
 /**
- * The submit button and the "come back <date>" note.
+ * The submit button and the "Saved! … come back <date>" note.
  * `round` is the tournament being predicted ({id, name, banzuke_date, reopens}, `reopens` being
  * the formatted day the next round opens); `els` the elements {button, note}; `register` the
  * RegisterController (its shikona gates submitting, and its 'change' events carry the server's
@@ -244,7 +244,7 @@ export class SubmitController {
     button.disabled = !s.enabled;
     button.classList.toggle('button-error', !!s.error);
     if (this.submission && this.round) {
-      note.textContent = `Saved, come back ${formatDate(this.round.banzuke_date)}`;
+      note.textContent = `Saved! Once finalized, submit to GTB and come back ${formatDate(this.round.banzuke_date)}`;
       note.hidden = false;
     } else {
       note.hidden = true;
