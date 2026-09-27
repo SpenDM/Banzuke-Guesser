@@ -226,8 +226,8 @@ function installApplyIdeal(basho, state) {
 }
 
 /**
- * The bar above the two banzuke while submissions are closed (announcement day to the day after the
- * tournament): says until when, and switches the Predict page between Current Banzuke (the round
+ * The bar above the two banzuke while submissions are closed (announcement day to the tournament's
+ * final evening, when its results go up): says until when, and switches the Predict page between Current Banzuke (the round
  * just closed, predicted from the latest results; Save Guess stays closed) and Next Banzuke (the
  * round after it, predicted from the tournament under way; Save Guess open). The mode is remembered.
  */

@@ -24,9 +24,10 @@ export function rounds(fileIds) {
   });
 }
 
-/** The day after the tournament ends, when the next round opens: "Sep 28" from "2026-09-27". */
+/**
+ * The day the next round opens: the tournament's final day ("Sep 27" from "2026-09-27"), its
+ * results going up that evening (Japan time) once the last bout is in.
+ */
 export function reopenDate(endDate) {
-  if (!endDate) return null;
-  const [y, m, d] = endDate.split('-').map(Number);
-  return formatDate(new Date(Date.UTC(y, m - 1, d + 1)).toISOString().slice(0, 10));
+  return endDate ? formatDate(endDate) : null;
 }

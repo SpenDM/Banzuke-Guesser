@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import re
-from datetime import date, datetime
+from datetime import date, datetime, time
 
 from bs4 import BeautifulSoup
 
@@ -10,6 +10,8 @@ from .http import session
 from .model import Tournament
 
 SCHEDULE_URL = "https://www.sumo.or.jp/EnTicket/year_schedule/"
+# JST time by which the final day's last Makuuchi bout (and any playoff) is normally over.
+FINAL_DAY_OVER = time(18, 30)
 _DATE_RE = re.compile(r"[A-Z][a-z]+ \d{1,2}, \d{4}")
 
 
@@ -53,9 +55,10 @@ def fetch_schedule() -> list[Tournament]:
     return tournaments
 
 
-def latest_finished(schedule: list[Tournament], today: date) -> Tournament | None:
-    """Most recent tournament whose final day is strictly before `today`."""
-    done = [t for t in schedule if date.fromisoformat(t.end_date) < today]
+def latest_finished(schedule: list[Tournament], now: datetime) -> Tournament | None:
+    """Most recent tournament whose final day's bouts are over by `now` (naive, Japan time), i.e.
+    from FINAL_DAY_OVER on its final day."""
+    done = [t for t in schedule if datetime.combine(date.fromisoformat(t.end_date), FINAL_DAY_OVER) <= now]
     return max(done, key=lambda t: t.id) if done else None
 
 

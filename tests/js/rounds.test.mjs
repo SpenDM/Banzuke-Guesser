@@ -17,8 +17,8 @@ test('rounds are named after the predicted tournament, newest first', () => {
   assert.equal(bashoName('202803'), 'March 2028');
 });
 
-test('reopenDate is the day after the tournament ends', () => {
-  assert.equal(reopenDate('2026-09-27'), 'Sep 28');
-  assert.equal(reopenDate('2026-11-30'), 'Dec 1');
+test('reopenDate is the final day of the tournament', () => {
+  assert.equal(reopenDate('2026-09-27'), 'Sep 27');
+  assert.equal(reopenDate('2026-11-30'), 'Nov 30');
   assert.equal(reopenDate(null), null);
 });

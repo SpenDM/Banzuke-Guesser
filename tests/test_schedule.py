@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from scraper.schedule import latest_announced, latest_finished, parse_schedule, under_way
 
@@ -20,10 +20,11 @@ def test_parse_schedule_extracts_every_tournament(fixture_text):
 
 def test_latest_finished_picks_most_recent_completed(fixture_text):
     sched = parse_schedule(fixture_text("year_schedule.html"))
-    assert latest_finished(sched, date(2026, 9, 15)).id == "202607"
-    assert latest_finished(sched, date(2026, 9, 27)).id == "202607"  # final day itself: not finished
-    assert latest_finished(sched, date(2026, 9, 28)).id == "202609"
-    assert latest_finished(sched, date(2026, 1, 1)) is None
+    assert latest_finished(sched, datetime(2026, 9, 15, 12)).id == "202607"
+    assert latest_finished(sched, datetime(2026, 9, 27, 18, 29)).id == "202607"  # final bouts not over
+    assert latest_finished(sched, datetime(2026, 9, 27, 18, 30)).id == "202609"  # final day evening
+    assert latest_finished(sched, datetime(2026, 9, 28)).id == "202609"
+    assert latest_finished(sched, datetime(2026, 1, 1)) is None
 
 
 def test_latest_announced_includes_the_announcement_day(fixture_text):

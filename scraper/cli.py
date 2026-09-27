@@ -44,9 +44,14 @@ def fetch_with_fallback(tournament: Tournament, source: str, require_results: bo
     raise NotAvailable("; ".join(errors))
 
 
-def save(data_dir: Path, schedule: list[Tournament], basho: Basho) -> None:
+def save(data_dir: Path, schedule: list[Tournament], basho: Basho, final: bool = False) -> None:
+    """Annotate and write `basho`'s results. `final`: only if they are complete (every bout and the
+    yusho in), else NotAvailable -- on the final day itself the sources may still be catching up,
+    and a written file is never fetched again."""
     basho.next = next_tournament(schedule, basho.id)
     annotate.apply(basho, data_dir)
+    if final and (why := basho.incomplete()):
+        raise NotAvailable(f"{basho.id} results not final yet: {why}")
     for w in basho.validation_warnings():
         log(f"warning: {w}")
     path = write_basho(data_dir, basho)
@@ -111,21 +116,24 @@ def save_live(data_dir: Path, schedule: list[Tournament], tournament: Tournament
 def cmd_update(args) -> int:
     schedule = fetch_schedule()
     write_schedule(args.data_dir, schedule)
-    today = datetime.now(JST).date()
+    now = datetime.now(JST).replace(tzinfo=None)
+    today = now.date()
     status = 0
 
-    # 1. The results of the tournament that just finished.
-    target = latest_finished(schedule, today)
+    # 1. The results of the tournament that just finished, from the evening of its final day.
+    target = latest_finished(schedule, now)
     if target is None:
         log("no finished tournament in the schedule")
     elif basho_exists(args.data_dir, target.id) and not args.force:
         log(f"{target.id} already present")
     else:
+        final_day = today.isoformat() == target.end_date
         try:
-            save(args.data_dir, schedule, fetch_with_fallback(target, args.source))
+            save(args.data_dir, schedule, fetch_with_fallback(target, args.source), final=final_day)
         except NotAvailable as e:
             log(f"could not fetch {target.id}: {e}")
-            status = 1
+            # On the final day the results may simply not be up yet; the later runs retry.
+            status = 0 if final_day else 1
 
     # 2. The banzuke that was just announced, which the submitted guesses are scored against.
     announced = latest_announced(schedule, today)
@@ -140,7 +148,7 @@ def cmd_update(args) -> int:
     # run for the records so far. Dropped once that tournament's results file has replaced it.
     current = under_way(schedule, today)
     live = read_live(args.data_dir)
-    if current is not None:
+    if current is not None and not basho_exists(args.data_dir, current.id):
         status = save_live(args.data_dir, schedule, current, args.source) or status
     elif live and basho_exists(args.data_dir, live["id"]):
         live_path(args.data_dir).unlink()

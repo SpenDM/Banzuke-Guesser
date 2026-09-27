@@ -157,6 +157,15 @@ class Basho:
             "rikishi": rows,
         }
 
+    def incomplete(self) -> str | None:
+        """Why these results are not final yet (a bout unrecorded, no Makuuchi yusho), else None."""
+        short = [r for r in self.rikishi if r.wins + r.losses + r.absences < 15 and not r.retired]
+        if short:
+            return f"{len(short)} rikishi have fewer than 15 bouts recorded (e.g. {short[0].name} {short[0].record})"
+        if not any(r.yusho for r in self.rikishi if r.division == "makuuchi"):
+            return "no Makuuchi yusho recorded"
+        return None
+
     def validation_warnings(self) -> list[str]:
         """Soft checks: a finished basho should have 15 bouts accounted for per rikishi."""
         warnings = []

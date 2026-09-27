@@ -33,3 +33,16 @@ def test_write_banzuke_keeps_makuuchi_slots_only(tmp_path: Path):
         {"key": "a", "name": "A", "rank": "Y", "num": 1, "side": "E", "rikishi_id": 1},
         {"key": "b", "name": "B", "rank": "M", "num": 1, "side": "W", "rikishi_id": None},
     ]
+
+
+def test_incomplete_until_every_bout_and_the_yusho_are_in():
+    def row(key, wins, losses, **kw):
+        return RikishiRow(key=key, name=key.upper(), rank="M", num=1, side="E", wins=wins, losses=losses,
+                          absences=0, **kw)
+    basho = Basho("202609", "September 2026", "2026-09-13", "2026-09-27", "test",
+                  [row("a", 12, 2), row("b", 8, 7), row("c", 1, 3, retired=True)])
+    assert "fewer than 15 bouts" in basho.incomplete()  # A's final bout is not in yet
+    basho.rikishi[0].wins = 13
+    assert basho.incomplete() == "no Makuuchi yusho recorded"
+    basho.rikishi[0].yusho = True
+    assert basho.incomplete() is None  # C retired mid-tournament: short, but final

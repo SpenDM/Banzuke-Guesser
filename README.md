@@ -62,12 +62,15 @@ sumo-api.com ┘                                                                
     Refreshed automatically whenever a basho's results are written.
   - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `annotate --basho YYYYMM`,
     `banzuke --basho YYYYMM`, `profiles --basho YYYYMM`, `live`, `schedule`.
-- `.github/workflows/update-data.yml` — runs `scraper.cli update` at 00:10 and 12:10 JST.
-  It refreshes the schedule; if a tournament finished the day before and its data is not yet in
-  the repo, fetches it (sumo.or.jp first, sumo-api.com if the official site has already moved on);
+- `.github/workflows/update-data.yml` — runs `scraper.cli update` at 00:10 and 12:10 JST, and
+  every half hour on Sunday evenings JST (18:40–21:10; a tournament's final day is a Sunday).
+  It refreshes the schedule; if a tournament has finished (from 18:30 JST on its final day) and its
+  data is not yet in the repo, fetches it (sumo.or.jp first, sumo-api.com if the official site has
+  already moved on) — on the final day itself only once every bout and the yusho are in, so the
+  evening runs keep retrying until then and the midnight run is the fallback;
   and if a banzuke has been announced (mid-morning JST, hence the noon run) and `data/banzuke/`
-  lacks it, fetches that; and from a banzuke announcement to that tournament's final day, refreshes
-  `data/live.json` with the records so far. Changes are committed; the push triggers a Cloudflare deploy.
+  lacks it, fetches that; and from a banzuke announcement until that tournament's results are in,
+  refreshes `data/live.json` with the records so far. Changes are committed; the push triggers a Cloudflare deploy.
 
 ## Local development
 
@@ -160,11 +163,11 @@ popover). A message stays on the (disabled) button until the prediction changes.
 `/api/submit`; the button reads *Saved* and a note says when to come back (the announcement
 date), turning into *Save Guess* as soon as the prediction changes again. One submission per
 user per tournament. Submissions close on the announcement day (*Submissions closed until <date>*,
-the day after that tournament ends, when the next round opens).
+that tournament's final day, when its results go up in the evening JST and the next round opens).
 
 ## Next Banzuke mode
 
-From a banzuke announcement until the day after that tournament ends, the round it closes can no
+From a banzuke announcement until that tournament's results go up, the round it closes can no
 longer be saved. During that time a bar above the two banzuke says so ("Submissions are closed until
 <date> when the <tournament> tournament is finished. Until then, preview the next banzuke or demo
 the previous one") and switches the Prediction page between:
