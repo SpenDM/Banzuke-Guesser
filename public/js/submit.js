@@ -1,7 +1,7 @@
 // "Save Guess": checks the prediction is a complete Makuuchi banzuke and saves it (with the Juryo
 // guesses, when the Juryo header's box is ticked) through the API (functions/api/submit.js) under
 // the shikona the user registered (register.js). Owns the button's text/enabled state.
-import { DIVISION_OF, RANK_NAMES, RANK_ORDER, compareSlots, parseSlot, slotId, slotName } from './rank.js';
+import { DIVISION_OF, RANK_NAMES, RANK_ORDER, candidateRowSlots, compareSlots, parseSlot, slotId, slotName } from './rank.js';
 import { formatDate, todayJST } from './dates.js';
 import { loadSubmission, saveSubmission } from './storage.js';
 import { api } from './auth.js';
@@ -36,10 +36,46 @@ function headcount(perSlot) {
   return { numbered: numbered.sort(order), unplaced: unplaced.sort(order), total };
 }
 
-/** The numbered Juryo slots holding more than one rikishi, top-down, when the Juryo guesses are saved too. */
-function juryoMulti(state, perSlot) {
-  if (!state.saveJuryo) return [];
-  return slotsOf(state, 'J').filter((slot) => perSlot.get(slot) > 1);
+/**
+ * The Juryo checks, made only when the Juryo guesses are saved too (Save Juryo): `total` the
+ * rikishi in numbered Juryo slots, `multi` the Juryo slots holding more than one, `unplaced` the
+ * halves of the Maegashira/Juryo candidates row (↑M, ↓J) still holding rikishi, `gaps` the empty
+ * Juryo slots above a filled one; `end` the slots Show Issues marks for a headcount other than
+ * `spots` (see guessIssues). Null when Juryo isn't saved.
+ */
+function juryoIssues(state, perSlot) {
+  if (!state.saveJuryo) return null;
+  const { juryoSpots: spots } = state.counts();
+  const slots = slotsOf(state, 'J');
+  const total = slots.reduce((sum, slot) => sum + (perSlot.get(slot) || 0), 0);
+  const lastFilled = slots.findLastIndex((slot) => perSlot.has(slot));
+  const gaps = slots.slice(0, Math.max(lastFilled, 0)).filter((slot) => !perSlot.has(slot));
+  return {
+    spots,
+    total,
+    multi: slots.filter((slot) => perSlot.get(slot) > 1),
+    unplaced: candidateRowSlots('M').filter((slot) => perSlot.has(slot)),
+    gaps,
+    end: headcountEnd(slots, perSlot, spots - total - gaps.length, total - spots),
+  };
+}
+
+/**
+ * The rank-and-file slots at the end of `slots` to mark when the headcount is off: short by
+ * `missing` (after the empty slots already marked), the empty slots after the last filled one;
+ * over by `excess`, the last filled slots holding those rikishi.
+ */
+function headcountEnd(slots, perSlot, missing, excess) {
+  const lastFilled = slots.findLastIndex((slot) => perSlot.has(slot));
+  if (missing > 0) return slots.slice(lastFilled + 1, lastFilled + 1 + missing);
+  const out = [];
+  for (let i = lastFilled; i >= 0 && excess > 0; i--) {
+    const n = perSlot.get(slots[i]) || 0;
+    if (!n) continue;
+    out.push(slots[i]);
+    excess -= n;
+  }
+  return out;
 }
 
 /** A rank type's numbered slots, top-down: rank num E, rank num W, … */
@@ -86,8 +122,8 @@ function sanyakuShortfall(state, perSlot) {
  * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
  * the Makuuchi headcount (see headcount), slots holding more than one rikishi (and candidates
  * left in a ↑ Sekiwake/Komusubi row), then gaps (gapSlots), then too few Sekiwake or Komusubi
- * (sanyakuShortfall), then, when the Juryo guesses are saved too, Juryo slots holding more than
- * one rikishi. Juryo may otherwise be left incomplete: it is not scored.
+ * (sanyakuShortfall); then, only when the Juryo guesses are saved too (juryoIssues), the Juryo
+ * headcount, shared Juryo slots, rikishi left in the ↑M/↓J row and Juryo gaps.
  */
 export function validateGuess(state) {
   const { spots } = state.counts();
@@ -109,15 +145,21 @@ export function validateGuess(state) {
     return `Need ${MIN_SANYAKU[rank]} ${RANK_NAMES[rank]}`;
   }
 
-  const [juryo] = juryoMulti(state, perSlot);
-  return juryo ? `Multiple at ${juryo}` : null;
+  const juryo = juryoIssues(state, perSlot);
+  if (!juryo) return null;
+  if (juryo.total < juryo.spots) return 'Not enough Juryo!';
+  if (juryo.total > juryo.spots) return 'Too many Juryo!';
+  if (juryo.multi.length) return `Multiple at ${juryo.multi[0]}`;
+  if (juryo.unplaced.length) return `Unplaced at ${slotName(juryo.unplaced[0])}`;
+  if (juryo.gaps.length) return `Gap at ${juryo.gaps[0]}`;
+  return null;
 }
 
 /**
  * Every slot breaking the rules validateGuess checks, for Show Issues to outline: slots holding
  * more than one rikishi, ↑ Sekiwake/Komusubi rows still holding rikishi, gaps, the empty Sekiwake/
  * Komusubi slots short of the minimum, and the Maegashira slots at the end where the headcount is
- * off. The headcount counts every rikishi however they are placed (a shared slot counts each of
+ * off; with Save Juryo on, the same for Juryo (juryoIssues), plus the ↑M/↓J row if occupied. The headcount counts every rikishi however they are placed (a shared slot counts each of
  * its rikishi), so the end is judged by how many rikishi the banzuke has: short by n, with g empty
  * slots already marked as gaps or sanyaku shortfall (each a missing rikishi), the n - g empty
  * slots after the last filled Maegashira slot are marked; over by n, the last filled Maegashira
@@ -128,22 +170,11 @@ export function guessIssues(state) {
   const perSlot = occupancy(state);
   const { numbered, unplaced, total } = headcount(perSlot);
   const empties = new Set([...gapSlots(state, perSlot), ...sanyakuShortfall(state, perSlot)]);
-  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...empties, ...juryoMulti(state, perSlot)]);
+  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...empties]);
+  for (const slot of headcountEnd(slotsOf(state, 'M'), perSlot, spots - total - empties.size, total - spots)) issues.add(slot);
 
-  const maegashira = slotsOf(state, 'M');
-  const lastFilled = maegashira.findLastIndex((slot) => perSlot.has(slot));
-  const missing = spots - total - empties.size;
-  if (missing > 0) {
-    for (const slot of maegashira.slice(lastFilled + 1, lastFilled + 1 + missing)) issues.add(slot);
-  } else if (total > spots) {
-    let excess = total - spots;
-    for (let i = lastFilled; i >= 0 && excess > 0; i--) {
-      const n = perSlot.get(maegashira[i]) || 0;
-      if (!n) continue;
-      issues.add(maegashira[i]);
-      excess -= n;
-    }
-  }
+  const juryo = juryoIssues(state, perSlot);
+  if (juryo) for (const slot of [...juryo.multi, ...juryo.unplaced, ...juryo.gaps, ...juryo.end]) issues.add(slot);
   return issues;
 }
 

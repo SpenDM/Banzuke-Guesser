@@ -131,19 +131,19 @@ export class GuessState extends EventTarget {
 
   /**
    * Progress: `spots` is the size of Makuuchi (the previous banzuke's headcount), `filled` how
-   * many numbered Makuuchi slots hold exactly one rikishi. Empty and shared slots don't count,
-   * nor do the candidates rows.
+   * many numbered Makuuchi slots hold exactly one rikishi; `juryoSpots` and `juryoFilled` the same
+   * for Juryo. Empty and shared slots don't count, nor do the candidates rows.
    */
   counts() {
-    const spots = this.basho.rikishi.filter((r) => r.division === 'makuuchi').length;
+    const size = (division) => this.basho.rikishi.filter((r) => r.division === division).length;
     const perSlot = new Map();
     for (const slot of this.guesses.values()) perSlot.set(slot, (perSlot.get(slot) || 0) + 1);
-    let filled = 0;
+    const filled = { makuuchi: 0, juryo: 0 };
     for (const [slot, n] of perSlot) {
       const s = parseSlot(slot);
-      if (n === 1 && !s.candidates && DIVISION_OF[s.rank] === 'makuuchi') filled++;
+      if (n === 1 && !s.candidates && DIVISION_OF[s.rank] in filled) filled[DIVISION_OF[s.rank]]++;
     }
-    return { spots, filled };
+    return { spots: size('makuuchi'), filled: filled.makuuchi, juryoSpots: size('juryo'), juryoFilled: filled.juryo };
   }
 
   /**

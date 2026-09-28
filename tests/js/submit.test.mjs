@@ -186,17 +186,35 @@ test('Save Guess is closed from the announcement day and open for the round afte
   assert.equal(next.els.button.textContent, 'Save\nGuess');
 });
 
-test('Save Juryo: Juryo slots may be left open but not shared, and are only checked when saved', () => {
+test('Save Juryo: Juryo is only checked when saved, for headcount, shared slots, the ↑M/↓J row and gaps', () => {
+  // A two-rikishi Juryo (j, k) keeps this short: the headcount is the previous banzuke's Juryo size.
   const s = filled();
   s.place('j', 'J2E');
   s.place('k', 'J2E');
+  s.place('e', 'M1E');
   assert.equal(validateGuess(s), null);           // not saved: Juryo is ignored
-  assert.equal(guessIssues(s).has('J2E'), false);
+  assert.equal(guessIssues(s).size, 0);
   s.setSaveJuryo(true);
   assert.equal(validateGuess(s), 'Multiple at J2E');
-  assert.equal(guessIssues(s).has('J2E'), true);
-  s.place('k', 'J5W');                            // gaps and a partial Juryo are fine
+  assert.deepEqual([...guessIssues(s)].sort(), ['J1E', 'J1W', 'J2E']); // J1 above it is a gap too
+  s.place('k', 'J2W');                            // J1E and J1W are now gaps
+  assert.equal(validateGuess(s), 'Gap at J1E');
+  assert.deepEqual([...guessIssues(s)].sort(), ['J1E', 'J1W']);
+  s.place('j', 'J1E');
+  s.place('k', 'J1W');
   assert.equal(validateGuess(s), null);
+  s.place('k', 'vJ');                             // left in the Maegashira/Juryo row: short one
+  assert.equal(validateGuess(s), 'Not enough Juryo!');
+  assert.deepEqual([...guessIssues(s)].sort(), ['J1W', 'vJ']);
+  s.place('k', '^M');
+  assert.equal(validateGuess(s), 'Not enough Juryo!');
+  s.place('k', 'J2E');
+  assert.equal(validateGuess(s), 'Gap at J1W');
+  s.place('k', 'J1W');
+  assert.equal(validateGuess(s), null);
+  s.setSaveJuryo(false);
+  s.place('k', 'vJ');
+  assert.equal(validateGuess(s), null);           // unticked again: no Juryo checks
 });
 
 test('Save Guess sends the Juryo guesses only when Save Juryo is on, and a change to it re-opens saving', async () => {

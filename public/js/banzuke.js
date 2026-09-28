@@ -93,8 +93,11 @@ function changeSpan(c) {
   return span;
 }
 
+// Makushita is only ever shown down to Ms15, so its header says so.
+const DIVISION_LABELS = { ...DIVISION_NAMES, makushita: `${DIVISION_NAMES.makushita} (Top 30)` };
+
 function divisionRow(rank, colspan, extra = null) {
-  return h('tr', { class: 'division' }, h('td', { colspan }, DIVISION_NAMES[DIVISION_OF[rank]], extra));
+  return h('tr', { class: 'division' }, h('td', { colspan }, DIVISION_LABELS[DIVISION_OF[rank]], extra));
 }
 
 /** The guess table's Juryo header checkbox: whether Save Guess includes the Juryo guesses. */
@@ -269,13 +272,21 @@ export function renderComparison(table, placements, correctSlots, { judged = () 
 }
 
 /**
- * The "X/42 Makuuchi spots filled" count; once every spot is filled, a second line says whether
- * the order has issues (`orderIssues`: whether guessIssues found any).
+ * The "X/42 Makuuchi spots filled" count, with "X/28 Juryo spots filled" under it when Save Juryo
+ * is on; once every counted spot is filled, a last line says whether the order has issues
+ * (`orderIssues`: whether guessIssues found any).
  */
 export function renderSummary(el, state, orderIssues) {
   const c = state.counts();
   el.textContent = `${c.filled}/${c.spots} Makuuchi spots filled`;
-  if (c.filled === c.spots) el.append(h('br'), orderIssues ? 'Order issues detected' : 'No order issues detected');
+  if (state.saveJuryo) el.append(h('br'), `${c.juryoFilled}/${c.juryoSpots} Juryo spots filled`);
+  if (summaryFull(state)) el.append(h('br'), orderIssues ? 'Order issues detected' : 'No order issues detected');
+}
+
+/** Whether every counted spot is filled: Makuuchi's, and Juryo's too when Save Juryo is on. */
+export function summaryFull(state) {
+  const c = state.counts();
+  return c.filled === c.spots && (!state.saveJuryo || c.juryoFilled === c.juryoSpots);
 }
 
 export { parseSlot };

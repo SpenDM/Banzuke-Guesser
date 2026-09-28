@@ -1,6 +1,6 @@
 import { loadBasho, loadIndex, loadLive, loadSchedule } from './data.js';
 import { GuessState } from './state.js';
-import { renderComparison, renderGuess, renderPrevious, renderSummary } from './banzuke.js';
+import { renderComparison, renderGuess, renderPrevious, renderSummary, summaryFull } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, loadMode, loadSubmission, loadView, saveGuesses, saveMode, saveView } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
@@ -209,8 +209,7 @@ function showPrediction(basho) {
     const marked = showIssues ? issues : new Set();
     for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('issue', marked.has(td.dataset.slot));
     renderSummary(summary, state, issues.size > 0);
-    const { spots, filled } = state.counts();
-    const ok = filled === spots && issues.size === 0;
+    const ok = summaryFull(state) && issues.size === 0;
     summary.classList.toggle('complete', showIssues && ok);
     summary.classList.toggle('incomplete', showIssues && !ok);
   };

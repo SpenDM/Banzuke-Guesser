@@ -156,8 +156,11 @@ Signing out returns the browser to its (now empty) anonymous identity.
 Makuuchi half of the prediction in this app, plus the Juryo half when the **Save Juryo** box in
 the prediction's Juryo header is ticked (kept per basho with the guesses). Saved Juryo guesses come
 back with View Saved Prediction and Revert to Saved Guesses and are compared with the announced
-banzuke on the Results page, but are never scored or sent to GTB; they may be left incomplete, only
-a shared Juryo slot blocks saving (*Multiple at J3E*). It first checks, in this order, that the Makuuchi
+banzuke on the Results page, but are never scored or sent to GTB. With the box ticked, the save checks and Show Issues cover
+Juryo as well, after Makuuchi: a headcount of 28 in numbered Juryo slots (*Not enough Juryo!* /
+*Too many Juryo!*), no shared slot, nobody left in the Maegashira/Juryo candidates row (*Unplaced
+at ↓J*), no gap; and a "X/28 Juryo spots filled" line joins the Makuuchi count. Unticked, Juryo is
+never checked. It first checks, in this order, that the Makuuchi
 headcount is right (rikishi in numbered Makuuchi slots or left in the ↑S/↑K candidates rows; the
 Maegashira candidates row is outside Makuuchi, so rikishi may be left there; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
