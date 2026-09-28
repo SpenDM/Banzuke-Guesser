@@ -3,8 +3,8 @@
 // Moves at the top of the banzuke that are decided outside the score system (Yokozuna/Ozeki
 // promotion, Ozeki demotion) use the indicators computed by the scraper (see rikishi flags).
 import {
-  CANDIDATE_RANKS, DEMOTION_SLOT, MAX_SANYAKU_ROWS, RANK_ORDER, buildLadder, candidateSlotId, ladderPosition, ladderSlot,
-  positionWithinType, slotId,
+  CANDIDATE_RANKS, DIVISION_OF, MAX_SANYAKU_ROWS, RANK_ORDER, buildLadder, candidateSlotId, demotionSlotId, ladderPosition,
+  ladderSlot, positionWithinType, slotId,
 } from './rank.js';
 
 // Absences count as losses, as they do for the real banzuke: 7-7-1 is a make-koshi (-1).
@@ -121,19 +121,20 @@ function scoreSlot(ladder, r) {
   const dest = ladderSlot(ladder, target);
   const fromIndex = RANK_ORDER.indexOf(r.rank);
 
-  // Same type, or demoted into a lower one: the slot the score points at, except that a
-  // Makuuchi rikishi who would drop into Juryo becomes a demotion candidate instead.
+  // Same type, or demoted into a lower one: the slot the score points at, except that a Makuuchi
+  // or Juryo rikishi who would drop out of their division becomes a demotion candidate for the
+  // division below instead. Makushita rikishi dropping below the rows shown are left unplaced.
   const demoted = dest ? RANK_ORDER.indexOf(dest.rank) >= fromIndex : target > from;
   if (demoted) {
-    const intoJuryo = !dest || dest.rank === 'J';
-    if (intoJuryo && r.rank !== 'J') return DEMOTION_SLOT;
-    if (dest) return slotId(dest.rank, dest.num, dest.side);
-    const nums = ladder.sorted.J; // off the bottom of Juryo: the lowest Juryo slot
-    return nums.length ? slotId('J', nums.at(-1), 'W') : null;
+    if (!dest || DIVISION_OF[dest.rank] !== DIVISION_OF[r.rank]) {
+      const lastOfDivision = RANK_ORDER.findLast((rank) => DIVISION_OF[rank] === DIVISION_OF[r.rank]);
+      return demotionSlotId(lastOfDivision);
+    }
+    return slotId(dest.rank, dest.num, dest.side);
   }
-  // Would rise into a higher type. Komusubi/Maegashira/Juryo go to the candidates row between
-  // their type and the one above (however far the score would carry them); a Sekiwake has no
-  // such row, since Ozeki is not reached on score alone, and is capped at S1E instead.
+  // Would rise into a higher type. Komusubi/Maegashira/Juryo/Makushita go to the candidates row
+  // between their type and the one above (however far the score would carry them); a Sekiwake has
+  // no such row, since Ozeki is not reached on score alone, and is capped at S1E instead.
   const above = RANK_ORDER[fromIndex - 1];
   return CANDIDATE_RANKS.includes(above) ? candidateSlotId(above) : TOP_SLOT;
 }

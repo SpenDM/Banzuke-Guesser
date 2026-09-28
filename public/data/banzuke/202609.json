@@ -342,6 +342,470 @@
       "num": 17,
       "side": "E",
       "rikishi_id": 3553
+    },
+    {
+      "key": "dewanoryu",
+      "name": "Dewanoryu",
+      "rank": "J",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 3983
+    },
+    {
+      "key": "kyokukaiyu",
+      "name": "Kyokukaiyu",
+      "rank": "J",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 4232
+    },
+    {
+      "key": "daiseizan",
+      "name": "Daiseizan",
+      "rank": "J",
+      "num": 2,
+      "side": "E",
+      "rikishi_id": 4116
+    },
+    {
+      "key": "kazuma",
+      "name": "Kazuma",
+      "rank": "J",
+      "num": 2,
+      "side": "W",
+      "rikishi_id": 4287
+    },
+    {
+      "key": "tamawashi",
+      "name": "Tamawashi",
+      "rank": "J",
+      "num": 3,
+      "side": "E",
+      "rikishi_id": 2629
+    },
+    {
+      "key": "onokatsu",
+      "name": "Onokatsu",
+      "rank": "J",
+      "num": 3,
+      "side": "W",
+      "rikishi_id": 4231
+    },
+    {
+      "key": "kazekeno",
+      "name": "Kazekeno",
+      "rank": "J",
+      "num": 4,
+      "side": "E",
+      "rikishi_id": 4158
+    },
+    {
+      "key": "mitakeumi",
+      "name": "Mitakeumi",
+      "rank": "J",
+      "num": 4,
+      "side": "W",
+      "rikishi_id": 3620
+    },
+    {
+      "key": "sadanoumi",
+      "name": "Sadanoumi",
+      "rank": "J",
+      "num": 5,
+      "side": "E",
+      "rikishi_id": 2565
+    },
+    {
+      "key": "arashifuji",
+      "name": "Arashifuji",
+      "rank": "J",
+      "num": 5,
+      "side": "W",
+      "rikishi_id": 4267
+    },
+    {
+      "key": "kitanowaka",
+      "name": "Kitanowaka",
+      "rank": "J",
+      "num": 6,
+      "side": "E",
+      "rikishi_id": 3939
+    },
+    {
+      "key": "shirokuma",
+      "name": "Shirokuma",
+      "rank": "J",
+      "num": 6,
+      "side": "W",
+      "rikishi_id": 4164
+    },
+    {
+      "key": "midorifuji",
+      "name": "Midorifuji",
+      "rank": "J",
+      "num": 7,
+      "side": "E",
+      "rikishi_id": 3743
+    },
+    {
+      "key": "tomokaze",
+      "name": "Tomokaze",
+      "rank": "J",
+      "num": 7,
+      "side": "W",
+      "rikishi_id": 3818
+    },
+    {
+      "key": "ryuden",
+      "name": "Ryuden",
+      "rank": "J",
+      "num": 8,
+      "side": "E",
+      "rikishi_id": 2890
+    },
+    {
+      "key": "hatsuyama",
+      "name": "Hatsuyama",
+      "rank": "J",
+      "num": 8,
+      "side": "W",
+      "rikishi_id": 4124
+    },
+    {
+      "key": "enho",
+      "name": "Enho",
+      "rank": "J",
+      "num": 9,
+      "side": "E",
+      "rikishi_id": 3803
+    },
+    {
+      "key": "tohakuryu",
+      "name": "Tohakuryu",
+      "rank": "J",
+      "num": 9,
+      "side": "W",
+      "rikishi_id": 3969
+    },
+    {
+      "key": "nabatame",
+      "name": "Nabatame",
+      "rank": "J",
+      "num": 10,
+      "side": "E",
+      "rikishi_id": 3988
+    },
+    {
+      "key": "tanji",
+      "name": "Tanji",
+      "rank": "J",
+      "num": 10,
+      "side": "W",
+      "rikishi_id": 4142
+    },
+    {
+      "key": "kagayaki",
+      "name": "Kagayaki",
+      "rank": "J",
+      "num": 11,
+      "side": "E",
+      "rikishi_id": 3255
+    },
+    {
+      "key": "hitoshi",
+      "name": "Hitoshi",
+      "rank": "J",
+      "num": 11,
+      "side": "W",
+      "rikishi_id": 4095
+    },
+    {
+      "key": "tamashoho",
+      "name": "Tamashoho",
+      "rank": "J",
+      "num": 12,
+      "side": "E",
+      "rikishi_id": 3367
+    },
+    {
+      "key": "kayo",
+      "name": "Kayo",
+      "rank": "J",
+      "num": 12,
+      "side": "W",
+      "rikishi_id": 4165
+    },
+    {
+      "key": "meisei",
+      "name": "Meisei",
+      "rank": "J",
+      "num": 13,
+      "side": "E",
+      "rikishi_id": 3337
+    },
+    {
+      "key": "tokifudo",
+      "name": "Tokifudo",
+      "rank": "J",
+      "num": 13,
+      "side": "W",
+      "rikishi_id": 3927
+    },
+    {
+      "key": "tochitaikai",
+      "name": "Tochitaikai",
+      "rank": "J",
+      "num": 14,
+      "side": "E",
+      "rikishi_id": 3839
+    },
+    {
+      "key": "nishikigi",
+      "name": "Nishikigi",
+      "rank": "J",
+      "num": 14,
+      "side": "W",
+      "rikishi_id": 2892
+    },
+    {
+      "key": "nishinoryu",
+      "name": "Nishinoryu",
+      "rank": "Ms",
+      "num": 1,
+      "side": "E",
+      "rikishi_id": 3914
+    },
+    {
+      "key": "asahifuji",
+      "name": "Asahifuji",
+      "rank": "Ms",
+      "num": 1,
+      "side": "W",
+      "rikishi_id": 4358
+    },
+    {
+      "key": "oshoumi",
+      "name": "Oshoumi",
+      "rank": "Ms",
+      "num": 2,
+      "side": "E",
+      "rikishi_id": 4025
+    },
+    {
+      "key": "himukamaru",
+      "name": "Himukamaru",
+      "rank": "Ms",
+      "num": 2,
+      "side": "W",
+      "rikishi_id": 4186
+    },
+    {
+      "key": "daikisho",
+      "name": "Daikisho",
+      "rank": "Ms",
+      "num": 3,
+      "side": "E",
+      "rikishi_id": 3917
+    },
+    {
+      "key": "tochikodai",
+      "name": "Tochikodai",
+      "rank": "Ms",
+      "num": 3,
+      "side": "W",
+      "rikishi_id": 3763
+    },
+    {
+      "key": "ryuho",
+      "name": "Ryuho",
+      "rank": "Ms",
+      "num": 4,
+      "side": "E",
+      "rikishi_id": 4356
+    },
+    {
+      "key": "ikarigata",
+      "name": "Ikarigata",
+      "rank": "Ms",
+      "num": 4,
+      "side": "W",
+      "rikishi_id": 4302
+    },
+    {
+      "key": "fujisodai",
+      "name": "Fujisodai",
+      "rank": "Ms",
+      "num": 5,
+      "side": "E",
+      "rikishi_id": 4259
+    },
+    {
+      "key": "okaryu",
+      "name": "Okaryu",
+      "rank": "Ms",
+      "num": 5,
+      "side": "W",
+      "rikishi_id": 4275
+    },
+    {
+      "key": "fujitensei",
+      "name": "Fujitensei",
+      "rank": "Ms",
+      "num": 6,
+      "side": "E",
+      "rikishi_id": 4337
+    },
+    {
+      "key": "mudoho",
+      "name": "Mudoho",
+      "rank": "Ms",
+      "num": 6,
+      "side": "W",
+      "rikishi_id": 3984
+    },
+    {
+      "key": "kotokuzan",
+      "name": "Kotokuzan",
+      "rank": "Ms",
+      "num": 7,
+      "side": "E",
+      "rikishi_id": 3218
+    },
+    {
+      "key": "gojinyu",
+      "name": "Gojinyu",
+      "rank": "Ms",
+      "num": 7,
+      "side": "W",
+      "rikishi_id": 4123
+    },
+    {
+      "key": "tenshoyama",
+      "name": "Tenshoyama",
+      "rank": "Ms",
+      "num": 8,
+      "side": "E",
+      "rikishi_id": 4357
+    },
+    {
+      "key": "daiyusho",
+      "name": "Daiyusho",
+      "rank": "Ms",
+      "num": 8,
+      "side": "W",
+      "rikishi_id": 3857
+    },
+    {
+      "key": "fudoho",
+      "name": "Fudoho",
+      "rank": "Ms",
+      "num": 9,
+      "side": "E",
+      "rikishi_id": 4376
+    },
+    {
+      "key": "kamito",
+      "name": "Kamito",
+      "rank": "Ms",
+      "num": 9,
+      "side": "W",
+      "rikishi_id": 3807
+    },
+    {
+      "key": "hokutenkai",
+      "name": "Hokutenkai",
+      "rank": "Ms",
+      "num": 10,
+      "side": "E",
+      "rikishi_id": 3976
+    },
+    {
+      "key": "hakuyozan",
+      "name": "Hakuyozan",
+      "rank": "Ms",
+      "num": 10,
+      "side": "W",
+      "rikishi_id": 3334
+    },
+    {
+      "key": "tsushimanada",
+      "name": "Tsushimanada",
+      "rank": "Ms",
+      "num": 11,
+      "side": "E",
+      "rikishi_id": 3733
+    },
+    {
+      "key": "toshunryu",
+      "name": "Toshunryu",
+      "rank": "Ms",
+      "num": 11,
+      "side": "W",
+      "rikishi_id": 4162
+    },
+    {
+      "key": "nobehara",
+      "name": "Nobehara",
+      "rank": "Ms",
+      "num": 12,
+      "side": "E",
+      "rikishi_id": 4099
+    },
+    {
+      "key": "kyokumizuno",
+      "name": "Kyokumizuno",
+      "rank": "Ms",
+      "num": 12,
+      "side": "W",
+      "rikishi_id": 4128
+    },
+    {
+      "key": "wakamiyabi",
+      "name": "Wakamiyabi",
+      "rank": "Ms",
+      "num": 13,
+      "side": "E",
+      "rikishi_id": 4127
+    },
+    {
+      "key": "sazanami",
+      "name": "Sazanami",
+      "rank": "Ms",
+      "num": 13,
+      "side": "W",
+      "rikishi_id": 3615
+    },
+    {
+      "key": "akua",
+      "name": "Akua",
+      "rank": "Ms",
+      "num": 14,
+      "side": "E",
+      "rikishi_id": 3312
+    },
+    {
+      "key": "osanai",
+      "name": "Osanai",
+      "rank": "Ms",
+      "num": 14,
+      "side": "W",
+      "rikishi_id": 4090
+    },
+    {
+      "key": "kitadaichi",
+      "name": "Kitadaichi",
+      "rank": "Ms",
+      "num": 15,
+      "side": "E",
+      "rikishi_id": 3546
+    },
+    {
+      "key": "mita",
+      "name": "Mita",
+      "rank": "Ms",
+      "num": 15,
+      "side": "W",
+      "rikishi_id": 4289
     }
   ]
 }

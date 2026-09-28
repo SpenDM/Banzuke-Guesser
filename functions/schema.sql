@@ -1,6 +1,7 @@
 -- Apply once:
 --   npx wrangler d1 execute banzuke-guesser --remote --file functions/schema.sql
--- (A database created before the users table existed: run functions/migrate-users.sql instead.)
+-- (A database created before the users table existed: run functions/migrate-users.sql, then
+-- functions/migrate-juryo.sql; one created before the juryo column: just migrate-juryo.sql.)
 
 -- One row per registered user. `user_id` is the browser token (see getToken() in
 -- public/js/storage.js) or, once signed in, `fb:<Firebase uid>`; a shikona belongs to one user
@@ -14,13 +15,15 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- One prediction per user per round. `basho_id` is the tournament being predicted (the one whose
--- banzuke the guess is scored against), `placements` the JSON list of {slot, key, rikishi_id, name}.
+-- banzuke the guess is scored against), `placements` the JSON list of {slot, key, rikishi_id, name}
+-- in Makuuchi, `juryo` the same for Juryo when the user chose to save it (never scored), else NULL.
 -- `shikona` mirrors users.shikona (kept in step on rename) so the leaderboard needs no join.
 CREATE TABLE IF NOT EXISTS submissions (
   basho_id     TEXT NOT NULL,
   user_id      TEXT NOT NULL,
   shikona      TEXT NOT NULL,
   placements   TEXT NOT NULL,
+  juryo        TEXT,
   ip           TEXT,
   submitted_at TEXT NOT NULL,
   PRIMARY KEY (basho_id, user_id)

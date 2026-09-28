@@ -153,7 +153,11 @@ identity into the account: its registration moves over unless the account alread
 Signing out returns the browser to its (now empty) anonymous identity.
 
 **Save Guess** (next to *Submit Guess to GTB*, whose drop-down has the Fill GTB Form bookmarklet and a link to sumodb's game) saves the
-Makuuchi half of the prediction in this app. It first checks, in this order, that the Makuuchi
+Makuuchi half of the prediction in this app, plus the Juryo half when the **Save Juryo** box in
+the prediction's Juryo header is ticked (kept per basho with the guesses). Saved Juryo guesses come
+back with View Saved Prediction and Revert to Saved Guesses and are compared with the announced
+banzuke on the Results page, but are never scored or sent to GTB; they may be left incomplete, only
+a shared Juryo slot blocks saving (*Multiple at J3E*). It first checks, in this order, that the Makuuchi
 headcount is right (rikishi in numbered Makuuchi slots or left in the ↑S/↑K candidates rows; the
 Maegashira candidates row is outside Makuuchi, so rikishi may be left there; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
@@ -189,6 +193,12 @@ pages the first time a tournament's file is written (for new Juryo promotees), a
 once that tournament's results file exists.
 
 ## Scoring
+
+Results files and the announced banzuke cover Makuuchi, Juryo and the top 15 rows of Makushita
+(7 bouts per tournament there), so the Prediction page's Makushita rows can hold the rikishi trading
+places with Juryo. Older D1 databases need the `juryo` column: run
+`npx wrangler d1 execute banzuke-guesser --remote --file functions/migrate-juryo.sql` before
+deploying this version (the old code keeps working with it).
 
 The *Results* page (the Pages box switches between *Predict* and *Results*; Results is the default
 from the day after the announcement until the tournament ends, but only for a user who submitted a
@@ -283,7 +293,8 @@ If it does, re-enable the workflow from the Actions tab.
   rank type is put in a temporary "↑" candidates row just below that type, for you to sort into
   the open slots; the row disappears once its last occupant is moved out. The right half of the
   Maegashira/Juryo candidates row (red) holds Makuuchi rikishi whose score would drop them into
-  Juryo. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
+  Juryo; the Juryo/Makushita row does the same one division down (↑J for Makushita rikishi, ↓Ms
+  for Juryo ones), and Makushita rikishi whose score takes them below Ms15 are left unplaced. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
   re-ordered within their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
   The indicators override the score at the top: a `↪O 10` Sekiwake with 10+ wins, then a `→O n`
   Sekiwake with n+ wins, go to the next open Ozeki slot below the sitting Ozeki; a `→Y` Ozeki with the
@@ -299,4 +310,3 @@ If it does, re-enable the workflow from the Actions tab.
 
 - Links to each rikishi's profile / tournament history (`profile_url` is already in the data).
 - A model that produces its own prediction.
-- Makushita promotees in the data, so the bottom of Juryo can be predicted too.

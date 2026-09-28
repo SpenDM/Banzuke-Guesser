@@ -3,7 +3,8 @@
 // banzuke file and the submissions the API returns once the banzuke is published.
 import { loadBanzuke } from './data.js';
 import { renderComparison } from './banzuke.js';
-import { rankSubmissions, scoreGuess } from './score.js';
+import { matchingSlots, rankSubmissions, scoreGuess } from './score.js';
+import { DIVISION_OF, parseSlot } from './rank.js';
 import { formatDate } from './dates.js';
 import { loadSubmission } from './storage.js';
 import { fitTables } from './fit.js';
@@ -16,6 +17,10 @@ async function fetchSubmissions(roundId) {
   if (!res.ok) throw new Error(`submissions: HTTP ${res.status}`);
   return res.json();
 }
+
+const divisionOf = (slot) => DIVISION_OF[parseSlot(slot).rank];
+/** A submission's whole prediction: Makuuchi plus Juryo when it was saved. */
+const allPlacements = (s) => [...s.placements, ...(s.juryo || [])];
 
 const h = (tag, attrs = {}, ...children) => {
   const el = document.createElement(tag);
@@ -69,22 +74,28 @@ export class ResultsView {
 
     if (!actual) {
       this.empty(`The ${round.name} banzuke hasn't been announced yet (expected ${formatDate(round.banzuke_date)}).`);
-      if (mine) renderComparison($('#my-banzuke'), mine.placements, null);
+      if (mine) renderComparison($('#my-banzuke'), allPlacements(mine), null);
       return;
     }
+    // Every division the banzuke file has (older files: Makuuchi only); only Makuuchi is scored.
     const actualRows = actual.rikishi.map((r) => ({ slot: `${r.rank}${r.num}${r.side}`, key: r.key, name: r.name, rikishi_id: r.rikishi_id }));
     this.actual = actualRows;
-    const scored = (api.submissions || []).map((s) => ({ ...s, ...scoreGuess(s.placements, actualRows) }));
+    this.actualMakuuchi = actualRows.filter((r) => divisionOf(r.slot) === 'makuuchi');
+    this.actualJuryo = actualRows.filter((r) => divisionOf(r.slot) === 'juryo');
+    // `prediction` keeps the placements list: the score's own `placements` (a count) replaces it.
+    const scored = (api.submissions || []).map((s) => ({ ...s, prediction: allPlacements(s), ...this.score(s) }));
     this.scored = scored;
     this.ranked = rankSubmissions(scored);
     this.mine = mine;
     this.apiError = api.error;
 
-    const myScore = mine ? scoreGuess(mine.placements, actualRows) : null;
+    const myScore = mine ? this.score(mine) : null;
     $('#actual-empty').hidden = true;
     if (mine) {
-      renderComparison($('#my-banzuke'), mine.placements, myScore.correctSlots);
-      renderComparison($('#actual-banzuke'), actualRows, myScore.correctSlots);
+      renderComparison($('#my-banzuke'), allPlacements(mine), myScore.marks);
+      // Juryo is only marked on the announced banzuke when the prediction included it.
+      const judged = (slot) => divisionOf(slot) === 'makuuchi' || (divisionOf(slot) === 'juryo' && !!mine.juryo?.length);
+      renderComparison($('#actual-banzuke'), actualRows, myScore.marks, { judged });
       $('#my-empty').hidden = true;
     } else {
       $('#my-banzuke').replaceChildren();
@@ -97,6 +108,16 @@ export class ResultsView {
     $('#other-title').textContent = 'Community Prediction';
     $('#other-banzuke').replaceChildren();
     $('#other-hint').hidden = false;
+  }
+
+  /**
+   * scoreGuess of a submission's Makuuchi prediction, plus `marks`: the slots to show blue, its
+   * correct Makuuchi slots and the Juryo slots it got right (compared, never scored).
+   */
+  score(s) {
+    const score = scoreGuess(s.placements, this.actualMakuuchi);
+    const juryo = matchingSlots(s.juryo || [], this.actualJuryo);
+    return { ...score, marks: new Set([...score.correctSlots, ...juryo]) };
   }
 
   empty(message) {
@@ -164,7 +185,7 @@ export class ResultsView {
     if (!s) return;
     $('#other-title').textContent = `${s.shikona}'s Prediction — ${s.total} pts (${s.placements} + ${s.neighbors})`;
     $('#other-hint').hidden = true;
-    renderComparison($('#other-banzuke'), s.placements, s.correctSlots);
+    renderComparison($('#other-banzuke'), s.prediction, s.marks);
     fitTables();
     $('#other-banzuke').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }

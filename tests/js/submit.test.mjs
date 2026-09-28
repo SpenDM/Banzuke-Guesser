@@ -9,7 +9,7 @@ const basho = {
   rikishi: [
     ['a', 'Y', 1, 'E', 10], ['b', 'O', 1, 'E', 11], ['c', 'S', 1, 'E', 12], ['g', 'S', 1, 'W', 17],
     ['d', 'K', 1, 'E', 13], ['h', 'K', 1, 'W', 18], ['e', 'M', 1, 'E', 14], ['f', 'M', 1, 'W', null],
-    ['j', 'J', 1, 'E', 16],
+    ['j', 'J', 1, 'E', 16], ['k', 'J', 1, 'W', 19],
   ].map(([key, rank, num, side, rikishi_id]) => ({
     key, name: key.toUpperCase(), rank, num, side, rikishi_id, division: rank === 'J' ? 'juryo' : 'makuuchi',
   })),
@@ -184,6 +184,39 @@ test('Save Guess is closed from the announcement day and open for the round afte
   const next = controller({ id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 22' });
   assert.equal(next.els.button.disabled, false);
   assert.equal(next.els.button.textContent, 'Save\nGuess');
+});
+
+test('Save Juryo: Juryo slots may be left open but not shared, and are only checked when saved', () => {
+  const s = filled();
+  s.place('j', 'J2E');
+  s.place('k', 'J2E');
+  assert.equal(validateGuess(s), null);           // not saved: Juryo is ignored
+  assert.equal(guessIssues(s).has('J2E'), false);
+  s.setSaveJuryo(true);
+  assert.equal(validateGuess(s), 'Multiple at J2E');
+  assert.equal(guessIssues(s).has('J2E'), true);
+  s.place('k', 'J5W');                            // gaps and a partial Juryo are fine
+  assert.equal(validateGuess(s), null);
+});
+
+test('Save Guess sends the Juryo guesses only when Save Juryo is on, and a change to it re-opens saving', async () => {
+  const bodies = [];
+  const fetchImpl = async (url, { body }) => { bodies.push(body); return { ok: true, json: async () => ({ shikona: 'Tester', submitted_at: 't' }) }; };
+  const register = Object.assign(new EventTarget(), { shikona: 'Tester' });
+  const els = { button: fakeEl(), note: fakeEl() };
+  const state = filled();
+  state.place('j', 'J1E');
+  const c = new SubmitController(state, { id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 22' }, els, register, { fetchImpl, now: () => '2026-09-24' });
+  await c.send();
+  assert.equal('juryo' in bodies[0], false);
+  assert.equal(els.button.textContent, 'Saved');
+  state.setSaveJuryo(true);
+  assert.equal(els.button.textContent, 'Save\nGuess');
+  await c.send();
+  assert.deepEqual(bodies[1].juryo, [{ slot: 'J1E', key: 'j', rikishi_id: 16, name: 'J' }]);
+  assert.equal(els.button.textContent, 'Saved');
+  state.place('j', 'J2W');                         // a Juryo change is a change to the prediction
+  assert.equal(els.button.textContent, 'Save\nGuess');
 });
 
 test('a profile answer for another round leaves the submission alone', () => {

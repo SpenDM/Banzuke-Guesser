@@ -1,6 +1,6 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
-import { linearize, rankSubmissions, scoreGtb, scoreGuess } from '../../public/js/score.js';
+import { linearize, matchingSlots, rankSubmissions, scoreGtb, scoreGuess } from '../../public/js/score.js';
 
 // Four rikishi A-D on a tiny banzuke; `order` lists them top to bottom.
 const SLOTS = ['M1E', 'M1W', 'M2E', 'M2W'];
@@ -87,4 +87,10 @@ test('rankSubmissions by GTB orders by GTB score, then hits', () => {
     { shikona: 'c', placements: 1, total: 5, gtb: 10, gtbHits: 8 },
   ], 'gtb');
   assert.deepEqual(ranked.map((r) => [r.shikona, r.label]), [['b', '1'], ['c', '2'], ['a', '3']]);
+});
+
+test('matchingSlots names the slots holding the right rikishi, matched by id', () => {
+  const guess = lineup('ABDC');
+  assert.deepEqual([...matchingSlots(guess, lineup('ABCD'))], ['M1E', 'M1W']);
+  assert.deepEqual([...matchingSlots([], lineup('ABCD'))], []);
 });

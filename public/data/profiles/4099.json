@@ -1,0 +1,288 @@
+{
+  "rikishi_id": 4099,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4099/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20210044.jpg",
+  "shikona": "Nobehara",
+  "shikona_ja": "延原",
+  "real_name": "Toma Nobehara",
+  "stable": "Futagoyama",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Osaka",
+    "city": "Joto"
+  },
+  "current_rank": "Makushita #12",
+  "highest_rank": "Makushita #6",
+  "birth_date": "2002-06-09",
+  "height_cm": 178.0,
+  "weight_kg": 154.5,
+  "signature_maneuvers": [
+    "migi-yotsu/yori",
+    "oshi"
+  ],
+  "style": {
+    "weight_class": "Mid-weight",
+    "primary": "Grappler"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #12",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #14",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #9",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #6",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #54",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #46",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #37",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #19",
+      "record": "2-3-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #13",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #18",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #34",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #10",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #23",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "Sandanme",
+      "rank": "Sandanme #9",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #57",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "Sandanme",
+      "rank": "Sandanme #8",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #50",
+      "record": "2-5",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #11",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #6",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #52",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "May",
+      "division": "Sandanme",
+      "rank": "Sandanme #2",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #46",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #37",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #13",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #36",
+      "record": "0-2-5",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #24",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #54",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "March",
+      "division": "Sandanme",
+      "rank": "Sandanme #40",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #75",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #95",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "September",
+      "division": "Jonidan",
+      "rank": "Jonidan #64",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "July",
+      "division": "Jonokuchi",
+      "rank": "Jonokuchi #20",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

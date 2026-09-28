@@ -7,15 +7,15 @@ next banzuke announcement; outside that window `NotAvailable` is raised.
 from __future__ import annotations
 
 from .http import session
-from .model import Basho, NotAvailable, RikishiRow, Tournament, make_key
+from .model import MAKUSHITA_ROWS, Basho, NotAvailable, RikishiRow, Tournament, make_key
 
 BASE = "https://www.sumo.or.jp"
 BANZUKE_URL = BASE + "/EnHonbashoBanzuke/indexAjax/{kakuzuke}/1/"
 HOSHITORI_URL = BASE + "/EnHonbashoMain/hoshitoriAjax/{kakuzuke}/1/"
 PROFILE_URL = BASE + "/EnSumoDataRikishi/profile/{rikishi_id}/"
 
-MAKUUCHI, JURYO = 1, 2
-RANK_CODE = {100: "Y", 200: "O", 300: "S", 400: "K", 500: "M", 600: "J"}
+MAKUUCHI, JURYO, MAKUSHITA = 1, 2, 3
+RANK_CODE = {100: "Y", 200: "O", 300: "S", 400: "K", 500: "M", 600: "J", 700: "Ms"}
 AJAX_HEADERS = {"X-Requested-With": "XMLHttpRequest"}
 
 
@@ -89,7 +89,7 @@ def current_basho_info() -> dict:
 
 
 def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
-    """Fetch Makuuchi + Juryo for `tournament`; raise NotAvailable if the site shows a different basho.
+    """Fetch Makuuchi, Juryo and the top of Makushita for `tournament`; raise NotAvailable if the site shows a different basho.
 
     The site shows the upcoming basho from its announcement day, so with `require_results=False`
     this also fetches a freshly announced banzuke (results all zero).
@@ -101,6 +101,8 @@ def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
             f"sumo.or.jp currently shows basho ending {info.get('end_date')}, wanted {tournament.end_date}")
     rows = rows_from_payloads(mak_banzuke, fetch_hoshitori(MAKUUCHI))
     rows += rows_from_payloads(fetch_banzuke(JURYO), fetch_hoshitori(JURYO))
+    rows += [r for r in rows_from_payloads(fetch_banzuke(MAKUSHITA), fetch_hoshitori(MAKUSHITA))
+             if r.num <= MAKUSHITA_ROWS]
     return Basho(
         id=tournament.id,
         name=tournament.name,

@@ -158,16 +158,18 @@ function showPrediction(basho) {
   const summary = $('#summary');
 
   // View Saved Prediction: the left table shows the saved prediction instead of the results, and
-  // the Makuuchi slots where it and the current guesses differ are outlined blue on the prediction.
-  let saved;             // the saved submission ({shikona, placements, submitted_at}) or null; unset until SubmitController reports it
+  // the slots where it and what Save Guess would now send differ are outlined blue on the prediction.
+  let saved;             // the saved submission ({shikona, placements, juryo, submitted_at}) or null; unset until SubmitController reports it
   let viewSaved = false;
+  const savedPlacements = () => [...saved.placements, ...(saved.juryo || [])];
+  const currentPlacements = () => { const s = state.submission(); return [...s.placements, ...(s.juryo || [])]; };
   const renderLeft = () => {
     if (!viewSaved) { renderPrevious(prevTable, state); return; }
     // The chips carry the rikishi's indicator badges, as on the results table.
-    const placements = saved.placements.map((p) => ({ ...p, ...state.rikishi.get(p.key), slot: p.slot }));
+    const placements = savedPlacements().map((p) => ({ ...p, ...state.rikishi.get(p.key), slot: p.slot }));
     renderComparison(prevTable, placements, null);
   };
-  const diffs = () => (viewSaved ? differingSlots(saved.placements, state.makuuchiPlacements()) : new Set());
+  const diffs = () => (viewSaved ? differingSlots(savedPlacements(), currentPlacements()) : new Set());
   const renderDiffs = () => {
     const marked = diffs();
     for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('diff', marked.has(td.dataset.slot));
@@ -234,6 +236,9 @@ function showPrediction(basho) {
     const removeBtn = e.target.closest('button[data-remove-row]');
     if (removeBtn) state.removeRow(removeBtn.dataset.removeRow);
   }, { signal });
+  app.addEventListener('change', (e) => {
+    if (e.target.matches('input[data-save-juryo]')) state.setSaveJuryo(e.target.checked);
+  }, { signal });
   installApplyIdeal(basho, state);
   $('#reset').onclick = () => {
     if (state.guesses.size === 0 || confirm('Clear all guesses?')) state.reset();
@@ -241,8 +246,10 @@ function showPrediction(basho) {
   $('#view-saved').onclick = () => { if (saved) setViewSaved(!viewSaved); };
   $('#revert').onclick = () => {
     if (!saved) return;
-    const same = state.guesses.size === saved.placements.length && differingSlots(saved.placements, state.makuuchiPlacements()).size === 0;
-    if (!same && confirm('Replace your current guesses with your saved prediction?')) state.restore(saved.placements);
+    const placements = savedPlacements();
+    const same = state.guesses.size === placements.length && state.saveJuryo === !!saved.juryo
+      && differingSlots(placements, currentPlacements()).size === 0;
+    if (!same && confirm('Replace your current guesses with your saved prediction?')) state.restore(placements, { saveJuryo: !!saved.juryo });
   };
 
   const round = roundOf(basho);

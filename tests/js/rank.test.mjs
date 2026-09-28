@@ -56,6 +56,15 @@ test('a vacant row does not count toward the crossing distance', () => {
 test('candidates slots parse, render and sort', () => {
   assert.deepEqual(parseSlot('^K'), { rank: 'K', candidates: 'up' });
   assert.deepEqual(parseSlot('vJ'), { rank: 'J', candidates: 'down' });
+  assert.deepEqual(parseSlot('^J'), { rank: 'J', candidates: 'up' });
+  assert.deepEqual(parseSlot('vMs'), { rank: 'Ms', candidates: 'down' });
+  assert.deepEqual(parseSlot('Ms12W'), { rank: 'Ms', num: 12, side: 'W' });
+  assert.deepEqual(parseSlot('M12W'), { rank: 'M', num: 12, side: 'W' });
+  assert.equal(slotName('vMs'), '↓Ms');
+  assert.equal(rankChange(s('Ms1E'), parseSlot('^J')).text, '↑Ms');
+  assert.equal(rankChange(s('J14W'), parseSlot('vMs')).text, '↓J');
+  assert.deepEqual(['Ms1E', 'vMs', '^J', 'J14W'].map(parseSlot).sort(compareSlots).map((x) => x.num ?? x.candidates),
+    [14, 'up', 'down', 1]);
   assert.equal(slotName('^K'), '↑K');
   assert.equal(slotName('vJ'), '↓J');
   assert.equal(rankChange(s('M2E'), parseSlot('^K')).text, '↑M');
@@ -78,7 +87,7 @@ test('slot ordering follows the banzuke', () => {
 });
 
 test('default guess rows', () => {
-  assert.equal(DEFAULT_GUESS_ROWS.length, 18 + 14);
+  assert.equal(DEFAULT_GUESS_ROWS.length, 18 + 14 + 15);
   assert.deepEqual(DEFAULT_GUESS_ROWS[0], { rank: 'M', num: 1 });
-  assert.deepEqual(DEFAULT_GUESS_ROWS.at(-1), { rank: 'J', num: 14 });
+  assert.deepEqual(DEFAULT_GUESS_ROWS.at(-1), { rank: 'Ms', num: 15 });
 });

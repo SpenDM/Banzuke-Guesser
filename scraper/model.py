@@ -9,7 +9,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 # Rank type codes in banzuke order (top first).
-RANK_ORDER = ["Y", "O", "S", "K", "M", "J"]
+RANK_ORDER = ["Y", "O", "S", "K", "M", "J", "Ms"]
 RANK_NAMES = {
     "Y": "Yokozuna",
     "O": "Ozeki",
@@ -17,9 +17,15 @@ RANK_NAMES = {
     "K": "Komusubi",
     "M": "Maegashira",
     "J": "Juryo",
+    "Ms": "Makushita",
 }
 DIVISION_OF_RANK = {"Y": "makuuchi", "O": "makuuchi", "S": "makuuchi",
-                    "K": "makuuchi", "M": "makuuchi", "J": "juryo"}
+                    "K": "makuuchi", "M": "makuuchi", "J": "juryo", "Ms": "makushita"}
+# Only the top of Makushita is kept: the rows a rikishi can be promoted to Juryo from.
+MAKUSHITA_ROWS = 15
+# Bouts per tournament: Makushita and below fight 7, sekitori 15.
+BOUTS = {"makushita": 7}
+DEFAULT_BOUTS = 15
 
 MONTH_NAMES = {1: "January", 3: "March", 5: "May", 7: "July",
                9: "September", 11: "November"}
@@ -79,6 +85,10 @@ class RikishiRow:
     @property
     def division(self) -> str:
         return DIVISION_OF_RANK[self.rank]
+
+    @property
+    def bouts(self) -> int:
+        return BOUTS.get(self.division, DEFAULT_BOUTS)
 
     @property
     def slot(self) -> str:
@@ -142,10 +152,11 @@ class Basho:
                    fetched_at=d.get("fetched_at") or cls.__dataclass_fields__["fetched_at"].default_factory())
 
     def to_banzuke_dict(self, banzuke_date: str) -> dict:
-        """The announced banzuke (Makuuchi slots only, no results): what predictions are scored against."""
+        """The announced banzuke (no results): what predictions are scored against (Makuuchi) and
+        compared with (Juryo); the top of Makushita is shown alongside."""
         rows = [{"key": r.key, "name": r.name, "rank": r.rank, "num": r.num, "side": r.side,
                  "rikishi_id": r.rikishi_id}
-                for r in self.sorted_rikishi() if r.division == "makuuchi"]
+                for r in self.sorted_rikishi()]
         return {
             "id": self.id,
             "name": self.name,
@@ -159,19 +170,21 @@ class Basho:
 
     def incomplete(self) -> str | None:
         """Why these results are not final yet (a bout unrecorded, no Makuuchi yusho), else None."""
-        short = [r for r in self.rikishi if r.wins + r.losses + r.absences < 15 and not r.retired]
+        short = [r for r in self.rikishi if r.wins + r.losses + r.absences < r.bouts and not r.retired]
         if short:
-            return f"{len(short)} rikishi have fewer than 15 bouts recorded (e.g. {short[0].name} {short[0].record})"
+            return (f"{len(short)} rikishi have fewer bouts recorded than their division fights "
+                    f"(e.g. {short[0].name} {short[0].record})")
         if not any(r.yusho for r in self.rikishi if r.division == "makuuchi"):
             return "no Makuuchi yusho recorded"
         return None
 
     def validation_warnings(self) -> list[str]:
-        """Soft checks: a finished basho should have 15 bouts accounted for per rikishi."""
+        """Soft checks: a finished basho should have every bout (15, or 7 in Makushita) accounted for."""
         warnings = []
         for r in self.rikishi:
             total = r.wins + r.losses + r.absences
-            if total != 15 and not r.retired:
+            # A Makushita rikishi may fight an extra bout (filling in for an absent Juryo rikishi).
+            if not r.bouts <= total <= DEFAULT_BOUTS and not r.retired:
                 warnings.append(f"{r.name} ({r.slot}) has {total} bouts accounted for ({r.record})")
         n_mak = sum(1 for r in self.rikishi if r.division == "makuuchi")
         n_jur = sum(1 for r in self.rikishi if r.division == "juryo")
@@ -179,6 +192,9 @@ class Basho:
             warnings.append(f"Makuuchi has {n_mak} rikishi (expected 42)")
         if n_jur != 28:
             warnings.append(f"Juryo has {n_jur} rikishi (expected 28)")
+        n_ms = sum(1 for r in self.rikishi if r.division == "makushita")
+        if n_ms != 2 * MAKUSHITA_ROWS:
+            warnings.append(f"Makushita has {n_ms} rikishi (expected {2 * MAKUSHITA_ROWS})")
         return warnings
 
 

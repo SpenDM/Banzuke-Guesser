@@ -1,0 +1,78 @@
+{
+  "rikishi_id": 4358,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4358/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20250061.jpg",
+  "shikona": "Asahifuji",
+  "shikona_ja": "旭富士",
+  "real_name": "Battsetseg Ochirsaikhan",
+  "stable": "Isegahama",
+  "birthplace": {
+    "flag": "🇲🇳",
+    "country": "Mongolia",
+    "province": null,
+    "city": null
+  },
+  "current_rank": "Makushita #1",
+  "highest_rank": "Makushita #1",
+  "birth_date": "2002-05-17",
+  "height_cm": 187.0,
+  "weight_kg": 152.3,
+  "signature_maneuvers": [
+    "moro-yotsu",
+    "uwatenage"
+  ],
+  "style": {
+    "weight_class": "Mid-weight",
+    "primary": "Grappler"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #1",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #11",
+      "record": "6-1",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Sandanme",
+      "rank": "Sandanme #6",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Jonidan",
+      "rank": "Jonidan #8",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Jonokuchi",
+      "rank": "Jonokuchi #19",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    }
+  ]
+}

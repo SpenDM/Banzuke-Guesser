@@ -1,0 +1,62 @@
+{
+  "rikishi_id": 4376,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4376/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20260014.jpg",
+  "shikona": "Fudoho",
+  "shikona_ja": "不動豊",
+  "real_name": "Yuki Kinoshita",
+  "stable": "Tokitsukaze",
+  "birthplace": {
+    "flag": null,
+    "country": "Nagasaki",
+    "province": null,
+    "city": null
+  },
+  "current_rank": "Makushita #9",
+  "highest_rank": "Makushita #9",
+  "birth_date": "2003-08-04",
+  "height_cm": 183.0,
+  "weight_kg": 154.1,
+  "signature_maneuvers": [
+    "migi-yotsu",
+    "yori"
+  ],
+  "style": {
+    "weight_class": "Mid-weight",
+    "primary": "Grappler"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #9",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #30",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #50",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #60",
+      "record": "4-3",
+      "achievements": []
+    }
+  ]
+}

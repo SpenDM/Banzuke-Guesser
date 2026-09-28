@@ -1,6 +1,6 @@
-// "Save Guess": checks the prediction is a complete Makuuchi banzuke and saves it through the
-// API (functions/api/submit.js) under the shikona the user registered (register.js). Owns the
-// button's text/enabled state.
+// "Save Guess": checks the prediction is a complete Makuuchi banzuke and saves it (with the Juryo
+// guesses, when the Juryo header's box is ticked) through the API (functions/api/submit.js) under
+// the shikona the user registered (register.js). Owns the button's text/enabled state.
 import { DIVISION_OF, RANK_NAMES, RANK_ORDER, compareSlots, parseSlot, slotId, slotName } from './rank.js';
 import { formatDate, todayJST } from './dates.js';
 import { loadSubmission, saveSubmission } from './storage.js';
@@ -34,6 +34,12 @@ function headcount(perSlot) {
   }
   const order = (a, b) => compareSlots(parseSlot(a), parseSlot(b));
   return { numbered: numbered.sort(order), unplaced: unplaced.sort(order), total };
+}
+
+/** The numbered Juryo slots holding more than one rikishi, top-down, when the Juryo guesses are saved too. */
+function juryoMulti(state, perSlot) {
+  if (!state.saveJuryo) return [];
+  return slotsOf(state, 'J').filter((slot) => perSlot.get(slot) > 1);
 }
 
 /** A rank type's numbered slots, top-down: rank num E, rank num W, … */
@@ -80,7 +86,8 @@ function sanyakuShortfall(state, perSlot) {
  * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
  * the Makuuchi headcount (see headcount), slots holding more than one rikishi (and candidates
  * left in a ↑ Sekiwake/Komusubi row), then gaps (gapSlots), then too few Sekiwake or Komusubi
- * (sanyakuShortfall).
+ * (sanyakuShortfall), then, when the Juryo guesses are saved too, Juryo slots holding more than
+ * one rikishi. Juryo may otherwise be left incomplete: it is not scored.
  */
 export function validateGuess(state) {
   const { spots } = state.counts();
@@ -97,9 +104,13 @@ export function validateGuess(state) {
   if (gap) return `Gap at ${gap}`;
 
   const [short] = sanyakuShortfall(state, perSlot);
-  if (!short) return null;
-  const { rank } = parseSlot(short);
-  return `Need ${MIN_SANYAKU[rank]} ${RANK_NAMES[rank]}`;
+  if (short) {
+    const { rank } = parseSlot(short);
+    return `Need ${MIN_SANYAKU[rank]} ${RANK_NAMES[rank]}`;
+  }
+
+  const [juryo] = juryoMulti(state, perSlot);
+  return juryo ? `Multiple at ${juryo}` : null;
 }
 
 /**
@@ -117,7 +128,7 @@ export function guessIssues(state) {
   const perSlot = occupancy(state);
   const { numbered, unplaced, total } = headcount(perSlot);
   const empties = new Set([...gapSlots(state, perSlot), ...sanyakuShortfall(state, perSlot)]);
-  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...empties]);
+  const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...empties, ...juryoMulti(state, perSlot)]);
 
   const maegashira = slotsOf(state, 'M');
   const lastFilled = maegashira.findLastIndex((slot) => perSlot.has(slot));
@@ -136,7 +147,8 @@ export function guessIssues(state) {
   return issues;
 }
 
-const samePlacements = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+/** Whether two submissions ({placements, juryo}) hold the same prediction; no Juryo list and none saved are the same. */
+const samePlacements = (a, b) => JSON.stringify([a.placements, a.juryo || null]) === JSON.stringify([b.placements, b.juryo || null]);
 const REGISTER_FIRST = 'Register first';
 
 /**
@@ -170,7 +182,7 @@ export class SubmitController {
   dispose() { this.listeners.abort(); }
 
   get closed() { return !this.round || this.now() >= this.round.banzuke_date; }
-  get submitted() { return !!this.submission && samePlacements(this.submission.placements, this.state.makuuchiPlacements()); }
+  get submitted() { return !!this.submission && samePlacements(this.submission, this.state.submission()); }
 
   onChange() {
     this.message = null;
@@ -197,14 +209,15 @@ export class SubmitController {
   }
 
   async send() {
-    const placements = this.state.makuuchiPlacements();
+    const { placements, juryo } = this.state.submission();
     this.sending = true;
     this.render();
     try {
-      const res = await this.fetch('/api/submit', { method: 'POST', body: { basho: this.round.id, placements } });
+      const body = { basho: this.round.id, placements, ...(juryo ? { juryo } : {}) };
+      const res = await this.fetch('/api/submit', { method: 'POST', body });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
-        this.submission = { shikona: data.shikona || this.register.shikona, placements, submitted_at: data.submitted_at };
+        this.submission = { shikona: data.shikona || this.register.shikona, placements, juryo, submitted_at: data.submitted_at };
         saveSubmission(this.round.id, this.submission);
         this.message = null;
       } else if (data.error === 'not_registered') {

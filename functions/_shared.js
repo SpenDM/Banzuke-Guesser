@@ -68,14 +68,18 @@ export async function profile(db, who, basho) {
   const [user, submission] = await Promise.all([
     db.prepare('SELECT shikona FROM users WHERE user_id = ?1').bind(who.id).first(),
     basho && /^\d{6}$/.test(basho)
-      ? db.prepare('SELECT placements, submitted_at FROM submissions WHERE basho_id = ?1 AND user_id = ?2').bind(basho, who.id).first()
+      ? db.prepare('SELECT placements, juryo, submitted_at FROM submissions WHERE basho_id = ?1 AND user_id = ?2').bind(basho, who.id).first()
       : null,
   ]);
   return {
     shikona: user?.shikona ?? null,
     signed_in: !!who.account,
     provider: who.account?.provider ?? null,
-    submission: submission ? { placements: JSON.parse(submission.placements), submitted_at: submission.submitted_at } : null,
+    submission: submission ? {
+      placements: JSON.parse(submission.placements),
+      juryo: submission.juryo ? JSON.parse(submission.juryo) : null,
+      submitted_at: submission.submitted_at,
+    } : null,
   };
 }
 

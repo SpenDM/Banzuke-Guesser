@@ -19,10 +19,11 @@ def test_write_basho_and_index(tmp_path: Path):
     assert idx == {"latest": "202609", "basho": ["202607", "202609"]}
 
 
-def test_write_banzuke_keeps_makuuchi_slots_only(tmp_path: Path):
+def test_write_banzuke_keeps_every_slot_without_results(tmp_path: Path):
     rows = [RikishiRow(key="a", name="A", rank="Y", num=1, side="E", wins=0, losses=0, absences=0, rikishi_id=1),
             RikishiRow(key="b", name="B", rank="M", num=1, side="W", wins=0, losses=0, absences=0),
-            RikishiRow(key="j", name="J", rank="J", num=1, side="E", wins=0, losses=0, absences=0, rikishi_id=3)]
+            RikishiRow(key="j", name="J", rank="J", num=1, side="E", wins=0, losses=0, absences=0, rikishi_id=3),
+            RikishiRow(key="ms", name="Ms", rank="Ms", num=1, side="W", wins=0, losses=0, absences=0, rikishi_id=4)]
     basho = Basho(id="202609", name="September 2026", start_date="2026-09-13", end_date="2026-09-27",
                   source="test", rikishi=rows)
     path = write_banzuke(tmp_path, basho, "2026-08-31")
@@ -32,6 +33,8 @@ def test_write_banzuke_keeps_makuuchi_slots_only(tmp_path: Path):
     assert d["rikishi"] == [
         {"key": "a", "name": "A", "rank": "Y", "num": 1, "side": "E", "rikishi_id": 1},
         {"key": "b", "name": "B", "rank": "M", "num": 1, "side": "W", "rikishi_id": None},
+        {"key": "j", "name": "J", "rank": "J", "num": 1, "side": "E", "rikishi_id": 3},
+        {"key": "ms", "name": "Ms", "rank": "Ms", "num": 1, "side": "W", "rikishi_id": 4},
     ]
 
 
@@ -41,8 +44,18 @@ def test_incomplete_until_every_bout_and_the_yusho_are_in():
                           absences=0, **kw)
     basho = Basho("202609", "September 2026", "2026-09-13", "2026-09-27", "test",
                   [row("a", 12, 2), row("b", 8, 7), row("c", 1, 3, retired=True)])
-    assert "fewer than 15 bouts" in basho.incomplete()  # A's final bout is not in yet
+    assert "fewer bouts" in basho.incomplete()  # A's final bout is not in yet
     basho.rikishi[0].wins = 13
     assert basho.incomplete() == "no Makuuchi yusho recorded"
     basho.rikishi[0].yusho = True
     assert basho.incomplete() is None  # C retired mid-tournament: short, but final
+
+
+def test_makushita_is_complete_after_seven_bouts():
+    rows = [RikishiRow(key="y", name="Y", rank="Y", num=1, side="E", wins=15, losses=0, absences=0, yusho=True),
+            RikishiRow(key="ms", name="Ms", rank="Ms", num=1, side="E", wins=4, losses=2, absences=0)]
+    basho = Basho("202609", "September 2026", "2026-09-13", "2026-09-27", "test", rows)
+    assert "fewer bouts" in basho.incomplete()  # Ms's seventh bout is not in yet
+    rows[1].losses = 3
+    assert basho.incomplete() is None
+    assert not any("Ms (Ms1E)" in w for w in basho.validation_warnings())

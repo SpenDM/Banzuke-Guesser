@@ -1,7 +1,7 @@
 // Renders the previous banzuke (left) and the guess banzuke (right).
 import {
-  RANK_NAMES, DIVISION_OF, DIVISION_NAMES, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
-  DEMOTION_SLOT, buildLadder, candidateSlotId, compareSlots, parseSlot, rankChange, slotId, slotName,
+  RANK_NAMES, RANK_ORDER, DIVISION_OF, DIVISION_NAMES, SANYAKU_TINT, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS,
+  buildLadder, candidateSlotId, compareSlots, demotionSlotId, parseSlot, rankChange, slotId, slotName,
 } from './rank.js';
 import {
   KACHI_KOSHI, KOMUSUBI_FORCE_WINS, M1_FORCE_WINS, M2_FORCE_WINS, OZEKI_RETURN_WINS, OZEKI_TARGET,
@@ -93,8 +93,16 @@ function changeSpan(c) {
   return span;
 }
 
-function divisionRow(rank, colspan) {
-  return h('tr', { class: 'division' }, h('td', { colspan, text: DIVISION_NAMES[DIVISION_OF[rank]] }));
+function divisionRow(rank, colspan, extra = null) {
+  return h('tr', { class: 'division' }, h('td', { colspan }, DIVISION_NAMES[DIVISION_OF[rank]], extra));
+}
+
+/** The guess table's Juryo header checkbox: whether Save Guess includes the Juryo guesses. */
+function saveJuryoToggle(state) {
+  return h('label', {
+    class: 'save-juryo',
+    title: 'Save your Juryo guesses along with Makuuchi. They are shown with your saved prediction and compared on the Results page, but not scored or sent to GTB.',
+  }, h('input', { type: 'checkbox', dataSaveJuryo: true, checked: state.saveJuryo }), 'Save Juryo');
 }
 
 /** Left: Result | East | Rank | West | Result */
@@ -142,7 +150,10 @@ export function renderGuess(table, state) {
   let lastDivision = null;
   for (let i = 0; i < rows.length; i++) {
     const { rank, num, candidates } = rows[i];
-    if (DIVISION_OF[rank] !== lastDivision) { tbody.append(divisionRow(rank, 9)); lastDivision = DIVISION_OF[rank]; }
+    if (DIVISION_OF[rank] !== lastDivision) {
+      tbody.append(divisionRow(rank, 9, rank === 'J' ? saveJuryoToggle(state) : null));
+      lastDivision = DIVISION_OF[rank];
+    }
     if (candidates) { tbody.append(candidatesRow(state, rank, ladder)); continue; }
     const next = rows[i + 1];
     const isLastOfType = !next || next.rank !== rank || next.candidates;
@@ -196,8 +207,9 @@ function sideCells(state, id, to, ladder, { extraClass = '', title = null } = {}
 /**
  * The temporary "↑" row below a rank type. Its left half (blue) holds rikishi whose result
  * would carry them up into that type. On the Sekiwake/Komusubi rows the right half is blank; on
- * the Maegashira row it is a second drop target (red) for Makuuchi rikishi whose result would drop
- * them into Juryo. Empty halves show no text; what the row is is in the cells' tooltips.
+ * the Maegashira and Juryo rows it is a second drop target (red) for rikishi whose result would
+ * drop them into the division below (Juryo, Makushita). Empty halves show no text; what the row is
+ * is in the cells' tooltips.
  */
 function candidatesRow(state, rank, ladder) {
   const upId = candidateSlotId(rank);
@@ -207,10 +219,12 @@ function candidatesRow(state, rank, ladder) {
   });
   const rankCell = h('td', { class: 'rank' }, h('span', { class: 'up', title: upTitle, text: '↑' }));
   let right;
-  if (rank === 'M') {
-    const downTitle = `Demotion candidates for ${RANK_NAMES.J}`;
+  const downId = demotionSlotId(rank);
+  if (downId) {
+    const down = parseSlot(downId);
+    const downTitle = `Demotion candidates for ${RANK_NAMES[down.rank]}`;
     rankCell.append(h('span', { class: 'down', title: downTitle, text: '↓' }));
-    right = sideCells(state, DEMOTION_SLOT, { rank: 'J', candidates: 'down' }, ladder, {
+    right = sideCells(state, downId, down, ladder, {
       extraClass: ' candidates demotion', title: downTitle,
     });
   } else {
@@ -220,12 +234,13 @@ function candidatesRow(state, rank, ladder) {
 }
 
 /**
- * Results view: one Makuuchi banzuke (a submitted prediction or the announced one) as
- * East | Rank | West, each chip blue when that slot is in `correctSlots` and red otherwise
- * (neutral when `correctSlots` is null: nothing to compare against). `placements` are
- * {slot, key, name, rikishi_id}.
+ * Results view: one banzuke (a submitted prediction, with Juryo when it was saved, or the announced
+ * one, down to the top of Makushita) as East | Rank | West, each chip blue when that slot is in
+ * `correctSlots` and red otherwise. Chips are neutral when `correctSlots` is null (nothing to
+ * compare against) or `judged(slot)` is false (a division the prediction didn't cover).
+ * `placements` are {slot, key, name, rikishi_id}.
  */
-export function renderComparison(table, placements, correctSlots) {
+export function renderComparison(table, placements, correctSlots, { judged = () => true } = {}) {
   const bySlot = new Map(placements.map((p) => [p.slot, p]));
   const rowsByRank = {};
   for (const p of placements) {
@@ -234,13 +249,13 @@ export function renderComparison(table, placements, correctSlots) {
   }
   const tbody = h('tbody');
   let lastDivision = null;
-  for (const rank of ['Y', 'O', 'S', 'K', 'M']) {
+  for (const rank of RANK_ORDER) {
     for (let num = 1; num <= (rowsByRank[rank] || 0); num++) {
       if (DIVISION_OF[rank] !== lastDivision) { tbody.append(divisionRow(rank, 3)); lastDivision = DIVISION_OF[rank]; }
       const cellFor = (side) => {
         const p = bySlot.get(slotId(rank, num, side));
         if (!p) return h('td', { class: 'rikishi empty' });
-        const mark = correctSlots && (correctSlots.has(p.slot) ? 'correct' : 'wrong');
+        const mark = correctSlots && judged(p.slot) && (correctSlots.has(p.slot) ? 'correct' : 'wrong');
         return h('td', { class: 'rikishi' }, chip(p, { draggable: false, mark }));
       };
       tbody.append(h('tr', { class: rankRowClass(rank, num) },

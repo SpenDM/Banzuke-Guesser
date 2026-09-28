@@ -1,4 +1,5 @@
-// Scores a submitted Makuuchi prediction against the announced banzuke.
+// Scores a submitted Makuuchi prediction against the announced banzuke (its Makuuchi rows: a saved
+// Juryo prediction is only compared, see matchingSlots).
 //
 // 1 point for every rikishi in the right slot, plus 1 point for every correct neighbour pairing:
 // two rikishi that follow each other on the real banzuke (in Y1E, Y1W, O1E, … order) and also
@@ -70,6 +71,15 @@ export function scoreGtb(guess, actual) {
     gtbHits++;
   }
   return { gtb, gtbHits };
+}
+
+/**
+ * The slots where `guess` has the rikishi the actual banzuke has there: the Results page's blue
+ * marks for a division that isn't scored (Juryo).
+ */
+export function matchingSlots(guess, actual) {
+  const find = matcher(actual);
+  return new Set(guess.filter((p) => { const i = find(p); return i >= 0 && actual[i].slot === p.slot; }).map((p) => p.slot));
 }
 
 /** How the leaderboard can be ordered: by this app's total, or by the GTB score. */

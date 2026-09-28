@@ -1,7 +1,7 @@
 // Guess state: which slot each rikishi has been dragged to, plus the guess-table row layout.
 import {
-  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, candidateRowSlots, compareSlots,
-  parseSlot, slotId,
+  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, RANK_ORDER, candidateRowSlots,
+  compareSlots, parseSlot, slotId,
 } from './rank.js';
 import { idealPlacements } from './promote.js';
 
@@ -11,6 +11,7 @@ export class GuessState extends EventTarget {
     this.basho = basho;
     this.rikishi = new Map(basho.rikishi.map((r) => [r.key, r]));
     this.guesses = new Map();               // key -> slotId
+    this.saveJuryo = false;                 // whether Save Guess includes the Juryo guesses (juryoPlacements)
     // rank -> number of numbered rows on the guess side. Sanyaku ranks start with exactly as
     // many rows as the previous banzuke had; Maegashira/Juryo with the template, or more if the
     // previous banzuke was longer.
@@ -24,6 +25,7 @@ export class GuessState extends EventTarget {
   /** Restore a snapshot produced by toJSON(); ignores rikishi/slots that no longer exist. */
   load(snapshot) {
     if (!snapshot || snapshot.basho !== this.basho.id) return false;
+    this.saveJuryo = snapshot.saveJuryo === true;
     for (const [rank, n] of Object.entries(snapshot.rowCounts || {})) {
       if (rank in this.rowCounts && Number.isInteger(n)) this.rowCounts[rank] = Math.max(this.rowCounts[rank], n);
     }
@@ -50,12 +52,21 @@ export class GuessState extends EventTarget {
     this.#emit();
   }
 
+  /** Turns on or off saving the Juryo guesses along with Makuuchi (see juryoPlacements). */
+  setSaveJuryo(on) {
+    if (this.saveJuryo === !!on) return;
+    this.saveJuryo = !!on;
+    this.#emit();
+  }
+
   /**
-   * Replaces every guess with `placements` ({slot, key}, as makuuchiPlacements gives them: a saved
-   * prediction), adding any sanyaku rows they use.
+   * Replaces every guess with `placements` ({slot, key}, as makuuchiPlacements and juryoPlacements
+   * give them: a saved prediction), adding any sanyaku rows they use. `saveJuryo` is whether the
+   * saved prediction included Juryo.
    */
-  restore(placements) {
+  restore(placements, { saveJuryo = false } = {}) {
     this.guesses.clear();
+    this.saveJuryo = saveJuryo;
     for (const { slot, key } of placements) {
       let s;
       try { s = parseSlot(slot); } catch { continue; }
@@ -111,7 +122,7 @@ export class GuessState extends EventTarget {
   rows() {
     const out = [];
     const slots = new Set(this.guesses.values());
-    for (const rank of ['Y', 'O', 'S', 'K', 'M', 'J']) {
+    for (const rank of RANK_ORDER) {
       for (let num = 1; num <= this.rowCounts[rank]; num++) out.push({ rank, num });
       if (CANDIDATE_RANKS.includes(rank) && candidateRowSlots(rank).some((s) => slots.has(s))) out.push({ rank, candidates: true });
     }
@@ -136,19 +147,35 @@ export class GuessState extends EventTarget {
   }
 
   /**
-   * What gets submitted: every rikishi guessed into a numbered Makuuchi slot, in banzuke order, as
-   * {slot, key, rikishi_id, name}. Candidates rows and Juryo are left out (see validateGuess).
+   * What gets submitted and scored: every rikishi guessed into a numbered Makuuchi slot, in banzuke
+   * order, as {slot, key, rikishi_id, name}. Candidates rows and lower divisions are left out (see
+   * validateGuess).
    */
-  makuuchiPlacements() {
+  makuuchiPlacements() { return this.#placementsIn('makuuchi'); }
+
+  /**
+   * The same for the numbered Juryo slots: submitted alongside Makuuchi when `saveJuryo` is on, but
+   * never scored.
+   */
+  juryoPlacements() { return this.#placementsIn('juryo'); }
+
+  /** What Save Guess sends: {placements, juryo}, `juryo` being null unless `saveJuryo` is on. */
+  submission() {
+    return { placements: this.makuuchiPlacements(), juryo: this.saveJuryo ? this.juryoPlacements() : null };
+  }
+
+  #placementsIn(division) {
     const out = [];
     for (const [key, slot] of this.guesses) {
       const s = parseSlot(slot);
-      if (s.candidates || DIVISION_OF[s.rank] !== 'makuuchi') continue;
+      if (s.candidates || DIVISION_OF[s.rank] !== division) continue;
       const r = this.rikishi.get(key);
       out.push({ slot, key, rikishi_id: r.rikishi_id ?? null, name: r.name });
     }
     return out.sort((a, b) => compareSlots(parseSlot(a.slot), parseSlot(b.slot)));
   }
 
-  toJSON() { return { basho: this.basho.id, guesses: Object.fromEntries(this.guesses), rowCounts: this.rowCounts }; }
+  toJSON() {
+    return { basho: this.basho.id, guesses: Object.fromEntries(this.guesses), rowCounts: this.rowCounts, saveJuryo: this.saveJuryo };
+  }
 }

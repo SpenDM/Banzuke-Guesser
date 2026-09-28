@@ -1,0 +1,149 @@
+{
+  "rikishi_id": 4259,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4259/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20240023.jpg",
+  "shikona": "Fujisodai",
+  "shikona_ja": "藤壮大",
+  "real_name": "Tenga Noda",
+  "stable": "Fujishima",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Wakayama",
+    "city": "Arida"
+  },
+  "current_rank": "Makushita #5",
+  "highest_rank": "Makushita #5",
+  "birth_date": "2005-11-27",
+  "height_cm": 186.0,
+  "weight_kg": 130.6,
+  "signature_maneuvers": [],
+  "style": {
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #5",
+      "record": "2-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #11",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #7",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #5",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #13",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #10",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #23",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #30",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #40",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #32",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #8",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #63",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #80",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "Jonidan",
+      "rank": "Jonidan #27",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "Jonokuchi",
+      "rank": "Jonokuchi #5",
+      "record": "6-1",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    }
+  ]
+}

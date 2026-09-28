@@ -211,14 +211,26 @@ def _style(rikishi_id: int, maneuvers: list[str]) -> dict:
     return style
 
 
-def _weight_classes(weights: list[float | None]) -> list[str | None]:
-    """Heavy / Mid-weight / Light-weight by positional thirds of the cohort (heaviest first)."""
-    order = sorted((i for i, w in enumerate(weights) if w is not None),
+def _weight_classes(weights: list[float | None], cohort: list[bool] | None = None) -> list[str | None]:
+    """Heavy / Mid-weight / Light-weight by positional thirds of the cohort (heaviest first).
+
+    `cohort` marks which weights make up the cohort (all of them by default); the others are
+    classed by where they fall against the cohort's thirds.
+    """
+    in_cohort = cohort or [True] * len(weights)
+    order = sorted((i for i, w in enumerate(weights) if w is not None and in_cohort[i]),
                    key=lambda i: weights[i], reverse=True)
     n = len(order)
     out: list[str | None] = [None] * len(weights)
     for rank, i in enumerate(order):
         out[i] = "Heavy" if rank < n / 3 else "Mid-weight" if rank < 2 * n / 3 else "Light-weight"
+    heavy = [weights[i] for i in order if out[i] == "Heavy"]
+    mid = [weights[i] for i in order if out[i] == "Mid-weight"]
+    for i, w in enumerate(weights):
+        if w is None or in_cohort[i] or not order:
+            continue
+        out[i] = ("Heavy" if heavy and w >= min(heavy) else
+                  "Mid-weight" if mid and w >= min(mid) else "Light-weight")
     return out
 
 
@@ -277,7 +289,8 @@ def _shikona_ja_by_nsk() -> dict[int, str]:
             continue
         jp = (r.get("shikonaJp") or "").strip()
         if jp:
-            out[int(r["nskId"])] = jp.split("　")[0].split(" ")[0]
+            # Drop the given name after the shikona, and the kana reading lower divisions carry: "西ノ龍(にしのりゅう)".
+            out[int(r["nskId"])] = re.split(r"[\s　(（]", jp)[0]
     return out
 
 
@@ -305,10 +318,12 @@ def write_profiles(data_dir: Path, basho: Basho) -> int:
                 if k == "shikona":
                     ordered["shikona_ja"] = shikona_ja[r.rikishi_id]
             profile = ordered
-        profiles.append(profile)
+        profiles.append((profile, r.division != "makushita"))
 
-    # Second pass: prepend the cohort-relative weight class onto each style, then write.
-    classes = _weight_classes([p.get("weight_kg") for p in profiles])
+    # Second pass: prepend the weight class, relative to the sekitori (Makuuchi and Juryo), onto
+    # each style, then write.
+    classes = _weight_classes([p.get("weight_kg") for p, _ in profiles], [sekitori for _, sekitori in profiles])
+    profiles = [p for p, _ in profiles]
     for profile, weight_class in zip(profiles, classes):
         profile["style"] = {"weight_class": weight_class, **profile.get("style", {})}
         write_json(out_dir / f"{profile['rikishi_id']}.json", profile)

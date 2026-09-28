@@ -7,15 +7,15 @@ import sys
 import requests
 
 from .http import session
-from .model import Basho, NotAvailable, RikishiRow, Tournament, make_key
+from .model import MAKUSHITA_ROWS, Basho, NotAvailable, RikishiRow, Tournament, make_key
 
 BASHO_URL = "https://sumo-api.com/api/basho/{basho_id}"
 BANZUKE_URL = "https://sumo-api.com/api/basho/{basho_id}/banzuke/{division}"
 RIKISHIS_URL = "https://sumo-api.com/api/rikishis?limit=1000"   # active rikishi only, ~600
 RIKISHI_URL = "https://sumo-api.com/api/rikishi/{api_id}"
 RANK_CODE = {"Yokozuna": "Y", "Ozeki": "O", "Sekiwake": "S", "Komusubi": "K",
-             "Maegashira": "M", "Juryo": "J"}
-_RANK_RE = re.compile(r"^(Yokozuna|Ozeki|Sekiwake|Komusubi|Maegashira|Juryo) (\d+) (East|West)$")
+             "Maegashira": "M", "Juryo": "J", "Makushita": "Ms"}
+_RANK_RE = re.compile(r"^(Yokozuna|Ozeki|Sekiwake|Komusubi|Maegashira|Juryo|Makushita) (\d+) (East|West)$")
 
 
 def parse_rank(text: str) -> tuple[str, int, str]:
@@ -72,12 +72,15 @@ def nsk_id_for(api_id: int) -> int | None:
     return ids[api_id]
 
 
-def rows_from_payload(payload: dict, with_ids: bool = True) -> list[RikishiRow]:
-    """Rows of one division's banzuke payload; `with_ids=False` skips the rikishi-id lookups."""
+def rows_from_payload(payload: dict, with_ids: bool = True, max_num: int | None = None) -> list[RikishiRow]:
+    """Rows of one division's banzuke payload; `with_ids=False` skips the rikishi-id lookups,
+    `max_num` drops the rows numbered below it (Makushita is only kept down to MAKUSHITA_ROWS)."""
     rows = []
     for side in ("east", "west"):
         for r in payload.get(side) or []:
             code, num, ew = parse_rank(r["rank"])
+            if max_num is not None and num > max_num:
+                continue
             name = r["shikonaEn"].strip()
             api_id = r.get("rikishiID")
             rows.append(RikishiRow(
@@ -100,8 +103,8 @@ def rows_from_payload(payload: dict, with_ids: bool = True) -> list[RikishiRow]:
 def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
     """`require_results=False` accepts the freshly announced banzuke, whose results are all zero."""
     rows: list[RikishiRow] = []
-    for division in ("Makuuchi", "Juryo"):
-        rows += rows_from_payload(_get(BANZUKE_URL.format(basho_id=tournament.id, division=division)))
+    for division, max_num in (("Makuuchi", None), ("Juryo", None), ("Makushita", MAKUSHITA_ROWS)):
+        rows += rows_from_payload(_get(BANZUKE_URL.format(basho_id=tournament.id, division=division)), max_num=max_num)
     if not rows:
         raise NotAvailable(f"sumo-api.com returned no rikishi for {tournament.id}")
     if require_results and all(r.wins + r.losses + r.absences == 0 for r in rows):

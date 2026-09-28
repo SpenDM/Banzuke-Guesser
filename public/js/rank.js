@@ -1,9 +1,9 @@
 // Rank model: slot ids, ordering, and the rank-change calculation.
 
-export const RANK_ORDER = ['Y', 'O', 'S', 'K', 'M', 'J'];
-export const RANK_NAMES = { Y: 'Yokozuna', O: 'Ozeki', S: 'Sekiwake', K: 'Komusubi', M: 'Maegashira', J: 'Juryo' };
-export const DIVISION_OF = { Y: 'makuuchi', O: 'makuuchi', S: 'makuuchi', K: 'makuuchi', M: 'makuuchi', J: 'juryo' };
-export const DIVISION_NAMES = { makuuchi: 'Makuuchi', juryo: 'Juryo' };
+export const RANK_ORDER = ['Y', 'O', 'S', 'K', 'M', 'J', 'Ms'];
+export const RANK_NAMES = { Y: 'Yokozuna', O: 'Ozeki', S: 'Sekiwake', K: 'Komusubi', M: 'Maegashira', J: 'Juryo', Ms: 'Makushita' };
+export const DIVISION_OF = { Y: 'makuuchi', O: 'makuuchi', S: 'makuuchi', K: 'makuuchi', M: 'makuuchi', J: 'juryo', Ms: 'makushita' };
+export const DIVISION_NAMES = { makuuchi: 'Makuuchi', juryo: 'Juryo', makushita: 'Makushita' };
 
 // Sanyaku rows alternate gold/bronze instead of the plain white used for Maegashira/Juryo.
 export const SANYAKU_TINT = { Y: 'gold', O: 'bronze', S: 'gold', K: 'bronze' };
@@ -13,9 +13,10 @@ export const MIN_SANYAKU_ROWS = 1;
 export const MAX_SANYAKU_ROWS = 3;
 
 // Default row template for the guess banzuke's rank-and-file. Sanyaku ranks are not listed:
-// each starts with as many rows as the previous banzuke had (see GuessState).
+// each starts with as many rows as the previous banzuke had (see GuessState). Only the top of
+// Makushita is shown (as in the data), for the rikishi trading places with Juryo.
 export const DEFAULT_GUESS_ROWS = [
-  ['M', 18], ['J', 14],
+  ['M', 18], ['J', 14], ['Ms', 15],
 ].flatMap(([rank, count]) => Array.from({ length: count }, (_, i) => ({ rank, num: i + 1 })));
 
 export function slotId(rank, num, side) {
@@ -23,24 +24,31 @@ export function slotId(rank, num, side) {
 }
 
 // Candidates rows: a temporary guess row shown right below rank type `rank`'s numbered rows
-// (between it and the type beneath). Its left half ("^S", "^K", "^M") holds rikishi whose result
-// would carry them up into `rank`; the Maegashira/Juryo row's right half ("vJ") holds Makuuchi
-// rikishi whose result would drop them into Juryo. A row exists only while someone occupies it.
+// (between it and the type beneath). Its left half ("^S", "^K", "^M", "^J") holds rikishi whose
+// result would carry them up into `rank`; on the rows at a division boundary (Maegashira/Juryo and
+// Juryo/Makushita) the right half ("vJ", "vMs") holds rikishi whose result would drop them into
+// the division below. A row exists only while someone occupies it.
 // Ozeki/Yokozuna promotion is decided outside the score system, so there is no row for those.
-export const CANDIDATE_RANKS = ['S', 'K', 'M'];
+export const CANDIDATE_RANKS = ['S', 'K', 'M', 'J'];
 export const candidateSlotId = (rank) => `^${rank}`;
-export const DEMOTION_SLOT = 'vJ';
+// The demotion half of the candidates row below `rank`, keyed by that rank.
+const DEMOTION_SLOTS = { M: 'vJ', J: 'vMs' };
+export const DEMOTION_SLOT = DEMOTION_SLOTS.M;
+/** The demotion slot of the candidates row below rank type `rank` ("vJ" below M), or null if it has none. */
+export const demotionSlotId = (rank) => DEMOTION_SLOTS[rank] ?? null;
 /** Every slot id that lives in rank type `rank`'s candidates row. */
-export const candidateRowSlots = (rank) => (rank === 'M' ? [candidateSlotId('M'), DEMOTION_SLOT] : [candidateSlotId(rank)]);
+export const candidateRowSlots = (rank) => [candidateSlotId(rank), demotionSlotId(rank)].filter(Boolean);
 
-const SLOT_RE = /^([YOSKMJ])(\d+)([EW])$/;
-const CANDIDATE_RE = /^\^([SKM])$/;
+const SLOT_RE = /^(Ms|[YOSKMJ])(\d+)([EW])$/;
+const CANDIDATE_RE = /^\^([SKMJ])$/;
+const DEMOTION_RE = /^v(J|Ms)$/;
 /**
  * Parses a slot id into {rank, num, side}, or {rank, candidates: 'up' | 'down'} for a
  * candidates slot (`rank` being the type it would move into).
  */
 export function parseSlot(id) {
-  if (id === DEMOTION_SLOT) return { rank: 'J', candidates: 'down' };
+  const d = DEMOTION_RE.exec(id);
+  if (d) return { rank: d[1], candidates: 'down' };
   const c = CANDIDATE_RE.exec(id);
   if (c) return { rank: c[1], candidates: 'up' };
   const m = SLOT_RE.exec(id);
@@ -68,8 +76,8 @@ export function positionWithinType(num, side) {
   return num * 2 + (side === 'W' ? 1 : 0);
 }
 
-// A promotion-candidates slot sorts after every numbered row of its rank type; the demotion
-// slot (candidates for Juryo) sits above Juryo's numbered rows.
+// A promotion-candidates slot sorts after every numbered row of its rank type; a demotion
+// slot (candidates for Juryo or Makushita) sits above that type's numbered rows.
 const slotPosition = (s) => {
   if (s.candidates) return s.candidates === 'up' ? Infinity : -Infinity;
   return positionWithinType(s.num, s.side);

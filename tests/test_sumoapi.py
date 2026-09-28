@@ -1,15 +1,16 @@
 import pytest
 
 from scraper import sumoapi
-from scraper.model import Basho, Tournament, next_tournament
+from scraper.model import MAKUSHITA_ROWS, Basho, Tournament, next_tournament
 
 
 def test_parse_rank():
     assert sumoapi.parse_rank("Sekiwake 2 East") == ("S", 2, "E")
     assert sumoapi.parse_rank("Maegashira 16 West") == ("M", 16, "W")
     assert sumoapi.parse_rank("Juryo 1 East") == ("J", 1, "E")
+    assert sumoapi.parse_rank("Makushita 15 West") == ("Ms", 15, "W")
     with pytest.raises(ValueError):
-        sumoapi.parse_rank("Makushita 1 East")
+        sumoapi.parse_rank("Sandanme 1 East")
 
 
 @pytest.fixture
@@ -77,6 +78,7 @@ def test_build_basho_needs_results_unless_told_otherwise(fixture_json, monkeypat
 def test_full_basho_validates_cleanly(fixture_json, nsk_ids):
     rows = sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makuuchi.json"))
     rows += sumoapi.rows_from_payload(fixture_json("sumoapi_202607_juryo.json"))
+    rows += sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makushita.json"), max_num=MAKUSHITA_ROWS)
     basho = Basho(id="202607", name="July 2026", start_date="2026-07-12",
                   end_date="2026-07-26", source="sumo-api.com", rikishi=rows)
     assert basho.validation_warnings() == []
@@ -91,3 +93,11 @@ def test_next_tournament():
     assert next_tournament(sched, "202607")["id"] == "202609"
     assert next_tournament(sched, "202609")["banzuke_date"] == "2026-10-26"
     assert next_tournament(sched, "202611") is None
+
+
+def test_makushita_rows_stop_at_the_kept_rows(fixture_json, nsk_ids):
+    rows = sumoapi.rows_from_payload(fixture_json("sumoapi_202607_makushita.json"), max_num=MAKUSHITA_ROWS)
+    assert len(rows) == 2 * MAKUSHITA_ROWS
+    assert {r.rank for r in rows} == {"Ms"} and {r.division for r in rows} == {"makushita"}
+    assert max(r.num for r in rows) == MAKUSHITA_ROWS
+    assert all(r.wins + r.losses + r.absences >= r.bouts == 7 for r in rows)

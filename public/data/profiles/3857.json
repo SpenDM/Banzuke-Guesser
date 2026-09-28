@@ -1,0 +1,430 @@
+{
+  "rikishi_id": 3857,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/3857/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20180015.jpg",
+  "shikona": "Daiyusho",
+  "shikona_ja": "大雄翔",
+  "real_name": "Rei Kajino",
+  "stable": "Oitekaze",
+  "birthplace": {
+    "flag": "🇯🇵",
+    "country": "Japan",
+    "province": "Ehime",
+    "city": "Matsuyama"
+  },
+  "current_rank": "Makushita #8",
+  "highest_rank": "Makushita #8",
+  "birth_date": "2002-04-06",
+  "height_cm": 175.8,
+  "weight_kg": 166.4,
+  "signature_maneuvers": [
+    "/tsuki",
+    "oshi"
+  ],
+  "style": {
+    "weight_class": "Mid-weight",
+    "primary": "Pusher-Thruster"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #8",
+      "record": "2-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #15",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #21",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #29",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #12",
+      "record": "2-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #21",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #50",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #38",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #31",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #50",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #35",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #55",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "September",
+      "division": "Jonidan",
+      "rank": "Jonidan #57",
+      "record": "7-0",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "July",
+      "division": "Jonokuchi",
+      "rank": "Jonokuchi #10",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "May",
+      "division": "Jonidan",
+      "rank": "Jonidan #76",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "March",
+      "division": "Jonidan",
+      "rank": "Jonidan #5",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2024,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #34",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #54",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #19",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "July",
+      "division": "Sandanme",
+      "rank": "Sandanme #5",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "May",
+      "division": "Sandanme",
+      "rank": "Sandanme #16",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "March",
+      "division": "Sandanme",
+      "rank": "Sandanme #42",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2023,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #62",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "November",
+      "division": "Jonidan",
+      "rank": "Jonidan #35",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #65",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "July",
+      "division": "Sandanme",
+      "rank": "Sandanme #5",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #25",
+      "record": "0-0-7",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #43",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2022,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #21",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #46",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #33",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "July",
+      "division": "Sandanme",
+      "rank": "Sandanme #49",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "May",
+      "division": "Sandanme",
+      "rank": "Sandanme #69",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "March",
+      "division": "Sandanme",
+      "rank": "Sandanme #37",
+      "record": "1-6",
+      "achievements": []
+    },
+    {
+      "year": 2021,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #2",
+      "record": "1-6",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #26",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #40",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "July",
+      "division": "Sandanme",
+      "rank": "Sandanme #71",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "March",
+      "division": "Jonidan",
+      "rank": "Jonidan #5",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2020,
+      "tournament": "January",
+      "division": "Sandanme",
+      "rank": "Sandanme #94",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2019,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #58",
+      "record": "1-4-2",
+      "achievements": []
+    },
+    {
+      "year": 2019,
+      "tournament": "September",
+      "division": "Sandanme",
+      "rank": "Sandanme #76",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2019,
+      "tournament": "July",
+      "division": "Jonidan",
+      "rank": "Jonidan #13",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2019,
+      "tournament": "May",
+      "division": "Sandanme",
+      "rank": "Sandanme #93",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2019,
+      "tournament": "March",
+      "division": "Jonidan",
+      "rank": "Jonidan #61",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2019,
+      "tournament": "January",
+      "division": "Jonidan",
+      "rank": "Jonidan #37",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2018,
+      "tournament": "November",
+      "division": "Jonidan",
+      "rank": "Jonidan #14",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2018,
+      "tournament": "September",
+      "division": "Jonidan",
+      "rank": "Jonidan #33",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2018,
+      "tournament": "July",
+      "division": "Jonidan",
+      "rank": "Jonidan #78",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2018,
+      "tournament": "May",
+      "division": "Jonokuchi",
+      "rank": "Jonokuchi #19",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

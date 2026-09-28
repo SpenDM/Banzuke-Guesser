@@ -51,6 +51,15 @@ def test_juryo_rows(fixture_json):
     assert sorted(r.num for r in rows) == sorted(list(range(1, 15)) * 2)
 
 
+def test_makushita_rows(fixture_json):
+    rows = official.rows_from_payloads(
+        fixture_json("official_banzuke_makushita.json"),
+        fixture_json("official_hoshitori_makushita.json"))
+    assert {r.rank for r in rows} == {"Ms"}
+    assert {r.division for r in rows} == {"makushita"}
+    assert all(r.wins + r.losses + r.absences <= 7 for r in rows)
+
+
 def test_basho_to_dict_is_sorted(makuuchi_rows, fixture_json):
     juryo = official.rows_from_payloads(
         fixture_json("official_banzuke_juryo.json"),

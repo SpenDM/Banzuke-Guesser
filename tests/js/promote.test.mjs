@@ -3,16 +3,17 @@ import assert from 'node:assert/strict';
 import { idealPlacements, netScore, ozekiRunNeeded } from '../../public/js/promote.js';
 import { GuessState } from '../../public/js/state.js';
 
-// Y1, O1, S1-2, K1, M1-17, J1-14, every slot filled with a 7-8 nobody (net -1) unless overridden.
-function makeBasho(overrides = {}) {
-  const counts = { Y: 1, O: 1, S: 2, K: 1, M: 17, J: 14 };
+// Y1, O1, S1-2, K1, M1-17, J1-14 (plus Ms1-15 with `makushita`), every slot filled with a 7-8
+// nobody (net -1; 3-4 in Makushita) unless overridden.
+function makeBasho(overrides = {}, { makushita = false } = {}) {
+  const counts = { Y: 1, O: 1, S: 2, K: 1, M: 17, J: 14, ...(makushita ? { Ms: 15 } : {}) };
   const rikishi = [];
   for (const [rank, count] of Object.entries(counts)) {
     for (let num = 1; num <= count; num++) for (const side of ['E', 'W']) {
       const key = `${rank}${num}${side}`.toLowerCase();
       rikishi.push({
-        key, name: key, rank, num, side, wins: 7, losses: 8, absences: 0, retired: false,
-        division: rank === 'J' ? 'juryo' : 'makuuchi', ...(overrides[key.toUpperCase()] || {}),
+        key, name: key, rank, num, side, wins: rank === 'Ms' ? 3 : 7, losses: rank === 'Ms' ? 4 : 8, absences: 0, retired: false,
+        division: { J: 'juryo', Ms: 'makushita' }[rank] ?? 'makuuchi', ...(overrides[key.toUpperCase()] || {}),
       });
     }
   }
@@ -58,7 +59,18 @@ test('demotions cross into the next type down the same way the Change column cou
   assert.equal(p.get('k1w'), 'M5W');   // -5 = 10 half steps: K1W -> M1E is the first
   assert.equal(p.get('s1w'), 'M1W');   // -3: S2E, S2W, K1E, K1W, M1E, M1W
   assert.equal(p.get('j2e'), 'J7E');   // -5 = 10 half steps
-  assert.equal(p.get('j14w'), 'J14W'); // off the bottom of Juryo: lowest Juryo slot
+  assert.equal(p.get('j14w'), 'vMs');  // off the bottom of Juryo: a Makushita demotion candidate
+});
+
+test('Makushita trades places with Juryo through the Juryo candidates row', () => {
+  const p = ideal(makeBasho({ MS1E: rec(4, 3), MS10W: rec(7, 0), MS5W: rec(7, 0), J13E: rec(5, 10), MS2W: rec(3, 4), MS15W: rec(1, 6) }, { makushita: true }));
+  assert.equal(p.get('ms1e'), '^J');   // +1 from Ms1E rises out of Makushita
+  assert.equal(p.get('ms5w'), '^J');   // however far the score carries them
+  assert.equal(p.get('ms10w'), 'Ms3W'); // one rank per point, as in every other division
+  assert.equal(p.get('j13e'), 'vMs');  // -5 from J13E drops into Makushita
+  assert.equal(p.get('ms2w'), 'Ms3W'); // -1 stays in Makushita
+  assert.equal(p.has('ms15w'), false); // below the Makushita rows shown: left unplaced
+  assert.equal(p.get('m17w'), 'vJ');   // Makuuchi still only drops as far as Juryo's candidates
 });
 
 test('Makuuchi rikishi who would drop into Juryo become demotion candidates instead', () => {

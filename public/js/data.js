@@ -65,6 +65,8 @@ export async function loadBasho(id) {
 }
 
 export const BOUTS = 15;
+/** Bouts a rikishi fights in a tournament: 15 for sekitori, 7 in Makushita. */
+export const boutsOf = (r) => (r.division === 'makushita' ? 7 : BOUTS);
 
 /**
  * The tournament under way (data/live.json, written by the scraper from its banzuke announcement
@@ -80,7 +82,7 @@ export async function loadLive() {
     const basho = await res.json();
     for (const r of basho.rikishi) {
       const played = r.wins + r.losses + (r.absences || 0);
-      r.remaining = Math.max(0, BOUTS - played);
+      r.remaining = Math.max(0, boutsOf(r) - played);
       if (!played) r.record = '';
     }
     return applyOverrides(basho, await loadOverrides(basho.id));
