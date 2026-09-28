@@ -19,6 +19,13 @@ test('sanyaku ranks start with as many rows as the previous banzuke had', () => 
   assert.deepEqual([s.rowCounts.M, s.rowCounts.J, s.rowCounts.Ms], [18, 14, 15]);
 });
 
+test('Save Juryo starts off, also when loading a snapshot from before it existed', () => {
+  assert.equal(new GuessState(basho).saveJuryo, false);
+  const s = new GuessState(basho);
+  s.load({ basho: '202607', guesses: { onosato: 'Y1E' } });
+  assert.equal(s.saveJuryo, false);
+});
+
 test('Juryo placements are kept apart from Makuuchi and only submitted when Save Juryo is on', () => {
   const s = new GuessState(basho);
   s.place('onosato', 'Y1E');

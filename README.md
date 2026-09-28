@@ -153,7 +153,7 @@ identity into the account: its registration moves over unless the account alread
 Signing out returns the browser to its (now empty) anonymous identity.
 
 **Save Guess** (next to *Submit Guess to GTB*, whose drop-down has the Fill GTB Form bookmarklet and a link to sumodb's game) saves the
-Makuuchi half of the prediction in this app, plus the Juryo half when the **Save Juryo** box in
+Makuuchi half of the prediction in this app, plus the Juryo half when the **Save** box in
 the prediction's Juryo header is ticked (kept per basho with the guesses). Saved Juryo guesses come
 back with View Saved Prediction and Revert to Saved Guesses and are compared with the announced
 banzuke on the Results page, but are never scored or sent to GTB. With the box ticked, the save checks and Show Issues cover

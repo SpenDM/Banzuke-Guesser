@@ -105,7 +105,7 @@ function saveJuryoToggle(state) {
   return h('label', {
     class: 'save-juryo',
     title: 'Save your Juryo guesses along with Makuuchi. They are shown with your saved prediction and compared on the Results page, but not scored or sent to GTB.',
-  }, h('input', { type: 'checkbox', dataSaveJuryo: true, checked: state.saveJuryo }), 'Save Juryo');
+  }, h('input', { type: 'checkbox', dataSaveJuryo: true, checked: state.saveJuryo }), 'Save');
 }
 
 /** Left: Result | East | Rank | West | Result */
