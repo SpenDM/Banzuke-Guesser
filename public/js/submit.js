@@ -29,7 +29,8 @@ function headcount(perSlot) {
   let total = 0;
   for (const [slot, n] of perSlot) {
     const s = parseSlot(slot);
-    if (s.candidates === 'up' && s.rank !== 'M') { unplaced.push(slot); total += n; }
+    // Only the ↑S/↑K rows are inside Makuuchi; ↑M, ↓J and the Juryo/Makushita row (↑J, ↓Ms) are not.
+    if (s.candidates === 'up' && s.rank !== 'M' && DIVISION_OF[s.rank] === 'makuuchi') { unplaced.push(slot); total += n; }
     else if (!s.candidates && DIVISION_OF[s.rank] === 'makuuchi') { numbered.push(slot); total += n; }
   }
   const order = (a, b) => compareSlots(parseSlot(a), parseSlot(b));

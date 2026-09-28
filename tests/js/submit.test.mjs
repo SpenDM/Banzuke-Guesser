@@ -186,6 +186,19 @@ test('Save Guess is closed from the announcement day and open for the round afte
   assert.equal(next.els.button.textContent, 'Save\nGuess');
 });
 
+test('the Juryo/Makushita candidates row is outside Makuuchi: not counted, not flagged', () => {
+  const s = filled();
+  s.place('f', '^J');                         // a Makuuchi one short, with someone in ↑J
+  assert.equal(validateGuess(s), 'Not enough rikishi!');
+  assert.deepEqual([...guessIssues(s)], ['M1W']); // the empty end slot, not ↑J
+  s.place('f', 'vMs');
+  assert.deepEqual([...guessIssues(s)], ['M1W']);
+  s.place('f', 'M1W');
+  s.place('j', '^J');
+  assert.equal(validateGuess(s), null);
+  assert.equal(guessIssues(s).size, 0);
+});
+
 test('Save Juryo: Juryo is only checked when saved, for headcount, shared slots, the ↑M/↓J row and gaps', () => {
   // A two-rikishi Juryo (j, k) keeps this short: the headcount is the previous banzuke's Juryo size.
   const s = filled();
