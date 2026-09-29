@@ -39,12 +39,12 @@ def test_kadoban_and_tsunatori_need_an_ozeki_result_last_basho():
     b = basho([row("kado", "O", wins=8), row("tsuna", "O", 1, "W", wins=12), row("junner", "O", 2, wins=12),
                row("newozeki", "O", 2, "W", wins=10)])
     prev = [row("kado", "O", wins=3, losses=9, absences=3), row("tsuna", "O", 1, "W", wins=14),
-            row("junner", "O", 2, wins=12), row("newozeki", "S", wins=11), row("m", "M", wins=12)]
+            row("junner", "O", 2, wins=13), row("newozeki", "S", wins=11), row("m", "M", wins=12)]
     annotate(b, prev, None, set(), {"tsuna"})
     k = by_key(b)
     assert k["kado"].kadoban and not k["kado"].tsunatori
     assert k["tsuna"].tsunatori and not k["tsuna"].kadoban
-    assert k["junner"].tsunatori  # 12-3 jun-yusho behind the 14-1 champion
+    assert k["junner"].tsunatori  # 13-2 jun-yusho behind the 14-1 champion
     assert not k["newozeki"].kadoban and not k["newozeki"].tsunatori  # was Sekiwake last basho
     # tsuna's run started with an outright win last basho, junner's with only a tie for one.
     assert not k["tsuna"].tsunatori_needs_yusho
@@ -52,6 +52,14 @@ def test_kadoban_and_tsunatori_need_an_ozeki_result_last_basho():
     # This basho nobody has an outright yusho (yusho_keys=set()), so the two tied at 12-3 are jun-yusho.
     assert k["tsuna"].jun_yusho and k["junner"].jun_yusho
     assert not k["kado"].jun_yusho and not k["newozeki"].jun_yusho
+
+
+def test_a_jun_yusho_under_12_wins_starts_no_yokozuna_run():
+    b = basho([row("champ", "O"), row("junner", "O", 1, "W")])
+    prev = [row("champ", "O", wins=14), row("junner", "O", 1, "W", wins=11)]
+    annotate(b, prev, None, set(), {"champ"})
+    k = by_key(b)
+    assert k["champ"].tsunatori and not k["junner"].tsunatori
 
 
 def test_ozeki_run_counts_sekiwake_or_komusubi_basho_and_needs_18_wins():

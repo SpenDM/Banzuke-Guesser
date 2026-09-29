@@ -158,7 +158,7 @@ test('an Ozeki on a Yokozuna run is promoted only with the yusho, after the sitt
   assert.equal(s.slotOf('o1w'), 'O1E');
 });
 
-test('a jun-yusho (tie with the champion) also completes a Yokozuna run, unless last basho was already a jun-yusho', () => {
+test('a 12+ win jun-yusho also completes a Yokozuna run, unless last basho was already a jun-yusho', () => {
   // Last basho was an outright win: a tie this basho is enough. (Y1E/Y1W default to a 7-8
   // nobody each, so, as in the yusho case above, the promoted Ozeki lands on the added Y2 row.)
   const tiedAfterWin = ideal(makeBasho({ O1E: { tsunatori: true, jun_yusho: true, ...rec(13, 2) } }));
@@ -173,6 +173,9 @@ test('a jun-yusho (tie with the champion) also completes a Yokozuna run, unless 
     O1E: { tsunatori: true, tsunatori_needs_yusho: true, yusho: true, ...rec(13, 2) },
   }));
   assert.equal(wonAfterTie.get('o1e'), 'Y2E');
+  // A jun-yusho with fewer than 12 wins doesn't complete it.
+  const weakTie = ideal(makeBasho({ O1E: { tsunatori: true, jun_yusho: true, ...rec(11, 4) } }));
+  assert.equal(weakTie.get('o1e'), 'O1E');
 });
 
 test('Sekiwake completing an Ozeki run or regaining Ozeki move to the next open Ozeki slot, returnee first', () => {

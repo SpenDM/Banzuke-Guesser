@@ -19,6 +19,7 @@ KACHI_KOSHI = 8
 OZEKI_TARGET = 33          # wins over three sanyaku basho for Ozeki promotion
 OZEKI_RUN_MIN_PRIOR = 18   # fewer than this over the previous two and 33 is out of reach
 YUSHO_DIVISIONS = ("Makuuchi", "Juryo")
+TSUNATORI_JUN_YUSHO_WINS = 12  # a jun-yusho only counts toward a Yokozuna run with this many wins
 
 
 def log(msg: str) -> None:
@@ -76,8 +77,9 @@ def annotate(basho: Basho, prev1: list[RikishiRow] | None, prev2: list[RikishiRo
         if r.rank == "O" and last and last.rank == "O":
             r.kadoban = last.wins < KACHI_KOSHI
             # Looked up under last basho's key: the yusho and the rows of prev1 share its shikona.
-            r.tsunatori = last.key in prev1_yusho_keys or last.key in p1_jun
-            r.tsunatori_needs_yusho = last.key in p1_jun
+            strong_jun = last.key in p1_jun and last.wins >= TSUNATORI_JUN_YUSHO_WINS
+            r.tsunatori = last.key in prev1_yusho_keys or strong_jun
+            r.tsunatori_needs_yusho = strong_jun
         if r.rank == "S":
             before = p2.get(r.key)
             r.ozeki_return = bool(last and last.rank == "O")

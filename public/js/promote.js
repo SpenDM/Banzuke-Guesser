@@ -13,6 +13,7 @@ export const netScore = (r) => r.wins - r.losses - (r.absences || 0);
 export const KACHI_KOSHI = 8;
 export const OZEKI_TARGET = 33;      // wins over three sanyaku basho for Ozeki promotion
 export const OZEKI_RETURN_WINS = 10; // a just-demoted Ozeki regains the rank with this many
+export const TSUNATORI_JUN_YUSHO_WINS = 12; // a jun-yusho only counts toward a Yokozuna run with this many wins
 // The modern de facto benchmark: a Komusubi with this many wins forces the JSA to open an
 // extra Sekiwake slot, promoted regardless of whether an existing slot is vacant.
 export const KOMUSUBI_FORCE_WINS = 11;
@@ -25,10 +26,11 @@ export const M2_FORCE_WINS = 10;
 export const ozekiRunNeeded = (r) => (r.ozeki_run == null ? null : OZEKI_TARGET - r.ozeki_run);
 export const ozekiRunMet = (r) => r.ozeki_run != null && r.wins >= ozekiRunNeeded(r);
 export const ozekiReturnMet = (r) => !!r.ozeki_return && r.wins >= OZEKI_RETURN_WINS;
-// A run completes with an outright yusho, or a jun-yusho (tied with the champion) *unless* last
-// basho's trigger was itself only a jun-yusho: two ties in a row don't count, only an outright win
+// A run completes with an outright yusho, or a jun-yusho with 12+ wins *unless* last basho's
+// trigger was itself only a jun-yusho: two runner-ups in a row don't count, only an outright win
 // does, so at least one of the two basho has to be a real yusho.
-export const tsunatoriMet = (r) => !!r.tsunatori && (!!r.yusho || (!!r.jun_yusho && !r.tsunatori_needs_yusho));
+export const tsunatoriMet = (r) => !!r.tsunatori && (!!r.yusho
+  || (!!r.jun_yusho && r.wins >= TSUNATORI_JUN_YUSHO_WINS && !r.tsunatori_needs_yusho));
 export const kadobanFailed = (r) => !!r.kadoban && r.wins < KACHI_KOSHI;
 export const komusubiForceMet = (r) => r.rank === 'K' && r.wins >= KOMUSUBI_FORCE_WINS;
 /** Wins needed for an M1/M2 to force a Komusubi slot, or null for any other rank/number. */

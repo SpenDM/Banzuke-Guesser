@@ -109,7 +109,7 @@ system does not, shown as badges on the chip (the Legend box lists them):
 |---|---|---|
 | `yusho` | 🏆 | tournament winner (Makuuchi and Juryo) |
 | `kadoban` | KB | kadoban Ozeki: a losing record this tournament results in demotion |
-| `tsunatori` | →Y | Yokozuna run: a yusho or jun-yusho (tie with the champion) as Ozeki last basho; a yusho this tournament completes it, and so does a jun-yusho — unless last basho was *also* only a jun-yusho, since two ties in a row don't count (`tsunatori_needs_yusho`) |
+| `tsunatori` | →Y | Yokozuna run: a yusho or a jun-yusho with 12+ wins as Ozeki last basho; a yusho this tournament completes it, and so does a 12+ win jun-yusho — unless last basho was *also* only a jun-yusho, since two ties in a row don't count (`tsunatori_needs_yusho`) |
 | `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins, the target for promotion |
 | `ozeki_return` | ↪O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
 | `suspended` | SUS | disciplinary suspension; ranked as a full absence (the full demotion applies, unlike `retired`) |
