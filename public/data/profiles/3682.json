@@ -196,7 +196,9 @@
       "division": "Makuuchi",
       "rank": "Maegashira #14",
       "record": "12-3",
-      "achievements": []
+      "achievements": [
+        "Jun-yusho"
+      ]
     },
     {
       "year": 2023,
@@ -312,7 +314,9 @@
       "division": "Makuuchi",
       "rank": "Ozeki",
       "record": "11-4",
-      "achievements": []
+      "achievements": [
+        "Jun-yusho"
+      ]
     },
     {
       "year": 2020,
@@ -336,7 +340,9 @@
       "division": "Makuuchi",
       "rank": "Ozeki",
       "record": "12-3",
-      "achievements": []
+      "achievements": [
+        "Jun-yusho"
+      ]
     },
     {
       "year": 2020,
@@ -361,6 +367,7 @@
       "rank": "Komusubi",
       "record": "11-4",
       "achievements": [
+        "Jun-yusho",
         "Gino-sho (Technique Prize)"
       ]
     },

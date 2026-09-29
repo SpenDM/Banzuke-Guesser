@@ -6,6 +6,8 @@ signature maneuvers), the highest rank, and a full tournament-records table. Bir
 is only a province/country, so it is enriched from sumo-api.com's `shusshin` (which also has
 the city). Wrestling style comes from a hand-curated overlay (style_overlay.json), falling
 back to a rough guess from the signature maneuvers when a rikishi isn't curated yet.
+The records table marks yusho but not jun-yusho, which are worked out from sumo-api.com's
+Makuuchi results (cached per basho in public/data/jun_yusho.json, since past basho never change).
 """
 from __future__ import annotations
 
@@ -20,11 +22,13 @@ from bs4 import BeautifulSoup
 
 from . import sumoapi
 from .http import session
-from .model import Basho, write_json
+from .model import Basho, NotAvailable, write_json
 
 BASE = "https://www.sumo.or.jp"
 PROFILE_URL = BASE + "/EnSumoDataRikishi/profile/{rikishi_id}/"
 STYLE_OVERLAY = Path(__file__).resolve().parent / "style_overlay.json"
+JUN_YUSHO_LABEL = "Jun-yusho"
+MONTH_OF = {"January": 1, "March": 3, "May": 5, "July": 7, "September": 9, "November": 11}
 
 # Division a records-table rank word belongs to (the history table's Division column).
 DIVISION_OF = {
@@ -294,6 +298,65 @@ def _shikona_ja_by_nsk() -> dict[int, str]:
     return out
 
 
+def _history_basho_id(row: dict) -> str | None:
+    """'202609' for a history row of 2026 September."""
+    month = MONTH_OF.get(row.get("tournament"))
+    return f"{row['year']}{month:02d}" if month else None
+
+
+def _jun_yusho_api_ids(basho_id: str) -> list[int]:
+    """sumo-api ids of `basho_id`'s Makuuchi runners-up: the best win total among non-champions
+    (ties all count). NotAvailable until the champion is recorded (a basho still under way)."""
+    info = sumoapi._get(sumoapi.BASHO_URL.format(basho_id=basho_id))
+    champs = {int(y["rikishiId"]) for y in info.get("yusho") or []
+              if y.get("type") == "Makuuchi" and y.get("rikishiId")}
+    if not champs:
+        raise NotAvailable(f"no Makuuchi yusho recorded for {basho_id}")
+    payload = sumoapi._get(sumoapi.BANZUKE_URL.format(basho_id=basho_id, division="Makuuchi"))
+    others = [r for side in ("east", "west") for r in payload.get(side) or []
+              if r.get("rikishiID") and int(r["rikishiID"]) not in champs]
+    if not others:
+        return []
+    best = max(int(r.get("wins") or 0) for r in others)
+    return sorted(int(r["rikishiID"]) for r in others if int(r.get("wins") or 0) == best)
+
+
+def add_jun_yusho(profiles: list[dict], jun_yusho: dict[str, set[int]]) -> None:
+    """Prepend the jun-yusho label to each Makuuchi history row whose basho in `jun_yusho`
+    ({basho id: sumo.or.jp ids}) names that profile's rikishi."""
+    for profile in profiles:
+        for row in profile.get("history") or []:
+            if (row.get("division") == "Makuuchi" and JUN_YUSHO_LABEL not in row["achievements"]
+                    and profile["rikishi_id"] in jun_yusho.get(_history_basho_id(row), ())):
+                row["achievements"].insert(0, JUN_YUSHO_LABEL)
+
+
+def _jun_yusho_by_basho(data_dir: Path, profiles: list[dict]) -> dict[str, set[int]]:
+    """{basho id: sumo.or.jp ids of its jun-yusho} for every Makuuchi basho in `profiles`' histories.
+
+    The cache holds sumo-api ids (retired rikishi have no nskId in the active list); only basho
+    missing from it are fetched, and one that fails (or is still under way) is just left out.
+    """
+    cache_path = data_dir / "jun_yusho.json"
+    try:
+        cache = json.loads(cache_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        cache = {}
+    wanted = {_history_basho_id(row) for p in profiles for row in p.get("history") or []
+              if row.get("division") == "Makuuchi"} - {None}
+    fetched = 0
+    for basho_id in sorted(wanted - cache.keys()):
+        try:
+            cache[basho_id] = _jun_yusho_api_ids(basho_id)
+            fetched += 1
+        except (NotAvailable, requests.RequestException, ValueError, KeyError) as e:
+            log(f"warning: no jun-yusho for {basho_id} ({e})")
+    if fetched:
+        write_json(cache_path, dict(sorted(cache.items())))
+    nsk = sumoapi.nsk_ids()
+    return {b: {nsk[i] for i in ids if i in nsk} for b, ids in cache.items()}
+
+
 def write_profiles(data_dir: Path, basho: Basho) -> int:
     """Write public/data/profiles/{id}.json for every rikishi in `basho` that has a sumo.or.jp id."""
     shusshin = _shusshin_by_nsk()
@@ -324,6 +387,7 @@ def write_profiles(data_dir: Path, basho: Basho) -> int:
     # each style, then write.
     classes = _weight_classes([p.get("weight_kg") for p, _ in profiles], [sekitori for _, sekitori in profiles])
     profiles = [p for p, _ in profiles]
+    add_jun_yusho(profiles, _jun_yusho_by_basho(data_dir, profiles))
     for profile, weight_class in zip(profiles, classes):
         profile["style"] = {"weight_class": weight_class, **profile.get("style", {})}
         write_json(out_dir / f"{profile['rikishi_id']}.json", profile)
