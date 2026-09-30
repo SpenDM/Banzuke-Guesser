@@ -1,6 +1,6 @@
 // Guess state: which slot each rikishi has been dragged to, plus the guess-table row layout.
 import {
-  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, RANK_ORDER, candidateRowSlots,
+  CANDIDATE_RANKS, DEFAULT_GUESS_ROWS, DIVISION_OF, MAKUSHITA_GUESS_ROWS, MAX_SANYAKU_ROWS, MIN_SANYAKU_ROWS, RANK_ORDER, candidateRowSlots,
   compareSlots, parseSlot, slotId,
 } from './rank.js';
 import { idealPlacements } from './promote.js';
@@ -12,12 +12,13 @@ export class GuessState extends EventTarget {
     this.rikishi = new Map(basho.rikishi.map((r) => [r.key, r]));
     this.guesses = new Map();               // key -> slotId
     this.saveJuryo = false;                 // whether Save Guess includes the Juryo guesses (juryoPlacements)
+    this.saveMakushita = false;             // … and the top of Makushita (makushitaPlacements); only with Juryo
     // rank -> number of numbered rows on the guess side. Sanyaku ranks start with exactly as
     // many rows as the previous banzuke had; Maegashira/Juryo with the template, or more if the
-    // previous banzuke was longer.
+    // previous banzuke was longer; Makushita with the template only (just its top is predicted).
     this.rowCounts = { Y: MIN_SANYAKU_ROWS, O: MIN_SANYAKU_ROWS, S: MIN_SANYAKU_ROWS, K: MIN_SANYAKU_ROWS };
     for (const { rank, num } of DEFAULT_GUESS_ROWS) this.rowCounts[rank] = Math.max(this.rowCounts[rank] || 0, num);
-    for (const r of basho.rikishi) this.rowCounts[r.rank] = Math.max(this.rowCounts[r.rank], r.num);
+    for (const r of basho.rikishi) if (r.rank !== 'Ms') this.rowCounts[r.rank] = Math.max(this.rowCounts[r.rank], r.num);
   }
 
   #emit() { this.dispatchEvent(new Event('change')); }
@@ -26,6 +27,7 @@ export class GuessState extends EventTarget {
   load(snapshot) {
     if (!snapshot || snapshot.basho !== this.basho.id) return false;
     this.saveJuryo = snapshot.saveJuryo === true;
+    this.saveMakushita = this.saveJuryo && snapshot.saveMakushita === true;
     for (const [rank, n] of Object.entries(snapshot.rowCounts || {})) {
       if (rank in this.rowCounts && Number.isInteger(n)) this.rowCounts[rank] = Math.max(this.rowCounts[rank], n);
     }
@@ -52,21 +54,34 @@ export class GuessState extends EventTarget {
     this.#emit();
   }
 
-  /** Turns on or off saving the Juryo guesses along with Makuuchi (see juryoPlacements). */
+  /**
+   * Turns on or off saving the Juryo guesses along with Makuuchi (see juryoPlacements). Makushita
+   * is only saved along with Juryo, so turning Juryo off turns Makushita off too.
+   */
   setSaveJuryo(on) {
     if (this.saveJuryo === !!on) return;
     this.saveJuryo = !!on;
+    if (!on) this.saveMakushita = false;
+    this.#emit();
+  }
+
+  /** Turns on or off saving the top of Makushita as well (see makushitaPlacements); turning it on turns Juryo on too. */
+  setSaveMakushita(on) {
+    if (this.saveMakushita === !!on) return;
+    this.saveMakushita = !!on;
+    if (on) this.saveJuryo = true;
     this.#emit();
   }
 
   /**
-   * Replaces every guess with `placements` ({slot, key}, as makuuchiPlacements and juryoPlacements
-   * give them: a saved prediction), adding any sanyaku rows they use. `saveJuryo` is whether the
-   * saved prediction included Juryo.
+   * Replaces every guess with `placements` ({slot, key}, as makuuchiPlacements, juryoPlacements and
+   * makushitaPlacements give them: a saved prediction), adding any sanyaku rows they use.
+   * `saveJuryo` and `saveMakushita` are whether the saved prediction included those divisions.
    */
-  restore(placements, { saveJuryo = false } = {}) {
+  restore(placements, { saveJuryo = false, saveMakushita = false } = {}) {
     this.guesses.clear();
-    this.saveJuryo = saveJuryo;
+    this.saveJuryo = saveJuryo || saveMakushita;
+    this.saveMakushita = saveMakushita;
     for (const { slot, key } of placements) {
       let s;
       try { s = parseSlot(slot); } catch { continue; }
@@ -132,18 +147,23 @@ export class GuessState extends EventTarget {
   /**
    * Progress: `spots` is the size of Makuuchi (the previous banzuke's headcount), `filled` how
    * many numbered Makuuchi slots hold exactly one rikishi; `juryoSpots` and `juryoFilled` the same
-   * for Juryo. Empty and shared slots don't count, nor do the candidates rows.
+   * for Juryo, `makushitaSpots` and `makushitaFilled` for the Makushita rows predicted (its top
+   * MAKUSHITA_GUESS_ROWS, whatever the size of the division). Empty and shared slots don't count,
+   * nor do the candidates rows.
    */
   counts() {
     const size = (division) => this.basho.rikishi.filter((r) => r.division === division).length;
     const perSlot = new Map();
     for (const slot of this.guesses.values()) perSlot.set(slot, (perSlot.get(slot) || 0) + 1);
-    const filled = { makuuchi: 0, juryo: 0 };
+    const filled = { makuuchi: 0, juryo: 0, makushita: 0 };
     for (const [slot, n] of perSlot) {
       const s = parseSlot(slot);
       if (n === 1 && !s.candidates && DIVISION_OF[s.rank] in filled) filled[DIVISION_OF[s.rank]]++;
     }
-    return { spots: size('makuuchi'), filled: filled.makuuchi, juryoSpots: size('juryo'), juryoFilled: filled.juryo };
+    return {
+      spots: size('makuuchi'), filled: filled.makuuchi, juryoSpots: size('juryo'), juryoFilled: filled.juryo,
+      makushitaSpots: 2 * MAKUSHITA_GUESS_ROWS, makushitaFilled: filled.makushita,
+    };
   }
 
   /**
@@ -159,9 +179,19 @@ export class GuessState extends EventTarget {
    */
   juryoPlacements() { return this.#placementsIn('juryo'); }
 
-  /** What Save Guess sends: {placements, juryo}, `juryo` being null unless `saveJuryo` is on. */
+  /** The same for the numbered Makushita slots: submitted with Juryo when `saveMakushita` is on, never scored. */
+  makushitaPlacements() { return this.#placementsIn('makushita'); }
+
+  /**
+   * What Save Guess sends: {placements, juryo, makushita}, `juryo` being null unless `saveJuryo` is
+   * on and `makushita` null unless `saveMakushita` is.
+   */
   submission() {
-    return { placements: this.makuuchiPlacements(), juryo: this.saveJuryo ? this.juryoPlacements() : null };
+    return {
+      placements: this.makuuchiPlacements(),
+      juryo: this.saveJuryo ? this.juryoPlacements() : null,
+      makushita: this.saveMakushita ? this.makushitaPlacements() : null,
+    };
   }
 
   #placementsIn(division) {
@@ -176,6 +206,6 @@ export class GuessState extends EventTarget {
   }
 
   toJSON() {
-    return { basho: this.basho.id, guesses: Object.fromEntries(this.guesses), rowCounts: this.rowCounts, saveJuryo: this.saveJuryo };
+    return { basho: this.basho.id, guesses: Object.fromEntries(this.guesses), rowCounts: this.rowCounts, saveJuryo: this.saveJuryo, saveMakushita: this.saveMakushita };
   }
 }

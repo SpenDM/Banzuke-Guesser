@@ -315,7 +315,7 @@ table.banzuke { border-collapse: collapse; width: 100%; font-variant-numeric: ta
 .banzuke td.rikishi { min-width: 120px; }
 .banzuke tr.division td { background: #efece4; font-weight: 700; text-align: left; padding: 4px 8px; letter-spacing: .02em; }
 .dark .banzuke tr.division td { background: #2b2f34; } /* dark: division header row */
-/* The Juryo header's "Save Juryo" checkbox (saveJuryoToggle in banzuke.js). */
+/* The Juryo header's "Include" checkbox (saveJuryoToggle in banzuke.js). */
 .banzuke tr.division .save-juryo { margin-left: 10px; vertical-align: middle; display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 400; color: var(--muted); cursor: pointer; }
 .banzuke tr.division .save-juryo input { margin: 0; width: 12px; height: 12px; cursor: pointer; }
 tr.sanyaku-gold td { background: var(--gold-bg); }

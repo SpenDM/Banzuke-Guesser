@@ -9,9 +9,9 @@ const basho = {
   rikishi: [
     ['a', 'Y', 1, 'E', 10], ['b', 'O', 1, 'E', 11], ['c', 'S', 1, 'E', 12], ['g', 'S', 1, 'W', 17],
     ['d', 'K', 1, 'E', 13], ['h', 'K', 1, 'W', 18], ['e', 'M', 1, 'E', 14], ['f', 'M', 1, 'W', null],
-    ['j', 'J', 1, 'E', 16], ['k', 'J', 1, 'W', 19],
+    ['j', 'J', 1, 'E', 16], ['k', 'J', 1, 'W', 19], ['m', 'Ms', 1, 'E', 20],
   ].map(([key, rank, num, side, rikishi_id]) => ({
-    key, name: key.toUpperCase(), rank, num, side, rikishi_id, division: rank === 'J' ? 'juryo' : 'makuuchi',
+    key, name: key.toUpperCase(), rank, num, side, rikishi_id, division: { J: 'juryo', Ms: 'makushita' }[rank] ?? 'makuuchi',
   })),
 };
 
@@ -256,5 +256,41 @@ test('a profile answer for another round leaves the submission alone', () => {
   register.dispatchEvent(profileEvent('202609', submission));
   assert.equal(els.button.textContent, 'Save\nGuess');
   register.dispatchEvent(profileEvent('202611', submission));
+  assert.equal(els.button.textContent, 'Saved');
+});
+
+test('Makushita, when saved, is checked after Juryo: 30 rikishi in its top 15 rows, the ↑J/↓Ms row empty, no gaps', () => {
+  const s = filled();
+  s.place('j', 'J1E');
+  s.place('k', 'J1W');
+  s.place('m', 'Ms1E');
+  s.setSaveMakushita(true);                       // ticks Juryo too
+  assert.equal(s.saveJuryo, true);
+  assert.equal(validateGuess(s), 'Not enough Makushita!');
+  assert.equal(guessIssues(s).has('Ms15W'), true); // the end of the 30 Makushita slots
+  s.place('m', '^J');
+  assert.equal(guessIssues(s).has('^J'), true);
+  s.place('k', 'Ms1E');                           // Juryo is checked first
+  assert.equal(validateGuess(s), 'Not enough Juryo!');
+  s.setSaveJuryo(false);                          // unticks Makushita too: nothing below Makuuchi is checked
+  assert.equal(s.saveMakushita, false);
+  assert.equal(validateGuess(s), null);
+});
+
+test('Save Guess sends the top of Makushita only when it is included', async () => {
+  const bodies = [];
+  const fetchImpl = async (url, { body }) => { bodies.push(body); return { ok: true, json: async () => ({ shikona: 'Tester', submitted_at: 't' }) }; };
+  const register = Object.assign(new EventTarget(), { shikona: 'Tester' });
+  const els = { button: fakeEl(), note: fakeEl() };
+  const state = filled();
+  state.place('m', 'Ms2W');
+  const c = new SubmitController(state, { id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 22' }, els, register, { fetchImpl, now: () => '2026-09-24' });
+  state.setSaveJuryo(true);
+  await c.send();
+  assert.equal('makushita' in bodies[0], false);
+  state.setSaveMakushita(true);
+  assert.equal(els.button.textContent, 'Save\nGuess');
+  await c.send();
+  assert.deepEqual(bodies[1].makushita, [{ slot: 'Ms2W', key: 'm', rikishi_id: 20, name: 'M' }]);
   assert.equal(els.button.textContent, 'Saved');
 });

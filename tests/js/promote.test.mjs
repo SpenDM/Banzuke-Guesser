@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import { idealPlacements, netScore, ozekiRunNeeded } from '../../public/js/promote.js';
 import { GuessState } from '../../public/js/state.js';
 
-// Y1, O1, S1-2, K1, M1-17, J1-14 (plus Ms1-15 with `makushita`), every slot filled with a 7-8
-// nobody (net -1; 3-4 in Makushita) unless overridden.
+// Y1, O1, S1-2, K1, M1-17, J1-14 (plus Ms1-15 with `makushita`, Ms1-60 with `makushita: 'full'`),
+// every slot filled with a 7-8 nobody (net -1; 3-4 in Makushita) unless overridden.
 function makeBasho(overrides = {}, { makushita = false } = {}) {
-  const counts = { Y: 1, O: 1, S: 2, K: 1, M: 17, J: 14, ...(makushita ? { Ms: 15 } : {}) };
+  const counts = { Y: 1, O: 1, S: 2, K: 1, M: 17, J: 14, ...(makushita ? { Ms: makushita === 'full' ? 60 : 15 } : {}) };
   const rikishi = [];
   for (const [rank, count] of Object.entries(counts)) {
     for (let num = 1; num <= count; num++) for (const side of ['E', 'W']) {
@@ -63,14 +63,29 @@ test('demotions cross into the next type down the same way the Change column cou
 });
 
 test('Makushita trades places with Juryo through the Juryo candidates row', () => {
-  const p = ideal(makeBasho({ MS1E: rec(4, 3), MS10W: rec(7, 0), MS5W: rec(7, 0), J13E: rec(5, 10), MS2W: rec(3, 4), MS15W: rec(1, 6) }, { makushita: true }));
-  assert.equal(p.get('ms1e'), '^J');   // +1 from Ms1E rises out of Makushita
-  assert.equal(p.get('ms5w'), '^J');   // however far the score carries them
-  assert.equal(p.get('ms10w'), 'Ms3W'); // one rank per point, as in every other division
-  assert.equal(p.get('j13e'), 'vMs');  // -5 from J13E drops into Makushita
-  assert.equal(p.get('ms2w'), 'Ms3W'); // -1 stays in Makushita
-  assert.equal(p.has('ms15w'), false); // below the Makushita rows shown: left unplaced
-  assert.equal(p.get('m17w'), 'vJ');   // Makuuchi still only drops as far as Juryo's candidates
+  const p = ideal(makeBasho({
+    MS1E: rec(4, 3), MS5E: rec(4, 3), MS6E: rec(4, 3), MS10W: rec(7, 0), MS14W: rec(5, 2), J13E: rec(5, 10), MS2W: rec(3, 4), MS15W: rec(1, 6),
+  }, { makushita: true }));
+  assert.equal(p.get('ms1e'), '^J');    // a kachi-koshi in the top five Makushita ranks: a Juryo candidate
+  assert.equal(p.get('ms5e'), '^J');    // (the score alone would only take Ms5E to Ms1E)
+  assert.equal(p.get('ms6e'), 'Ms2E');  // below them, four rows per point
+  assert.equal(p.get('ms10w'), '^J');   // a 7-0 at Ms15 or above earns Juryo promotion
+  assert.equal(p.get('ms14w'), 'Ms2W'); // 5-2: +3 is twelve rows
+  assert.equal(p.get('j13e'), 'vMs');   // -5 from J13E drops into Makushita
+  assert.equal(p.get('ms2w'), 'Ms6W');  // -1 stays in Makushita
+  assert.equal(p.has('ms15w'), false);  // below the Makushita rows predicted: left unplaced
+  assert.equal(p.get('m17w'), 'vJ');    // Makuuchi still only drops as far as Juryo's candidates
+});
+
+test('with all of Makushita on the results side, only its top 15 rows are predicted', () => {
+  const basho = makeBasho({ MS25W: rec(7, 0), MS20E: rec(5, 2), MS40E: rec(6, 1), MS12E: rec(3, 4) }, { makushita: 'full' });
+  const p = ideal(basho);
+  assert.equal(p.get('ms25w'), '^J');   // a 7-0 from Ms25W: 28 rows carries them out of Makushita
+  assert.equal(p.get('ms20e'), 'Ms8E'); // rising into the rows predicted
+  assert.equal(p.has('ms40e'), false);  // 6-1 from Ms40E lands on Ms20E, below them: left unplaced
+  assert.equal(p.has('ms12e'), false);  // as does 3-4 from Ms12E (Ms16E)
+  assert.equal(p.has('ms60w'), false);
+  assert.equal(new GuessState(basho).rowCounts.Ms, 15);
 });
 
 test('Makuuchi rikishi who would drop into Juryo become demotion candidates instead', () => {

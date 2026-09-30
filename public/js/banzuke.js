@@ -93,19 +93,29 @@ function changeSpan(c) {
   return span;
 }
 
-// Makushita is only ever shown down to Ms15, so its header says so.
-const DIVISION_LABELS = { ...DIVISION_NAMES, makushita: `${DIVISION_NAMES.makushita} (Top 30)` };
+// The results table has all of Makushita; the prediction and the announced banzuke only its top
+// 15 rows, so their header says so.
+const TOP_LABELS = { ...DIVISION_NAMES, makushita: `${DIVISION_NAMES.makushita} (Top 30)` };
 
-function divisionRow(rank, colspan, extra = null) {
-  return h('tr', { class: 'division' }, h('td', { colspan }, DIVISION_LABELS[DIVISION_OF[rank]], extra));
+function divisionRow(rank, colspan, extra = null, labels = TOP_LABELS) {
+  return h('tr', { class: 'division' }, h('td', { colspan }, labels[DIVISION_OF[rank]], extra));
 }
 
-/** The guess table's Juryo header checkbox: whether Save Guess includes the Juryo guesses. */
-function saveJuryoToggle(state) {
+/**
+ * The guess table's "Include" checkbox in the Juryo and Makushita headers: whether Save Guess
+ * includes that division's guesses. Makushita is only saved with Juryo: ticking it ticks Juryo,
+ * unticking Juryo unticks it (GuessState.setSaveJuryo / setSaveMakushita).
+ */
+function includeToggle(state, rank) {
+  const juryo = rank === 'J';
   return h('label', {
     class: 'save-juryo',
-    title: 'Save your Juryo guesses along with Makuuchi. They are shown with your saved prediction and compared on the Results page, but not scored or sent to GTB.',
-  }, h('input', { type: 'checkbox', dataSaveJuryo: true, checked: state.saveJuryo }), 'Save Prediction');
+    title: juryo
+      ? 'Save your Juryo guesses along with Makuuchi. They are shown with your saved prediction and compared on the Results page, but not scored or sent to GTB.'
+      : 'Save your guesses for the top 30 of Makushita along with Makuuchi and Juryo. They are shown with your saved prediction and compared on the Results page, but not scored or sent to GTB.',
+  }, h('input', {
+    type: 'checkbox', dataSaveDivision: juryo ? 'juryo' : 'makushita', checked: juryo ? state.saveJuryo : state.saveMakushita,
+  }), 'Include');
 }
 
 /** Left: Result | East | Rank | West | Result */
@@ -121,7 +131,7 @@ export function renderPrevious(table, state) {
   const tbody = h('tbody', { dataDropzone: 'previous' });
   let lastDivision = null;
   for (const { rank, num } of rows) {
-    if (DIVISION_OF[rank] !== lastDivision) { tbody.append(divisionRow(rank, 5)); lastDivision = DIVISION_OF[rank]; }
+    if (DIVISION_OF[rank] !== lastDivision) { tbody.append(divisionRow(rank, 5, null, DIVISION_NAMES)); lastDivision = DIVISION_OF[rank]; }
     const east = bySlot.get(slotId(rank, num, 'E'));
     const west = bySlot.get(slotId(rank, num, 'W'));
     const cellFor = (r) => {
@@ -154,7 +164,7 @@ export function renderGuess(table, state) {
   for (let i = 0; i < rows.length; i++) {
     const { rank, num, candidates } = rows[i];
     if (DIVISION_OF[rank] !== lastDivision) {
-      tbody.append(divisionRow(rank, 9, rank === 'J' ? saveJuryoToggle(state) : null));
+      tbody.append(divisionRow(rank, 9, rank === 'J' || rank === 'Ms' ? includeToggle(state, rank) : null));
       lastDivision = DIVISION_OF[rank];
     }
     if (candidates) { tbody.append(candidatesRow(state, rank, ladder)); continue; }
@@ -237,7 +247,7 @@ function candidatesRow(state, rank, ladder) {
 }
 
 /**
- * Results view: one banzuke (a submitted prediction, with Juryo when it was saved, or the announced
+ * Results view: one banzuke (a submitted prediction, with Juryo and Makushita when saved, or the announced
  * one, down to the top of Makushita) as East | Rank | West, each chip blue when that slot is in
  * `correctSlots` and red otherwise. Chips are neutral when `correctSlots` is null (nothing to
  * compare against) or `judged(slot)` is false (a division the prediction didn't cover).
@@ -272,21 +282,23 @@ export function renderComparison(table, placements, correctSlots, { judged = () 
 }
 
 /**
- * The "X/42 Makuuchi spots filled" count, with "X/28 Juryo spots filled" under it when Save Juryo
- * is on; once every counted spot is filled, a last line says whether the order has issues
+ * The "X/42 Makuuchi spots filled" count, with "X/28 Juryo spots filled" and "X/30 Makushita spots
+ * filled" under it when those are included; once every counted spot is filled, a last line says whether the order has issues
  * (`orderIssues`: whether guessIssues found any).
  */
 export function renderSummary(el, state, orderIssues) {
   const c = state.counts();
   el.textContent = `${c.filled}/${c.spots} Makuuchi spots filled`;
   if (state.saveJuryo) el.append(h('br'), `${c.juryoFilled}/${c.juryoSpots} Juryo spots filled`);
+  if (state.saveMakushita) el.append(h('br'), `${c.makushitaFilled}/${c.makushitaSpots} Makushita spots filled`);
   if (summaryFull(state)) el.append(h('br'), orderIssues ? 'Order issues detected' : 'No order issues detected');
 }
 
-/** Whether every counted spot is filled: Makuuchi's, and Juryo's too when Save Juryo is on. */
+/** Whether every counted spot is filled: Makuuchi's, and Juryo's and Makushita's too when included. */
 export function summaryFull(state) {
   const c = state.counts();
-  return c.filled === c.spots && (!state.saveJuryo || c.juryoFilled === c.juryoSpots);
+  return c.filled === c.spots && (!state.saveJuryo || c.juryoFilled === c.juryoSpots)
+    && (!state.saveMakushita || c.makushitaFilled === c.makushitaSpots);
 }
 
 export { parseSlot };

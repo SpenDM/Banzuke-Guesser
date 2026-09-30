@@ -19,8 +19,8 @@ async function fetchSubmissions(roundId) {
 }
 
 const divisionOf = (slot) => DIVISION_OF[parseSlot(slot).rank];
-/** A submission's whole prediction: Makuuchi plus Juryo when it was saved. */
-const allPlacements = (s) => [...s.placements, ...(s.juryo || [])];
+/** A submission's whole prediction: Makuuchi plus Juryo and Makushita when saved. */
+const allPlacements = (s) => [...s.placements, ...(s.juryo || []), ...(s.makushita || [])];
 
 const h = (tag, attrs = {}, ...children) => {
   const el = document.createElement(tag);
@@ -81,7 +81,7 @@ export class ResultsView {
     const actualRows = actual.rikishi.map((r) => ({ slot: `${r.rank}${r.num}${r.side}`, key: r.key, name: r.name, rikishi_id: r.rikishi_id }));
     this.actual = actualRows;
     this.actualMakuuchi = actualRows.filter((r) => divisionOf(r.slot) === 'makuuchi');
-    this.actualJuryo = actualRows.filter((r) => divisionOf(r.slot) === 'juryo');
+    this.actualLower = actualRows.filter((r) => divisionOf(r.slot) !== 'makuuchi');
     // `prediction` keeps the placements list: the score's own `placements` (a count) replaces it.
     const scored = (api.submissions || []).map((s) => ({ ...s, prediction: allPlacements(s), ...this.score(s) }));
     this.scored = scored;
@@ -93,8 +93,8 @@ export class ResultsView {
     $('#actual-empty').hidden = true;
     if (mine) {
       renderComparison($('#my-banzuke'), allPlacements(mine), myScore.marks);
-      // Juryo is only marked on the announced banzuke when the prediction included it.
-      const judged = (slot) => divisionOf(slot) === 'makuuchi' || (divisionOf(slot) === 'juryo' && !!mine.juryo?.length);
+      // Juryo and Makushita are only marked on the announced banzuke when the prediction included them.
+      const judged = (slot) => ({ makuuchi: true, juryo: !!mine.juryo?.length, makushita: !!mine.makushita?.length })[divisionOf(slot)];
       renderComparison($('#actual-banzuke'), actualRows, myScore.marks, { judged });
       $('#my-empty').hidden = true;
     } else {
@@ -112,12 +112,12 @@ export class ResultsView {
 
   /**
    * scoreGuess of a submission's Makuuchi prediction, plus `marks`: the slots to show blue, its
-   * correct Makuuchi slots and the Juryo slots it got right (compared, never scored).
+   * correct Makuuchi slots and the Juryo and Makushita slots it got right (compared, never scored).
    */
   score(s) {
     const score = scoreGuess(s.placements, this.actualMakuuchi);
-    const juryo = matchingSlots(s.juryo || [], this.actualJuryo);
-    return { ...score, marks: new Set([...score.correctSlots, ...juryo]) };
+    const lower = matchingSlots([...(s.juryo || []), ...(s.makushita || [])], this.actualLower);
+    return { ...score, marks: new Set([...score.correctSlots, ...lower]) };
   }
 
   empty(message) {

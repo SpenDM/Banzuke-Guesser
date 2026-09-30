@@ -18,7 +18,7 @@ from .model import Basho, NotAvailable, RikishiRow, basho_exists, make_key, prev
 KACHI_KOSHI = 8
 OZEKI_TARGET = 33          # wins over three sanyaku basho for Ozeki promotion
 OZEKI_RUN_MIN_PRIOR = 18   # fewer than this over the previous two and 33 is out of reach
-YUSHO_DIVISIONS = ("Makuuchi", "Juryo")
+YUSHO_DIVISIONS = ("Makuuchi", "Juryo", "Makushita")
 TSUNATORI_JUN_YUSHO_WINS = 12  # a jun-yusho only counts toward a Yokozuna run with this many wins
 
 

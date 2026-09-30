@@ -12,11 +12,14 @@ export const SANYAKU_TINT = { Y: 'gold', O: 'bronze', S: 'gold', K: 'bronze' };
 export const MIN_SANYAKU_ROWS = 1;
 export const MAX_SANYAKU_ROWS = 3;
 
+// The guess banzuke only has the top of Makushita (as the announced banzuke files do), for the
+// rikishi trading places with Juryo; the results side has all of it.
+export const MAKUSHITA_GUESS_ROWS = 15;
+
 // Default row template for the guess banzuke's rank-and-file. Sanyaku ranks are not listed:
-// each starts with as many rows as the previous banzuke had (see GuessState). Only the top of
-// Makushita is shown (as in the data), for the rikishi trading places with Juryo.
+// each starts with as many rows as the previous banzuke had (see GuessState).
 export const DEFAULT_GUESS_ROWS = [
-  ['M', 18], ['J', 14], ['Ms', 15],
+  ['M', 18], ['J', 14], ['Ms', MAKUSHITA_GUESS_ROWS],
 ].flatMap(([rank, count]) => Array.from({ length: count }, (_, i) => ({ rank, num: i + 1 })));
 
 export function slotId(rank, num, side) {

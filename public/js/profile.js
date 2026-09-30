@@ -15,6 +15,8 @@ const h = (tag, attrs = {}, ...children) => {
   return el;
 };
 
+const officialProfileUrl = (rikishiId) => `https://www.sumo.or.jp/EnSumoDataRikishi/profile/${rikishiId}/`;
+
 function ageFrom(birthDate) {
   if (!birthDate) return null;
   const b = new Date(birthDate);
@@ -152,7 +154,11 @@ export function installProfilePopup() {
       renderProfile(body, profile);
     } catch (err) {
       if (currentId !== rikishiId) return;
-      body.replaceChildren(h('p', { class: 'profile-error', text: 'Could not load this rikishi’s profile.' }));
+      // Profile pages are only kept down to the top of Makushita (scraper/profiles.py); the official
+      // site has everyone's.
+      body.replaceChildren(h('p', { class: 'profile-error' },
+        'No profile is available here for this rikishi. ',
+        h('a', { href: officialProfileUrl(rikishiId), target: '_blank', rel: 'noopener noreferrer', text: 'View it on sumo.or.jp' })));
     }
     position(popup, anchorChip); // content height changed
   }

@@ -22,7 +22,7 @@ from bs4 import BeautifulSoup
 
 from . import sumoapi
 from .http import session
-from .model import Basho, NotAvailable, write_json
+from .model import MAKUSHITA_ROWS, Basho, NotAvailable, write_json
 
 BASE = "https://www.sumo.or.jp"
 PROFILE_URL = BASE + "/EnSumoDataRikishi/profile/{rikishi_id}/"
@@ -357,8 +357,15 @@ def _jun_yusho_by_basho(data_dir: Path, profiles: list[dict]) -> dict[str, set[i
     return {b: {nsk[i] for i in ids if i in nsk} for b, ids in cache.items()}
 
 
+def wants_profile(r) -> bool:
+    """Whether a profile page is kept for this row: the sekitori and the top MAKUSHITA_ROWS rows of
+    Makushita (the rikishi trading places with Juryo); the popup links to sumo.or.jp for the rest."""
+    return r.division != "makushita" or r.num <= MAKUSHITA_ROWS
+
+
 def write_profiles(data_dir: Path, basho: Basho) -> int:
-    """Write public/data/profiles/{id}.json for every rikishi in `basho` that has a sumo.or.jp id."""
+    """Write public/data/profiles/{id}.json for every rikishi in `basho` that has a sumo.or.jp id
+    and gets a profile page (wants_profile)."""
     shusshin = _shusshin_by_nsk()
     shikona_ja = _shikona_ja_by_nsk()
     out_dir = data_dir / "profiles"
@@ -366,7 +373,7 @@ def write_profiles(data_dir: Path, basho: Basho) -> int:
     # First pass: build every profile (weight_class needs the whole cohort's weights).
     profiles = []
     for r in basho.rikishi:
-        if not r.rikishi_id:
+        if not r.rikishi_id or not wants_profile(r):
             continue
         try:
             profile = build_profile(r.rikishi_id, shusshin.get(r.rikishi_id))

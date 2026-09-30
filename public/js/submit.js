@@ -38,24 +38,31 @@ function headcount(perSlot) {
 }
 
 /**
- * The Juryo checks, made only when the Juryo guesses are saved too (Save Juryo): `total` the
- * rikishi in numbered Juryo slots, `multi` the Juryo slots holding more than one, `unplaced` the
- * halves of the Maegashira/Juryo candidates row (↑M, ↓J) still holding rikishi, `gaps` the empty
- * Juryo slots above a filled one; `end` the slots Show Issues marks for a headcount other than
- * `spots` (see guessIssues). Null when Juryo isn't saved.
+ * The checks of each division below Makuuchi that is saved too (its Include box), top-down: Juryo,
+ * then the top of Makushita. Each is {name; `total` the rikishi in its numbered slots, `multi` the
+ * slots holding more than one, `unplaced` the halves of the candidates row above it (↑M/↓J for
+ * Juryo, ↑J/↓Ms for Makushita) still holding rikishi, `gaps` the empty slots above a filled one;
+ * `end` the slots Show Issues marks for a headcount other than `spots` (see guessIssues)}.
  */
-function juryoIssues(state, perSlot) {
-  if (!state.saveJuryo) return null;
-  const { juryoSpots: spots } = state.counts();
-  const slots = slotsOf(state, 'J');
+function lowerIssues(state, perSlot) {
+  const c = state.counts();
+  const out = [];
+  if (state.saveJuryo) out.push(divisionIssues(state, perSlot, { name: 'Juryo', rank: 'J', above: 'M', spots: c.juryoSpots }));
+  if (state.saveMakushita) out.push(divisionIssues(state, perSlot, { name: 'Makushita', rank: 'Ms', above: 'J', spots: c.makushitaSpots }));
+  return out;
+}
+
+function divisionIssues(state, perSlot, { name, rank, above, spots }) {
+  const slots = slotsOf(state, rank);
   const total = slots.reduce((sum, slot) => sum + (perSlot.get(slot) || 0), 0);
   const lastFilled = slots.findLastIndex((slot) => perSlot.has(slot));
   const gaps = slots.slice(0, Math.max(lastFilled, 0)).filter((slot) => !perSlot.has(slot));
   return {
+    name,
     spots,
     total,
     multi: slots.filter((slot) => perSlot.get(slot) > 1),
-    unplaced: candidateRowSlots('M').filter((slot) => perSlot.has(slot)),
+    unplaced: candidateRowSlots(above).filter((slot) => perSlot.has(slot)),
     gaps,
     end: headcountEnd(slots, perSlot, spots - total - gaps.length, total - spots),
   };
@@ -123,8 +130,8 @@ function sanyakuShortfall(state, perSlot) {
  * Why the prediction cannot be submitted yet, or null when it can. Checked in order:
  * the Makuuchi headcount (see headcount), slots holding more than one rikishi (and candidates
  * left in a ↑ Sekiwake/Komusubi row), then gaps (gapSlots), then too few Sekiwake or Komusubi
- * (sanyakuShortfall); then, only when the Juryo guesses are saved too (juryoIssues), the Juryo
- * headcount, shared Juryo slots, rikishi left in the ↑M/↓J row and Juryo gaps.
+ * (sanyakuShortfall); then, for Juryo and then Makushita when saved too (lowerIssues), the
+ * headcount, shared slots, rikishi left in the candidates row above it and gaps.
  */
 export function validateGuess(state) {
   const { spots } = state.counts();
@@ -146,13 +153,13 @@ export function validateGuess(state) {
     return `Need ${MIN_SANYAKU[rank]} ${RANK_NAMES[rank]}`;
   }
 
-  const juryo = juryoIssues(state, perSlot);
-  if (!juryo) return null;
-  if (juryo.total < juryo.spots) return 'Not enough Juryo!';
-  if (juryo.total > juryo.spots) return 'Too many Juryo!';
-  if (juryo.multi.length) return `Multiple at ${juryo.multi[0]}`;
-  if (juryo.unplaced.length) return `Unplaced at ${slotName(juryo.unplaced[0])}`;
-  if (juryo.gaps.length) return `Gap at ${juryo.gaps[0]}`;
+  for (const d of lowerIssues(state, perSlot)) {
+    if (d.total < d.spots) return `Not enough ${d.name}!`;
+    if (d.total > d.spots) return `Too many ${d.name}!`;
+    if (d.multi.length) return `Multiple at ${d.multi[0]}`;
+    if (d.unplaced.length) return `Unplaced at ${slotName(d.unplaced[0])}`;
+    if (d.gaps.length) return `Gap at ${d.gaps[0]}`;
+  }
   return null;
 }
 
@@ -160,7 +167,7 @@ export function validateGuess(state) {
  * Every slot breaking the rules validateGuess checks, for Show Issues to outline: slots holding
  * more than one rikishi, ↑ Sekiwake/Komusubi rows still holding rikishi, gaps, the empty Sekiwake/
  * Komusubi slots short of the minimum, and the Maegashira slots at the end where the headcount is
- * off; with Save Juryo on, the same for Juryo (juryoIssues), plus the ↑M/↓J row if occupied. The headcount counts every rikishi however they are placed (a shared slot counts each of
+ * off; the same for Juryo and Makushita when saved (lowerIssues), plus the candidates row above each if occupied. The headcount counts every rikishi however they are placed (a shared slot counts each of
  * its rikishi), so the end is judged by how many rikishi the banzuke has: short by n, with g empty
  * slots already marked as gaps or sanyaku shortfall (each a missing rikishi), the n - g empty
  * slots after the last filled Maegashira slot are marked; over by n, the last filled Maegashira
@@ -174,13 +181,13 @@ export function guessIssues(state) {
   const issues = new Set([...numbered.filter((slot) => perSlot.get(slot) > 1), ...unplaced, ...empties]);
   for (const slot of headcountEnd(slotsOf(state, 'M'), perSlot, spots - total - empties.size, total - spots)) issues.add(slot);
 
-  const juryo = juryoIssues(state, perSlot);
-  if (juryo) for (const slot of [...juryo.multi, ...juryo.unplaced, ...juryo.gaps, ...juryo.end]) issues.add(slot);
+  for (const d of lowerIssues(state, perSlot)) for (const slot of [...d.multi, ...d.unplaced, ...d.gaps, ...d.end]) issues.add(slot);
   return issues;
 }
 
-/** Whether two submissions ({placements, juryo}) hold the same prediction; no Juryo list and none saved are the same. */
-const samePlacements = (a, b) => JSON.stringify([a.placements, a.juryo || null]) === JSON.stringify([b.placements, b.juryo || null]);
+/** Whether two submissions ({placements, juryo, makushita}) hold the same prediction; a missing list and none saved are the same. */
+const samePlacements = (a, b) => JSON.stringify([a.placements, a.juryo || null, a.makushita || null])
+  === JSON.stringify([b.placements, b.juryo || null, b.makushita || null]);
 const REGISTER_FIRST = 'Register first';
 
 /**
@@ -241,15 +248,15 @@ export class SubmitController {
   }
 
   async send() {
-    const { placements, juryo } = this.state.submission();
+    const { placements, juryo, makushita } = this.state.submission();
     this.sending = true;
     this.render();
     try {
-      const body = { basho: this.round.id, placements, ...(juryo ? { juryo } : {}) };
+      const body = { basho: this.round.id, placements, ...(juryo ? { juryo } : {}), ...(makushita ? { makushita } : {}) };
       const res = await this.fetch('/api/submit', { method: 'POST', body });
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
-        this.submission = { shikona: data.shikona || this.register.shikona, placements, juryo, submitted_at: data.submitted_at };
+        this.submission = { shikona: data.shikona || this.register.shikona, placements, juryo, makushita, submitted_at: data.submitted_at };
         saveSubmission(this.round.id, this.submission);
         this.message = null;
       } else if (data.error === 'not_registered') {

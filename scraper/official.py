@@ -7,7 +7,7 @@ next banzuke announcement; outside that window `NotAvailable` is raised.
 from __future__ import annotations
 
 from .http import session
-from .model import MAKUSHITA_ROWS, Basho, NotAvailable, RikishiRow, Tournament, make_key
+from .model import Basho, NotAvailable, RikishiRow, Tournament, make_key
 
 BASE = "https://www.sumo.or.jp"
 BANZUKE_URL = BASE + "/EnHonbashoBanzuke/indexAjax/{kakuzuke}/1/"
@@ -89,7 +89,7 @@ def current_basho_info() -> dict:
 
 
 def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
-    """Fetch Makuuchi, Juryo and the top of Makushita for `tournament`; raise NotAvailable if the site shows a different basho.
+    """Fetch Makuuchi, Juryo and Makushita for `tournament`; raise NotAvailable if the site shows a different basho.
 
     The site shows the upcoming basho from its announcement day, so with `require_results=False`
     this also fetches a freshly announced banzuke (results all zero).
@@ -101,8 +101,7 @@ def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
             f"sumo.or.jp currently shows basho ending {info.get('end_date')}, wanted {tournament.end_date}")
     rows = rows_from_payloads(mak_banzuke, fetch_hoshitori(MAKUUCHI))
     rows += rows_from_payloads(fetch_banzuke(JURYO), fetch_hoshitori(JURYO))
-    rows += [r for r in rows_from_payloads(fetch_banzuke(MAKUSHITA), fetch_hoshitori(MAKUSHITA))
-             if r.num <= MAKUSHITA_ROWS]
+    rows += rows_from_payloads(fetch_banzuke(MAKUSHITA), fetch_hoshitori(MAKUSHITA))
     return Basho(
         id=tournament.id,
         name=tournament.name,

@@ -3,8 +3,8 @@
 // Moves at the top of the banzuke that are decided outside the score system (Yokozuna/Ozeki
 // promotion, Ozeki demotion) use the indicators computed by the scraper (see rikishi flags).
 import {
-  CANDIDATE_RANKS, DIVISION_OF, MAX_SANYAKU_ROWS, RANK_ORDER, buildLadder, candidateSlotId, demotionSlotId, ladderPosition,
-  ladderSlot, positionWithinType, slotId,
+  CANDIDATE_RANKS, DIVISION_OF, MAKUSHITA_GUESS_ROWS, MAX_SANYAKU_ROWS, RANK_ORDER, buildLadder, candidateSlotId,
+  demotionSlotId, ladderPosition, ladderSlot, positionWithinType, slotId,
 } from './rank.js';
 
 // Absences count as losses, as they do for the real banzuke: 7-7-1 is a make-koshi (-1).
@@ -45,6 +45,23 @@ export const maegashiraForceMet = (r) => {
   return need != null && r.wins >= need;
 };
 
+// Makushita (7 bouts a basho) is several times the size of Juryo, so one rank per point would
+// barely move anyone there: each net win is worth this many rows instead, a rule of thumb for how
+// far the committee usually moves a 4-3 (+1), 5-2 (+3) or 6-1 (+5). Makuuchi and Juryo keep one.
+export const ROWS_PER_WIN = { makuuchi: 1, juryo: 1, makushita: 4 };
+export const MAKUSHITA_BOUTS = 7;
+export const MAKUSHITA_KACHI_KOSHI = 4;
+// A 7-0 at Makushita 15 or above earns Juryo promotion; a kachi-koshi in the top five Makushita
+// ranks puts a rikishi in line for one of the Juryo spots that open up.
+export const MAKUSHITA_ZENSHO_ROWS = 15;
+export const MAKUSHITA_JOI_ROWS = 5;
+/**
+ * Whether the Juryo promotion rules make this Makushita rikishi a Juryo candidate, whatever their
+ * score says: a 7-0 at Ms15 or above, or a kachi-koshi at Ms5 or above.
+ */
+export const juryoPromotionMet = (r) => r.rank === 'Ms'
+  && ((r.wins >= MAKUSHITA_BOUTS && r.num <= MAKUSHITA_ZENSHO_ROWS) || (r.wins >= MAKUSHITA_KACHI_KOSHI && r.num <= MAKUSHITA_JOI_ROWS));
+
 // The highest slot the score system can reach. Ozeki/Yokozuna promotion is decided on other
 // criteria, so a Sekiwake whose score would carry them past the top of Sekiwake stops here.
 const TOP_SLOT = slotId('S', 1, 'E');
@@ -84,11 +101,12 @@ export function idealPlacements(basho, placed, rowCounts) {
   );
 
   // Everyone else below Yokozuna/Ozeki moves by their net score, one rank number per point (E/W
-  // is a half step), chained across rank types the same way the rank-change column counts them.
+  // is a half step; more in Makushita, see ROWS_PER_WIN), chained across rank types the same way
+  // the rank-change column counts them, unless the Juryo promotion rules make them a candidate.
   // Walking them in banzuke order keeps a candidates row (or a shared slot) sorted by previous rank.
   for (const r of active) {
     if (r.rank === 'Y' || r.rank === 'O' || special.has(r.key)) continue;
-    const slot = scoreSlot(ladder, r);
+    const slot = juryoPromotionMet(r) ? candidateSlotId('J') : scoreSlot(ladder, r);
     if (slot) placements.set(r.key, slot);
   }
 
@@ -119,13 +137,15 @@ export function idealPlacements(basho, placed, rowCounts) {
 
 function scoreSlot(ladder, r) {
   const from = ladderPosition(ladder, r.rank, r.num, r.side);
-  const target = from - netScore(r) * 2;
+  const target = from - netScore(r) * 2 * ROWS_PER_WIN[DIVISION_OF[r.rank]];
   const dest = ladderSlot(ladder, target);
   const fromIndex = RANK_ORDER.indexOf(r.rank);
 
   // Same type, or demoted into a lower one: the slot the score points at, except that a Makuuchi
   // or Juryo rikishi who would drop out of their division becomes a demotion candidate for the
-  // division below instead. Makushita rikishi dropping below the rows shown are left unplaced.
+  // division below instead. Makushita rikishi landing below the Makushita rows the prediction has
+  // (MAKUSHITA_GUESS_ROWS) are left unplaced, whether they fell there or rose from further down.
+  if (dest?.rank === 'Ms' && dest.num > MAKUSHITA_GUESS_ROWS) return null;
   const demoted = dest ? RANK_ORDER.indexOf(dest.rank) >= fromIndex : target > from;
   if (demoted) {
     if (!dest || DIVISION_OF[dest.rank] !== DIVISION_OF[r.rank]) {

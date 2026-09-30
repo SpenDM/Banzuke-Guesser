@@ -19,11 +19,12 @@ def test_write_basho_and_index(tmp_path: Path):
     assert idx == {"latest": "202609", "basho": ["202607", "202609"]}
 
 
-def test_write_banzuke_keeps_every_slot_without_results(tmp_path: Path):
+def test_write_banzuke_keeps_every_slot_down_to_ms15_without_results(tmp_path: Path):
     rows = [RikishiRow(key="a", name="A", rank="Y", num=1, side="E", wins=0, losses=0, absences=0, rikishi_id=1),
             RikishiRow(key="b", name="B", rank="M", num=1, side="W", wins=0, losses=0, absences=0),
             RikishiRow(key="j", name="J", rank="J", num=1, side="E", wins=0, losses=0, absences=0, rikishi_id=3),
-            RikishiRow(key="ms", name="Ms", rank="Ms", num=1, side="W", wins=0, losses=0, absences=0, rikishi_id=4)]
+            RikishiRow(key="ms", name="Ms", rank="Ms", num=1, side="W", wins=0, losses=0, absences=0, rikishi_id=4),
+            RikishiRow(key="low", name="Low", rank="Ms", num=16, side="E", wins=0, losses=0, absences=0, rikishi_id=5)]
     basho = Basho(id="202609", name="September 2026", start_date="2026-09-13", end_date="2026-09-27",
                   source="test", rikishi=rows)
     path = write_banzuke(tmp_path, basho, "2026-08-31")

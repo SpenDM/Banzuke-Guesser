@@ -7,7 +7,7 @@ import sys
 import requests
 
 from .http import session
-from .model import MAKUSHITA_ROWS, Basho, NotAvailable, RikishiRow, Tournament, make_key
+from .model import Basho, NotAvailable, RikishiRow, Tournament, make_key
 
 BASHO_URL = "https://sumo-api.com/api/basho/{basho_id}"
 BANZUKE_URL = "https://sumo-api.com/api/basho/{basho_id}/banzuke/{division}"
@@ -15,14 +15,17 @@ RIKISHIS_URL = "https://sumo-api.com/api/rikishis?limit=1000"   # active rikishi
 RIKISHI_URL = "https://sumo-api.com/api/rikishi/{api_id}"
 RANK_CODE = {"Yokozuna": "Y", "Ozeki": "O", "Sekiwake": "S", "Komusubi": "K",
              "Maegashira": "M", "Juryo": "J", "Makushita": "Ms"}
-_RANK_RE = re.compile(r"^(Yokozuna|Ozeki|Sekiwake|Komusubi|Maegashira|Juryo|Makushita) (\d+) (East|West)$")
+# "TD" is a tsukedashi debut ("Makushita 60 TD"): a newcomer listed at the foot of the division.
+_RANK_RE = re.compile(r"^(Yokozuna|Ozeki|Sekiwake|Komusubi|Maegashira|Juryo|Makushita) (\d+) (East|West|TD)$")
 
 
 def parse_rank(text: str) -> tuple[str, int, str]:
+    """("Ms", 15, "W") for "Makushita 15 West"; the side is "TD" for a tsukedashi debut."""
     m = _RANK_RE.match(text.strip())
     if not m:
         raise ValueError(f"unrecognised rank string: {text!r}")
-    return RANK_CODE[m.group(1)], int(m.group(2)), m.group(3)[0]
+    side = m.group(3)
+    return RANK_CODE[m.group(1)], int(m.group(2)), side if side == "TD" else side[0]
 
 
 def _get(url: str) -> dict:
@@ -72,39 +75,44 @@ def nsk_id_for(api_id: int) -> int | None:
     return ids[api_id]
 
 
-def rows_from_payload(payload: dict, with_ids: bool = True, max_num: int | None = None) -> list[RikishiRow]:
-    """Rows of one division's banzuke payload; `with_ids=False` skips the rikishi-id lookups,
-    `max_num` drops the rows numbered below it (Makushita is only kept down to MAKUSHITA_ROWS)."""
+def rows_from_payload(payload: dict, with_ids: bool = True) -> list[RikishiRow]:
+    """Rows of one division's banzuke payload; `with_ids=False` skips the rikishi-id lookups.
+
+    A tsukedashi debut has no side of its own: it takes the next half-step below the division's
+    last row (Ms60 TD -> Ms61E), as it is listed below everyone else there.
+    """
+    entries = [(parse_rank(r["rank"]), r) for side in ("east", "west") for r in payload.get(side) or []]
+    # Half-step position of the division's last East/West slot (E = num * 2, W = num * 2 + 1).
+    last = max((num * 2 + (ew == "W") for (_, num, ew), _ in entries if ew != "TD"), default=1)
     rows = []
-    for side in ("east", "west"):
-        for r in payload.get(side) or []:
-            code, num, ew = parse_rank(r["rank"])
-            if max_num is not None and num > max_num:
-                continue
-            name = r["shikonaEn"].strip()
-            api_id = r.get("rikishiID")
-            rows.append(RikishiRow(
-                key=make_key(name),
-                name=name,
-                rank=code,
-                num=num,
-                side=ew,
-                wins=int(r.get("wins") or 0),
-                losses=int(r.get("losses") or 0),
-                absences=int(r.get("absences") or 0),
-                retired=False,
-                note=None,
-                profile_url=None,
-                rikishi_id=nsk_id_for(int(api_id)) if with_ids and api_id else None,
-            ))
+    for (code, num, ew), r in entries:
+        if ew == "TD":
+            last += 1
+            num, ew = last // 2, "W" if last % 2 else "E"
+        name = r["shikonaEn"].strip()
+        api_id = r.get("rikishiID")
+        rows.append(RikishiRow(
+            key=make_key(name),
+            name=name,
+            rank=code,
+            num=num,
+            side=ew,
+            wins=int(r.get("wins") or 0),
+            losses=int(r.get("losses") or 0),
+            absences=int(r.get("absences") or 0),
+            retired=False,
+            note=None,
+            profile_url=None,
+            rikishi_id=nsk_id_for(int(api_id)) if with_ids and api_id else None,
+        ))
     return rows
 
 
 def build_basho(tournament: Tournament, require_results: bool = True) -> Basho:
     """`require_results=False` accepts the freshly announced banzuke, whose results are all zero."""
     rows: list[RikishiRow] = []
-    for division, max_num in (("Makuuchi", None), ("Juryo", None), ("Makushita", MAKUSHITA_ROWS)):
-        rows += rows_from_payload(_get(BANZUKE_URL.format(basho_id=tournament.id, division=division)), max_num=max_num)
+    for division in ("Makuuchi", "Juryo", "Makushita"):
+        rows += rows_from_payload(_get(BANZUKE_URL.format(basho_id=tournament.id, division=division)))
     if not rows:
         raise NotAvailable(f"sumo-api.com returned no rikishi for {tournament.id}")
     if require_results and all(r.wins + r.losses + r.absences == 0 for r in rows):

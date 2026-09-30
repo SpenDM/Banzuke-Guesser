@@ -1,11 +1,11 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
-import { JURYO_MAX, validatePlacements } from '../../functions/api/submit.js';
+import { JURYO_MAX, MAKUSHITA_MAX, validatePlacements } from '../../functions/api/submit.js';
 
 const place = (slot, i) => ({ slot, key: `r${i}`, rikishi_id: i, name: `R${i}` });
 
 test('a Juryo list may be partial but only holds Juryo slots, each once, and no one placed in Makuuchi', () => {
-  const juryo = { juryo: true };
+  const juryo = { division: 'juryo' };
   assert.deepEqual(validatePlacements([], juryo), []);
   assert.deepEqual(validatePlacements([place('J1E', 1), place('J14W', 2)], juryo).map((p) => p.slot), ['J1E', 'J14W']);
   assert.match(validatePlacements([place('M1E', 1)], juryo), /bad slot/);
@@ -21,4 +21,13 @@ test('Makuuchi placements still need exactly 42 and reject Juryo slots', () => {
   assert.equal(validatePlacements(mak).length, 42);
   assert.match(validatePlacements(mak.slice(1)), /exactly 42/);
   assert.match(validatePlacements([...mak.slice(1), place('J1E', 99)]), /bad slot/);
+});
+
+test('a Makushita list only holds its top 15 rows, and no one placed above', () => {
+  const makushita = { division: 'makushita' };
+  assert.deepEqual(validatePlacements([place('Ms1E', 1), place('Ms15W', 2)], makushita).map((p) => p.slot), ['Ms1E', 'Ms15W']);
+  assert.match(validatePlacements([place('Ms16E', 1)], makushita), /bad slot/);
+  assert.match(validatePlacements([place('J1E', 1)], makushita), /bad slot/);
+  assert.match(validatePlacements([place('Ms1E', 1)], { ...makushita, taken: new Set([1]) }), /placed twice/);
+  assert.match(validatePlacements(Array.from({ length: MAKUSHITA_MAX + 1 }, (_, i) => place(`Ms${(i % 15) + 1}E`, i)), makushita), /at most/);
 });

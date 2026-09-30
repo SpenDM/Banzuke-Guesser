@@ -21,7 +21,9 @@ RANK_NAMES = {
 }
 DIVISION_OF_RANK = {"Y": "makuuchi", "O": "makuuchi", "S": "makuuchi",
                     "K": "makuuchi", "M": "makuuchi", "J": "juryo", "Ms": "makushita"}
-# Only the top of Makushita is kept: the rows a rikishi can be promoted to Juryo from.
+# Results files hold all of Makushita (MAKUSHITA_SIZE rikishi), from which the top can be
+# promoted to Juryo; the announced banzuke only keeps its top MAKUSHITA_ROWS rows.
+MAKUSHITA_SIZE = 120
 MAKUSHITA_ROWS = 15
 # Bouts per tournament: Makushita and below fight 7, sekitori 15.
 BOUTS = {"makushita": 7}
@@ -153,10 +155,10 @@ class Basho:
 
     def to_banzuke_dict(self, banzuke_date: str) -> dict:
         """The announced banzuke (no results): what predictions are scored against (Makuuchi) and
-        compared with (Juryo); the top of Makushita is shown alongside."""
+        compared with (Juryo); the top MAKUSHITA_ROWS rows of Makushita are shown alongside."""
         rows = [{"key": r.key, "name": r.name, "rank": r.rank, "num": r.num, "side": r.side,
                  "rikishi_id": r.rikishi_id}
-                for r in self.sorted_rikishi()]
+                for r in self.sorted_rikishi() if r.division != "makushita" or r.num <= MAKUSHITA_ROWS]
         return {
             "id": self.id,
             "name": self.name,
@@ -193,8 +195,8 @@ class Basho:
         if n_jur != 28:
             warnings.append(f"Juryo has {n_jur} rikishi (expected 28)")
         n_ms = sum(1 for r in self.rikishi if r.division == "makushita")
-        if n_ms != 2 * MAKUSHITA_ROWS:
-            warnings.append(f"Makushita has {n_ms} rikishi (expected {2 * MAKUSHITA_ROWS})")
+        if n_ms != MAKUSHITA_SIZE:
+            warnings.append(f"Makushita has {n_ms} rikishi (expected {MAKUSHITA_SIZE})")
         return warnings
 
 

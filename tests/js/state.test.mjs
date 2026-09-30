@@ -108,7 +108,7 @@ test('load ignores snapshots from another basho and unknown rikishi/slots', () =
 
 test('counts() tracks Makuuchi and Juryo slots holding exactly one rikishi', () => {
   const s = new GuessState(basho);
-  assert.deepEqual(s.counts(), { spots: 2, filled: 0, juryoSpots: 1, juryoFilled: 0 });
+  assert.deepEqual(s.counts(), { spots: 2, filled: 0, juryoSpots: 1, juryoFilled: 0, makushitaSpots: 30, makushitaFilled: 0 });
   s.place('onosato', 'Y1E');
   assert.equal(s.counts().filled, 1);
   s.place('aonishiki', 'Y1E'); // doubled up: no longer counts
@@ -116,6 +116,8 @@ test('counts() tracks Makuuchi and Juryo slots holding exactly one rikishi', () 
   s.place('aonishiki', 'J1E');  // Juryo is counted apart
   assert.equal(s.counts().filled, 1);
   assert.equal(s.counts().juryoFilled, 1);
+  s.place('nishinoryu', 'Ms15W');
+  assert.equal(s.counts().makushitaFilled, 1);
   s.place('aonishiki', '^K');   // nor do candidates rows
   assert.equal(s.counts().filled, 1);
 });
@@ -126,4 +128,27 @@ test('restore replaces every guess with the saved placements, adding the rows th
   s.restore([{ slot: 'Y2E', key: 'onosato' }, { slot: 'X9Q', key: 'aonishiki' }, { slot: 'O1E', key: 'gone' }]);
   assert.deepEqual(Object.fromEntries(s.guesses), { onosato: 'Y2E' });
   assert.equal(s.rowCounts.Y, 2);
+});
+
+test('Makushita is only saved with Juryo: ticking it ticks Juryo, unticking Juryo unticks it', () => {
+  const s = new GuessState(basho);
+  s.place('nishinoryu', 'Ms3E');
+  s.place('tomokaze', 'J2E');
+  s.setSaveMakushita(true);
+  assert.equal(s.saveJuryo, true);
+  assert.deepEqual(s.submission().makushita, [{ slot: 'Ms3E', key: 'nishinoryu', rikishi_id: null, name: 'Nishinoryu' }]);
+  s.setSaveMakushita(false);                   // Makushita off leaves Juryo on
+  assert.equal(s.saveJuryo, true);
+  assert.equal(s.submission().makushita, null);
+  s.setSaveMakushita(true);
+  s.setSaveJuryo(false);
+  assert.deepEqual([s.saveJuryo, s.saveMakushita], [false, false]);
+  s.setSaveMakushita(true);
+  const b = new GuessState(basho);
+  b.load(JSON.parse(JSON.stringify(s.toJSON())));
+  assert.deepEqual([b.saveJuryo, b.saveMakushita], [true, true]);
+  b.restore([{ slot: 'Ms1E', key: 'nishinoryu' }], { saveMakushita: true });
+  assert.deepEqual([b.saveJuryo, b.saveMakushita], [true, true]);
+  b.restore([]);
+  assert.deepEqual([b.saveJuryo, b.saveMakushita], [false, false]);
 });

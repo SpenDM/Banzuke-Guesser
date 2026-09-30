@@ -159,10 +159,11 @@ function showPrediction(basho) {
 
   // View Saved Prediction: the left table shows the saved prediction instead of the results, and
   // the slots where it and what Save Guess would now send differ are outlined blue on the prediction.
-  let saved;             // the saved submission ({shikona, placements, juryo, submitted_at}) or null; unset until SubmitController reports it
+  let saved;             // the saved submission ({shikona, placements, juryo, makushita, submitted_at}) or null; unset until SubmitController reports it
   let viewSaved = false;
-  const savedPlacements = () => [...saved.placements, ...(saved.juryo || [])];
-  const currentPlacements = () => { const s = state.submission(); return [...s.placements, ...(s.juryo || [])]; };
+  const all = (s) => [...s.placements, ...(s.juryo || []), ...(s.makushita || [])];
+  const savedPlacements = () => all(saved);
+  const currentPlacements = () => all(state.submission());
   const renderLeft = () => {
     if (!viewSaved) { renderPrevious(prevTable, state); return; }
     // The chips carry the rikishi's indicator badges, as on the results table.
@@ -236,7 +237,8 @@ function showPrediction(basho) {
     if (removeBtn) state.removeRow(removeBtn.dataset.removeRow);
   }, { signal });
   app.addEventListener('change', (e) => {
-    if (e.target.matches('input[data-save-juryo]')) state.setSaveJuryo(e.target.checked);
+    if (e.target.matches('input[data-save-division="juryo"]')) state.setSaveJuryo(e.target.checked);
+    if (e.target.matches('input[data-save-division="makushita"]')) state.setSaveMakushita(e.target.checked);
   }, { signal });
   installApplyIdeal(basho, state);
   $('#reset').onclick = () => {
@@ -246,9 +248,10 @@ function showPrediction(basho) {
   $('#revert').onclick = () => {
     if (!saved) return;
     const placements = savedPlacements();
-    const same = state.guesses.size === placements.length && state.saveJuryo === !!saved.juryo
-      && differingSlots(placements, currentPlacements()).size === 0;
-    if (!same && confirm('Replace your current guesses with your saved prediction?')) state.restore(placements, { saveJuryo: !!saved.juryo });
+    const include = { saveJuryo: !!saved.juryo, saveMakushita: !!saved.makushita };
+    const same = state.guesses.size === placements.length && state.saveJuryo === include.saveJuryo
+      && state.saveMakushita === include.saveMakushita && differingSlots(placements, currentPlacements()).size === 0;
+    if (!same && confirm('Replace your current guesses with your saved prediction?')) state.restore(placements, include);
   };
 
   const round = roundOf(basho);
