@@ -6,6 +6,7 @@
     python -m scraper.cli banzuke --basho 202609       # fetch an announced banzuke (what guesses are scored on)
     python -m scraper.cli live                         # refresh data/live.json (the tournament under way)
     python -m scraper.cli profiles --basho 202607      # (re)build the rikishi profile pages for a basho
+    python -m scraper.cli juryo                        # mark the announced Juryo promotions in the latest results
     python -m scraper.cli schedule                     # refresh schedule.json only
 """
 from __future__ import annotations
@@ -16,7 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import annotate, official, profiles, sumoapi
+from . import annotate, juryo, official, profiles, sumoapi
 from .model import (Basho, NotAvailable, Tournament, banzuke_exists, basho_exists, live_path, next_tournament,
                     read_basho, read_live, update_index, write_banzuke, write_basho, write_live, write_schedule)
 from .schedule import fetch_schedule, latest_announced, latest_finished, under_way
@@ -215,6 +216,10 @@ def cmd_profiles(args) -> int:
     return 0
 
 
+def cmd_juryo(args) -> int:
+    return juryo.apply(args.data_dir)
+
+
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="scraper")
     p.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
@@ -244,6 +249,8 @@ def main(argv: list[str] | None = None) -> int:
     bz.add_argument("--basho", required=True, help="YYYYMM")
     bz.add_argument("--source", choices=["auto", "official", "sumoapi"], default="auto")
     bz.set_defaults(func=cmd_banzuke)
+
+    sub.add_parser("juryo").set_defaults(func=cmd_juryo)
 
     lv = sub.add_parser("live")
     lv.add_argument("--source", choices=["auto", "official", "sumoapi"], default="auto")

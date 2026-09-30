@@ -83,6 +83,9 @@ class RikishiRow:
     tsunatori_needs_yusho: bool = False
     ozeki_run: int | None = None     # Sekiwake: wins over the previous two sanyaku basho, when >= 18
     ozeki_return: bool = False       # Sekiwake who was Ozeki last basho (10 wins regain the rank)
+    # Set by juryo.py, not annotate.py: named by the JSA's announcement of the next basho's new (and
+    # returning) Juryo rikishi, made a few days after the tournament ends.
+    juryo_promotion: bool = False
 
     @property
     def division(self) -> str:

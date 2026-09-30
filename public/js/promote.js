@@ -62,6 +62,13 @@ export const MAKUSHITA_JOI_ROWS = 5;
 export const juryoPromotionMet = (r) => r.rank === 'Ms'
   && ((r.wins >= MAKUSHITA_BOUTS && r.num <= MAKUSHITA_ZENSHO_ROWS) || (r.wins >= MAKUSHITA_KACHI_KOSHI && r.num <= MAKUSHITA_JOI_ROWS));
 
+// Once the JSA has announced the next basho's Juryo promotions (`juryo_promotion`, set by
+// scraper/juryo.py a few days after the tournament), those rikishi are the Juryo candidates and
+// nobody else from Makushita rises past its top slot.
+const MAKUSHITA_TOP = slotId('Ms', 1, 'E');
+/** Whether this basho's Juryo promotions have been announced (anyone carries `juryo_promotion`). */
+export const juryoPromotionsAnnounced = (basho) => basho.rikishi.some((r) => r.juryo_promotion);
+
 // The highest slot the score system can reach. Ozeki/Yokozuna promotion is decided on other
 // criteria, so a Sekiwake whose score would carry them past the top of Sekiwake stops here.
 const TOP_SLOT = slotId('S', 1, 'E');
@@ -103,10 +110,19 @@ export function idealPlacements(basho, placed, rowCounts) {
   // Everyone else below Yokozuna/Ozeki moves by their net score, one rank number per point (E/W
   // is a half step; more in Makushita, see ROWS_PER_WIN), chained across rank types the same way
   // the rank-change column counts them, unless the Juryo promotion rules make them a candidate.
+  // Once the promotions are announced, the rikishi named are the Juryo candidates instead, and any
+  // other Makushita rikishi the score would lift into Juryo (a 7-0 included) stops at Ms1E.
   // Walking them in banzuke order keeps a candidates row (or a shared slot) sorted by previous rank.
+  const announced = juryoPromotionsAnnounced(basho);
   for (const r of active) {
     if (r.rank === 'Y' || r.rank === 'O' || special.has(r.key)) continue;
-    const slot = juryoPromotionMet(r) ? candidateSlotId('J') : scoreSlot(ladder, r);
+    let slot;
+    if (!announced) slot = juryoPromotionMet(r) ? candidateSlotId('J') : scoreSlot(ladder, r);
+    else if (r.juryo_promotion) slot = candidateSlotId('J');
+    else {
+      slot = scoreSlot(ladder, r);
+      if (r.rank === 'Ms' && slot === candidateSlotId('J')) slot = MAKUSHITA_TOP;
+    }
     if (slot) placements.set(r.key, slot);
   }
 

@@ -1,0 +1,49 @@
+name: Mark confirmed Juryo promotions
+
+on:
+  schedule:
+    # The JSA announces the next basho's new Juryo rikishi a few days after a tournament ends (at
+    # the banzuke committee meeting, usually the Wednesday after the final Sunday). Check hourly
+    # from 09:05 to 18:05 JST (00:05-09:05 UTC), Monday to Thursday. The script is a no-op unless
+    # the announcement is for the round the latest results file predicts and isn't marked yet.
+    - cron: "5 0-9 * * 1-4"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Shares the data workflow's group so the two never push data at the same time.
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  juryo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -e ".[dev]"
+
+      - name: Mark the announced Juryo promotions in the latest results
+        run: python -m scraper.cli juryo
+
+      - name: Commit and push if data changed
+        # Also after a failed match, so the rikishi that were found are still marked.
+        if: ${{ !cancelled() }}
+        run: |
+          if git diff --quiet -- public/data; then
+            echo "Data unchanged; nothing to commit."
+            exit 0
+          fi
+          latest=$(python -c "import json;print(json.load(open('public/data/index.json'))['latest'])")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data
+          git commit -m "Mark confirmed Juryo promotions (${latest})"
+          git push

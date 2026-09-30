@@ -33,6 +33,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "12-3"
     },
@@ -57,6 +58,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "0-0-15"
     },
@@ -81,6 +83,7 @@
       "tsunatori_needs_yusho": true,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -105,6 +108,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -129,6 +133,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "11-4"
     },
@@ -153,6 +158,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": 21,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -177,6 +183,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "11-4"
     },
@@ -201,6 +208,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "5-10"
     },
@@ -225,6 +233,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "5-10"
     },
@@ -249,6 +258,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "5-7-3"
     },
@@ -273,6 +283,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "5-10"
     },
@@ -297,6 +308,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "7-8"
     },
@@ -321,6 +333,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -345,6 +358,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "6-9"
     },
@@ -369,6 +383,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "10-5"
     },
@@ -393,6 +408,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "4-9-2"
     },
@@ -417,6 +433,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -441,6 +458,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "6-9"
     },
@@ -465,6 +483,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "6-9"
     },
@@ -489,6 +508,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "10-5"
     },
@@ -513,6 +533,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "4-11"
     },
@@ -537,6 +558,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -561,6 +583,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "7-8"
     },
@@ -585,6 +608,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -609,6 +633,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -633,6 +658,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "10-5"
     },
@@ -657,6 +683,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "7-8"
     },
@@ -681,6 +708,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "7-8"
     },
@@ -705,6 +733,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -729,6 +758,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "10-5"
     },
@@ -753,6 +783,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "3-12"
     },
@@ -777,6 +808,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "0-0-15"
     },
@@ -801,6 +833,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -825,6 +858,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -849,6 +883,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -873,6 +908,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "4-11"
     },
@@ -897,6 +933,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "5-10"
     },
@@ -921,6 +958,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -945,6 +983,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "8-7"
     },
@@ -969,6 +1008,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "0-0-15"
     },
@@ -993,6 +1033,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "9-6"
     },
@@ -1017,6 +1058,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makuuchi",
       "record": "3-12"
     },
@@ -1041,6 +1083,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "10-5"
     },
@@ -1065,6 +1108,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "8-7"
     },
@@ -1089,6 +1133,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "8-7"
     },
@@ -1113,6 +1158,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "6-9"
     },
@@ -1137,6 +1183,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "10-5"
     },
@@ -1161,6 +1208,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "8-7"
     },
@@ -1185,6 +1233,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "8-7"
     },
@@ -1209,6 +1258,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "5-10"
     },
@@ -1233,6 +1283,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "3-12"
     },
@@ -1257,6 +1308,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "10-5"
     },
@@ -1281,6 +1333,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "11-4"
     },
@@ -1305,6 +1358,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "6-9"
     },
@@ -1329,6 +1383,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "7-8"
     },
@@ -1353,6 +1408,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "5-10"
     },
@@ -1377,6 +1433,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "9-6"
     },
@@ -1401,6 +1458,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "4-11"
     },
@@ -1425,6 +1483,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "7-8"
     },
@@ -1449,6 +1508,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "8-7"
     },
@@ -1473,6 +1533,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "9-6"
     },
@@ -1497,6 +1558,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "9-6"
     },
@@ -1521,6 +1583,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "11-4"
     },
@@ -1545,6 +1608,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "9-6"
     },
@@ -1569,6 +1633,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "6-9"
     },
@@ -1593,6 +1658,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "11-4"
     },
@@ -1617,6 +1683,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "7-8"
     },
@@ -1641,6 +1708,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "7-8"
     },
@@ -1665,6 +1733,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "5-10"
     },
@@ -1689,6 +1758,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "juryo",
       "record": "6-9"
     },
@@ -1713,6 +1783,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -1737,6 +1808,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": true,
       "division": "makushita",
       "record": "6-1"
     },
@@ -1761,6 +1833,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-0-7"
     },
@@ -1785,6 +1858,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -1809,6 +1883,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -1833,6 +1908,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -1857,6 +1933,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": true,
       "division": "makushita",
       "record": "4-3"
     },
@@ -1881,6 +1958,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -1905,6 +1983,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -1929,6 +2008,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -1953,6 +2033,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -1977,6 +2058,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2001,6 +2083,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2025,6 +2108,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2049,6 +2133,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "6-1"
     },
@@ -2073,6 +2158,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2097,6 +2183,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2121,6 +2208,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -2145,6 +2233,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2169,6 +2258,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-0-7"
     },
@@ -2193,6 +2283,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2217,6 +2308,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2241,6 +2333,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2265,6 +2358,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2289,6 +2383,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2313,6 +2408,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2337,6 +2433,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2361,6 +2458,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2385,6 +2483,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2409,6 +2508,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2433,6 +2533,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2457,6 +2558,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2481,6 +2583,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2505,6 +2608,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2529,6 +2633,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2553,6 +2658,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -2577,6 +2683,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2601,6 +2708,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2625,6 +2733,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2649,6 +2758,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-0-7"
     },
@@ -2673,6 +2783,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-7"
     },
@@ -2697,6 +2808,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2721,6 +2833,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2745,6 +2858,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2769,6 +2883,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "6-1"
     },
@@ -2793,6 +2908,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -2817,6 +2933,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -2841,6 +2958,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -2865,6 +2983,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -2889,6 +3008,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "7-0"
     },
@@ -2913,6 +3033,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-0-7"
     },
@@ -2937,6 +3058,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -2961,6 +3083,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-3-1"
     },
@@ -2985,6 +3108,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3009,6 +3133,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-2-4"
     },
@@ -3033,6 +3158,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -3057,6 +3183,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3081,6 +3208,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -3105,6 +3233,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3129,6 +3258,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3153,6 +3283,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3177,6 +3308,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3201,6 +3333,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3225,6 +3358,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -3249,6 +3383,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3273,6 +3408,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3297,6 +3433,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -3321,6 +3458,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -3345,6 +3483,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3369,6 +3508,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -3393,6 +3533,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3417,6 +3558,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-3-3"
     },
@@ -3441,6 +3583,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "6-1"
     },
@@ -3465,6 +3608,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -3489,6 +3633,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3513,6 +3658,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -3537,6 +3683,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3561,6 +3708,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3585,6 +3733,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -3609,6 +3758,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3633,6 +3783,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3657,6 +3808,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -3681,6 +3833,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -3705,6 +3858,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -3729,6 +3883,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3753,6 +3908,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3777,6 +3933,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3801,6 +3958,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3825,6 +3983,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -3849,6 +4008,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3873,6 +4033,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3897,6 +4058,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -3921,6 +4083,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -3945,6 +4108,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-0-7"
     },
@@ -3969,6 +4133,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -3993,6 +4158,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4017,6 +4183,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -4041,6 +4208,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "0-0-7"
     },
@@ -4065,6 +4233,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -4089,6 +4258,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -4113,6 +4283,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4137,6 +4308,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4161,6 +4333,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -4185,6 +4358,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4209,6 +4383,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "6-1"
     },
@@ -4233,6 +4408,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4257,6 +4433,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "1-6"
     },
@@ -4281,6 +4458,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -4305,6 +4483,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "5-2"
     },
@@ -4329,6 +4508,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -4353,6 +4533,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "6-1"
     },
@@ -4377,6 +4558,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -4401,6 +4583,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -4425,6 +4608,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -4449,6 +4633,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4473,6 +4658,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -4497,6 +4683,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "2-5"
     },
@@ -4521,6 +4708,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "3-4"
     },
@@ -4545,6 +4733,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
@@ -4569,6 +4758,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     }

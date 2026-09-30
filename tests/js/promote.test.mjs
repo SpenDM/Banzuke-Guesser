@@ -77,6 +77,28 @@ test('Makushita trades places with Juryo through the Juryo candidates row', () =
   assert.equal(p.get('m17w'), 'vJ');    // Makuuchi still only drops as far as Juryo's candidates
 });
 
+test('once the Juryo promotions are announced, only those named are Juryo candidates; the rest stop at Ms1E', () => {
+  const confirmed = { juryo_promotion: true };
+  const basho = makeBasho({
+    MS1W: { ...rec(6, 1), ...confirmed }, MS4E: { ...rec(4, 3), ...confirmed }, MS4W: rec(4, 3), MS7W: rec(5, 2),
+    MS25W: rec(7, 0), MS10E: rec(7, 0), MS9E: rec(4, 3), MS2E: rec(3, 4), J14W: rec(6, 9),
+  }, { makushita: 'full' });
+  const p = ideal(basho);
+  assert.equal(p.get('ms1w'), '^J');     // named in the announcement
+  assert.equal(p.get('ms4e'), '^J');
+  assert.equal(p.get('ms4w'), 'Ms1E');   // a top-five kachi-koshi, no longer a candidate: capped
+  assert.equal(p.get('ms7w'), 'Ms1E');   // scored out of Makushita: capped
+  assert.equal(p.get('ms25w'), 'Ms1E');  // a 7-0 goes where the score puts them, capped too
+  assert.equal(p.get('ms10e'), 'Ms1E');  // even at Ms15 or above
+  assert.equal(p.get('ms9e'), 'Ms5E');   // within Makushita: unchanged
+  assert.equal(p.get('ms2e'), 'Ms6E');
+  assert.equal(p.get('j14w'), 'vMs');    // Juryo demotions are unchanged
+  // placed rikishi are still left alone
+  const placed = ideal(basho, new Map([['ms1w', 'J14E']]));
+  assert.equal(placed.has('ms1w'), false);
+  assert.equal(placed.get('ms4e'), '^J');
+});
+
 test('with all of Makushita on the results side, only its top 15 rows are predicted', () => {
   const basho = makeBasho({ MS25W: rec(7, 0), MS20E: rec(5, 2), MS40E: rec(6, 1), MS12E: rec(3, 4) }, { makushita: 'full' });
   const p = ideal(basho);

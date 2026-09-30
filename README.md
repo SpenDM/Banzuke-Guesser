@@ -61,8 +61,14 @@ sumo-api.com ┘                                                                
     keyed by sumo.or.jp id; anyone uncurated falls back to a guess from their signature maneuvers).
     Kept for the sekitori and Makushita down to Ms15 (the popup links to sumo.or.jp for the rest of
     Makushita). Refreshed automatically whenever a basho's results are written.
+  - `juryo.py` — the confirmed Juryo promotions (see *Special Statuses*), from the JSA's
+    [新十両力士一覧](https://www.sumo.or.jp/ResultBanzuke/shin_juryo/) page.
   - `cli.py` — `update` (nightly), `bootstrap --basho YYYYMM`, `annotate --basho YYYYMM`,
-    `banzuke --basho YYYYMM`, `profiles --basho YYYYMM`, `live`, `schedule`.
+    `banzuke --basho YYYYMM`, `profiles --basho YYYYMM`, `live`, `juryo`, `schedule`.
+- `.github/workflows/juryo-promotions.yml` — runs `scraper.cli juryo` hourly from 09:05 to 18:05 JST,
+  Monday to Thursday (the promotions are announced a few days after a tournament ends, usually the
+  Wednesday), and commits the marked results file when it changes. It shares the data workflow's
+  concurrency group, so the two never push at the same time.
 - `.github/workflows/update-data.yml` — runs `scraper.cli update` at 00:10 and 12:10 JST, and
   every half hour on Sunday evenings JST (18:40–21:10; a tournament's final day is a Sunday).
   It refreshes the schedule; if a tournament has finished (from 18:30 JST on its final day) and its
@@ -92,6 +98,7 @@ python -m scraper.cli annotate --basho 202607     # recompute the indicators of 
 python -m scraper.cli banzuke --basho 202609      # fetch an announced banzuke into data/banzuke/
 python -m scraper.cli profiles --basho 202607     # (re)build the rikishi profile pages for a basho
 python -m scraper.cli live                        # refresh data/live.json (the tournament under way)
+python -m scraper.cli juryo                       # mark the announced Juryo promotions in the latest results
 ```
 
 To run the submission API locally as well (Node 22+):
@@ -113,6 +120,7 @@ system does not, shown as badges on the chip (the Legend box lists them):
 | `tsunatori` | →Y | Yokozuna run: a yusho or a jun-yusho with 12+ wins as Ozeki last basho; a yusho this tournament completes it, and so does a 12+ win jun-yusho — unless last basho was *also* only a jun-yusho, since two ties in a row don't count (`tsunatori_needs_yusho`) |
 | `ozeki_run` | →O *n* | Sekiwake who was Sekiwake/Komusubi in both previous basho with ≥ 18 wins there; *n* = 33 − those wins, the target for promotion |
 | `ozeki_return` | ↪O 10 | Sekiwake demoted from Ozeki due to injury; 10 wins regain the rank |
+| `juryo_promotion` | →J | confirmed for Juryo promotion: named in the JSA's announcement of the next basho's new (and returning) Juryo rikishi |
 | `suspended` | SUS | disciplinary suspension; ranked as a full absence (the full demotion applies, unlike `retired`) |
 | `retired` | Retired | announced retirement |
 
@@ -128,6 +136,15 @@ with `annotate --basho YYYYMM`, e.g. if the nightly fetch ran before sumo-api.co
 A rikishi is followed across basho by `rikishi_id` (the sumo.or.jp id; sumo-api.com's `nskId`), so
 a shikona change between two tournaments — usual on Ozeki promotion — does not lose their history;
 `key` (from the shikona) only identifies them *within* one basho file.
+
+`juryo_promotion` is set separately, by `scraper/juryo.py` (`python -m scraper.cli juryo`, run by the
+*Mark confirmed Juryo promotions* workflow): the JSA announces the next basho's new and returning
+Juryo rikishi a few days after a tournament ends, on a Japanese-only page headed with the basho it
+is for. When that basho is the one the latest results file predicts, the listed shikona (or, for a
+rikishi renamed on promotion, the former one) are matched to the file's rows through each rikishi's
+Japanese shikona — from the profile pages and sumo-api.com's rikishi list — and flagged. Re-running
+is a no-op once they are marked; an announced rikishi who can't be found fails the run (after
+marking the others) so the workflow shows it.
 
 Some of this is announced rather than derivable (a retirement after the data was fetched, a
 suspension, a Yokozuna run the committee did or did not declare). Put corrections in
@@ -305,7 +322,9 @@ If it does, re-enable the workflow from the Actions tab.
   Juryo; the Juryo/Makushita row does the same one division down (↑J for Makushita rikishi, ↓Ms
   for Juryo ones). In Makushita (7 bouts, 60 rows) a point is worth 4 rows (`ROWS_PER_WIN` in
   `promote.js`, a rule of thumb), and the Juryo promotion rules override the score: a kachi-koshi
-  at Ms5 or above, or a 7-0 at Ms15 or above, goes to ↑J. Makushita rikishi whose score lands them
+  at Ms5 or above, or a 7-0 at Ms15 or above, goes to ↑J. Once the promotions are announced (`→J`),
+  those rikishi fill ↑J instead, and every other Makushita rikishi the score would lift into Juryo
+  (a 7-0 included) is capped at Ms1E. Makushita rikishi whose score lands them
   below Ms15, the last row predicted, are left unplaced; those from further down whose score lifts
   them into the top 15 rows are placed there. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
   re-ordered within their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.

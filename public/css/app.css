@@ -356,9 +356,9 @@ td.rikishi .line { justify-content: flex-start; }
 .dark .tag { background: #4a4230; color: #ecdfc4; } /* dark: neutral badge */
 /* Indicator badges (badges() in banzuke.js): neutral by default, then blue/red once the result decides them. */
 .tag-yusho { background: none; padding: 0; font-size: 13px; line-height: 14px; }
-.tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-suspended, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
+.tag-kadoban, .tag-tsunatori, .tag-ozeki-run, .tag-ozeki-return, .tag-komusubi-force, .tag-maegashira-force, .tag-juryo-promotion, .tag-suspended, .tag-retired { background: #e6e2d8; color: #3a3a3a; font-weight: 700; }
 /* dark: status badges */
-.dark .tag-kadoban, .dark .tag-tsunatori, .dark .tag-ozeki-run, .dark .tag-ozeki-return, .dark .tag-komusubi-force, .dark .tag-maegashira-force, .dark .tag-suspended, .dark .tag-retired { background: #3a3e44; color: #d7dade; }
+.dark .tag-kadoban, .dark .tag-tsunatori, .dark .tag-ozeki-run, .dark .tag-ozeki-return, .dark .tag-komusubi-force, .dark .tag-maegashira-force, .dark .tag-juryo-promotion, .dark .tag-suspended, .dark .tag-retired { background: #3a3e44; color: #d7dade; }
 .tag-met { background: var(--up-bg); color: var(--up); border: 1px solid var(--up-border); }
 .tag-missed { background: var(--down-bg); color: var(--down); border: 1px solid var(--down-border); }
 /* dark: a met/missed badge also carries its neutral base class, whose .dark override above outranks
