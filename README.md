@@ -320,13 +320,8 @@ If it does, re-enable the workflow from the Actions tab.
   the open slots; the row disappears once its last occupant is moved out. The right half of the
   Maegashira/Juryo candidates row (red) holds Makuuchi rikishi whose score would drop them into
   Juryo; the Juryo/Makushita row does the same one division down (↑J for Makushita rikishi, ↓Ms
-  for Juryo ones). In Makushita (7 bouts, 60 rows) a point is worth 4 rows (`ROWS_PER_WIN` in
-  `promote.js`, a rule of thumb), and the Juryo promotion rules override the score: a kachi-koshi
-  at Ms5 or above, or a 7-0 at Ms15 or above, goes to ↑J. Once the promotions are announced (`→J`),
-  those rikishi fill ↑J instead, and every other Makushita rikishi the score would lift into Juryo
-  (a 7-0 included) is capped at Ms1E. Makushita rikishi whose score lands them
-  below Ms15, the last row predicted, are left unplaced; those from further down whose score lifts
-  them into the top 15 rows are placed there. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
+  for Juryo ones). Makushita is left for you to place, whatever the record, except the rikishi
+  confirmed for Juryo promotion (`→J`), who go to ↑J. Sekiwake who would mathematically reach Ozeki are capped at S1E. Yokozuna and Ozeki are only
   re-ordered within their rank by wins (previous order breaks ties). Retired rikishi are left unplaced.
   The indicators override the score at the top: a `↪O 10` Sekiwake with 10+ wins, then a `→O n`
   Sekiwake with n+ wins, go to the next open Ozeki slot below the sitting Ozeki; a `→Y` Ozeki with the
