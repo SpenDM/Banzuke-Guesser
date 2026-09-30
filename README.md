@@ -186,8 +186,11 @@ headcount is right (rikishi in numbered Makuuchi slots or left in the ↑S/↑K 
 Maegashira candidates row is outside Makuuchi, so rikishi may be left there; otherwise
 *Not enough rikishi!* / *Too many rikishi!*), that no slot holds two rikishi (*Multiple at M3E*,
 *Unplaced at ↑K* for a Sekiwake/Komusubi candidates row), and that there is no empty slot above a filled one of the
-same rank type (*Gap at M7W*); then that the user is registered (*Register first*, opening the
-popover). A message stays on the (disabled) button until the prediction changes. Then it posts to
+same rank type (*Gap at M7W*); then that the user is registered (*Add shikona via Login button first*, opening the
+popover). Once every counted spot is filled (Makuuchi's, plus Juryo's and Makushita's when
+included), any problem still left is reported as *Order issues detected* rather than by name; Show
+Issues outlines them, and colours each division's "spots filled" line blue when that division is
+filled with no issues and red otherwise. A message stays on the (disabled) button until the prediction changes. Then it posts to
 `/api/submit`; the button reads *Saved* and a note says when to come back (the announcement
 date), turning into *Save Guess* as soon as the prediction changes again. One submission per
 user per tournament. Submissions close on the announcement day (*Submissions closed until <date>*,

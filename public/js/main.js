@@ -1,10 +1,10 @@
 import { loadBasho, loadIndex, loadLive, loadSchedule } from './data.js';
 import { GuessState } from './state.js';
-import { renderComparison, renderGuess, renderPrevious, renderSummary, summaryFull } from './banzuke.js';
+import { renderComparison, renderGuess, renderPrevious, renderSummary } from './banzuke.js';
 import { installDragAndDrop } from './dnd.js';
 import { loadGuesses, loadMode, loadSubmission, loadView, saveGuesses, saveMode, saveView } from './storage.js';
 import { formatDate, todayJST } from './dates.js';
-import { SubmitController, guessIssues } from './submit.js';
+import { SubmitController, divisionsOk, guessIssues } from './submit.js';
 import { bookmarkletHref, gtbLink } from './gtb.js';
 import { RegisterController } from './register.js';
 import { auth } from './auth.js';
@@ -202,17 +202,14 @@ function showPrediction(basho) {
     setViewSaved(viewSaved);
   };
 
-  // The count (with its order-issues line once full) and Show Issues: outlines the prediction's
-  // slots that break the save rules (guessIssues) and colours the count blue when every spot is
-  // filled with no issues, red otherwise.
+  // The count and Show Issues: outlines the prediction's slots that break the save rules
+  // (guessIssues) and colours each division's line of the count blue when every spot there is
+  // filled with no issues, red otherwise (divisionsOk).
   renderIssues = () => {
     const issues = guessIssues(state);
     const marked = showIssues ? issues : new Set();
     for (const td of guessTable.querySelectorAll('td.slot:is(.cur-rank, .rikishi, .result, .change-cell)')) td.classList.toggle('issue', marked.has(td.dataset.slot));
-    renderSummary(summary, state, issues.size > 0);
-    const ok = summaryFull(state) && issues.size === 0;
-    summary.classList.toggle('complete', showIssues && ok);
-    summary.classList.toggle('incomplete', showIssues && !ok);
+    renderSummary(summary, state, showIssues ? divisionsOk(state, issues) : null);
   };
   const render = () => {
     renderLeft();

@@ -285,22 +285,20 @@ export function renderComparison(table, placements, correctSlots, { judged = () 
 
 /**
  * The "X/42 Makuuchi spots filled" count, with "X/28 Juryo spots filled" and "X/30 Makushita spots
- * filled" under it when those are included; once every counted spot is filled, a last line says whether the order has issues
- * (`orderIssues`: whether guessIssues found any).
+ * filled" under it when those are included. With Show Issues on, `ok` (divisionsOk) colours each
+ * line: blue for a division with every spot filled and no issues, red otherwise. (Order issues,
+ * once every spot is filled, are reported by the Save Guess button when clicked: see
+ * SubmitController.onClick.)
  */
-export function renderSummary(el, state, orderIssues) {
+export function renderSummary(el, state, ok = null) {
   const c = state.counts();
-  el.textContent = `${c.filled}/${c.spots} Makuuchi spots filled`;
-  if (state.saveJuryo) el.append(h('br'), `${c.juryoFilled}/${c.juryoSpots} Juryo spots filled`);
-  if (state.saveMakushita) el.append(h('br'), `${c.makushitaFilled}/${c.makushitaSpots} Makushita spots filled`);
-  if (summaryFull(state)) el.append(h('br'), orderIssues ? 'Order issues detected' : 'No order issues detected');
-}
-
-/** Whether every counted spot is filled: Makuuchi's, and Juryo's and Makushita's too when included. */
-export function summaryFull(state) {
-  const c = state.counts();
-  return c.filled === c.spots && (!state.saveJuryo || c.juryoFilled === c.juryoSpots)
-    && (!state.saveMakushita || c.makushitaFilled === c.makushitaSpots);
+  const lines = [['makuuchi', `${c.filled}/${c.spots} Makuuchi spots filled`]];
+  if (state.saveJuryo) lines.push(['juryo', `${c.juryoFilled}/${c.juryoSpots} Juryo spots filled`]);
+  if (state.saveMakushita) lines.push(['makushita', `${c.makushitaFilled}/${c.makushitaSpots} Makushita spots filled`]);
+  el.replaceChildren(...lines.flatMap(([division, text], i) => [
+    i ? h('br') : null,
+    h('span', { class: ok ? (ok[division] ? 'complete' : 'incomplete') : null, text }),
+  ]).filter(Boolean));
 }
 
 export { parseSlot };

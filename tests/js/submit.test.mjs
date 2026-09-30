@@ -1,7 +1,7 @@
 import { test } from './harness.mjs';
 import assert from 'node:assert/strict';
 import { GuessState } from '../../public/js/state.js';
-import { SubmitController, guessIssues, validateGuess } from '../../public/js/submit.js';
+import { SubmitController, divisionsOk, guessIssues, validateGuess } from '../../public/js/submit.js';
 
 // An eight-man Makuuchi (plus one Juryo) keeps the examples short; `spots` follows the headcount.
 const basho = {
@@ -186,6 +186,24 @@ test('Save Guess is closed from the announcement day and open for the round afte
   assert.equal(next.els.button.textContent, 'Save\nGuess');
 });
 
+test('a click with every counted spot filled but issues left says "Order issues detected"; otherwise it names the problem', () => {
+  const { c, els } = controller({ id: '202611', banzuke_date: '2026-10-26', reopens: 'Nov 22' });
+  c.state.place('j', '^K');                        // every slot still filled, but one rikishi too many
+  assert.equal(els.button.textContent, 'Save\nGuess'); // nothing shown until clicked
+  c.onClick();
+  assert.equal(els.button.textContent, 'Order issues detected');
+  assert.equal(els.button.disabled, true);         // shown in red, like every other message
+  c.state.remove('j');
+  c.state.remove('f');                             // a spot empty: the problem itself is named
+  assert.equal(els.button.textContent, 'Save\nGuess');
+  c.onClick();
+  assert.equal(els.button.textContent, 'Not enough rikishi!');
+  c.state.place('f', 'M1W');
+  c.state.setSaveJuryo(true);                      // Juryo included but not full: named too
+  c.onClick();
+  assert.equal(els.button.textContent, 'Not enough Juryo!');
+});
+
 test('the Juryo/Makushita candidates row is outside Makuuchi: not counted, not flagged', () => {
   const s = filled();
   s.place('f', '^J');                         // a Makuuchi one short, with someone in ↑J
@@ -293,4 +311,21 @@ test('Save Guess sends the top of Makushita only when it is included', async () 
   await c.send();
   assert.deepEqual(bodies[1].makushita, [{ slot: 'Ms2W', key: 'm', rikishi_id: 20, name: 'M' }]);
   assert.equal(els.button.textContent, 'Saved');
+});
+
+test('divisionsOk: each included division is complete when every spot is filled with no issues in it', () => {
+  const s = filled();
+  assert.deepEqual(divisionsOk(s), { makuuchi: true });
+  s.setSaveMakushita(true);                        // ticks Juryo too
+  assert.deepEqual(divisionsOk(s), { makuuchi: true, juryo: false, makushita: false }); // not filled yet
+  s.place('j', 'J1E');
+  s.place('k', 'J1W');
+  assert.deepEqual(divisionsOk(s), { makuuchi: true, juryo: true, makushita: false });
+  s.place('m', '^J');                              // the Juryo/Makushita row counts against Makushita
+  assert.deepEqual(divisionsOk(s), { makuuchi: true, juryo: true, makushita: false });
+  s.place('k', 'vJ');                              // the Maegashira/Juryo row counts against Juryo
+  assert.equal(divisionsOk(s).juryo, false);
+  s.place('k', 'J1W');
+  s.place('m', '^K');                              // a ↑K row holding someone counts against Makuuchi
+  assert.deepEqual(divisionsOk(s), { makuuchi: false, juryo: true, makushita: false });
 });

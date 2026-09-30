@@ -185,10 +185,35 @@ export function guessIssues(state) {
   return issues;
 }
 
+// The division each candidates-row slot is checked with (see guessIssues): the ↑S/↑K rows with
+// Makuuchi, the Maegashira/Juryo row with Juryo, the Juryo/Makushita row with Makushita.
+const CANDIDATE_DIVISION = { '^S': 'makuuchi', '^K': 'makuuchi', '^M': 'juryo', vJ: 'juryo', '^J': 'makushita', vMs: 'makushita' };
+
+/**
+ * For each division Save Guess includes (Makuuchi, then Juryo and Makushita when included): whether
+ * it is complete, every counted spot filled with none of `issues` (guessIssues) in it.
+ * {makuuchi: true, juryo: false, …}
+ */
+export function divisionsOk(state, issues = guessIssues(state)) {
+  const c = state.counts();
+  const full = { makuuchi: c.filled === c.spots, juryo: c.juryoFilled === c.juryoSpots, makushita: c.makushitaFilled === c.makushitaSpots };
+  const divisions = ['makuuchi', ...(state.saveJuryo ? ['juryo'] : []), ...(state.saveMakushita ? ['makushita'] : [])];
+  const withIssues = new Set([...issues].map((slot) => CANDIDATE_DIVISION[slot] ?? DIVISION_OF[parseSlot(slot).rank]));
+  return Object.fromEntries(divisions.map((d) => [d, full[d] && !withIssues.has(d)]));
+}
+
+/** Whether every counted spot is filled: Makuuchi's, and Juryo's and Makushita's too when included. */
+function summaryFull(state) {
+  const c = state.counts();
+  return c.filled === c.spots && (!state.saveJuryo || c.juryoFilled === c.juryoSpots)
+    && (!state.saveMakushita || c.makushitaFilled === c.makushitaSpots);
+}
+
 /** Whether two submissions ({placements, juryo, makushita}) hold the same prediction; a missing list and none saved are the same. */
 const samePlacements = (a, b) => JSON.stringify([a.placements, a.juryo || null, a.makushita || null])
   === JSON.stringify([b.placements, b.juryo || null, b.makushita || null]);
-const REGISTER_FIRST = 'Register first';
+const REGISTER_FIRST = 'Add shikona via\nLogin button first';
+const ORDER_ISSUES = 'Order issues detected';
 
 /**
  * The submit button and the "Saved! … come back <date>" note.
@@ -242,7 +267,9 @@ export class SubmitController {
   onClick() {
     if (this.closed || this.submitted || this.sending) return;
     const problem = validateGuess(this.state);
-    if (problem) { this.message = problem; this.render(); return; }
+    // With every counted spot filled, what's left to fix is the order: say so rather than naming
+    // the first problem (Show Issues outlines them all).
+    if (problem) { this.message = summaryFull(this.state) ? ORDER_ISSUES : problem; this.render(); return; }
     if (!this.register.shikona) { this.message = REGISTER_FIRST; this.render(); this.register.open(); return; }
     this.send();
   }
