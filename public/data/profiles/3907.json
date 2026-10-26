@@ -12,7 +12,7 @@
     "province": null,
     "city": "Ulaanbaatar - Russia"
   },
-  "current_rank": "Maegashira #5",
+  "current_rank": "Maegashira #8",
   "highest_rank": "Maegashira #5",
   "birth_date": "1999-03-02",
   "height_cm": 185.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #8",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

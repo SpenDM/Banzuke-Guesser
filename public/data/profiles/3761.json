@@ -12,7 +12,7 @@
     "province": "Fukushima",
     "city": "Fukushima"
   },
-  "current_rank": "Maegashira #12",
+  "current_rank": "Juryo #5",
   "highest_rank": "Sekiwake",
   "birth_date": "1994-12-06",
   "height_cm": 183.0,
@@ -26,6 +26,14 @@
     "primary": "All-Rounder"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #5",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

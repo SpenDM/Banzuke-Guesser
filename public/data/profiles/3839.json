@@ -12,7 +12,7 @@
     "province": "Saitama",
     "city": "Koshigaya"
   },
-  "current_rank": "Juryo #14",
+  "current_rank": "Makushita #3",
   "highest_rank": "Maegashira #18",
   "birth_date": "1999-10-12",
   "height_cm": 193.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #3",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

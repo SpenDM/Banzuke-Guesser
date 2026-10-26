@@ -12,7 +12,7 @@
     "province": "Saitama",
     "city": "Koshigaya"
   },
-  "current_rank": "Maegashira #13",
+  "current_rank": "Maegashira #12",
   "highest_rank": "Sekiwake",
   "birth_date": "1994-05-04",
   "height_cm": 186.0,
@@ -27,6 +27,14 @@
     "known_for": "signature double-arm tsuppari"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #12",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": "Aomori",
     "city": "Towada"
   },
-  "current_rank": "Makushita #5",
+  "current_rank": "Makushita #8",
   "highest_rank": "Juryo #13",
   "birth_date": "2001-10-09",
   "height_cm": 177.5,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #8",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

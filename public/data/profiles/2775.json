@@ -12,7 +12,7 @@
     "province": "Ibaraki",
     "city": "Tsuchiura"
   },
-  "current_rank": "Maegashira #2",
+  "current_rank": "Maegashira #3",
   "highest_rank": "Ozeki",
   "birth_date": "1990-02-28",
   "height_cm": 188.0,
@@ -26,6 +26,14 @@
     "primary": "All-Rounder"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #3",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": "Osaka",
     "city": "Neyagawa"
   },
-  "current_rank": "Maegashira #3",
+  "current_rank": "Maegashira #5",
   "highest_rank": "Maegashira #2",
   "birth_date": "1998-04-07",
   "height_cm": 178.0,
@@ -27,6 +27,14 @@
     "known_for": "aggressive tachiai"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #5",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

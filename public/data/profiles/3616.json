@@ -12,7 +12,7 @@
     "province": "Osaka",
     "city": "Neyagawa"
   },
-  "current_rank": "Maegashira #9",
+  "current_rank": "Maegashira #2",
   "highest_rank": "Komusubi",
   "birth_date": "1992-06-22",
   "height_cm": 173.0,
@@ -27,6 +27,14 @@
     "known_for": "rare technique usage"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #2",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

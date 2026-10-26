@@ -1,0 +1,109 @@
+{
+  "rikishi_id": 4338,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4338/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20250040.jpg",
+  "shikona": "Koseiryu",
+  "shikona_ja": "光星竜",
+  "real_name": "Kosei Imada",
+  "stable": "Otowayama",
+  "birthplace": {
+    "flag": null,
+    "country": "Tokyo",
+    "province": null,
+    "city": null
+  },
+  "current_rank": "Makushita #15",
+  "highest_rank": "Makushita #15",
+  "birth_date": "2000-09-11",
+  "height_cm": 174.0,
+  "weight_kg": 130.6,
+  "signature_maneuvers": [],
+  "style": {
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #15",
+      "record": "0-0",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #19",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #31",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #40",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Sandanme",
+      "rank": "Sandanme #3",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Jonidan",
+      "rank": "Jonidan #3",
+      "record": "7-0",
+      "achievements": [
+        "🏆 Yusho"
+      ]
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Sandanme",
+      "rank": "Sandanme #43",
+      "record": "1-1-5",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Jonidan",
+      "rank": "Jonidan #24",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Jonidan",
+      "rank": "Jonidan #64",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "Jonokuchi",
+      "rank": "Jonokuchi #12",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

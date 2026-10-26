@@ -12,7 +12,7 @@
     "province": "Tokyo",
     "city": "Chuo"
   },
-  "current_rank": "Makushita #11",
+  "current_rank": "Makushita #14",
   "highest_rank": "Makushita #8",
   "birth_date": "1999-04-16",
   "height_cm": 174.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #14",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

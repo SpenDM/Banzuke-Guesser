@@ -12,7 +12,7 @@
     "province": "Tochigi",
     "city": "Utsunomiya"
   },
-  "current_rank": "Maegashira #16",
+  "current_rank": "Juryo #10",
   "highest_rank": "Maegashira #11",
   "birth_date": "2003-08-22",
   "height_cm": 178.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #10",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

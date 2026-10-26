@@ -12,7 +12,7 @@
     "province": "Tochigi",
     "city": "Otawara"
   },
-  "current_rank": "Makushita #15",
+  "current_rank": "Makushita #9",
   "highest_rank": "Juryo #3",
   "birth_date": "2001-12-13",
   "height_cm": 173.0,
@@ -25,6 +25,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #9",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

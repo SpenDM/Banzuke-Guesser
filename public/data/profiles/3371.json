@@ -12,7 +12,7 @@
     "province": "Fukushima",
     "city": "Fukushima"
   },
-  "current_rank": "Maegashira #11",
+  "current_rank": "Maegashira #7",
   "highest_rank": "Sekiwake",
   "birth_date": "1993-10-05",
   "height_cm": 186.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #7",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

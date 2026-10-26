@@ -12,7 +12,7 @@
     "province": "Yamagata",
     "city": "Sakata"
   },
-  "current_rank": "Juryo #6",
+  "current_rank": "Maegashira #15",
   "highest_rank": "Maegashira #14",
   "birth_date": "2000-11-12",
   "height_cm": 191.0,
@@ -28,6 +28,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #15",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

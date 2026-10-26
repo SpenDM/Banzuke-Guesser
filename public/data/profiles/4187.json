@@ -12,7 +12,7 @@
     "province": "Tottori",
     "city": "Kurayoshi"
   },
-  "current_rank": "Komusubi",
+  "current_rank": "Maegashira #3",
   "highest_rank": "Komusubi",
   "birth_date": "2003-08-22",
   "height_cm": 181.0,
@@ -28,6 +28,14 @@
     "primary": "All-Rounder"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #3",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

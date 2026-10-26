@@ -12,8 +12,8 @@
     "province": null,
     "city": null
   },
-  "current_rank": "Maegashira #4",
-  "highest_rank": "Maegashira #4",
+  "current_rank": "Maegashira #1",
+  "highest_rank": "Maegashira #1",
   "birth_date": "2003-02-27",
   "height_cm": 180.0,
   "weight_kg": 184.0,
@@ -25,6 +25,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #1",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": "Chiba",
     "city": "Naha"
   },
-  "current_rank": "Juryo #12",
+  "current_rank": "Juryo #4",
   "highest_rank": "Maegashira #16",
   "birth_date": "1999-07-14",
   "height_cm": 174.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #4",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

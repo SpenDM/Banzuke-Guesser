@@ -12,7 +12,7 @@
     "province": "Kumamoto",
     "city": "Higashi"
   },
-  "current_rank": "Juryo #5",
+  "current_rank": "Juryo #11",
   "highest_rank": "Maegashira #1",
   "birth_date": "1987-05-11",
   "height_cm": 181.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #11",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -30,6 +30,14 @@
   "history": [
     {
       "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Ozeki",
+      "record": "0-0",
+      "achievements": []
+    },
+    {
+      "year": 2026,
       "tournament": "September",
       "division": "Makuuchi",
       "rank": "Ozeki",

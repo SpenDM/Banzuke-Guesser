@@ -12,7 +12,7 @@
     "province": null,
     "city": "Uvs"
   },
-  "current_rank": "Juryo #3",
+  "current_rank": "Juryo #1",
   "highest_rank": "Maegashira #3",
   "birth_date": "2000-05-05",
   "height_cm": 184.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #1",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": "Tokyo",
     "city": "Higashimurayama"
   },
-  "current_rank": "Juryo #8",
+  "current_rank": "Juryo #14",
   "highest_rank": "Maegashira #17",
   "birth_date": "1999-11-05",
   "height_cm": 195.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #14",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

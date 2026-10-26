@@ -12,7 +12,7 @@
     "province": "Kumamoto",
     "city": "Uto"
   },
-  "current_rank": "Maegashira #2",
+  "current_rank": "Komusubi",
   "highest_rank": "Komusubi",
   "birth_date": "2001-06-25",
   "height_cm": 185.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Komusubi",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

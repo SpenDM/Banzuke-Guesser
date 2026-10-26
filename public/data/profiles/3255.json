@@ -12,7 +12,7 @@
     "province": "Ishikawa",
     "city": "Kanazawa"
   },
-  "current_rank": "Juryo #11",
+  "current_rank": "Juryo #3",
   "highest_rank": "Maegashira #3",
   "birth_date": "1994-06-01",
   "height_cm": 192.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #3",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

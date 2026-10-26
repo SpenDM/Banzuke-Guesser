@@ -12,7 +12,7 @@
     "province": "Nagano",
     "city": "Agematsu"
   },
-  "current_rank": "Juryo #4",
+  "current_rank": "Juryo #9",
   "highest_rank": "Ozeki",
   "birth_date": "1992-12-25",
   "height_cm": 178.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #9",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

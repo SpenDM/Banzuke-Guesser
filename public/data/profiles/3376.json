@@ -12,7 +12,7 @@
     "province": "Saitama",
     "city": "Asaka"
   },
-  "current_rank": "Komusubi",
+  "current_rank": "Maegashira #4",
   "highest_rank": "Sekiwake",
   "birth_date": "1993-11-10",
   "height_cm": 182.0,
@@ -27,6 +27,14 @@
     "known_for": "explosive tachiai"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #4",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

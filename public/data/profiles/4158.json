@@ -12,8 +12,8 @@
     "province": "Ehime",
     "city": "Seiyo"
   },
-  "current_rank": "Juryo #4",
-  "highest_rank": "Juryo #4",
+  "current_rank": "Juryo #2",
+  "highest_rank": "Juryo #2",
   "birth_date": "1999-06-04",
   "height_cm": 187.0,
   "weight_kg": 158.0,
@@ -25,6 +25,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #2",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

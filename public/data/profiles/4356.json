@@ -12,11 +12,11 @@
     "province": null,
     "city": null
   },
-  "current_rank": "Makushita #4",
-  "highest_rank": "Makushita #4",
+  "current_rank": "Juryo #14",
+  "highest_rank": "Juryo #14",
   "birth_date": "2007-06-12",
   "height_cm": 175.0,
-  "weight_kg": 160.1,
+  "weight_kg": 160.0,
   "signature_maneuvers": [
     "hidari-yotsu",
     "yori"
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #14",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

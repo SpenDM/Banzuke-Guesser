@@ -1,0 +1,102 @@
+{
+  "rikishi_id": 4353,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4353/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20250056.jpg",
+  "shikona": "Ryusho",
+  "shikona_ja": "竜翔",
+  "real_name": "Ryusho Kawakami",
+  "stable": "Oitekaze",
+  "birthplace": {
+    "flag": null,
+    "country": "Kumamoto",
+    "province": null,
+    "city": null
+  },
+  "current_rank": "Makushita #7",
+  "highest_rank": "Makushita #7",
+  "birth_date": "2002-10-01",
+  "height_cm": 186.0,
+  "weight_kg": 125.2,
+  "signature_maneuvers": [
+    "hidari-yotsu/yori",
+    "uwatenage"
+  ],
+  "style": {
+    "weight_class": "Light-weight",
+    "primary": "Grappler"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #7",
+      "record": "0-0",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #23",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #16",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #11",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #15",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #9",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #24",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #40",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #60",
+      "record": "5-2",
+      "achievements": []
+    }
+  ]
+}

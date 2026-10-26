@@ -12,7 +12,7 @@
     "province": "Kumamoto",
     "city": "Uto"
   },
-  "current_rank": "Maegashira #11",
+  "current_rank": "Juryo #3",
   "highest_rank": "Ozeki",
   "birth_date": "1991-11-05",
   "height_cm": 184.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #3",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

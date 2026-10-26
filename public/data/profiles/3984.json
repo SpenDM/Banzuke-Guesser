@@ -12,7 +12,7 @@
     "province": "Tokyo",
     "city": "Koto"
   },
-  "current_rank": "Makushita #6",
+  "current_rank": "Makushita #4",
   "highest_rank": "Juryo #14",
   "birth_date": "2001-09-18",
   "height_cm": 186.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #4",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

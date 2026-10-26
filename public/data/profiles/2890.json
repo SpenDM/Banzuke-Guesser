@@ -12,7 +12,7 @@
     "province": "Yamanashi",
     "city": "Kofu"
   },
-  "current_rank": "Juryo #8",
+  "current_rank": "Juryo #5",
   "highest_rank": "Komusubi",
   "birth_date": "1990-11-10",
   "height_cm": 189.0,
@@ -27,6 +27,14 @@
     "known_for": "long-limbed moro-zashi"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #5",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

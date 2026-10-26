@@ -12,7 +12,7 @@
     "province": "Shizuoka",
     "city": "Yaizu"
   },
-  "current_rank": "Juryo #7",
+  "current_rank": "Juryo #8",
   "highest_rank": "Maegashira #1",
   "birth_date": "1996-08-30",
   "height_cm": 174.0,
@@ -27,6 +27,14 @@
     "known_for": "signature katasukashi"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #8",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

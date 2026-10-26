@@ -12,7 +12,7 @@
     "province": "Shizuoka",
     "city": "Mishima"
   },
-  "current_rank": "Makushita #3",
+  "current_rank": "Makushita #7",
   "highest_rank": "Makushita #3",
   "birth_date": "1999-01-09",
   "height_cm": 178.8,
@@ -25,6 +25,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #7",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

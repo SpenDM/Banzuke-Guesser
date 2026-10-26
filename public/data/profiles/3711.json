@@ -12,8 +12,8 @@
     "province": "Okinawa",
     "city": "Uruma"
   },
-  "current_rank": "Maegashira #3",
-  "highest_rank": "Maegashira #2",
+  "current_rank": "Komusubi",
+  "highest_rank": "Komusubi",
   "birth_date": "1993-05-06",
   "height_cm": 176.0,
   "weight_kg": 157.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Komusubi",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

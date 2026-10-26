@@ -12,7 +12,7 @@
     "province": null,
     "city": "Ulaanbaatar"
   },
-  "current_rank": "Makushita #10",
+  "current_rank": "Makushita #13",
   "highest_rank": "Makushita #5",
   "birth_date": "1999-02-02",
   "height_cm": 180.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #13",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": null,
     "city": "Töv"
   },
-  "current_rank": "Maegashira #5",
+  "current_rank": "Maegashira #9",
   "highest_rank": "Komusubi",
   "birth_date": "1997-04-09",
   "height_cm": 190.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #9",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

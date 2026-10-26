@@ -12,7 +12,7 @@
     "province": "Chiba",
     "city": "Kashiwa"
   },
-  "current_rank": "Maegashira #1",
+  "current_rank": "Maegashira #6",
   "highest_rank": "Sekiwake",
   "birth_date": "1999-08-26",
   "height_cm": 189.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #6",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

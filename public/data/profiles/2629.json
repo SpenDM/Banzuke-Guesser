@@ -12,7 +12,7 @@
     "province": null,
     "city": "Ulaanbaatar"
   },
-  "current_rank": "Juryo #3",
+  "current_rank": "Maegashira #15",
   "highest_rank": "Sekiwake",
   "birth_date": "1984-11-16",
   "height_cm": 189.0,
@@ -26,6 +26,14 @@
     "known_for": "relentless tsuppari"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #15",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

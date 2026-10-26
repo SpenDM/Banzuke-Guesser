@@ -12,7 +12,7 @@
     "province": null,
     "city": "Inner Mongolia"
   },
-  "current_rank": "Juryo #2",
+  "current_rank": "Maegashira #17",
   "highest_rank": "Maegashira #16",
   "birth_date": "2000-05-22",
   "height_cm": 191.0,
@@ -27,6 +27,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #17",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": "Kanagawa",
     "city": "Oiso"
   },
-  "current_rank": "Maegashira #17",
+  "current_rank": "Juryo #6",
   "highest_rank": "Maegashira #5",
   "birth_date": "1998-04-08",
   "height_cm": 193.0,
@@ -27,6 +27,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Juryo",
+      "rank": "Juryo #6",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -12,7 +12,7 @@
     "province": "Aomori",
     "city": "Towada"
   },
-  "current_rank": "Maegashira #7",
+  "current_rank": "Maegashira #8",
   "highest_rank": "Maegashira #3",
   "birth_date": "1996-07-22",
   "height_cm": 184.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #8",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

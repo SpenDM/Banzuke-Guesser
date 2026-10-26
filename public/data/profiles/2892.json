@@ -12,7 +12,7 @@
     "province": "Iwate",
     "city": "Morioka"
   },
-  "current_rank": "Juryo #14",
+  "current_rank": "Makushita #2",
   "highest_rank": "Komusubi",
   "birth_date": "1990-08-25",
   "height_cm": 186.0,
@@ -25,6 +25,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #2",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

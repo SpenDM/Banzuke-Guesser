@@ -12,8 +12,8 @@
     "province": "Fukuoka",
     "city": "Umi"
   },
-  "current_rank": "Juryo #5",
-  "highest_rank": "Juryo #5",
+  "current_rank": "Maegashira #16",
+  "highest_rank": "Maegashira #16",
   "birth_date": "2004-10-12",
   "height_cm": 172.0,
   "weight_kg": 123.0,
@@ -25,6 +25,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #16",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

@@ -1,0 +1,107 @@
+{
+  "rikishi_id": 4347,
+  "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4347/",
+  "photo_url": "https://www.sumo.or.jp/img/sumo_data/rikishi/270x474/20250050.jpg",
+  "shikona": "Hanahibiki",
+  "shikona_ja": "花響",
+  "real_name": "Masaki Hanaoka",
+  "stable": "Sakaigawa",
+  "birthplace": {
+    "flag": null,
+    "country": "Kumamoto",
+    "province": null,
+    "city": null
+  },
+  "current_rank": "Makushita #15",
+  "highest_rank": "Makushita #6",
+  "birth_date": "2002-05-29",
+  "height_cm": 180.7,
+  "weight_kg": 127.9,
+  "signature_maneuvers": [],
+  "style": {
+    "weight_class": "Light-weight",
+    "primary": "All-Rounder"
+  },
+  "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #15",
+      "record": "0-0",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #25",
+      "record": "5-2",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #18",
+      "record": "3-4",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #6",
+      "record": "2-5",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "March",
+      "division": "Makushita",
+      "rank": "Makushita #9",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2026,
+      "tournament": "January",
+      "division": "Makushita",
+      "rank": "Makushita #12",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #16",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "September",
+      "division": "Makushita",
+      "rank": "Makushita #22",
+      "record": "4-3",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "July",
+      "division": "Makushita",
+      "rank": "Makushita #51",
+      "record": "6-1",
+      "achievements": []
+    },
+    {
+      "year": 2025,
+      "tournament": "May",
+      "division": "Makushita",
+      "rank": "Makushita #60",
+      "record": "4-3",
+      "achievements": []
+    }
+  ]
+}

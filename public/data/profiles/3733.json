@@ -12,7 +12,7 @@
     "province": "Nagasaki",
     "city": "Isahaya"
   },
-  "current_rank": "Makushita #11",
+  "current_rank": "Makushita #6",
   "highest_rank": "Juryo #9",
   "birth_date": "1993-06-27",
   "height_cm": 185.0,
@@ -26,6 +26,14 @@
     "primary": "Grappler"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #6",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

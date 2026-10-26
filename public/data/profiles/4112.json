@@ -12,7 +12,7 @@
     "province": null,
     "city": "Almaty"
   },
-  "current_rank": "Maegashira #10",
+  "current_rank": "Maegashira #7",
   "highest_rank": "Maegashira #3",
   "birth_date": "1997-06-24",
   "height_cm": 194.0,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #7",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

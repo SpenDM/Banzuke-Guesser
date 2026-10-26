@@ -12,8 +12,8 @@
     "province": "Kanagawa",
     "city": "Asao"
   },
-  "current_rank": "Makushita #13",
-  "highest_rank": "Makushita #13",
+  "current_rank": "Makushita #10",
+  "highest_rank": "Makushita #10",
   "birth_date": "2003-06-20",
   "height_cm": 185.0,
   "weight_kg": 151.1,
@@ -26,6 +26,14 @@
     "primary": "Pusher-Thruster"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makushita",
+      "rank": "Makushita #10",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",

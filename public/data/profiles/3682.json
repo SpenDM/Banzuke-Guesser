@@ -12,7 +12,7 @@
     "province": "Toyama",
     "city": "Toyama"
   },
-  "current_rank": "Maegashira #6",
+  "current_rank": "Maegashira #1",
   "highest_rank": "Ozeki",
   "birth_date": "1994-03-01",
   "height_cm": 188.0,
@@ -28,6 +28,14 @@
     "known_for": "dominant right-hand grip"
   },
   "history": [
+    {
+      "year": 2026,
+      "tournament": "November",
+      "division": "Makuuchi",
+      "rank": "Maegashira #1",
+      "record": "0-0",
+      "achievements": []
+    },
     {
       "year": 2026,
       "tournament": "September",
