@@ -1808,7 +1808,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
-      "juryo_promotion": true,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "6-1"
     },
@@ -1933,7 +1933,7 @@
       "tsunatori_needs_yusho": false,
       "ozeki_run": null,
       "ozeki_return": false,
-      "juryo_promotion": true,
+      "juryo_promotion": false,
       "division": "makushita",
       "record": "4-3"
     },
