@@ -10,7 +10,7 @@
     "start_date": "2027-01-10"
   },
   "source": "sumo.or.jp",
-  "fetched_at": "2026-11-12T10:54:33+00:00",
+  "fetched_at": "2026-11-12T21:49:52+00:00",
   "rikishi": [
     {
       "key": "onosato",
@@ -520,7 +520,7 @@
       "side": "W",
       "wins": 1,
       "losses": 2,
-      "absences": 2,
+      "absences": 3,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -535,7 +535,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "1-2-2"
+      "record": "1-2-3"
     },
     {
       "key": "wakamotoharu",
@@ -1495,7 +1495,7 @@
       "side": "W",
       "wins": 0,
       "losses": 1,
-      "absences": 4,
+      "absences": 5,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -1510,7 +1510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "0-1-4"
+      "record": "0-1-5"
     },
     {
       "key": "enho",
