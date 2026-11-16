@@ -10,7 +10,7 @@
     "start_date": "2027-01-10"
   },
   "source": "sumo.or.jp",
-  "fetched_at": "2026-11-16T10:59:04+00:00",
+  "fetched_at": "2026-11-16T23:43:59+00:00",
   "rikishi": [
     {
       "key": "onosato",
@@ -1495,7 +1495,7 @@
       "side": "W",
       "wins": 0,
       "losses": 1,
-      "absences": 8,
+      "absences": 9,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -1510,7 +1510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "0-1-8"
+      "record": "0-1-9"
     },
     {
       "key": "enho",
