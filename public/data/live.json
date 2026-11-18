@@ -10,7 +10,7 @@
     "start_date": "2027-01-10"
   },
   "source": "sumo.or.jp",
-  "fetched_at": "2026-11-18T11:29:15+00:00",
+  "fetched_at": "2026-11-18T22:34:51+00:00",
   "rikishi": [
     {
       "key": "onosato",
@@ -670,7 +670,7 @@
       "side": "W",
       "wins": 1,
       "losses": 10,
-      "absences": 0,
+      "absences": 1,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -685,7 +685,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "1-10"
+      "record": "1-10-1"
     },
     {
       "key": "shishi",
@@ -695,7 +695,7 @@
       "side": "E",
       "wins": 0,
       "losses": 11,
-      "absences": 0,
+      "absences": 1,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -710,7 +710,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "0-11"
+      "record": "0-11-1"
     },
     {
       "key": "oho",
@@ -1495,7 +1495,7 @@
       "side": "W",
       "wins": 0,
       "losses": 1,
-      "absences": 10,
+      "absences": 11,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -1510,7 +1510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "0-1-10"
+      "record": "0-1-11"
     },
     {
       "key": "enho",
