@@ -10,7 +10,7 @@
     "start_date": "2027-01-10"
   },
   "source": "sumo.or.jp",
-  "fetched_at": "2026-11-19T11:28:38+00:00",
+  "fetched_at": "2026-11-19T22:39:25+00:00",
   "rikishi": [
     {
       "key": "onosato",
@@ -670,7 +670,7 @@
       "side": "W",
       "wins": 1,
       "losses": 10,
-      "absences": 1,
+      "absences": 2,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -685,7 +685,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "1-10-1"
+      "record": "1-10-2"
     },
     {
       "key": "shishi",
@@ -695,7 +695,7 @@
       "side": "E",
       "wins": 0,
       "losses": 11,
-      "absences": 1,
+      "absences": 2,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -710,7 +710,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "0-11-1"
+      "record": "0-11-2"
     },
     {
       "key": "oho",
@@ -1495,7 +1495,7 @@
       "side": "W",
       "wins": 0,
       "losses": 1,
-      "absences": 11,
+      "absences": 12,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -1510,7 +1510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "0-1-11"
+      "record": "0-1-12"
     },
     {
       "key": "enho",
@@ -1920,7 +1920,7 @@
       "side": "E",
       "wins": 2,
       "losses": 2,
-      "absences": 2,
+      "absences": 3,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -1935,7 +1935,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-2-2"
+      "record": "2-2-3"
     },
     {
       "key": "mudoho",
@@ -3870,7 +3870,7 @@
       "side": "E",
       "wins": 0,
       "losses": 0,
-      "absences": 6,
+      "absences": 7,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -3885,7 +3885,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "0-0-6"
+      "record": "0-0-7"
     },
     {
       "key": "daishinkai",
@@ -4245,7 +4245,7 @@
       "side": "W",
       "wins": 0,
       "losses": 0,
-      "absences": 6,
+      "absences": 7,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -4260,7 +4260,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "0-0-6"
+      "record": "0-0-7"
     },
     {
       "key": "ohata",
@@ -4620,7 +4620,7 @@
       "side": "E",
       "wins": 0,
       "losses": 0,
-      "absences": 6,
+      "absences": 7,
       "retired": false,
       "suspended": false,
       "note": null,
@@ -4635,7 +4635,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "0-0-6"
+      "record": "0-0-7"
     },
     {
       "key": "kawamura",
