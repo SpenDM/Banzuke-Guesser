@@ -10,7 +10,7 @@
     "start_date": "2027-01-10"
   },
   "source": "sumo.or.jp",
-  "fetched_at": "2026-11-21T20:53:32+00:00",
+  "fetched_at": "2026-11-22T11:06:49+00:00",
   "rikishi": [
     {
       "key": "onosato",
@@ -18,7 +18,7 @@
       "rank": "Y",
       "num": 1,
       "side": "E",
-      "wins": 12,
+      "wins": 13,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -26,7 +26,7 @@
       "note": null,
       "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4227/",
       "rikishi_id": 4227,
-      "yusho": false,
+      "yusho": true,
       "jun_yusho": false,
       "kadoban": false,
       "tsunatori": false,
@@ -35,7 +35,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "12-2"
+      "record": "13-2"
     },
     {
       "key": "hoshoryu",
@@ -44,7 +44,7 @@
       "num": 1,
       "side": "W",
       "wins": 9,
-      "losses": 5,
+      "losses": 6,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -60,7 +60,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "9-5"
+      "record": "9-6"
     },
     {
       "key": "aonishiki",
@@ -68,7 +68,7 @@
       "rank": "O",
       "num": 1,
       "side": "E",
-      "wins": 6,
+      "wins": 7,
       "losses": 8,
       "absences": 0,
       "retired": false,
@@ -85,7 +85,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "6-8"
+      "record": "7-8"
     },
     {
       "key": "kotozakura",
@@ -94,7 +94,7 @@
       "num": 1,
       "side": "W",
       "wins": 8,
-      "losses": 6,
+      "losses": 7,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -110,7 +110,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "8-7"
     },
     {
       "key": "kirishima",
@@ -118,7 +118,7 @@
       "rank": "O",
       "num": 2,
       "side": "E",
-      "wins": 9,
+      "wins": 10,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -135,7 +135,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "9-5"
+      "record": "10-5"
     },
     {
       "key": "fujinokawa",
@@ -144,7 +144,7 @@
       "num": 1,
       "side": "E",
       "wins": 7,
-      "losses": 7,
+      "losses": 8,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -160,7 +160,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "7-8"
     },
     {
       "key": "atamifuji",
@@ -169,7 +169,7 @@
       "num": 1,
       "side": "W",
       "wins": 11,
-      "losses": 3,
+      "losses": 4,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -185,7 +185,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "11-3"
+      "record": "11-4"
     },
     {
       "key": "churanoumi",
@@ -193,7 +193,7 @@
       "rank": "K",
       "num": 1,
       "side": "E",
-      "wins": 3,
+      "wins": 4,
       "losses": 11,
       "absences": 0,
       "retired": false,
@@ -210,7 +210,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "3-11"
+      "record": "4-11"
     },
     {
       "key": "yoshinofuji",
@@ -219,7 +219,7 @@
       "num": 1,
       "side": "W",
       "wins": 7,
-      "losses": 7,
+      "losses": 8,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -235,7 +235,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "7-8"
     },
     {
       "key": "asanoyama",
@@ -244,7 +244,7 @@
       "num": 1,
       "side": "E",
       "wins": 10,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -260,7 +260,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "10-4"
+      "record": "10-5"
     },
     {
       "key": "fujiryoga",
@@ -268,7 +268,7 @@
       "rank": "M",
       "num": 1,
       "side": "W",
-      "wins": 8,
+      "wins": 9,
       "losses": 6,
       "absences": 0,
       "retired": false,
@@ -285,7 +285,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "9-6"
     },
     {
       "key": "ura",
@@ -293,7 +293,7 @@
       "rank": "M",
       "num": 2,
       "side": "E",
-      "wins": 5,
+      "wins": 6,
       "losses": 9,
       "absences": 0,
       "retired": false,
@@ -310,7 +310,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "5-9"
+      "record": "6-9"
     },
     {
       "key": "fujiseiun",
@@ -318,7 +318,7 @@
       "rank": "M",
       "num": 2,
       "side": "W",
-      "wins": 6,
+      "wins": 7,
       "losses": 8,
       "absences": 0,
       "retired": false,
@@ -335,7 +335,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "6-8"
+      "record": "7-8"
     },
     {
       "key": "takayasu",
@@ -344,7 +344,7 @@
       "num": 3,
       "side": "E",
       "wins": 3,
-      "losses": 11,
+      "losses": 12,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -360,7 +360,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "3-11"
+      "record": "3-12"
     },
     {
       "key": "hakunofuji",
@@ -369,7 +369,7 @@
       "num": 3,
       "side": "W",
       "wins": 5,
-      "losses": 9,
+      "losses": 10,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -385,7 +385,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "5-9"
+      "record": "5-10"
     },
     {
       "key": "takerufuji",
@@ -394,7 +394,7 @@
       "num": 4,
       "side": "E",
       "wins": 5,
-      "losses": 9,
+      "losses": 10,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -410,7 +410,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "5-9"
+      "record": "5-10"
     },
     {
       "key": "daieisho",
@@ -419,7 +419,7 @@
       "num": 4,
       "side": "W",
       "wins": 5,
-      "losses": 9,
+      "losses": 10,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -435,7 +435,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "5-9"
+      "record": "5-10"
     },
     {
       "key": "hiradoumi",
@@ -444,7 +444,7 @@
       "num": 5,
       "side": "E",
       "wins": 4,
-      "losses": 10,
+      "losses": 11,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -460,7 +460,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "4-10"
+      "record": "4-11"
     },
     {
       "key": "gonoyama",
@@ -468,7 +468,7 @@
       "rank": "M",
       "num": 5,
       "side": "W",
-      "wins": 7,
+      "wins": 8,
       "losses": 7,
       "absences": 0,
       "retired": false,
@@ -485,7 +485,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "8-7"
     },
     {
       "key": "kotoshoho",
@@ -493,7 +493,7 @@
       "rank": "M",
       "num": 6,
       "side": "E",
-      "wins": 7,
+      "wins": 8,
       "losses": 7,
       "absences": 0,
       "retired": false,
@@ -510,7 +510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "8-7"
     },
     {
       "key": "kotoeiho",
@@ -518,7 +518,7 @@
       "rank": "M",
       "num": 6,
       "side": "W",
-      "wins": 6,
+      "wins": 7,
       "losses": 2,
       "absences": 6,
       "retired": false,
@@ -535,7 +535,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "6-2-6"
+      "record": "7-2-6"
     },
     {
       "key": "wakamotoharu",
@@ -543,7 +543,7 @@
       "rank": "M",
       "num": 7,
       "side": "E",
-      "wins": 12,
+      "wins": 13,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -552,7 +552,7 @@
       "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/3371/",
       "rikishi_id": 3371,
       "yusho": false,
-      "jun_yusho": false,
+      "jun_yusho": true,
       "kadoban": false,
       "tsunatori": false,
       "tsunatori_needs_yusho": false,
@@ -560,7 +560,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "12-2"
+      "record": "13-2"
     },
     {
       "key": "kinbozan",
@@ -568,7 +568,7 @@
       "rank": "M",
       "num": 7,
       "side": "W",
-      "wins": 10,
+      "wins": 11,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -585,7 +585,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "10-4"
+      "record": "11-4"
     },
     {
       "key": "roga",
@@ -593,7 +593,7 @@
       "rank": "M",
       "num": 8,
       "side": "E",
-      "wins": 9,
+      "wins": 10,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -610,7 +610,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "9-5"
+      "record": "10-5"
     },
     {
       "key": "nishikifuji",
@@ -619,7 +619,7 @@
       "num": 8,
       "side": "W",
       "wins": 8,
-      "losses": 6,
+      "losses": 7,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -635,7 +635,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "8-7"
     },
     {
       "key": "oshoma",
@@ -644,7 +644,7 @@
       "num": 9,
       "side": "E",
       "wins": 7,
-      "losses": 7,
+      "losses": 8,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -660,7 +660,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "7-8"
     },
     {
       "key": "asakoryu",
@@ -718,7 +718,7 @@
       "rank": "M",
       "num": 10,
       "side": "W",
-      "wins": 8,
+      "wins": 9,
       "losses": 6,
       "absences": 0,
       "retired": false,
@@ -735,7 +735,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "9-6"
     },
     {
       "key": "takanosho",
@@ -743,7 +743,7 @@
       "rank": "M",
       "num": 11,
       "side": "E",
-      "wins": 9,
+      "wins": 10,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -760,7 +760,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "9-5"
+      "record": "10-5"
     },
     {
       "key": "asahakuryu",
@@ -768,7 +768,7 @@
       "rank": "M",
       "num": 11,
       "side": "W",
-      "wins": 10,
+      "wins": 11,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -785,7 +785,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "10-4"
+      "record": "11-4"
     },
     {
       "key": "ichiyamamoto",
@@ -794,7 +794,7 @@
       "num": 12,
       "side": "E",
       "wins": 9,
-      "losses": 5,
+      "losses": 6,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -810,7 +810,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "9-5"
+      "record": "9-6"
     },
     {
       "key": "abi",
@@ -819,7 +819,7 @@
       "num": 12,
       "side": "W",
       "wins": 6,
-      "losses": 8,
+      "losses": 9,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -835,7 +835,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "6-8"
+      "record": "6-9"
     },
     {
       "key": "toshinofuji",
@@ -844,7 +844,7 @@
       "num": 13,
       "side": "E",
       "wins": 8,
-      "losses": 6,
+      "losses": 7,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -860,7 +860,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "8-7"
     },
     {
       "key": "asasuiryu",
@@ -869,7 +869,7 @@
       "num": 13,
       "side": "W",
       "wins": 4,
-      "losses": 10,
+      "losses": 11,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -885,7 +885,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "4-10"
+      "record": "4-11"
     },
     {
       "key": "tokihayate",
@@ -893,7 +893,7 @@
       "rank": "M",
       "num": 14,
       "side": "E",
-      "wins": 4,
+      "wins": 5,
       "losses": 10,
       "absences": 0,
       "retired": false,
@@ -910,7 +910,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "4-10"
+      "record": "5-10"
     },
     {
       "key": "dewanoryu",
@@ -919,7 +919,7 @@
       "num": 14,
       "side": "W",
       "wins": 8,
-      "losses": 6,
+      "losses": 7,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -935,7 +935,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "8-7"
     },
     {
       "key": "tamawashi",
@@ -943,7 +943,7 @@
       "rank": "M",
       "num": 15,
       "side": "E",
-      "wins": 9,
+      "wins": 10,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -960,7 +960,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "9-5"
+      "record": "10-5"
     },
     {
       "key": "kitanowaka",
@@ -968,7 +968,7 @@
       "rank": "M",
       "num": 15,
       "side": "W",
-      "wins": 8,
+      "wins": 9,
       "losses": 6,
       "absences": 0,
       "retired": false,
@@ -985,7 +985,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "8-6"
+      "record": "9-6"
     },
     {
       "key": "arashifuji",
@@ -994,7 +994,7 @@
       "num": 16,
       "side": "E",
       "wins": 7,
-      "losses": 7,
+      "losses": 8,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1010,7 +1010,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "7-8"
     },
     {
       "key": "kyokukaiyu",
@@ -1018,7 +1018,7 @@
       "rank": "M",
       "num": 16,
       "side": "W",
-      "wins": 7,
+      "wins": 8,
       "losses": 7,
       "absences": 0,
       "retired": false,
@@ -1035,7 +1035,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "7-7"
+      "record": "8-7"
     },
     {
       "key": "daiseizan",
@@ -1044,7 +1044,7 @@
       "num": 17,
       "side": "E",
       "wins": 3,
-      "losses": 11,
+      "losses": 12,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1060,7 +1060,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makuuchi",
-      "record": "3-11"
+      "record": "3-12"
     },
     {
       "key": "chiyoshoma",
@@ -1069,7 +1069,7 @@
       "num": 1,
       "side": "E",
       "wins": 8,
-      "losses": 6,
+      "losses": 7,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1085,7 +1085,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "8-6"
+      "record": "8-7"
     },
     {
       "key": "onokatsu",
@@ -1093,7 +1093,7 @@
       "rank": "J",
       "num": 1,
       "side": "W",
-      "wins": 5,
+      "wins": 6,
       "losses": 9,
       "absences": 0,
       "retired": false,
@@ -1110,7 +1110,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "5-9"
+      "record": "6-9"
     },
     {
       "key": "kazekeno",
@@ -1119,7 +1119,7 @@
       "num": 2,
       "side": "E",
       "wins": 10,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1135,7 +1135,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "10-4"
+      "record": "10-5"
     },
     {
       "key": "tobizaru",
@@ -1143,7 +1143,7 @@
       "rank": "J",
       "num": 2,
       "side": "W",
-      "wins": 10,
+      "wins": 11,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -1160,7 +1160,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "10-4"
+      "record": "11-4"
     },
     {
       "key": "kagayaki",
@@ -1169,7 +1169,7 @@
       "num": 3,
       "side": "E",
       "wins": 7,
-      "losses": 7,
+      "losses": 8,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1185,7 +1185,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "7-7"
+      "record": "7-8"
     },
     {
       "key": "shodai",
@@ -1194,7 +1194,7 @@
       "num": 3,
       "side": "W",
       "wins": 5,
-      "losses": 9,
+      "losses": 10,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1210,7 +1210,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "5-9"
+      "record": "5-10"
     },
     {
       "key": "kazuma",
@@ -1218,7 +1218,7 @@
       "rank": "J",
       "num": 4,
       "side": "E",
-      "wins": 1,
+      "wins": 2,
       "losses": 13,
       "absences": 0,
       "retired": false,
@@ -1235,7 +1235,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "1-13"
+      "record": "2-13"
     },
     {
       "key": "kayo",
@@ -1243,7 +1243,7 @@
       "rank": "J",
       "num": 4,
       "side": "W",
-      "wins": 4,
+      "wins": 5,
       "losses": 10,
       "absences": 0,
       "retired": false,
@@ -1260,7 +1260,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "4-10"
+      "record": "5-10"
     },
     {
       "key": "ryuden",
@@ -1268,7 +1268,7 @@
       "rank": "J",
       "num": 5,
       "side": "E",
-      "wins": 3,
+      "wins": 4,
       "losses": 11,
       "absences": 0,
       "retired": false,
@@ -1285,7 +1285,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "3-11"
+      "record": "4-11"
     },
     {
       "key": "wakatakakage",
@@ -1293,7 +1293,7 @@
       "rank": "J",
       "num": 5,
       "side": "W",
-      "wins": 13,
+      "wins": 14,
       "losses": 1,
       "absences": 0,
       "retired": false,
@@ -1301,7 +1301,7 @@
       "note": null,
       "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/3761/",
       "rikishi_id": 3761,
-      "yusho": false,
+      "yusho": true,
       "jun_yusho": false,
       "kadoban": false,
       "tsunatori": false,
@@ -1310,7 +1310,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "13-1"
+      "record": "14-1"
     },
     {
       "key": "shonannoumi",
@@ -1319,7 +1319,7 @@
       "num": 6,
       "side": "E",
       "wins": 6,
-      "losses": 8,
+      "losses": 9,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1335,7 +1335,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "6-8"
+      "record": "6-9"
     },
     {
       "key": "nabatame",
@@ -1344,7 +1344,7 @@
       "num": 6,
       "side": "W",
       "wins": 10,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1360,7 +1360,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "10-4"
+      "record": "10-5"
     },
     {
       "key": "tanji",
@@ -1368,7 +1368,7 @@
       "rank": "J",
       "num": 7,
       "side": "E",
-      "wins": 7,
+      "wins": 8,
       "losses": 7,
       "absences": 0,
       "retired": false,
@@ -1385,7 +1385,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "7-7"
+      "record": "8-7"
     },
     {
       "key": "hitoshi",
@@ -1394,7 +1394,7 @@
       "num": 7,
       "side": "W",
       "wins": 5,
-      "losses": 7,
+      "losses": 8,
       "absences": 2,
       "retired": false,
       "suspended": false,
@@ -1410,7 +1410,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "5-7-2"
+      "record": "5-8-2"
     },
     {
       "key": "midorifuji",
@@ -1418,7 +1418,7 @@
       "rank": "J",
       "num": 8,
       "side": "E",
-      "wins": 6,
+      "wins": 7,
       "losses": 8,
       "absences": 0,
       "retired": false,
@@ -1435,7 +1435,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "6-8"
+      "record": "7-8"
     },
     {
       "key": "tohakuryu",
@@ -1443,7 +1443,7 @@
       "rank": "J",
       "num": 8,
       "side": "W",
-      "wins": 6,
+      "wins": 7,
       "losses": 8,
       "absences": 0,
       "retired": false,
@@ -1460,7 +1460,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "6-8"
+      "record": "7-8"
     },
     {
       "key": "mitakeumi",
@@ -1468,7 +1468,7 @@
       "rank": "J",
       "num": 9,
       "side": "E",
-      "wins": 5,
+      "wins": 6,
       "losses": 9,
       "absences": 0,
       "retired": false,
@@ -1485,7 +1485,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "5-9"
+      "record": "6-9"
     },
     {
       "key": "shirokuma",
@@ -1518,7 +1518,7 @@
       "rank": "J",
       "num": 10,
       "side": "E",
-      "wins": 10,
+      "wins": 11,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -1535,7 +1535,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "10-4"
+      "record": "11-4"
     },
     {
       "key": "wakanosho",
@@ -1544,7 +1544,7 @@
       "num": 10,
       "side": "W",
       "wins": 10,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1560,7 +1560,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "10-4"
+      "record": "10-5"
     },
     {
       "key": "tomokaze",
@@ -1569,7 +1569,7 @@
       "num": 11,
       "side": "E",
       "wins": 6,
-      "losses": 8,
+      "losses": 9,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1585,7 +1585,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "6-8"
+      "record": "6-9"
     },
     {
       "key": "sadanoumi",
@@ -1594,7 +1594,7 @@
       "num": 11,
       "side": "W",
       "wins": 5,
-      "losses": 9,
+      "losses": 10,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1610,7 +1610,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "5-9"
+      "record": "5-10"
     },
     {
       "key": "asahifuji",
@@ -1618,7 +1618,7 @@
       "rank": "J",
       "num": 12,
       "side": "E",
-      "wins": 12,
+      "wins": 13,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -1635,7 +1635,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "12-2"
+      "record": "13-2"
     },
     {
       "key": "tamashoho",
@@ -1643,7 +1643,7 @@
       "rank": "J",
       "num": 12,
       "side": "W",
-      "wins": 9,
+      "wins": 10,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -1660,7 +1660,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "9-5"
+      "record": "10-5"
     },
     {
       "key": "meisei",
@@ -1669,7 +1669,7 @@
       "num": 13,
       "side": "E",
       "wins": 5,
-      "losses": 9,
+      "losses": 10,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1685,7 +1685,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "5-9"
+      "record": "5-10"
     },
     {
       "key": "tokifudo",
@@ -1694,7 +1694,7 @@
       "num": 13,
       "side": "W",
       "wins": 9,
-      "losses": 5,
+      "losses": 6,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1710,7 +1710,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "9-5"
+      "record": "9-6"
     },
     {
       "key": "hatsuyama",
@@ -1719,7 +1719,7 @@
       "num": 14,
       "side": "E",
       "wins": 4,
-      "losses": 10,
+      "losses": 11,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1735,7 +1735,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "4-10"
+      "record": "4-11"
     },
     {
       "key": "ryuho",
@@ -1744,7 +1744,7 @@
       "num": 14,
       "side": "W",
       "wins": 6,
-      "losses": 8,
+      "losses": 9,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -1760,7 +1760,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "juryo",
-      "record": "6-8"
+      "record": "6-9"
     },
     {
       "key": "inami",
@@ -1943,7 +1943,7 @@
       "rank": "Ms",
       "num": 4,
       "side": "W",
-      "wins": 5,
+      "wins": 6,
       "losses": 1,
       "absences": 0,
       "retired": false,
@@ -1960,7 +1960,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "5-1"
+      "record": "6-1"
     },
     {
       "key": "fudoho",
@@ -2043,7 +2043,7 @@
       "rank": "Ms",
       "num": 6,
       "side": "W",
-      "wins": 4,
+      "wins": 5,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -2060,7 +2060,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "5-2"
     },
     {
       "key": "ryusho",
@@ -2068,7 +2068,7 @@
       "rank": "Ms",
       "num": 7,
       "side": "E",
-      "wins": 4,
+      "wins": 5,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -2085,7 +2085,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "5-2"
     },
     {
       "key": "tochikodai",
@@ -2168,7 +2168,7 @@
       "rank": "Ms",
       "num": 9,
       "side": "E",
-      "wins": 4,
+      "wins": 5,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -2185,7 +2185,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "5-2"
     },
     {
       "key": "otsuji",
@@ -2244,7 +2244,7 @@
       "num": 10,
       "side": "W",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -2260,7 +2260,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "omori",
@@ -2318,7 +2318,7 @@
       "rank": "Ms",
       "num": 12,
       "side": "E",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -2335,7 +2335,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "haruyama",
@@ -2344,7 +2344,7 @@
       "num": 12,
       "side": "W",
       "wins": 4,
-      "losses": 2,
+      "losses": 3,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -2360,7 +2360,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "4-3"
     },
     {
       "key": "hokutenkai",
@@ -2369,7 +2369,7 @@
       "num": 13,
       "side": "E",
       "wins": 4,
-      "losses": 2,
+      "losses": 3,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -2385,7 +2385,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "4-3"
     },
     {
       "key": "gyotoku",
@@ -2494,7 +2494,7 @@
       "num": 15,
       "side": "W",
       "wins": 4,
-      "losses": 2,
+      "losses": 3,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -2510,7 +2510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "4-3"
     },
     {
       "key": "kotokuzan",
@@ -2751,7 +2751,7 @@
       "note": null,
       "profile_url": "https://www.sumo.or.jp/EnSumoDataRikishi/profile/4065/",
       "rikishi_id": 4065,
-      "yusho": false,
+      "yusho": true,
       "jun_yusho": false,
       "kadoban": false,
       "tsunatori": false,
@@ -2769,7 +2769,7 @@
       "num": 21,
       "side": "E",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -2785,7 +2785,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "tochimaru",
@@ -2868,7 +2868,7 @@
       "rank": "Ms",
       "num": 23,
       "side": "E",
-      "wins": 1,
+      "wins": 2,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -2885,7 +2885,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "1-5"
+      "record": "2-5"
     },
     {
       "key": "kobayashi",
@@ -2918,7 +2918,7 @@
       "rank": "Ms",
       "num": 24,
       "side": "E",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -2935,7 +2935,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "gyokuozan",
@@ -3043,7 +3043,7 @@
       "rank": "Ms",
       "num": 26,
       "side": "W",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -3060,7 +3060,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "asanoryu",
@@ -3069,7 +3069,7 @@
       "num": 27,
       "side": "E",
       "wins": 1,
-      "losses": 5,
+      "losses": 6,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -3085,7 +3085,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "1-5"
+      "record": "1-6"
     },
     {
       "key": "shosei",
@@ -3319,7 +3319,7 @@
       "num": 32,
       "side": "E",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -3335,7 +3335,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "takahara",
@@ -3444,7 +3444,7 @@
       "num": 34,
       "side": "W",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -3460,7 +3460,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "awanokuni",
@@ -3494,7 +3494,7 @@
       "num": 35,
       "side": "W",
       "wins": 4,
-      "losses": 2,
+      "losses": 3,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -3510,7 +3510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "4-3"
     },
     {
       "key": "mineyaiba",
@@ -3518,7 +3518,7 @@
       "rank": "Ms",
       "num": 36,
       "side": "E",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -3535,7 +3535,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "shiroma",
@@ -3593,7 +3593,7 @@
       "rank": "Ms",
       "num": 37,
       "side": "W",
-      "wins": 4,
+      "wins": 5,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -3610,7 +3610,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "5-2"
     },
     {
       "key": "kiyota",
@@ -3619,7 +3619,7 @@
       "num": 38,
       "side": "E",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -3635,7 +3635,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "kaishin",
@@ -3668,7 +3668,7 @@
       "rank": "Ms",
       "num": 39,
       "side": "E",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -3685,7 +3685,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "kitaharima",
@@ -3843,7 +3843,7 @@
       "rank": "Ms",
       "num": 42,
       "side": "W",
-      "wins": 1,
+      "wins": 2,
       "losses": 0,
       "absences": 5,
       "retired": false,
@@ -3860,7 +3860,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "1-0-5"
+      "record": "2-0-5"
     },
     {
       "key": "tokunomusashi",
@@ -4144,7 +4144,7 @@
       "num": 48,
       "side": "W",
       "wins": 4,
-      "losses": 2,
+      "losses": 3,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -4160,7 +4160,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "4-3"
     },
     {
       "key": "kototsubasa",
@@ -4168,7 +4168,7 @@
       "rank": "Ms",
       "num": 49,
       "side": "E",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -4185,7 +4185,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "chiyotora",
@@ -4194,7 +4194,7 @@
       "num": 49,
       "side": "W",
       "wins": 4,
-      "losses": 2,
+      "losses": 3,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -4210,7 +4210,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "4-3"
     },
     {
       "key": "asonoyama",
@@ -4343,7 +4343,7 @@
       "rank": "Ms",
       "num": 52,
       "side": "W",
-      "wins": 2,
+      "wins": 3,
       "losses": 4,
       "absences": 0,
       "retired": false,
@@ -4360,7 +4360,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "3-4"
     },
     {
       "key": "tendozan",
@@ -4444,7 +4444,7 @@
       "num": 54,
       "side": "W",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -4460,7 +4460,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "tokitenran",
@@ -4493,7 +4493,7 @@
       "rank": "Ms",
       "num": 55,
       "side": "W",
-      "wins": 4,
+      "wins": 5,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -4510,7 +4510,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "5-2"
     },
     {
       "key": "hogasho",
@@ -4519,7 +4519,7 @@
       "num": 56,
       "side": "E",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -4535,7 +4535,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "tochiseiryu",
@@ -4543,7 +4543,7 @@
       "rank": "Ms",
       "num": 56,
       "side": "W",
-      "wins": 4,
+      "wins": 5,
       "losses": 2,
       "absences": 0,
       "retired": false,
@@ -4560,7 +4560,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "4-2"
+      "record": "5-2"
     },
     {
       "key": "hamanoumi",
@@ -4569,7 +4569,7 @@
       "num": 57,
       "side": "E",
       "wins": 1,
-      "losses": 5,
+      "losses": 6,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -4585,7 +4585,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "1-5"
+      "record": "1-6"
     },
     {
       "key": "kazeeidai",
@@ -4643,7 +4643,7 @@
       "rank": "Ms",
       "num": 58,
       "side": "W",
-      "wins": 1,
+      "wins": 2,
       "losses": 5,
       "absences": 0,
       "retired": false,
@@ -4660,7 +4660,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "1-5"
+      "record": "2-5"
     },
     {
       "key": "hakuonada",
@@ -4669,7 +4669,7 @@
       "num": 59,
       "side": "E",
       "wins": 2,
-      "losses": 4,
+      "losses": 5,
       "absences": 0,
       "retired": false,
       "suspended": false,
@@ -4685,7 +4685,7 @@
       "ozeki_return": false,
       "juryo_promotion": false,
       "division": "makushita",
-      "record": "2-4"
+      "record": "2-5"
     },
     {
       "key": "hamayutaka",
@@ -4762,6 +4762,5 @@
       "division": "makushita",
       "record": "4-3"
     }
-  ],
-  "in_progress": true
+  ]
 }
